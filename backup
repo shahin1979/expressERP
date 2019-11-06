@@ -1,0 +1,4 @@
+SELECT ''''||column_name||''','
+FROM USER_TAB_COLUMNS
+WHERE table_name = 'COMPANY_PROPERTIES'
+order by column_id

@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'oracle'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,6 +91,32 @@ return [
             'prefix_indexes' => true,
         ],
 
+//        'oracle' => [
+//            'driver'        => 'oracle',
+////            'tns'           => env('DB_TNS', ''),
+//            'host'          => env('DB_HOST', '192.168.182.140'),
+//            'port'          => env('DB_PORT', '1521'),
+//            'database'      => env('DB_DATABASE', 'ORCL'),
+//            'service_name'  => env('DB_SERVICE_NAME', 'erpdb'),
+//            'username'      => env('DB_USERNAME', 'EXPRESS'),
+//            'password'      => env('DB_PASSWORD', 'EXPRESS##123'),
+//            'charset'       => env('DB_CHARSET', 'AL32UTF8'),
+//            'prefix'        => env('DB_PREFIX', ''),
+//            'prefix_schema' => env('DB_SCHEMA_PREFIX', ''),
+//            'edition'       => env('DB_EDITION', 'ora$base'),
+//        ],
+
+        'oracle' => [
+            'driver' => 'oracle',
+            'host' => '192.168.182.140',
+            'port' => '1521',
+            'database' => 'ORCL',
+            'service_name' => 'orcl.fmtech.com',
+            'username' => 'EXPRESS',
+            'password' => 'EXPRESS##123',
+            'charset' => '',
+            'prefix' => '',
+        ]
     ],
 
     /*

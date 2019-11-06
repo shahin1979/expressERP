@@ -1,7 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: plum; margin-bottom: 0.5rem">
+            <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
+{{--            @foreach(Request::segments() as $segment)--}}
+{{--                <li class="breadcrumb-item active">{!! $segment !!}--}}
+{{--                    --}}{{--                            <a href="#">{{$segment}}</a>--}}
+{{--                </li>--}}
+{{--            @endforeach--}}
+
+            <li class="breadcrumb-item active">Register</li>
+        </ol>
+    </nav>
+
+{{--    <ol class="breadcrumb">--}}
+{{--        <li><a href="#"><i class="fa fa-dashboard"></i>Marketplace</a></li>--}}
+{{--        @foreach(Request::segments() as $segment)--}}
+{{--            <li>--}}
+{{--                <a href="#">{{$segment}}</a>--}}
+{{--            </li>--}}
+{{--        @endforeach--}}
+{{--    </ol>--}}
+
 <div class="container">
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

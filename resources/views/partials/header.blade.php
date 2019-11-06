@@ -12,6 +12,8 @@
                     </div>
                 </div>
                 <button type="button" id="navbar-fullscreen" class="nav-link"><i class="ik ik-maximize"></i></button>
+
+                <div style="padding-left: 10rem; font-weight: bold; font-size: 1.3rem">{!! session('company_name') !!}</div>
             </div>
 
             <div class="top-menu d-flex align-items-center">
@@ -84,5 +86,8 @@
 
             </div>
         </div>
+
     </div>
+
 </header>
+

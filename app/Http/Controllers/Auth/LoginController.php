@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company\Company;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,13 +71,27 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if(Auth::user()->status !=1)
+        if($user->status !=1)
         {
             Auth::logout();
             $request->session()->flash('alert-danger', 'Your Account is not activated yet.');
             return redirect('/')->with('error', 'Your Account is not activated');
 
         }
+
+        $company = Company::query()->where('id',$user->company_id)->first();
+        session(['company_name' => $company->name]);
+    }
+
+    /**
+     * The user has logged out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function loggedOut(Request $request)
+    {
+        $request->session()->flush();
     }
 
 

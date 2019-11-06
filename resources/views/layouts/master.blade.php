@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>BRB Hospitals Limited</title>
+    <title>ABC Company Limited</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -201,7 +201,7 @@
 
         <footer class="footer">
             <div class="w-100 clearfix">
-                <span class="text-center text-sm-left d-md-inline-block">Copyright © 2019 BRB Hospitals Ltd v1.0. All Rights Reserved.</span>
+                <span class="text-center text-sm-left d-md-inline-block">Copyright © 2019 FM Technologies v1.0. All Rights Reserved.</span>
                 <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Crafted with <i class="fa fa-heart text-danger"></i> by <a href="#" class="text-dark" target="_blank">IT Team</a></span>
             </div>
         </footer>
