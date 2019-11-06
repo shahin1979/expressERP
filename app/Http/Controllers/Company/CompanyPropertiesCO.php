@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounts\Common\AccountType;
-use App\Models\Accounts\Common\TransCode;
+use App\Models\Company\TransCode;
 use App\Models\Common\Country;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyProperty;
