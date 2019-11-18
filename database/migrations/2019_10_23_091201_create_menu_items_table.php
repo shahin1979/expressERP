@@ -23,8 +23,8 @@ class CreateMenuItemsTable extends Migration
             $table->string('div_class',200)->nullable();
             $table->string('i_class',200)->nullable();
             $table->char('menu_type',2)->comment('CM=Static Menu MM = Main Menu, SM=Sub Menu');
-            $table->string('menu_prefix',1);
-            $table->string('menu_id',3)->unique();
+            $table->char('menu_prefix',2);
+//            $table->string('menu_id',3)->unique();
             $table->string('name',100);
             $table->boolean('show')->default(true);
             $table->string('url',300)->nullable();

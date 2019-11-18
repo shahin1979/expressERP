@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReligionsTable extends Migration
+class CreateTransCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateReligionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('religions', function (Blueprint $table) {
+        Schema::create('trans_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',20);
-            $table->boolean('status')->default(1);
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
+            $table->bigInteger('company_id')->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
+            $table->string('trans_code',2);
+            $table->string('trans_name',20);
+            $table->bigInteger('last_trans_id',false);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
-
-
     }
 
     /**
@@ -33,6 +32,6 @@ class CreateReligionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('religions');
+        Schema::dropIfExists('trans_codes');
     }
 }

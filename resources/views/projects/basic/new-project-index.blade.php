@@ -6,37 +6,38 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
             <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
-            <li class="breadcrumb-item active">Head Ledger</li>
+            <li class="breadcrumb-item active">New Project</li>
         </ol>
     </nav>
 
-@include('accounts.gledger.modals.new-gl-head')
+    @include('projects.basic.add-project-modal')
 
     <div class="row">
         <div class="col-md-6">
             <div class="pull-left">
-                <button type="button" class="btn btn-department btn-success" data-toggle="modal" data-target="#modal-new-gh-head"><i class="fa fa-plus"></i>New Head</button>
+                <button type="button" class="btn btn-project btn-success" data-toggle="modal" data-target="#modal-new-project"><i class="fa fa-plus"></i>New Project</button>
             </div>
         </div>
         <div class="col-md-6">
             <div class="pull-right">
-                <button type="button" class="btn btn-department btn-success" data-toggle="modal" data-target="#modal-new-department"><i class="fa fa-print"></i>Print</button>
+                <button type="button" class="btn btn-print-project btn-success"><i class="fa fa-print"></i>Print</button>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12" style="overflow-x:auto;">
-            <table class="table table-bordered table-hover table-responsive" id="head-table">
+            <table class="table table-bordered table-hover table-responsive" id="project-table">
                 <thead style="background-color: #b0b0b0">
                 <tr>
-                    <th>Ledger Code</th>
-                    <th>Ledger Group</th>
-                    <th>Account No</th>
+                    <th>Code</th>
                     <th>Name</th>
                     <th>Type</th>
-                    <th>Type Details</th>
-                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Budget</th>
+                    <th>Expensed</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -44,51 +45,49 @@
         </div>
     </div>
 
+
 @endsection
 
 @push('scripts')
 
     <script>
         $(function() {
-            var table= $('#head-table').DataTable({
+            var table= $('#project-table').DataTable({
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
                 responsive: true,
-                ajax: 'GLAccountHeadData',
+                ajax: 'projectData',
                 columns: [
-                    { data: 'ledger_code', name: 'ledger_code' },
-                    { data: 'parent.acc_name', name: 'parent.acc_name', searchable: false },
-                    { data: 'acc_no', name: 'acc_no' },
-                    { data: 'acc_name', name: 'acc_name' },
-                    { data: 'acc_type', name: 'acc_type' },
-                    { data: 'details.description', name: 'details.description'},
-                    { data: 'curr_bal', name: 'curr_bal'},
+                    { data: 'project_code', name: 'project_code' },
+                    { data: 'project_name', name: 'project_name' },
+                    { data: 'project_type', name: 'project_type' },
+                    { data: 'status', name: 'status' },
+                    { data: 'start_date', name: 'start_date' },
+                    { data: 'end_date', name: 'end_date'},
+                    { data: 'budget', name: 'budget'},
+                    { data: 'expense', name: 'expense'},
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-
-                ],
-                order: [[ 2, "asc" ]]
+                ]
             });
         });
 
-        $(document).on('click', '.btn-new-head', function (e) {
+        // add new project
+
+        $(document).on('click', '.btn-new-project', function (e) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            var url = 'save';
-
-            // confirm then
+            var url = 'newProjectSave';
             $.ajax({
                 url: url,
                 type: 'POST',
                 dataType: 'json',
 
-                data: {method: '_POST', submit: true, LEDGER_CODE:$('#ledger_code').val(),
-                    ACC_NAME:$('#acc_name').val(),
-                },
+                data: $('#add-project').serialize(),
 
                 error: function (request, status, error) {
                     alert(request.responseText);
@@ -96,12 +95,10 @@
 
                 success: function (data) {
 
-                    alert(data.success + data.acc_name);
-                    $('#modal-new-gh-head').modal('hide');
-                    $('#head-table').DataTable().draw(false);
-
+                    alert(data.success);
+                    $('#modal-new-project').modal('hide');
+                    $('#project-table').DataTable().draw(false);
                 }
-
             });
         });
 

@@ -116,6 +116,9 @@ return [
             'password' => 'EXPRESS##123',
             'charset' => '',
             'prefix' => '',
+//            'options'  => [
+//                PDO::ATTR_CASE => PDO::CASE_UPPER,
+//                ]
         ]
     ],
 

@@ -15,7 +15,7 @@
             <nav id="main-menu-navigation" class="navigation-main">
 
                 <div class="nav-item active">
-                    <a href="{!! url('home') !!}"><i class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
+                    <a href="{!! url('home') !!}"><i class="ik ik-bar-chart-2"></i><span>Dashboard </span></a>
                 </div>
 
 

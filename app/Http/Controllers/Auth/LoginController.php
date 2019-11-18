@@ -81,6 +81,7 @@ class LoginController extends Controller
 
         $company = Company::query()->where('id',$user->company_id)->first();
         session(['company_name' => $company->name]);
+        session(['comp_id' => $company->id]);
     }
 
     /**

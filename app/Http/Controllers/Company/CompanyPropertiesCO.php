@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Company\TransCode;
 use App\Models\Common\Country;
 use App\Models\Company\Company;
@@ -33,21 +34,9 @@ class CompanyPropertiesCO extends Controller
     public function store(Request $request)
     {
 
-//        DB::setDateFormat('Y-m-d');
-
-//        $request['COMPANY_ID'] = $this->company_id;
-//        $request['user_id'] = $this->user_id;
-//        $request['INVENTORY'] = $request->has('hInventory') ? 1 : 0;
-//        $request['PROJECT'] = $request->has('hProject') ? 1 : 0;
-//        $request['AUTO_LEDGER'] = $request->has('hAuto_ledger') ? 1 : 0;
-//        $request['FPSTART'] = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d');
-//        $request['CURRENCY'] = 'BDT';
-//        $request['POSTED'] = 1;
-
-//        dd($request);
-
-
         DB::beginTransaction();
+
+        $currency = 'BDT';
 
         try {
 
@@ -58,10 +47,12 @@ class CompanyPropertiesCO extends Controller
                     'PROJECT' => $request->has('hProject') ? 1 : 0,
                     'AUTO_LEDGER' => $request->has('hAuto_ledger') ? 1 : 0,
                     'FPSTART' => Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
-                    'CURRENCY' => 'BDT',
+                    'CURRENCY' => $currency,
                     'POSTED' => 1
                 ]
             );
+
+        // ADD TRANSACTION TYPES AND RELATED VOUCHER NO
 
             if($request['posted'] == 1)
             {
@@ -146,6 +137,95 @@ class CompanyPropertiesCO extends Controller
                         'LAST_TRANS_ID'=>$yr.'80000001'
                     ]
                 );
+
+
+
+                //ADD INITIAL ACCOUNTS OF THE GENERAL LEDGER
+
+                GeneralLedger::query()->updateOrCreate(
+                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'10112100'],
+                    [
+                        'LEDGER_CODE'=>'101',
+                        'ACC_NAME'=>'CASH IN HAND',
+                        'ACC_TYPE'=>'A',
+                        'TYPE_CODE'=>12,
+                        'ACC_RANGE'=>'10112999',
+                        'IS_GROUP'=>true,
+                        'CURRENCY'=>$currency,
+                        'USER_ID'=>$this->user_id
+                    ]
+                );
+
+                GeneralLedger::query()->updateOrCreate(
+                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'10112101'],
+                    [
+                        'LEDGER_CODE'=>'101',
+                        'ACC_NAME'=>'Cash In Hand',
+                        'ACC_TYPE'=>'A',
+                        'TYPE_CODE'=>12,
+                        'ACC_RANGE'=>'10112101',
+                        'IS_GROUP'=>false,
+                        'CURRENCY'=>$currency,
+                        'USER_ID'=>$this->user_id
+                    ]
+                );
+
+                GeneralLedger::query()->updateOrCreate(
+                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'10212100'],
+                    [
+                        'LEDGER_CODE'=>'102',
+                        'ACC_NAME'=>'CASH AT BANK',
+                        'ACC_TYPE'=>'A',
+                        'TYPE_CODE'=>12,
+                        'ACC_RANGE'=>'10212999',
+                        'IS_GROUP'=>true,
+                        'CURRENCY'=>$currency,
+                        'USER_ID'=>$this->user_id
+                    ]
+                );
+
+                GeneralLedger::query()->updateOrCreate(
+                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'30112100'],
+                    [
+                        'LEDGER_CODE'=>'301',
+                        'ACC_NAME'=>'SALES ACCOUNT',
+                        'ACC_TYPE'=>'I',
+                        'TYPE_CODE'=>31,
+                        'ACC_RANGE'=>'30112999',
+                        'IS_GROUP'=>true,
+                        'CURRENCY'=>$currency,
+                        'USER_ID'=>$this->user_id
+                    ]
+                );
+
+                GeneralLedger::query()->updateOrCreate(
+                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'40112100'],
+                    [
+                        'LEDGER_CODE'=>'401',
+                        'ACC_NAME'=>'PURCHASE ACCOUNT',
+                        'ACC_TYPE'=>'E',
+                        'TYPE_CODE'=>41,
+                        'ACC_RANGE'=>'40112999',
+                        'IS_GROUP'=>true,
+                        'CURRENCY'=>$currency,
+                        'USER_ID'=>$this->user_id
+                    ]
+                );
+
+                GeneralLedger::query()->updateOrCreate(
+                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'50112100'],
+                    [
+                        'LEDGER_CODE'=>'501',
+                        'ACC_NAME'=>'RETAINED EARNINGS',
+                        'ACC_TYPE'=>'C',
+                        'TYPE_CODE'=>51,
+                        'ACC_RANGE'=>'50112999',
+                        'IS_GROUP'=>true,
+                        'CURRENCY'=>$currency,
+                        'USER_ID'=>$this->user_id
+                    ]
+                );
+
             }
 
         }catch (\Exception $e)

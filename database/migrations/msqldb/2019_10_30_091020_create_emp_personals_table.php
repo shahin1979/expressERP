@@ -20,7 +20,6 @@ class CreateEmpPersonalsTable extends Migration
             $table->integer('religion_id')->unsigned();
             $table->foreign('religion_id')->references('id')->on('religions')->onDelete('CASCADE');
             $table->bigInteger('employee_id')->unsigned()->nullable();
-            $table->string('title',20)->nullable();
             $table->string('first_name',150);
             $table->string('middle_name',150)->nullable();
             $table->string('last_name',150)->nullable();
@@ -42,32 +41,25 @@ class CreateEmpPersonalsTable extends Migration
             $table->string('m_post_code',4);
             $table->string('phone',150)->nullable();
             $table->string('mobile',150)->nullable();
-            $table->longText('biography',150)->nullable();
+            $table->string('biography',150)->nullable();
             $table->string('father_name',100)->nullable();
             $table->string('mother_name',100)->nullable();
-            $table->boolean('marital_status')->default(0);
             $table->string('spouse_name',100)->nullable();
             $table->date('dob')->nullable();
             $table->char('gender',1)->comments('M=> Male F=>Female');
             $table->char('blood_group',30)->nullable();
             $table->string('last_education',240)->nullable();
-            $table->mediumText('prof_speciality')->nullable();
+            $table->string('prof_speciality',240)->nullable();
             $table->string('national_id',20)->nullable();
-            $table->string('entry_status',7)->default('1000000')->comment('Personal||Professional||Experience||Education||Posting||Dependent||KYE');
+            $table->boolean('is_printed')->default(0);
             $table->boolean('status')->default(1);
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
         });
 
-        DB::unprepared('
-        CREATE OR REPLACE TRIGGER tr_emp_personals_updated_at BEFORE INSERT OR UPDATE ON emp_personals FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
     }
 
     /**
@@ -78,6 +70,5 @@ class CreateEmpPersonalsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('emp_personals');
-        DB::unprepared('DROP TRIGGER tr_emp_personals_updated_at');
     }
 }

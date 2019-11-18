@@ -36,3 +36,16 @@ Route::group(['prefix' => 'company', 'namespace' => 'Company', 'middleware' => [
 });
 
 
+Route::group(['prefix' => 'projects', 'namespace' => 'Projects\Basic', 'middleware' => ['auth']], function () {
+
+    Route::get('basic/newProjectIndex','NewProjectsCO@index');
+    Route::get('basic/projectData','NewProjectsCO@getProjectData');
+    Route::post('basic/newProjectSave','NewProjectsCO@store');
+
+//    Route::get('account.group.data','AccountController@getGroupData');
+//    Route::post('account.group.add','AccountController@addGroupData');
+//    Route::any('account.group.update/{id}','AccountController@editGroupData');
+//    Route::any('account.group.delete/{id}','AccountController@deleteGroupData');
+});
+
+

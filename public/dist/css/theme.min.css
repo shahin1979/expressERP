@@ -4586,7 +4586,7 @@ a:hover, a:focus, a:active {
 }
 
 .form-group {
-    margin-bottom: 1.25em
+    margin-bottom: 0.25em
 }
 
 .form-group .form-control-lg {
@@ -4601,17 +4601,17 @@ a:hover, a:focus, a:active {
     outline: none
 }
 
-.form-control {
-    height: auto;
-    min-height: 35px;
-    border: 1px solid #eaeaea;
-    padding: 0 10px;
-    background-color: #fff;
-    font-size: 13px;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px
-}
+/*.form-control {*/
+/*    height: auto;*/
+/*    min-height: 35px;*/
+/*    border: 1px solid #eaeaea;*/
+/*    padding: 0 10px;*/
+/*    background-color: #fff;*/
+/*    font-size: 13px;*/
+/*    border-radius: 4px;*/
+/*    -webkit-border-radius: 4px;*/
+/*    -moz-border-radius: 4px*/
+/*}*/
 
 .form-control.placeholder {
     color: #999999
@@ -4684,18 +4684,7 @@ a:hover, a:focus, a:active {
     opacity: 0.5
 }
 
-select.form-control {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    padding-right: 20px;
-    background-image: url("../img/down-arrow.svg");
-    background-position: center right 15px;
-    background-repeat: no-repeat;
-    -webkit-background-size: 10px;
-    background-size: 10px;
-    height: 35px !important
-}
+
 
 textarea.form-control {
     padding: 10px 15px;
