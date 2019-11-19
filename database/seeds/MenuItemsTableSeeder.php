@@ -304,7 +304,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'MENU_PREFIX'=>'4D',
 //            'NAME'=>'Journal Voucher',
 //            'SHOW'=>'1',
-//            'URL'=>'home',
+//            'URL'=>'transaction/transJournalIndex',
 //            'STATUS'=>'1'
 //        ] );
 
@@ -320,6 +320,38 @@ class MenuItemsTableSeeder extends Seeder
 //            'URL'=>'transaction/editUnAuthVoucherIndex',
 //            'STATUS'=>'1'
 //        ] );
+
+
+
+
+            MENUITEM::create( [
+            'ID'=>47000,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>4,
+            'NAV_LABEL'=>4,
+            'DIV_CLASS'=>'nav-item has-sub',
+            'I_CLASS'=>'fa fa-sitemap',
+            'MENU_TYPE'=>'MM',
+            'MENU_PREFIX'=>'4M',
+            'NAME'=>'TRANSACTION REPORT',
+            'SHOW'=>'1',
+            'URL'=>'home',
+            'STATUS'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'ID'=>47005,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>4,
+            'NAV_LABEL'=>4,
+            'MENU_TYPE'=>'SM',
+            'MENU_PREFIX'=>'4M',
+            'NAME'=>'Daily Transaction List',
+            'SHOW'=>'1',
+            'URL'=>'home',
+            'STATUS'=>'1'
+        ] );
+
 
 
 //        MENUITEM::create( [

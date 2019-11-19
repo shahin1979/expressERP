@@ -40,6 +40,10 @@
 
                 e.preventDefault();
                 return false;
+            }).on('click','.btn-primary', function (event) {
+
+
+                $("#transForm").find('select').each(function () { this.disabled=false });
             });
         });
 
@@ -92,7 +96,7 @@
     <div>
         <div class="well col-md-12">
             <div class="controls">
-                {!! Form::open(array('id'=>'transForm','url'=>'transaction/payment/save','method','post')) !!}
+                {!! Form::open(array('id'=>'transForm','url'=>'transaction/receive/save','method','post')) !!}
 
                 <input type="hidden" name="minDate" id="minDate" value="{!! $min_date !!}"/>
                 <input type="hidden" name="maxDate" id="maxDate" value="{!! $max_date !!}"/>

@@ -92,7 +92,7 @@
                             <tbody>
                                 <tr>
                                     <td ><input type="text" name="trans_date" id="trans_date" value="{!! $data->unique('trans_date')->first()->trans_date !!}" class="form-control text-right" required readonly /></td>
-                                    <td ><input type="text" name="cheque_no" id="cheque_no" value="{!! $data->where('cheque_no','<>',null)->first()->cheque_no !!}" class="form-control text-right" required /></td>
+                                    <td ><input type="text" name="cheque_no" id="cheque_no" value="{!! $data->contains('cheque_no') ? $data->where('cheque_no','<>',null)->first()->cheque_no : null !!}" class="form-control text-right" /></td>
                                     <td style="text-align: right">{!! $data->unique('user_id')->first()->user->name !!}</td>
                                     <input type="hidden" name="voucher_no" id="minDate" value="{!! $data->unique('voucher_no')->first()->voucher_no !!}"/>
                                 </tr>

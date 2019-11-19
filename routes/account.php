@@ -33,6 +33,11 @@ Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middl
     Route::post('receive/save','ReceiveTransactionCO@store');
 
 
+    //JOURNAL TRANSACTIONS ROUTE
+    Route::get('transJournalIndex','JournalTransactionCO@index');
+    Route::post('journal/save','JournalTransactionCO@store');
+
+
 
 
     Route::get('editUnAuthVoucherIndex','EditGLVoucherCO@index');
