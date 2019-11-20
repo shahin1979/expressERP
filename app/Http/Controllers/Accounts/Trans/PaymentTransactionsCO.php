@@ -118,8 +118,9 @@ class PaymentTransactionsCO extends Controller
 
                 Transaction::create([
                     'COMPANY_ID' => $this->company_id,
-                    'PROJECT_ID' => $request['project_code'][$i],
+                    'PROJECT_ID' => $request['project_code'],
                     'TR_CODE' => 'PM',
+                    'TRANS_TYPE'=>$request['type_id'],
                     'PERIOD' => $period,
                     'FP_NO' => $fp_no,
                     'TRANS_ID' => $trans_id,
@@ -191,6 +192,7 @@ class PaymentTransactionsCO extends Controller
                 'COMPANY_ID' => $this->company_id,
                 'PROJECT_ID' => $request['project_code'],
                 'TR_CODE' => 'PM',
+                'TRANS_TYPE'=>$request['type_id'],
                 'PERIOD' => $period,
                 'FP_NO' => $fp_no,
                 'CHEQUE_NO'=>$request['chk_no'],

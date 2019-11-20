@@ -28,4 +28,9 @@ class CompanyProperty extends Model
             'FPSTART',
             'POSTED',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

@@ -44,3 +44,14 @@ Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middl
     Route::post('updateUnAuthVoucherIndex','EditGLVoucherCO@update');
 
 });
+
+
+Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', 'middleware' => ['auth']], function () {
+
+    //PAYMENT TRANSACTIONS ROUTE
+
+    Route::get('dailyTransactionIndex','DailyTransactionReportCO@index');
+
+
+
+});

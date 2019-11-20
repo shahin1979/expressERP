@@ -125,8 +125,10 @@
                     <tbody>
                     <tr>
                         <td>Credit</td>
-                        <td>{!! Form::select('acc_cr',$credits, '10112101', array('id' => 'acc_cr', 'class' => 'form-control')) !!}</td>
-                        <td>{!! Form::text('curr_bal', (get_account_balance('10112101',$company->company_id)) , array('id' => 'curr_bal', 'class' => 'form-control head-balance text-right', 'readonly' => 'true')) !!}</td>
+                        <td width="20%">{!! Form::select('acc_cr',$credits, '10112101', array('id' => 'acc_cr', 'class' => 'form-control')) !!}</td>
+                        <td width="10%">{!! Form::text('curr_bal', (get_account_balance('10112101',$company->company_id)) , array('id' => 'curr_bal', 'class' => 'form-control head-balance text-right', 'readonly' => 'true')) !!}</td>
+                        <td width="5%">Type</td>
+                        <td>{!! Form::select('type_id',$trans_types, 6, array('id' => 'type_id', 'class' => 'form-control')) !!}</td>
                         <td>{!! Form::label('date','Date:', array('class' => 'col-md-1 control-label')) !!}</td>
                         <td>{!! Form::text('trans_date', Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'trans_date', 'class' => 'form-control','readonly' => 'true', 'data-mg-required' => '')) !!}</td>
                     </tr>
@@ -134,8 +136,9 @@
                     <tr>
                         <td>CHK No</td>
                         <td>{!! Form::text('chk_no', null , array('id' => 'chk_no', 'class' => 'form-control')) !!}</td>
-{{--                        <td>Description</td>--}}
-                        <td colspan="3">{!! Form::text('trans_desc2', null , array('id' => 'trans_desc2', 'class' => 'form-control','data-mg-required' => '','placeholder'=>'Payment Notes')) !!}</td>
+                        <td>Project</td>
+                        <td colspan="2">{!! Form::select('project_id[]',$projects, null, array('id' => 'project_code', 'class' => 'col-sm-12 form-control', 'placeholder'=>'Select Project', $company->project == true ? 'enabled' : 'disabled')) !!}</td>
+                        <td colspan="2">{!! Form::text('trans_desc2', null , array('id' => 'trans_desc2', 'class' => 'form-control','data-mg-required' => '','placeholder'=>'Payment Notes')) !!}</td>
                     </tr>
 
 
@@ -148,11 +151,11 @@
                 <table class="entry table table-responsive table-bordered padding table-hover" >
 
                     <tr>
-                        @if($company->project == true)
-                            <td>{!! Form::select('project_id[]',$projects, null, array('id' => 'project_code', 'class' => 'col-sm-12 form-control', 'placeholder'=>'Select Project')) !!}</td>
-                        @else
-                            {!! Form::hidden('project_id[]', null, array('id' => 'project_id')) !!}
-                        @endif
+{{--                        @if($company->project == true)--}}
+{{--                            <td>{!! Form::select('project_id[]',$projects, null, array('id' => 'project_code', 'class' => 'col-sm-12 form-control', 'placeholder'=>'Select Project')) !!}</td>--}}
+{{--                        @else--}}
+{{--                            {!! Form::hidden('project_id[]', null, array('id' => 'project_id')) !!}--}}
+{{--                        @endif--}}
 
                         <td>{!! Form::select('grpDebit[]', $grp_debits, null,array('id' => 'grpDebit', 'class' => 'col-sm-12 form-control','placeholder'=>'Please Select Group')) !!}</td>
                         <td>{!! Form::select('accDr[]', $debits, null,array('id' => 'accDr', 'class' => 'col-sm-12 form-control','placeholder'=>'Select Account')) !!}</td>

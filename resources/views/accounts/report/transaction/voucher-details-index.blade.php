@@ -32,8 +32,8 @@
                             <td width="10%">{!! Form::text('date_to', Carbon\Carbon::now()->format('d-m-Y'), array('id' => 'date_to', 'class' => 'form-control','required','readonly')) !!}</td>
                         </tr>
                         <tr>
-                            <td colspan="2"><button name="action" type="submit" value="preview" class="btn btn-info btn-reject pull-left">Preview</button></td>
-                            <td colspan="2"><button name="action" type="submit" value="print" class="btn btn-primary btn-approve pull-right">Print</button></td>
+                            <td colspan="2"><button name="submittype" type="submit" value="preview" class="btn btn-info btn-reject pull-left">Preview</button></td>
+                            <td colspan="2"><button name="submittype" type="submit" value="print" class="btn btn-primary btn-approve pull-right">Print</button></td>
                         </tr>
 
                     </table>
@@ -47,65 +47,41 @@
 
         </div>
     </div>
-    @php($count = 0)
 
     @if(!empty($trans))
 
         <div class="row justify-content-center">
 
-            @foreach($dates as $date)
-
-
             <table class="table table-bordered table-responsive table-hover">
                 <thead>
-                    <tr>
-                        <th colspan="9">Transaction date : {!! $date->trans_date !!}</th>
-                    </tr>
-                    <tr class="table-primary">
-                        <th>Date</th>
-                        <th>Voucher No</th>
-                        <th>Type</th>
-                        <th>Acc No</th>
-                        <th>Acc Name</th>
-                        <th>Description</th>
-                        <th style="text-align: right">Debit Amt</th>
-                        <th style="text-align: right">Credit Amt</th>
-                        <th>User</th>
-                    </tr>
-
+                <th>Date</th>
+                <th>Voucher No</th>
+                <th>Type</th>
+                <th>Acc No</th>
+                <th>Acc Name</th>
+                <th>Description</th>
+                <th style="text-align: right">Debit Amt</th>
+                <th style="text-align: right">Credit Amt</th>
+                <th>User</th>
                 </thead>
                 <tbody>
-                    @foreach($trans as $row)
-                        @if($date->trans_date == $row->trans_date)
-                            <tr class="{!! $count%2== 0 ? 'table-success' : 'table-light' !!}">
-                                <td>{!! $row->trans_date !!}</td>
-                                <td>{!! $row->voucher_no !!}</td>
-                                <td>{!! $row->tr_code !!}</td>
-                                <td>{!! $row->acc_no !!}</td>
-                                <td>{!! $row->accNo->acc_name !!}</td>
-                                <td>{!! $row->trans_desc1 !!}</td>
-                                <td style="text-align: right">{!! number_format($row->dr_amt,2) !!}</td>
-                                <td style="text-align: right">{!! number_format($row->cr_amt,2) !!}</td>
-                                <td>{!! $row->user->name !!}</td>
-                            </tr>
-                            @php($count++)
-                        @endif
-
-                    @endforeach
+                @foreach($trans as $row)
+                    <tr>
+                        <td>{!! $row->trans_date !!}</td>
+                        <td>{!! $row->voucher_no !!}</td>
+                        <td>{!! $row->tr_code !!}</td>
+                        <td>{!! $row->acc_no !!}</td>
+                        <td>{!! $row->accNo->acc_name !!}</td>
+                        <td>{!! $row->trans_desc1 !!}</td>
+                        <td style="text-align: right">{!! number_format($row->dr_amt,2) !!}</td>
+                        <td style="text-align: right">{!! number_format($row->cr_amt,2) !!}</td>
+                        <td>{!! $row->user->name !!}</td>
+                    </tr>
+                @endforeach
                 </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="6">Total</td>
-                    <td style="text-align: right">{!!number_format($trans->where('trans_date',$date->trans_date)->sum('dr_amt'),2) !!}</td>
-                    <td style="text-align: right">{!! number_format($trans->where('trans_date',$date->trans_date)->sum('cr_amt'),2) !!}</td>
-                    <td></td>
-                </tr>
-                </tfoot>
 
 
             </table>
-
-            @endforeach
 
 
         </div>

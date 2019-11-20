@@ -3,6 +3,7 @@
 namespace App\Models\Accounts\Trans;
 
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Common\TransType;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ class Transaction extends Model
         'COMPANY_ID',
         'PERIOD',
         'TR_CODE',
+        'TRANS_TYPE_ID',
         'PROJECT_ID',
         'FP_NO',
         'REF_NO',
@@ -52,6 +54,11 @@ class Transaction extends Model
     public function accNo()
     {
         return $this->belongsTo(GeneralLedger::class,'acc_no','acc_no');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(TransType::class);
     }
 
     public function user()

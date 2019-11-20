@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
 //        });
 
         View::composer('*', function ($view) {
-            $company = CompanyProperty::query()->where('company_id', session('comp_id'))->first();
+            $company = CompanyProperty::query()->where('company_id', session('comp_id'))->with('company')->first();
             $min_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',1)->value('startdate');
             $max_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',5)->value('enddate');
 
