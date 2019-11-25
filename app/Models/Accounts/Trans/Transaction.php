@@ -4,6 +4,7 @@ namespace App\Models\Accounts\Trans;
 
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\TransType;
+use App\Models\Company\TransCode;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +52,7 @@ class Transaction extends Model
         return Carbon::parse($value)->format('d-m-Y');
     }
 
-    public function accNo()
+    public function account()
     {
         return $this->belongsTo(GeneralLedger::class,'acc_no','acc_no');
     }
@@ -59,6 +60,11 @@ class Transaction extends Model
     public function type()
     {
         return $this->belongsTo(TransType::class);
+    }
+
+    public function code()
+    {
+        return $this->belongsTo(TransCode::class,'tr_code','trans_code');
     }
 
     public function user()

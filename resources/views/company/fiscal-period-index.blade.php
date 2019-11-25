@@ -17,7 +17,7 @@
     </nav>
 
     <div class="row">
-        <div class="col-md-8 col-md-offset-2" style="overflow-x:auto;">
+        <div style="overflow-x:auto;">
             <table class="table table-bordered table-hover table-responsive" id="fiscal-table">
                 <thead style="background-color: #b0b0b0">
                 <tr>

@@ -53,7 +53,7 @@
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->voucher_no !!}</td>
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->tr_code !!}</td>
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->acc_no !!}</td>
-                                <td style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->accNo->acc_name !!}</td>
+                                <td style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->account->acc_name !!}</td>
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->trans_desc1 !!}</td>
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: right">{!! number_format($row->dr_amt,2) !!}</td>
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: right">{!! number_format($row->cr_amt,2) !!}</td>

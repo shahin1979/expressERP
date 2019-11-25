@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company\FiscalPeriod;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -22,7 +23,7 @@ class FiscalPeriodCO extends Controller
 
     public function getFiscalData()
     {
-        $fiscal = FiscalPeriod::query()->where('status',True)->where('company_id',1);
+        $fiscal = FiscalPeriod::query()->where('status',True)->where('company_id',$this->company_id);
 //        dd($fiscal);
 
 
@@ -33,7 +34,14 @@ class FiscalPeriodCO extends Controller
                 else
                     return '<input type="checkbox" name="depreciation" value="'.$fiscal->fpNo.'" disabled="disabled">';
             })
-            ->rawColumns(['depreciation'])
+
+            ->editColumn('startdate', function ($fiscal) {
+                return Carbon::parse($fiscal->startdate)->format('d-m-Y');
+            })
+            ->editColumn('enddate', function ($fiscal) {
+                return Carbon::parse($fiscal->enddate)->format('d-m-Y');
+            })
+            ->rawColumns(['depreciation','startdate','enddate'])
             ->make(true);
     }
 

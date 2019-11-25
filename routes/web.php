@@ -36,6 +36,17 @@ Route::group(['prefix' => 'company', 'namespace' => 'Company', 'middleware' => [
 });
 
 
+Route::group(['prefix' => 'security', 'namespace' => 'Security', 'middleware' => ['auth']], function () {
+
+    Route::get('updateUserIndex','UpdateUserCO@index');
+
+    Route::get('changePasswordIndex','UpdateUserCO@index');
+
+    Route::get('resetPasswordIndex','ChangePasswordCO@index');
+
+    Route::get('managePermissionIndex','ManageUserPermissionCO@index');
+});
+
 Route::group(['prefix' => 'projects', 'namespace' => 'Projects\Basic', 'middleware' => ['auth']], function () {
 
     Route::get('basic/newProjectIndex','NewProjectsCO@index');

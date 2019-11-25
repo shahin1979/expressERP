@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Common\AppModule;
+use App\Models\Company\CompanyModule;
+use App\Models\Company\FiscalPeriod;
 use App\Models\Company\TransCode;
 use App\Models\Common\Country;
 use App\Models\Company\Company;
@@ -20,19 +23,32 @@ class CompanyPropertiesCO extends Controller
 
 //        dd($basic);
 
-        $company = Company::query()->where('id',$this->company_id)->first();
+        $comp = Company::query()->where('id',$this->company_id)->first();
 
         $currencies = Country::query()->pluck('country_code','country_name');
+
+        $modules = AppModule::query()->get();
+
+        $comp_modules = CompanyModule::query()->where('COMPANY_ID',$this->company_id)->get();
+
+
 
 //        $country = geoip_country_name_by_name('www.matincottonmills.com');
 
 
 //        dd($country);
-        return view('company.company-basic-data-index',compact('company','basic','currencies'));
+        return view('company.company-basic-data-index',compact('comp','basic','currencies','modules','comp_modules'));
     }
 
     public function store(Request $request)
     {
+
+//        dd($request->all());
+//
+//        foreach ($request['module_id'])
+//        {
+//
+//        }
 
         DB::beginTransaction();
 
@@ -52,9 +68,24 @@ class CompanyPropertiesCO extends Controller
                 ]
             );
 
+            // delete existing company modules data
+            CompanyModule::query()->where('company_id', $this->company_id)->delete();
+
+            //insert new modules for the company
+            foreach ($request['module_id'] as $row)
+            {
+                CompanyModule::query()->updateOrCreate(['COMPANY_ID' => $this->company_id,'MODULE_ID'=>$row],
+                    [
+                        'STATUS'=>true
+                    ]);
+            }
+
+
+
+
         // ADD TRANSACTION TYPES AND RELATED VOUCHER NO
 
-            if($request['posted'] == 1)
+            if($request['posted'] != 1)
             {
                 $yr = Carbon::now()->format('Y');
 
@@ -225,6 +256,48 @@ class CompanyPropertiesCO extends Controller
                         'USER_ID'=>$this->user_id
                     ]
                 );
+
+
+                // Insert Fiscal period
+
+                $start_date = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d');
+
+                $end_dt = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->endOfMonth();
+
+                $f_y1 = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y');
+                $f_y2 = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->addMonth(11)->format('Y');
+                $f_y = $f_y1.'-'.$f_y2;
+
+
+                for ($m=1; $m <=12; $m++) {
+
+                    $year = Carbon::parse($start_date)->format('Y');
+                    $fpNo= $m;
+
+                    $month_sl = Carbon::parse($start_date)->format('m');
+                    $month = date('F', mktime(0,0,0,$month_sl, 1, date('Y')));
+                    $status = true;
+
+
+                    FiscalPeriod::create([
+                        'COMPANY_ID' => $this->company_id,
+                        'FISCALYEAR' => $f_y,
+                        'YEAR' =>$year,
+                        'FPNO' => $fpNo,
+                        'MONTHSL' => $month_sl,
+                        'MONTHNAME' => $month,
+                        'STARTDATE' => Carbon::parse($start_date)->format('Y-m-d'),
+                        'ENDDATE' => Carbon::parse($start_date)->format( 'Y-m-t' ),
+                        'STATUS' => $status,
+                        'DEPRECIATION' => false
+                    ]);
+
+                    $start_date = Carbon::parse($start_date)->addMonth(1);
+
+                }
+
+//                FiscalPeriodModel::where('compCode',$comp_code)->where('status',1)
+//                    ->update(['endDate'=>DB::Raw('LAST_DAY(startDate)')]);
 
             }
 

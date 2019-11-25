@@ -89,7 +89,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'DIV_CLASS'=>'nav-item has-sub',
 //            'I_CLASS'=>'fa fa-sitemap',
 //            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'2A',
+//            'MENU_PREFIX'=>'2B',
 //            'NAME'=>'USER BASIC',
 //            'SHOW'=>'1',
 //            'URL'=>'home',
@@ -102,12 +102,65 @@ class MenuItemsTableSeeder extends Seeder
 //            'MODULE_ID'=>2,
 //            'NAV_LABEL'=>2,
 //            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'2A',
+//            'MENU_PREFIX'=>'2B',
 //            'NAME'=>'Add User',
 //            'SHOW'=>'1',
 //            'URL'=>'register',
 //            'STATUS'=>'1'
 //        ] );
+
+
+            MENUITEM::create( [
+            'ID'=>21005,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>2,
+            'NAV_LABEL'=>2,
+            'MENU_TYPE'=>'SM',
+            'MENU_PREFIX'=>'2B',
+            'NAME'=>'Update User',
+            'SHOW'=>'1',
+            'URL'=>'security/updateUserIndex',
+            'STATUS'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'ID'=>21010,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>2,
+            'NAV_LABEL'=>2,
+            'MENU_TYPE'=>'SM',
+            'MENU_PREFIX'=>'2B',
+            'NAME'=>'Change User Password',
+            'SHOW'=>'1',
+            'URL'=>'security/changePasswordIndex',
+            'STATUS'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'ID'=>21015,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>2,
+            'NAV_LABEL'=>2,
+            'MENU_TYPE'=>'SM',
+            'MENU_PREFIX'=>'2B',
+            'NAME'=>'Reset User Password',
+            'SHOW'=>'1',
+            'URL'=>'security/resetPasswordIndex',
+            'STATUS'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'ID'=>21020,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>2,
+            'NAV_LABEL'=>2,
+            'MENU_TYPE'=>'SM',
+            'MENU_PREFIX'=>'2B',
+            'NAME'=>'Manage User Permissions',
+            'SHOW'=>'1',
+            'URL'=>'security/managePermissionIndex',
+            'STATUS'=>'1'
+        ] );
 
 
 //        MENUITEM::create( [
@@ -324,33 +377,46 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-            MENUITEM::create( [
-            'ID'=>47000,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>4,
-            'NAV_LABEL'=>4,
-            'DIV_CLASS'=>'nav-item has-sub',
-            'I_CLASS'=>'fa fa-sitemap',
-            'MENU_TYPE'=>'MM',
-            'MENU_PREFIX'=>'4M',
-            'NAME'=>'TRANSACTION REPORT',
-            'SHOW'=>'1',
-            'URL'=>'home',
-            'STATUS'=>'1'
-        ] );
+//            MENUITEM::create( [
+//            'ID'=>47000,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>4,
+//            'NAV_LABEL'=>4,
+//            'DIV_CLASS'=>'nav-item has-sub',
+//            'I_CLASS'=>'fa fa-sitemap',
+//            'MENU_TYPE'=>'MM',
+//            'MENU_PREFIX'=>'4M',
+//            'NAME'=>'TRANSACTION REPORT',
+//            'SHOW'=>'1',
+//            'URL'=>'home',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>47005,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>4,
+//            'NAV_LABEL'=>4,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'4M',
+//            'NAME'=>'Daily Transaction List',
+//            'SHOW'=>'1',
+//            'URL'=>'accounts/report/dailyTransactionIndex',
+//            'STATUS'=>'1'
+//        ] );
 
-        MENUITEM::create( [
-            'ID'=>47005,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>4,
-            'NAV_LABEL'=>4,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'4M',
-            'NAME'=>'Daily Transaction List',
-            'SHOW'=>'1',
-            'URL'=>'home',
-            'STATUS'=>'1'
-        ] );
+//        MENUITEM::create( [
+//            'ID'=>470015,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>4,
+//            'NAV_LABEL'=>4,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'4M',
+//            'NAME'=>'Print Voucher',
+//            'SHOW'=>'1',
+//            'URL'=>'accounts/report/printVoucherIndex',
+//            'STATUS'=>'1'
+//        ] );
 
 
 

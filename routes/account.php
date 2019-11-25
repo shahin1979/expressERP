@@ -51,6 +51,7 @@ Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', '
     //PAYMENT TRANSACTIONS ROUTE
 
     Route::get('dailyTransactionIndex','DailyTransactionReportCO@index');
+    Route::get('printVoucherIndex','PrintVoucherControllerCO@index');
 
 
 

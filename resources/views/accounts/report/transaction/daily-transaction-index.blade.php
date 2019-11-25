@@ -27,9 +27,9 @@
 
                         <tr>
                             <td width="5%"><label for="date_from" class="control-label" >Transaction Date</label></td>
-                            <td width="10%">{!! Form::text('date_from', Carbon\Carbon::now()->format('d-m-Y'), array('id' => 'date_from', 'class' => 'form-control','required','readonly')) !!}</td>
+                            <td width="10%">{!! Form::text('date_from', empty($dates) ? Carbon\Carbon::now()->format('d-m-Y') : $dates->min('trans_date') , array('id' => 'date_from', 'class' => 'form-control','required','readonly')) !!}</td>
                             <td width="5%"><label for="date_to" class="control-label" >To</label></td>
-                            <td width="10%">{!! Form::text('date_to', Carbon\Carbon::now()->format('d-m-Y'), array('id' => 'date_to', 'class' => 'form-control','required','readonly')) !!}</td>
+                            <td width="10%">{!! Form::text('date_to', empty($dates) ? Carbon\Carbon::now()->format('d-m-Y') : $dates->max('trans_date'), array('id' => 'date_to', 'class' => 'form-control','required','readonly')) !!}</td>
                         </tr>
                         <tr>
                             <td colspan="2"><button name="action" type="submit" value="preview" class="btn btn-info btn-reject pull-left">Preview</button></td>
@@ -53,12 +53,16 @@
 
         <div class="row justify-content-center">
 
+            <div class="form-group">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search Any Data" />
+            </div>
+
             @foreach($dates as $date)
 
 
-            <table class="table table-bordered table-responsive table-hover">
+            <table class="table table-bordered table-responsive table-hover records_table" id="records_table">
                 <thead>
-                    <tr>
+                    <tr class="new-row">
                         <th colspan="9">Transaction date : {!! $date->trans_date !!}</th>
                     </tr>
                     <tr class="table-primary">
@@ -74,15 +78,15 @@
                     </tr>
 
                 </thead>
-                <tbody>
+                <tbody id="tbl-body">
                     @foreach($trans as $row)
                         @if($date->trans_date == $row->trans_date)
-                            <tr class="{!! $count%2== 0 ? 'table-success' : 'table-light' !!}">
+                            <tr class="new-row {!! $count%2== 0 ? 'table-success' : 'table-light' !!}">
                                 <td>{!! $row->trans_date !!}</td>
                                 <td>{!! $row->voucher_no !!}</td>
                                 <td>{!! $row->tr_code !!}</td>
                                 <td>{!! $row->acc_no !!}</td>
-                                <td>{!! $row->accNo->acc_name !!}</td>
+                                <td>{!! $row->account->acc_name !!}</td>
                                 <td>{!! $row->trans_desc1 !!}</td>
                                 <td style="text-align: right">{!! number_format($row->dr_amt,2) !!}</td>
                                 <td style="text-align: right">{!! number_format($row->cr_amt,2) !!}</td>
@@ -94,7 +98,7 @@
                     @endforeach
                 </tbody>
                 <tfoot>
-                <tr>
+                <tr class="new-row">
                     <td colspan="6">Total</td>
                     <td style="text-align: right">{!!number_format($trans->where('trans_date',$date->trans_date)->sum('dr_amt'),2) !!}</td>
                     <td style="text-align: right">{!! number_format($trans->where('trans_date',$date->trans_date)->sum('cr_amt'),2) !!}</td>
@@ -136,6 +140,59 @@
                 scrollInput : false,
                 inline:false
             });
+        });
+
+
+
+
+        function fetch_transaction_data(query = '')
+        {
+
+
+            var url = 'dailyTransactionIndex';
+
+            $.ajax({
+                url: url,
+                method:'GET',
+                data:{query:query, date_from:$('#date_from').val(), date_to:$('#date_to').val()},
+                dataType:'json',
+                success:function(response)
+                {
+                    $(".records_table tr:has(td)").remove();
+                    $(".records_table tr:has(th)").remove();
+
+                    var trHTML = '<tr class="table-primary">\n' +
+                        '                        <th>Date</th>\n' +
+                        '                        <th>Voucher No</th>\n' +
+                        '                        <th>Type</th>\n' +
+                        '                        <th>Acc No</th>\n' +
+                        '                        <th>Acc Name</th>\n' +
+                        '                        <th>Description</th>\n' +
+                        '                        <th style="text-align: right">Debit Amt</th>\n' +
+                        '                        <th style="text-align: right">Credit Amt</th>\n' +
+                        '                        <th>User</th>\n' +
+                        '                    </tr>';
+
+                    $.each(response.trans, function (i, item) {
+
+                        trHTML += '<tr><td>' + item.trans_date + '</td><td>' + item.voucher_no + '</td><td>' + item.tr_code + '</td>' +
+                            '<td>' + item.acc_no + '</td><td>' + item.account.acc_name + '</td><td>' + item.trans_desc1 + '</td>' +
+                            '<td style="text-align: right">' + item.dr_amt + '</td><td style="text-align: right">' + item.cr_amt + '</td><td>' + item.user.name + '</td></tr>';
+                    });
+
+                    $('#records_table').append(trHTML);
+
+
+
+                    // $('tbody').html(data.table_data);
+                    // $('#total_records').text(data.total_data);
+                }
+            })
+        }
+
+        $(document).on('keyup', '#search', function(){
+            var query = $(this).val();
+            fetch_transaction_data(query);
         });
 
     </script>
