@@ -22,6 +22,7 @@ class CreateCompanyModulesTable extends Migration
             $table->boolean('status')->default(true);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->unique(array('company_id', 'module_id'));
         });
     }
 

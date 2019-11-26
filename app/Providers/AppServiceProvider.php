@@ -6,6 +6,7 @@ use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\MenuItem;
 use App\Models\Common\TransType;
 use App\Models\Company\Company;
+use App\Models\Company\CompanyModule;
 use App\Models\Company\CompanyProperty;
 use App\Models\Company\FiscalPeriod;
 use App\Models\Projects\Project;
@@ -48,9 +49,14 @@ class AppServiceProvider extends ServiceProvider
             $company = CompanyProperty::query()->where('company_id', session('comp_id'))->with('company')->first();
             $min_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',1)->value('startdate');
             $max_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',5)->value('enddate');
-
             $view->with('company',$company)->with('min_date',$min_date)->with('max_date',$max_date);
         });
+
+        View::composer('home', function ($view) {
+            $comp_menus = CompanyModule::query()->where('company_id', session('comp_id'))->get();
+            $view->with('comp_menus',$comp_menus);
+        });
+
 
         View::composer('accounts.trans.*', function ($view) {
 

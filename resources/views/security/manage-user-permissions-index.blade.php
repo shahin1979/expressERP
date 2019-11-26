@@ -3,106 +3,144 @@
 @section('content')
     <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
 
+    <link href="{!! asset('assets/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css') !!}" rel="stylesheet">
+    <script src="{!! asset('assets/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js') !!}"></script>
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
-            <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
+            <li class="breadcrumb-item"><a class="black-text" href="{!! url('home') !!}">Home</a></li>
             <li class="breadcrumb-item active">User permission</li>
         </ol>
     </nav>
 
-    <div class="justify-content-center">
-        <img src="{!! asset('assets/images/page-under-construction.jpg') !!}" class="img-responsive">
+
+    <div class="row justify-content-center dataTables_wrapper" id="dt-user">
+        <div class="col-md-6" style="overflow-x:auto;">
+            <table class="table table-bordered table-hover table-responsive" id="users-table">
+                <thead style="background-color: #b0b0b0">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 
 
-    {{--    <div class="row">--}}
-    {{--        <div class="col-md-6">--}}
-    {{--            <div class="pull-left">--}}
-    {{--                <button type="button" class="btn btn-project btn-success" data-toggle="modal" data-target="#modal-new-project"><i class="fa fa-plus"></i>New Project</button>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--        <div class="col-md-6">--}}
-    {{--            <div class="pull-right">--}}
-    {{--                <button type="button" class="btn btn-print-project btn-success"><i class="fa fa-print"></i>Print</button>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
 
-    {{--    <div class="row">--}}
-    {{--        <div class="col-md-12" style="overflow-x:auto;">--}}
-    {{--            <table class="table table-bordered table-hover table-responsive" id="project-table">--}}
-    {{--                <thead style="background-color: #b0b0b0">--}}
-    {{--                <tr>--}}
-    {{--                    <th>Code</th>--}}
-    {{--                    <th>Name</th>--}}
-    {{--                    <th>Type</th>--}}
-    {{--                    <th>Status</th>--}}
-    {{--                    <th>Start</th>--}}
-    {{--                    <th>End</th>--}}
-    {{--                    <th>Budget</th>--}}
-    {{--                    <th>Expensed</th>--}}
-    {{--                    <th>Action</th>--}}
-    {{--                </tr>--}}
-    {{--                </thead>--}}
-    {{--            </table>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
+    <div id="accordion">
 
 
+        <table class="table table-bordered table-primary">
+            <thead>
+            <tr>
+                <th colspan="4" style="text-align: center">Set Permissions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>User Name: </td>
+                <td id="user-name"></td>
+                <td>Email</td>
+                <td id="user-email"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        @foreach($modules as $i=>$module)
+        <div class="card" >
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-{!! $i !!}" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="fa fa-plus" aria-hidden="true"><span style="font-weight: bold; font-size: 20px">{!! $module->module->module_name !!}</span> </i>
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapse-{!! $i !!}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="5%">Click</th>
+                                    <th>Menu</th>
+                                    <th>View</th>
+                                    <th>Add</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach($menus as $row)
+                                    @if($module->module_id == $row->module_id)
+                                        <tr class="{!! $row->menu_type == 'SM' ? 'table-success' : 'table-secondary' !!}">
+                                            <td></td>
+                                            <td>{!! $row->name !!}</td>
+
+                                            @if($row->menu_type == 'SM')
+                                             <td><input type="checkbox" name="view[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                            <td width="150px"><input type="checkbox" checked name="add[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                            <td width="150px"><input type="checkbox" name="edit[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                            <td width="150px"><input type="checkbox" name="delete[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                            @else
+                                             <td>View</td>
+                                             <td>Add</td>
+                                             <td>Edit</td>
+                                             <td>Delete</td>
+                                             @endif
+
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
 @endsection
 
 @push('scripts')
 
     <script>
+
+        $(document).ready(function(){
+            $('#accordion').hide();
+        });
+
         $(function() {
-            var table= $('#project-table').DataTable({
+            var table= $('#users-table').DataTable({
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
                 responsive: true,
-                ajax: 'projectData',
+                ajax: 'usersData',
                 columns: [
-                    { data: 'project_code', name: 'project_code' },
-                    { data: 'project_name', name: 'project_name' },
-                    { data: 'project_type', name: 'project_type' },
-                    { data: 'status', name: 'status' },
-                    { data: 'start_date', name: 'start_date' },
-                    { data: 'end_date', name: 'end_date'},
-                    { data: 'budget', name: 'budget'},
-                    { data: 'expense', name: 'expense'},
+                    { data: 'name', name: 'name' },
+                    { data: 'email', name: 'email', searchable: false },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+
+                ],
+                order: [[ 1, "asc" ]]
             });
         });
 
-        // add new project
+        $('#users-table').on('click', '.btn-permission', function (e) {
 
-        $(document).on('click', '.btn-new-project', function (e) {
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var url = 'newProjectSave';
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
+            $('#users-table').parents('div.dataTables_wrapper').first().hide();
+            $('#accordion').show();
+            var row_id = $(this).data('id');
 
-                data: $('#add-project').serialize(),
-
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                },
-
-                success: function (data) {
-
-                    alert(data.success);
-                    $('#modal-new-project').modal('hide');
-                    $('#project-table').DataTable().draw(false);
-                }
-            });
+            document.getElementById('user-name').innerHTML =$(this).data('name');
+            document.getElementById('user-email').innerHTML =$(this).data('email');
         });
 
     </script>

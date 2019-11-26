@@ -20,6 +20,7 @@
 
 
                 @foreach($menus as $menu)
+                    @if($comp_menus->contains('module_id',$menu->module_id))
                     @if($menu->menu_type =='CM')
 
                         <div class="nav-lavel">{!! $menu->name !!}</div>
@@ -51,6 +52,7 @@
                             @endif
 
                         @endforeach
+                        @endif
                     @endif
                 @endforeach
 

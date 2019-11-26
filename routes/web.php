@@ -45,6 +45,7 @@ Route::group(['prefix' => 'security', 'namespace' => 'Security', 'middleware' =>
     Route::get('resetPasswordIndex','ChangePasswordCO@index');
 
     Route::get('managePermissionIndex','ManageUserPermissionCO@index');
+    Route::get('usersData','ManageUserPermissionCO@usersDTData');
 });
 
 Route::group(['prefix' => 'projects', 'namespace' => 'Projects\Basic', 'middleware' => ['auth']], function () {

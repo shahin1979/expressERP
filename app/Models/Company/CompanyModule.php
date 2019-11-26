@@ -28,6 +28,6 @@ class CompanyModule extends Model
 
     public function module()
     {
-        return $this->belongsTo(AppModule::class);
+        return $this->belongsTo(AppModule::class,'module_id','id');
     }
 }

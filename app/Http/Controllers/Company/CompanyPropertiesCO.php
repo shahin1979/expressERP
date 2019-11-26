@@ -295,10 +295,6 @@ class CompanyPropertiesCO extends Controller
                     $start_date = Carbon::parse($start_date)->addMonth(1);
 
                 }
-
-//                FiscalPeriodModel::where('compCode',$comp_code)->where('status',1)
-//                    ->update(['endDate'=>DB::Raw('LAST_DAY(startDate)')]);
-
             }
 
         }catch (\Exception $e)
