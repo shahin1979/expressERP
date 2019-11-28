@@ -8,6 +8,13 @@
 {{--                <div class="card-header">Dashboard</div>--}}
 
 {{--                <div class="card-body">--}}
+
+{{--                    @foreach($comp_menus as $row)--}}
+
+{{--{{ $row }}--}}
+{{--                        <div>{!! $row['name'] !!} {!! session('comp_id') !!}</div>--}}
+
+{{--                    @endforeach--}}
 {{--                    @if (session('status'))--}}
 {{--                        <div class="alert alert-success" role="alert">--}}
 {{--                            {{ session('status') }}--}}

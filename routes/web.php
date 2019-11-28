@@ -45,7 +45,11 @@ Route::group(['prefix' => 'security', 'namespace' => 'Security', 'middleware' =>
     Route::get('resetPasswordIndex','ChangePasswordCO@index');
 
     Route::get('managePermissionIndex','ManageUserPermissionCO@index');
-    Route::get('usersData','ManageUserPermissionCO@usersDTData');
+    Route::get('usersData','ManageUserPermissionCO@usersDTData'); //for Data Table
+
+    Route::get('getData/{id}','ManageUserPermissionCO@userData'); //for Specific user data
+
+    Route::post('permission/store','ManageUserPermissionCO@store');
 });
 
 Route::group(['prefix' => 'projects', 'namespace' => 'Projects\Basic', 'middleware' => ['auth']], function () {

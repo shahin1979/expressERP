@@ -28,7 +28,7 @@
         </div>
     </div>
 
-
+    {!! Form::open(array('id'=>'transForm','url'=>'security/permission/store','method','post')) !!}
 
     <div id="accordion">
 
@@ -49,11 +49,14 @@
             </tbody>
         </table>
 
+
+
         @foreach($modules as $i=>$module)
+
         <div class="card" >
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-{!! $i !!}" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="btn btn-link" onclick="return false;" data-toggle="collapse" data-target="#collapse-{!! $i !!}" aria-expanded="true" aria-controls="collapseOne">
                         <i class="fa fa-plus" aria-hidden="true"><span style="font-weight: bold; font-size: 20px">{!! $module->module->module_name !!}</span> </i>
                     </button>
                 </h5>
@@ -78,14 +81,14 @@
                                 @foreach($menus as $row)
                                     @if($module->module_id == $row->module_id)
                                         <tr class="{!! $row->menu_type == 'SM' ? 'table-success' : 'table-secondary' !!}">
-                                            <td></td>
+                                            <td>{!! $row->id !!}</td>
                                             <td>{!! $row->name !!}</td>
 
                                             @if($row->menu_type == 'SM')
-                                             <td><input type="checkbox" name="view[]" data-toggle="toggle" data-onstyle="primary"></td>
-                                            <td width="150px"><input type="checkbox" checked name="add[]" data-toggle="toggle" data-onstyle="primary"></td>
-                                            <td width="150px"><input type="checkbox" name="edit[]" data-toggle="toggle" data-onstyle="primary"></td>
-                                            <td width="150px"><input type="checkbox" name="delete[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                             <td><input type="checkbox" name="view[]" value="{!! $row->id !!}" class="view-chk-{!! $row->id !!}"  id="view-chk-{!! $row->id !!}" data-toggle="toggle" data-onstyle="primary"></td>
+                                            <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="add-chk-{!! $row->id !!}" name="add[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                            <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="edit-chk-{!! $row->id !!}" name="edit[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                            <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="delete-chk-{!! $row->id !!}" name="delete[]" data-toggle="toggle" data-onstyle="primary"></td>
                                             @else
                                              <td>View</td>
                                              <td>Add</td>
@@ -106,6 +109,15 @@
         </div>
         @endforeach
     </div>
+
+    <input type="hidden" name="user_id" id="user_id"/>
+
+    <div class="col-md-6">
+        {!! Form::submit('SUBMIT',['class'=>'btn btn-primary button-control']) !!}
+    </div>
+
+    {!! Form::close() !!}
+
 @endsection
 
 @push('scripts')
@@ -135,12 +147,65 @@
 
         $('#users-table').on('click', '.btn-permission', function (e) {
 
-            $('#users-table').parents('div.dataTables_wrapper').first().hide();
-            $('#accordion').show();
-            var row_id = $(this).data('id');
-
             document.getElementById('user-name').innerHTML =$(this).data('name');
             document.getElementById('user-email').innerHTML =$(this).data('email');
+            document.getElementById('user_id').value = $(this).data('id') ;
+
+            // alert($(this).data('id'));
+
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url = $(this).data('remote');
+
+            // confirm then
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "JSON",
+
+                data: {method: '_GET', submit: true,},
+
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                },
+
+                success: function (data) {
+
+
+
+                    $('#users-table').parents('div.dataTables_wrapper').first().hide();
+
+                    $.each(data, function (i, item) {
+
+                        item.view == true ? $('#view-chk-' + item.menu_id).bootstrapToggle('on') : '';
+                        item.view == true ? $("#view-chk-" + item.menu_id).prop("checked", true) : '';
+
+
+                        item.add == true ? $('#add-chk-' + item.menu_id).bootstrapToggle('on') : '';
+                        item.add == true ? $("#add-chk-" + item.menu_id).prop("checked", true) : '';
+
+                        item.edit == true ? $('#edit-chk-' + item.menu_id).bootstrapToggle('on') : '';
+                        item.edit == true ? $("#edit-chk-" + item.menu_id).prop("checked", true) : '';
+
+                        item.delete == true ? $('#delete-chk-' + item.menu_id).bootstrapToggle('on') : '';
+                        item.delete == true ? $("#delete-chk-" + item.menu_id).prop("checked", true) : '';
+
+                    });
+
+
+
+                    $('#accordion').show();
+                }
+
+            });
+        });
+
+        $('#transForm').on('click', '.btn-link', function (e) {
+            e.preventDefault();
         });
 
     </script>
