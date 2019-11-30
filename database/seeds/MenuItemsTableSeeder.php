@@ -103,64 +103,64 @@ class MenuItemsTableSeeder extends Seeder
 //            'NAV_LABEL'=>2,
 //            'MENU_TYPE'=>'SM',
 //            'MENU_PREFIX'=>'2B',
-//            'NAME'=>'Add User',
+//            'NAME'=>'Register New User',
 //            'SHOW'=>'1',
 //            'URL'=>'register',
 //            'STATUS'=>'1'
 //        ] );
 
 
-            MENUITEM::create( [
-            'ID'=>21005,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>2,
-            'NAV_LABEL'=>2,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'2B',
-            'NAME'=>'Update User',
-            'SHOW'=>'1',
-            'URL'=>'security/updateUserIndex',
-            'STATUS'=>'1'
-        ] );
-
-        MENUITEM::create( [
-            'ID'=>21010,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>2,
-            'NAV_LABEL'=>2,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'2B',
-            'NAME'=>'Change User Password',
-            'SHOW'=>'1',
-            'URL'=>'security/changePasswordIndex',
-            'STATUS'=>'1'
-        ] );
-
-        MENUITEM::create( [
-            'ID'=>21015,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>2,
-            'NAV_LABEL'=>2,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'2B',
-            'NAME'=>'Reset User Password',
-            'SHOW'=>'1',
-            'URL'=>'security/resetPasswordIndex',
-            'STATUS'=>'1'
-        ] );
-
-        MENUITEM::create( [
-            'ID'=>21020,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>2,
-            'NAV_LABEL'=>2,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'2B',
-            'NAME'=>'Manage User Permissions',
-            'SHOW'=>'1',
-            'URL'=>'security/managePermissionIndex',
-            'STATUS'=>'1'
-        ] );
+//        MENUITEM::create( [
+//            'ID'=>21005,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>2,
+//            'NAV_LABEL'=>2,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'2B',
+//            'NAME'=>'Update User',
+//            'SHOW'=>'1',
+//            'URL'=>'security/updateUserIndex',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>21010,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>2,
+//            'NAV_LABEL'=>2,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'2B',
+//            'NAME'=>'Change User Password',
+//            'SHOW'=>'1',
+//            'URL'=>'security/changePasswordIndex',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>21015,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>2,
+//            'NAV_LABEL'=>2,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'2B',
+//            'NAME'=>'Reset User Password',
+//            'SHOW'=>'1',
+//            'URL'=>'security/resetPasswordIndex',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>21020,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>2,
+//            'NAV_LABEL'=>2,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'2B',
+//            'NAME'=>'Manage User Permissions',
+//            'SHOW'=>'1',
+//            'URL'=>'security/managePermissionIndex',
+//            'STATUS'=>'1'
+//        ] );
 
 
 //        MENUITEM::create( [
@@ -406,7 +406,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 //        MENUITEM::create( [
-//            'ID'=>470015,
+//            'ID'=>47015,
 //            'COMPANY_ID'=>1,
 //            'MODULE_ID'=>4,
 //            'NAV_LABEL'=>4,

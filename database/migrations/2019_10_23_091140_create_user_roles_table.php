@@ -19,6 +19,7 @@ class CreateUserRolesTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies');
             $table->string('name',20);//Super Admin, Admin, User
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
+            $table->string('description')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

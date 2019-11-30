@@ -2,3 +2,20 @@ SELECT ''''||column_name||''','
 FROM USER_TAB_COLUMNS
 WHERE table_name = 'COMPANY_PROPERTIES'
 order by column_id
+
+
+
+
+array validation
+
+$input = $request->all();
+foreach ($request->get('ipapprove') as $key => $value) {
+    $validation['ipapprove.'.$key.'.website_name'] = 'required';
+    $validation['ipapprove.'.$key.'.ip'] = 'required';
+}
+$this->validate($request, $validation);
+
+//
+
+
+@php -r "file_exists('.env') || copy('.env.example', '.env');"

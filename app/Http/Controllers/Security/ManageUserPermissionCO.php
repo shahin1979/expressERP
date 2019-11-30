@@ -11,13 +11,13 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
 
 class ManageUserPermissionCO extends Controller
 {
     public function index(Request $request)
     {
-
         $modules = CompanyModule::query()->where('company_id',$this->company_id)->get();
         $menus = MenuItem::query()->where('menu_type','<>','CM')->orderBy('id')->get();
 
@@ -33,7 +33,7 @@ class ManageUserPermissionCO extends Controller
             ->addColumn('action', function ($users) {
 
                 return '<div class="btn-group btn-group-sm" role="group" aria-label="Action Button">
-                    <button data-remote="getData/'.$users->id.'" 
+                    <button data-remote="getData/'.$users->id.'"
                     data-id="'. $users->id . '"
                     data-name="'. $users->name . '"
                     data-email="'. $users->email . '"

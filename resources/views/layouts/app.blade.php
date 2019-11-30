@@ -15,17 +15,9 @@
     <link href="{!! asset('assets/bootstrap-4.3.1/css/bootstrap.min.css') !!}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome CSS-->
     <link href="{!! asset('assets/font-awesome-4.7.0/css/font-awesome.min.css') !!}" rel="stylesheet" type="text/css" />
-    <!-- theme stylesheet-->
-{{--    <link href="{!! asset('assets/css/style.default.css') !!}" rel="stylesheet" type="text/css" />--}}
-    {{--<link rel="shortcut icon" href="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-4/img/favicon.ico">--}}
-
 
     <link href="{!! asset('assets/DataTables-1.10.18/css/jquery.dataTables.min.css') !!}" rel="stylesheet" type="text/css" />
     <link href="{!! asset('assets/jquery-ui-1.12.1/jquery-ui.css') !!}" rel="stylesheet" type="text/css" />
-
-{{--    <link href="{!! asset('assets/css/mdb.css') !!}" rel="stylesheet" type="text/css" />--}}
-
-{{--    <link href="{!! asset('assets/tabs/css/style.css') !!}" rel="stylesheet" type="text/css" />--}}
 
     <link href="{!! asset('assets/css/jquery.datetimepicker.min.css') !!}" rel="stylesheet" type="text/css" />
 

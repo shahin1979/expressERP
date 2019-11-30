@@ -66,6 +66,51 @@
 
 
 
+                @if($role_id == 2)
+                    @foreach($menus->where('module_id',2) as $menu)
+                        @if($comp_menus->contains('module_id',$menu->module_id))
+
+
+                            @if($menu->menu_type =='CM')
+
+                                <div class="nav-lavel">{!! $menu->name !!}</div>
+
+                                @foreach($menus as $main_menu)
+
+                                    @if($main_menu->nav_label == $menu->nav_label)
+                                        @if($main_menu->menu_type=='MM')
+
+                                            {{--                                            Main Manu--}}
+
+                                            <div class="{!! $main_menu->div_class !!}">
+                                                <a href="javascript:void(0)"><i class="{!! $main_menu->i_class !!}"></i><span>{!! $main_menu->name !!}</span></a>
+
+                                                @foreach($menus as $sub)
+
+                                                    @if($main_menu->menu_prefix == $sub->menu_prefix)
+                                                        @if($sub->menu_type=='SM')
+
+                                                            {{--                                                            SUB MENU--}}
+                                                            {{----}}
+                                                            <div class="submenu-content">
+                                                                <a href="{!! url(''.$sub->url.'') !!}" class="menu-item">{!! $sub->name !!}</a>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    @endif
+
+                                @endforeach
+                            @endif
+                        @endif
+                    @endforeach
+                @endif
+
+
+
+
 
                 @if($role_id == 3)
 

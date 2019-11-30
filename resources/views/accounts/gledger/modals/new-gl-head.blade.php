@@ -7,7 +7,7 @@
 
             <div class="modal-content">
                 <!--Header-->
-                <div class="modal-header" style="background-color: rgba(255,139,17,0.29);">
+                <div class="modal-header" style="background-color: rgba(44,221,32,0.29);">
                     <p class="heading">New Ledger
                     </p>
 

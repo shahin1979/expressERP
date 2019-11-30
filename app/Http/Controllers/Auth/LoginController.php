@@ -79,9 +79,15 @@ class LoginController extends Controller
 
         }
 
+
+
         $company = Company::query()->where('id',$user->company_id)->first();
         session(['company_name' => $company->name]);
         session(['comp_id' => $company->id]);
+
+        activity()
+            ->withProperties(['ip' => $request->ip(),'host'=>$request->getHttpHost()])
+            ->log('Logged In');
     }
 
     /**
@@ -93,6 +99,7 @@ class LoginController extends Controller
     protected function loggedOut(Request $request)
     {
         $request->session()->flush();
+        activity()->log('Logged Out');
     }
 
 

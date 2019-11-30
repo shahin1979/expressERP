@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Security\UserRole;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,6 +45,17 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     */
+    public function showRegistrationForm()
+    {
+        $roles = UserRole::query()->pluck('name','id');
+        return view('auth.register',compact('roles'));
+    }
+
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -53,6 +66,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'role_id'=>['required'],
+            'full_name'=>['required'],
+            'company_id'=>['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -65,13 +81,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+
         return User::create([
-            'company_id' => 1,
-            'role_id' => 3,
+            'company_id' => $data['company_id'],
+            'role_id' => $data['role_id'],
             'name' => $data['name'],
+            'full_name' =>$data['full_name'],
+            'emp_id' =>$data['employee_id'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'login_name' => $data['name'],
+            'use_created' => Auth::id(),
 
         ]);
     }

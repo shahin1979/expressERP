@@ -5,6 +5,8 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
     Route::get('GLGroupIndex','GLGroupCo@index');
     Route::get('GLGroupData','GLGroupCo@getGLGroupData');
 
+    Route::post('group/save','GLGroupCo@store');
+
     Route::get('GLAccountHeadIndex','GLAccountHeadCo@index');
     Route::get('GLAccountHeadData','GLAccountHeadCo@getGLAccountHeadData');
 

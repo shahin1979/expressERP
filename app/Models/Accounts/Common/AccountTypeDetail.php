@@ -9,6 +9,8 @@ class AccountTypeDetail extends Model
 
     protected $guarded = ['ID','CREATED_AT'];
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,5 +22,11 @@ class AccountTypeDetail extends Model
         'DESCRIPTION'
     ];
 
-    public $timestamps = false;
+    public function parent()
+    {
+        return $this->belongsTo(AccountType::class,'account_type_id','id');
+//        return $this->belongsTo('App\Models\Accounts\Common\AccountTypeDetail');
+    }
+
+
 }

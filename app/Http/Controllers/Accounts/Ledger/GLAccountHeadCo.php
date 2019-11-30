@@ -13,13 +13,15 @@ class GLAccountHeadCo extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
 
         $groups = GeneralLedger::query()->where('is_group',true)
-            ->where('company_id',$this->company_id)->pluck('acc_name','ledger_code');
+            ->where('company_id',$this->company_id)
+            ->select(DB::Raw("concat(concat(acc_name,' : '), acc_type) as acc_name"),'ledger_code')
+            ->orderBy('acc_name')
+            ->pluck('acc_name','ledger_code');
 
         return view('accounts.gledger.glhead-index',compact('groups'));
     }
@@ -34,9 +36,9 @@ class GLAccountHeadCo extends Controller
 
                 return '<div class="btn-group btn-group-sm" role="group" aria-label="Action Button">
                     <button data-remote="view/'.$ledgers->id.'"  type="button" class="btn btn-view btn-sm btn-secondary"><i class="fa fa-open">View</i></button>
-                    <button data-remote="edit/' . $ledgers->id . '" data-rowid="'. $ledgers->id . '" 
-                        data-name="'. $ledgers->name . '" 
-                        data-shortname="'. $ledgers->short_name . '" 
+                    <button data-remote="edit/' . $ledgers->id . '" data-rowid="'. $ledgers->id . '"
+                        data-name="'. $ledgers->name . '"
+                        data-shortname="'. $ledgers->short_name . '"
                         data-code="'. $ledgers->department_code . '"
                         data-top="'. $ledgers->top_rank . '"
                         data-email="'. $ledgers->email . '"
@@ -60,12 +62,6 @@ class GLAccountHeadCo extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $group = GeneralLedger::query()->where('ledger_code',$request['LEDGER_CODE'])->where('is_group',true)->first();
