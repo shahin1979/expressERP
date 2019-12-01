@@ -458,52 +458,52 @@ class MenuItemsTableSeeder extends Seeder
             'MENU_PREFIX'=>'5A',
             'NAME'=>'Add Product Category',
             'SHOW'=>'1',
-            'URL'=>'home',
+            'URL'=>'product/categoryIndex',
             'STATUS'=>'1'
         ] );
 
 
 
 
-        MENUITEM::create( [
-            'ID'=>90001,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>9,
-            'NAV_LABEL'=>9,
-            'MENU_TYPE'=>'CM',
-            'MENU_PREFIX'=>'9',
-            'NAME'=>'PROJECTS MODULE',
-            'SHOW'=>'1',
-            'URL'=>'home',
-            'STATUS'=>'1'
-        ] );
-
-        MENUITEM::create( [
-            'ID'=>92000,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>9,
-            'NAV_LABEL'=>9,
-            'DIV_CLASS'=>'nav-item has-sub',
-            'I_CLASS'=>'fa fa-sitemap',
-            'MENU_TYPE'=>'MM',
-            'MENU_PREFIX'=>'9A',
-            'NAME'=>'PROJECT DATA',
-            'SHOW'=>'1',
-            'URL'=>'home',
-            'STATUS'=>'1'
-        ] );
-
-        MENUITEM::create( [
-            'ID'=>92005,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>9,
-            'NAV_LABEL'=>9,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'9A',
-            'NAME'=>'New Project',
-            'SHOW'=>'1',
-            'URL'=>'home',
-            'STATUS'=>'1'
-        ] );
+//        MENUITEM::create( [
+//            'ID'=>90001,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>9,
+//            'NAV_LABEL'=>9,
+//            'MENU_TYPE'=>'CM',
+//            'MENU_PREFIX'=>'9',
+//            'NAME'=>'PROJECTS MODULE',
+//            'SHOW'=>'1',
+//            'URL'=>'home',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>92000,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>9,
+//            'NAV_LABEL'=>9,
+//            'DIV_CLASS'=>'nav-item has-sub',
+//            'I_CLASS'=>'fa fa-sitemap',
+//            'MENU_TYPE'=>'MM',
+//            'MENU_PREFIX'=>'9A',
+//            'NAME'=>'PROJECT DATA',
+//            'SHOW'=>'1',
+//            'URL'=>'home',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>92005,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>9,
+//            'NAV_LABEL'=>9,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'9A',
+//            'NAME'=>'New Project',
+//            'SHOW'=>'1',
+//            'URL'=>'home',
+//            'STATUS'=>'1'
+//        ] );
     }
 }

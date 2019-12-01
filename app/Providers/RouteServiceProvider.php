@@ -41,6 +41,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAccountRoutes();
         $this->mapHumanRoutes();
+        $this->mapInventoryRoutes();
 
         //
     }
@@ -71,6 +72,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/human.php'));
+    }
+
+    protected function mapInventoryRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/inventory.php'));
     }
 
     /**
