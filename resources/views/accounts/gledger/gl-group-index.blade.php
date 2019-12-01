@@ -90,6 +90,31 @@
 
                 ]
             });
+
+            $(this).on('click', '.btn-delete', function (e) {
+
+                e.preventDefault();
+
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var url = $(this).data('remote');
+                // confirm then
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: {method: '_DELETE', submit: true},
+                }).always(function (data, status) {
+                    alert(status);
+                    $('#users-table').DataTable().draw(false);
+                })
+
+
+            });
         });
 
         $(document).ready(function(){
@@ -131,9 +156,10 @@
 
                 success: function (data) {
 
-                    alert(data.success + data.acc_name);
+                    // alert(data.success + data.acc_name);
                     $('#modal-new-gh-head').modal('hide');
-                    $('#head-table').DataTable().draw(false);
+                    $('#group-table').DataTable().draw(false);
+                    $('#group-table').parents('div.dataTables_wrapper').first().show();
 
                 }
 
