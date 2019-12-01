@@ -16,7 +16,7 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('group_id')->unsigned();
-            $table->foreign('group_id')->references('id')->on('group_companies')->onDelete('NO ACTION');
+            $table->foreign('group_id')->references('id')->on('group_companies')->onDelete('CASCADE');
             $table->string('name',240);
             $table->string('address',200);
             $table->string('city',200);
@@ -32,6 +32,13 @@ class CreateCompaniesTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
         });
+
+        DB::unprepared('
+            CREATE OR REPLACE TRIGGER tr_companies_updated_at BEFORE INSERT OR UPDATE ON companies FOR EACH ROW
+            BEGIN
+                :NEW.updated_at := SYSDATE;
+            END;
+        ');
     }
 
     /**

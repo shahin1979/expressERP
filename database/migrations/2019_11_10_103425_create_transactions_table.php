@@ -53,6 +53,9 @@ class CreateTransactionsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->index('acc_no');
+            $table->index('trans_date');
+            $table->index('voucher_no');
         });
 
         DB::unprepared('

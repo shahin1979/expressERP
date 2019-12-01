@@ -18,6 +18,7 @@ class CreateAccountTypesTable extends Migration
             $table->string('description',20);
             $table->boolean('status')->default(1);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->index('description');
         });
     }
 

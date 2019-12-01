@@ -12,6 +12,7 @@ use App\Models\Company\FiscalPeriod;
 use App\Models\Projects\Project;
 use App\Models\Security\UserPrivilege;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,29 +35,35 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $menus = MenuItem::query()->where('status',true)->orderBy('id')->get();
-        View::share('menus', $menus);
+        if (Schema::hasTable('menu_items')) {
+            $menus = MenuItem::query()->where('status',true)->orderBy('id')->get();
+            View::share('menus', $menus);
+        }
+
 
         View::composer('*', function ($view) {
-            $company = CompanyProperty::query()->where('company_id', session('comp_id'))->with('company')->first();
-            $min_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',1)->value('startdate');
-            $max_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',5)->value('enddate');
 
+            if (Schema::hasTable('companies')) {
+                $company = CompanyProperty::query()->where('company_id', session('comp_id'))->with('company')->first();
+                $view->with('company',$company);
+            }
 
-            $view->with('company',$company)->with('min_date',$min_date)->with('max_date',$max_date);
-
-
+            if (Schema::hasTable('fiscal_periods')) {
+                $min_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',1)->value('startdate');
+                $max_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',5)->value('enddate');
+                $view->with('min_date',$min_date)->with('max_date',$max_date);
+            }
         });
 
         View::composer('home', function ($view) {
 
-            $comp_menus = CompanyModule::query()->where('company_id', session('comp_id'))->get();
+            if (Schema::hasTable('company_modules')) {
+                $comp_menus = CompanyModule::query()->where('company_id', session('comp_id'))->get();
+            }
+
             $role_id = Auth::user()->role_id;
 
-
-
             //Get Auth user menus
-
             $user_menus = UserPrivilege::query()->where('company_id', session('comp_id'))
                 ->where('user_id',Auth::id())
                 ->where(function ($query) {

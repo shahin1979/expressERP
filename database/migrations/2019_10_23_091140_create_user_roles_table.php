@@ -15,8 +15,6 @@ class CreateUserRolesTable extends Migration
     {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies');
             $table->string('name',20);//Super Admin, Admin, User
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->string('description')->nullable();

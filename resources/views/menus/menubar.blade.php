@@ -23,7 +23,7 @@
 {{--                <p>{!! $user_permissions[0] !!}</p>--}}
                 @if($role_id == 1)
                 @foreach($menus as $menu)
-                    @if($comp_menus->contains('module_id',$menu->module_id))
+{{--                    @if($comp_menus->contains('module_id',$menu->module_id))--}}
 
 
                         @if($menu->menu_type =='CM')
@@ -59,7 +59,7 @@
 
                                 @endforeach
                         @endif
-                        @endif
+{{--                        @endif--}}
                 @endforeach
                 @endif
 
