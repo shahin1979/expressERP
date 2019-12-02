@@ -20,7 +20,7 @@ class GroupCompanySeeder extends Seeder
             'email' => 'abc@bttb.net.bd',
             'phone_no'=>'071-61933,73244, 61600',
             'currency' =>'BDT',
-            'website' => 'www.fmtechnologies.com'
+            'website' => 'www.abcgroup.com'
         ]);
     }
 }

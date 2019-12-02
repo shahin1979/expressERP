@@ -17,6 +17,7 @@ class CreateTransTypesTable extends Migration
             $table->smallIncrements('id');
             $table->string('name',30);
             $table->string('description',150)->nullable();
+            $table->index('name');
         });
     }
 

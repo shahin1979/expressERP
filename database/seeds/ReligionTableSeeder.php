@@ -13,32 +13,27 @@ class ReligionTableSeeder extends Seeder
     {
         DB::table('religions')->insert([
             'name' => 'Islam',
-            'status' => 1,
-            'user_id' => 1
+            'status' => 1
         ]);
 
         DB::table('religions')->insert([
             'name' => 'Hindu',
-            'status' => 1,
-            'user_id' => 1
+            'status' => 1
         ]);
 
         DB::table('religions')->insert([
             'name' => 'Cristian',
-            'status' => 1,
-            'user_id' => 1
+            'status' => 1
         ]);
 
         DB::table('religions')->insert([
             'name' => 'Buddhist',
-            'status' => 1,
-            'user_id' => 1
+            'status' => 1
         ]);
 
         DB::table('religions')->insert([
             'name' => 'Others',
-            'status' => 1,
-            'user_id' => 1
+            'status' => 1
         ]);
     }
 }

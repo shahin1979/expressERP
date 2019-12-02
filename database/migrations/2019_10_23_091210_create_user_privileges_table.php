@@ -32,7 +32,15 @@ class CreateUserPrivilegesTable extends Migration
             $table->foreign('approver_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->index('user_id');
         });
+
+        DB::unprepared('
+        CREATE OR REPLACE TRIGGER tr_user_privileges_updated_at BEFORE INSERT OR UPDATE ON user_privileges FOR EACH ROW
+            BEGIN
+                :NEW.updated_at := SYSDATE;
+            END;
+        ');
     }
 
     /**
