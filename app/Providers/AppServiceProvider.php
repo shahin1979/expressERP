@@ -137,5 +137,17 @@ class AppServiceProvider extends ServiceProvider
             ->with('groupList',$groupList)->with('accountList',$accountList);
         });
 
+
+// Inventory Blades
+
+        View::composer('inventory.*', function ($view) {
+            if (Schema::hasTable('company_modules')) {
+                $comp_modules = CompanyModule::query()->where('company_id', session('comp_id'))->get();
+
+                $view->with('comp_modules',$comp_modules);
+            }
+
+        });
+
     }
 }

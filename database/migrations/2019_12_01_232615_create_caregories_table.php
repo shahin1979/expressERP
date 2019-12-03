@@ -20,6 +20,7 @@ class CreateCaregoriesTable extends Migration
             $table->string('name', 200);
             $table->unique(array('company_id','name'));
             $table->string('alias', 100)->nullable();
+            $table->boolean('has_sub')->default(1);
             $table->string('acc_no',8)->nullable();//GL Head for stock debit credit
             $table->boolean('status')->default(true);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
