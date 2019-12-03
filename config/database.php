@@ -108,7 +108,7 @@ return [
 
         'oracle' => [
             'driver' => 'oracle',
-            'host' => '192.168.88.137',
+            'host' => '192.168.182.140',
             'port' => '1521',
             'database' => 'ORCL',
             'service_name' => 'orcl.fmtech.com',

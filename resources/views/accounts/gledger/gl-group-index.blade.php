@@ -12,7 +12,7 @@
 
     <div class="container-fluid">
 
-        <div class="row">
+        <div class="row" id="top-head">
 
             <div class="col-md-6">
                 <div class="pull-left">
@@ -63,6 +63,29 @@
             </table>
         </div>
 
+
+
+        <div id="edit-group">
+            <table class="table table-bordered table-striped table-hover">
+                <tbody>
+                <tr>
+                    <td><label for="type_code">Group Type</label></td>
+                    <td>{!! Form::select('type_code_for_edit',$types,null,array('id'=>'type_code_for_edit','class'=>'form-control','autofocus')) !!}</td>
+                    <td><label for="group_name">Group Name</label></td>
+                    <td><input type="text" name="acc_name_for_edit" id="acc_name_for_edit" class="form-control" autocomplete="off" required></td>
+                    <input id="id_for_update" type="hidden" name="id_for_update"/>
+                </tr>
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <td colspan="4"><button type="submit" id="btn-group-save" class="btn btn-primary btn-group-update">Submit</button></td>
+                </tr>
+                </tfoot>
+
+            </table>
+        </div>
+
     </div>
 
 
@@ -72,6 +95,14 @@
 @push('scripts')
 
     <script>
+
+        $(document).ready(function(){
+
+            $('#new-group').hide();
+            $('#edit-group').hide();
+
+        });
+
         $(function() {
             var table= $('#group-table').DataTable({
                 processing: true,
@@ -94,34 +125,47 @@
             $(this).on('click', '.btn-delete', function (e) {
 
                 e.preventDefault();
-
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
                 var url = $(this).data('remote');
                 // confirm then
                 $.ajax({
+                    beforeSend: function (request) {
+                        return confirm("Are you sure?");
+                    },
                     url: url,
                     type: 'DELETE',
                     dataType: 'json',
                     data: {method: '_DELETE', submit: true},
-                }).always(function (data, status) {
-                    alert(status);
-                    $('#users-table').DataTable().draw(false);
+
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                },
+
+                }).always(function (data) {
+                    $('#group-table').DataTable().draw(true);
                 })
+            });
 
+// Edit
 
+            $(this).on('click', '.btn-group-edit', function (e) {
+
+                $('#type_code_for_edit').val($(this).data('type'));
+                $('#acc_name_for_edit').val($(this).data('name'));
+                $('#id_for_update').val($(this).data('id'));
+
+                $('#edit-group').show();
+                $('#group-table').parents('div.dataTables_wrapper').first().hide();
+                $('#top-head').hide();
             });
         });
 
-        $(document).ready(function(){
 
-            $('#new-group').hide();
-
-        });
 
         $(document).on('click', '.btn-group-add', function (e) {
 
@@ -157,8 +201,55 @@
                 success: function (data) {
 
                     // alert(data.success + data.acc_name);
-                    $('#modal-new-gh-head').modal('hide');
+                    // $('#modal-new-gh-head').modal('hide');
+                    $('#new-group').hide();
                     $('#group-table').DataTable().draw(false);
+                    $('.btn-group-add').show();
+                    $('#group-table').parents('div.dataTables_wrapper').first().show();
+
+                }
+
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+        $(document).on('click', '.btn-group-update', function (e) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url = 'group/update/' + $('#id_for_update').val();
+
+            // confirm then
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+
+                data: {method: '_POST', submit: true, TYPE_CODE:$('#type_code_for_edit').val(),
+                    ACC_NAME:$('#acc_name_for_edit').val(),
+                },
+
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                },
+
+                success: function (data) {
+                    alert(data.success + data.acc_name);
+                    $('#edit-group').hide();
+                    $('#group-table').DataTable().draw(false);
+                    $('#top-head').show();
                     $('#group-table').parents('div.dataTables_wrapper').first().show();
 
                 }

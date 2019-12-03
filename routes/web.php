@@ -29,6 +29,8 @@ Route::group(['prefix' => 'company', 'namespace' => 'Company', 'middleware' => [
     Route::get('basicIndex','CompanyPropertiesCO@index');
     Route::post('propertiesSave','CompanyPropertiesCO@store');
 
+    Route::get('activityLogsIndex','LogActivityCO@index');
+
 //    Route::get('account.group.data','AccountController@getGroupData');
 //    Route::post('account.group.add','AccountController@addGroupData');
 //    Route::any('account.group.update/{id}','AccountController@editGroupData');

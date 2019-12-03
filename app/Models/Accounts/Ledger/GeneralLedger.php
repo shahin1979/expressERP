@@ -4,13 +4,18 @@ namespace App\Models\Accounts\Ledger;
 
 use App\Models\Accounts\Common\AccountTypeDetail;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class GeneralLedger extends Model
 {
+    use LogsActivity;
 
     protected $table = "general_ledgers";
 
     protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected static $logAttributes = ['*'];
+    protected static $recordEvents = ['updated','deleted'];
+    protected static $logOnlyDirty = true;
 
     /**
      * The attributes that are mass assignable.
