@@ -14,6 +14,20 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
     Route::get('GLAccountHeadData','GLAccountHeadCo@getGLAccountHeadData');
 
     Route::post('save','GLAccountHeadCo@store');
+    Route::post('update/{id}','GLAccountHeadCo@update');
+    Route::delete('head/delete/{id}','GLAccountHeadCo@destroy');
+
+
+});
+
+
+Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middleware' => ['auth']], function () {
+
+    Route::get('openingBalanceIndex','OpeningBalanceCO@index');
+//    Route::get('GLGroupData','GLGroupCo@getGLGroupData');
+//    Route::post('group/save','GLGroupCo@store');
+
+    Route::get('depreciationSetupIndex','DepreciationSetupCO@index');
 
 });
 

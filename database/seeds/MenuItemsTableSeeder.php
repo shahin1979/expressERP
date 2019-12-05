@@ -302,7 +302,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'MENU_PREFIX'=>'4A',
 //            'NAME'=>'Depreciation Setup',
 //            'SHOW'=>'1',
-//            'URL'=>'home',
+//            'URL'=>'ledger/depreciationSetupIndex',
 //            'STATUS'=>'1'
 //        ] );
 //
@@ -315,7 +315,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'MENU_PREFIX'=>'4A',
 //            'NAME'=>'Opening Balance',
 //            'SHOW'=>'1',
-//            'URL'=>'home',
+//            'URL'=>'ledger/openingBalanceIndex',
 //            'STATUS'=>'1'
 //        ] );
 //

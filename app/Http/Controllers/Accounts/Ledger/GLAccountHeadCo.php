@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounts\Ledger;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Accounts\Trans\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -23,7 +24,7 @@ class GLAccountHeadCo extends Controller
             ->orderBy('acc_name')
             ->pluck('acc_name','ledger_code');
 
-        return view('accounts.gledger.glhead-index',compact('groups'));
+        return view('accounts.ledger.glhead-index',compact('groups'));
     }
 
     public function getGLAccountHeadData()
@@ -37,14 +38,9 @@ class GLAccountHeadCo extends Controller
                 return '<div class="btn-group btn-group-sm" role="group" aria-label="Action Button">
                     <button data-remote="view/'.$ledgers->id.'"  type="button" class="btn btn-view btn-sm btn-secondary"><i class="fa fa-open">View</i></button>
                     <button data-remote="edit/' . $ledgers->id . '" data-rowid="'. $ledgers->id . '"
-                        data-name="'. $ledgers->name . '"
-                        data-shortname="'. $ledgers->short_name . '"
-                        data-code="'. $ledgers->department_code . '"
-                        data-top="'. $ledgers->top_rank . '"
-                        data-email="'. $ledgers->email . '"
-                        data-description="'. $ledgers->description . '"
-                        data-leave = "'. $ledgers->leave_steps . '"
-                        type="button" href="#department-update-modal" data-target="#department-update-modal" data-toggle="modal" class="btn btn-sm btn-department-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
+                        data-name="'. $ledgers->acc_name . '"
+                        type="button" class="btn btn-sm btn-ledger-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
+                        <button data-remote="head/delete/'.$ledgers->id.'"  type="button" class="btn btn-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>
                     ';
             })
@@ -119,21 +115,67 @@ class GLAccountHeadCo extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $ledger = GeneralLedger::query()->find($id);
+        $ledger->acc_name = $request['ACC_NAME'];
+
+        DB::beginTransaction();
+
+        try{
+
+            $ledger->save();
+
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return response()->json(['error' => $error], 404);
+        }
+
+        DB::commit();
+
+        return response()->json(['success' => 'GL Head Updated ','acc_name'=>$request['acc_name']], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+//     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $ledger = GeneralLedger::query()->find($id);
+
+        if($ledger->start_dr + $ledger->start_cr <> 0)
+
+        {
+            return response()->json(['error' => 'Transaction Exists. Not Possible To Delete'], 404);
+        }
+
+        if(Transaction::query()->where('acc_no',$ledger->acc_no)
+            ->where('company_id',$this->company_id)->exists())
+        {
+            return response()->json(['error' => 'Transaction Exists. Not Possible To Delete'], 404);
+        }
+
+        DB::beginTransaction();
+
+        try{
+
+            $ledger->delete();
+
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return response()->json(['error' => $error], 404);
+        }
+
+        DB::commit();
+
+        return response()->json(['success' => 'GL Head Deleted '], 200);
     }
 }

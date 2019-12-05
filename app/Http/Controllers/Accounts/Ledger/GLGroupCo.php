@@ -26,7 +26,7 @@ class GLGroupCo extends Controller
         $types = AccountTypeDetail::query()
             ->pluck('description','type_code');
 
-        return view('accounts.gledger.gl-group-index',compact('types'));
+        return view('accounts.ledger.gl-group-index',compact('types'));
     }
 
     public function getGLGroupData()

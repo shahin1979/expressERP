@@ -79,7 +79,7 @@
 
                 <tfoot>
                 <tr>
-                    <td colspan="4"><button type="submit" id="btn-group-save" class="btn btn-primary btn-group-update">Submit</button></td>
+                    <td colspan="4"><button type="submit" id="btn-group-update" class="btn btn-primary btn-group-update">Submit</button></td>
                 </tr>
                 </tfoot>
 
