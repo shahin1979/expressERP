@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCaregoriesTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCaregoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('caregories', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
@@ -26,13 +26,19 @@ class CreateCaregoriesTable extends Migration
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->decimal('inventory_amt',15,2)->default(0)->comment('Current balance * avg unit price'); //Amount calculated by current balance*avg unit proce
             $table->decimal('acc_balance',15,2)->default(0)->comment('General Ledger Balance');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->index('name');
             $table->index('company_id');
         });
+        DB::unprepared('
+            CREATE OR REPLACE TRIGGER tr_categories_updated_at BEFORE INSERT OR UPDATE ON categories FOR EACH ROW
+            BEGIN
+                :NEW.updated_at := SYSDATE;
+            END;
+        ');
     }
 
     /**
@@ -42,7 +48,7 @@ class CreateCaregoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caregories');
+        Schema::dropIfExists('categories');
 
     }
 }

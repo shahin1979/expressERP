@@ -7,16 +7,16 @@
 
 
 
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
-                <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
-                <li class="breadcrumb-item active">Product Category</li>
-            </ol>
-        </nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
+            <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
+            <li class="breadcrumb-item active">Sub Category</li>
+        </ol>
+    </nav>
 
-{{--    <div class="justify-content-center">--}}
-{{--        <img src="{!! asset('assets/images/page-under-construction.jpg') !!}" class="img-responsive">--}}
-{{--    </div>--}}
+    {{--    <div class="justify-content-center">--}}
+    {{--        <img src="{!! asset('assets/images/page-under-construction.jpg') !!}" class="img-responsive">--}}
+    {{--    </div>--}}
 
     <div class="container-fluid">
 
@@ -24,7 +24,7 @@
 
             <div class="col-md-4">
                 <div class="pull-left">
-                    <button type="button" class="btn btn-category-add btn-primary"><i class="fa fa-plus"></i>New Group</button>
+                    <button type="button" class="btn btn-sub-category-add btn-primary"><i class="fa fa-plus"></i>New</button>
                 </div>
             </div>
             <div class="col-md-4">
@@ -36,36 +36,37 @@
 
 
         <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
-            <table class="table table-bordered table-hover table-responsive" id="categories-table">
+            <table class="table table-bordered table-hover table-responsive" id="sub-categories-table">
                 <thead style="background-color: #b0b0b0">
-                    <tr>
-                        <th>Name</th>
-                        <th>Ledger Code </th>
-                        <th>Ledger Value</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
+                <tr>
+                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Ledger Code </th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
                 </thead>
             </table>
         </div>
 
-        {!! Form::open(['url'=>'product/categoryIndex','method'=>'POST']) !!}
-        <div id="new-category" class="col-md-8">
+        {!! Form::open(['url'=>'product/subCategoryIndex','method'=>'POST']) !!}
+        <div id="new-sub-category" class="col-md-8">
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
                 <tr>
-                    <td><label for="name" class="control-label">Category Name</label></td>
+                    <td><label for="name" class="control-label">Category</label></td>
+                    <td>{!! Form::select('category_id',$categories,null,array('id'=>'category_id','class'=>'form-control','autofocus')) !!}</td>
+                </tr>
+                <tr>
+                    <td><label for="name" class="control-label">Name</label></td>
                     <td><input id="name" type="text" class="form-control" name="name" value="" required autofocus></td>
                 </tr>
-                <tr>
-                    <td><label for="group_name">Has Sub Category ?</label></td>
-                    <td><input type="checkbox" name="sub_category" data-toggle="toggle" data-onstyle="primary"></td>
-                </tr>
+
                 @if($comp_modules->contains('module_id',4))
-                <tr>
-                    <td><label for="group_name">GL Account No</label></td>
-                    <td><input id="acc_no" type="text" class="form-control" name="acc_no" value=""></td>
-                </tr>
+                    <tr>
+                        <td><label for="group_name">GL Account No</label></td>
+                        <td><input id="acc_no" type="text" class="form-control" name="acc_no" value=""></td>
+                    </tr>
                 @endif
                 </tbody>
 
@@ -79,8 +80,8 @@
         </div>
         {!! Form::close() !!}
 
-{{--        <form action="#"  method="post" accept-charset="utf-8">--}}
-        <div id="edit-category" class="col-md-8">
+        {{--        <form action="#"  method="post" accept-charset="utf-8">--}}
+        <div id="edit-sub-category" class="col-md-8">
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
                 <tr>
@@ -107,7 +108,7 @@
 
             </table>
         </div>
-{{--        </form>--}}
+        {{--        </form>--}}
 
     </div>
 
@@ -119,28 +120,28 @@
 
         $(document).ready(function(){
 
-            $('#new-category').hide();
-            $('#edit-category').hide();
+            $('#new-sub-category').hide();
+            $('#edit-sub-category').hide();
 
         });
 
         $(function() {
-            var table= $('#categories-table').DataTable({
+            var table= $('#sub-categories-table').DataTable({
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
                 responsive: true,
-                ajax: 'getCategoryData',
+                ajax: 'getSubCategoryData',
                 columns: [
+                    { data: 'group.name', name: 'group.name' },
                     { data: 'name', name: 'name' },
                     { data: 'acc_no', name: 'acc_no' },
-                    { data: 'acc_balance', name: 'acc_balance' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
             });
 
-            $(this).on('click', '.btn-category-edit', function (e) {
+            $(this).on('click', '.btn-sub-category-edit', function (e) {
 
                 $('#name_for_edit').val($(this).data('name'));
                 $('#acc_no_for_edit').val($(this).data('acc-no'));
@@ -155,7 +156,7 @@
             });
 
 
-            $(this).on('click', '.btn-category-delete', function (e) {
+            $(this).on('click', '.btn-sub-category-delete', function (e) {
 
                 e.preventDefault();
                 $.ajaxSetup({
@@ -189,41 +190,14 @@
 
 
 
-        $(document).on('click', '.btn-category-add', function (e) {
-            $('#new-category').show();
-            $('#categories-table').parents('div.dataTables_wrapper').first().hide();
+        $(document).on('click', '.btn-sub-category-add', function (e) {
+            $('#new-sub-category').show();
+            $('#sub-categories-table').parents('div.dataTables_wrapper').first().hide();
             $('#top-head').hide();
         });
 
-        // add new project
+        // add new sub Category
 
-        $(document).on('click', '.btn-new-project', function (e) {
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var url = 'newProjectSave';
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-
-                data: $('#add-project').serialize(),
-
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                },
-
-                success: function (data) {
-
-                    alert(data.success);
-                    $('#modal-new-project').modal('hide');
-                    $('#project-table').DataTable().draw(false);
-                }
-            });
-        });
 
 
         $(document).on('click', '.btn-category-update', function (e) {

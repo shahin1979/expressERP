@@ -66,18 +66,18 @@ class MenuItemsTableSeeder extends Seeder
 //            'STATUS'=>'1'
 //        ] );
 
-        MENUITEM::create( [
-            'ID'=>11015,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>1,
-            'NAV_LABEL'=>1,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'1A',
-            'NAME'=>'Activity Logs',
-            'SHOW'=>'1',
-            'URL'=>'company/activityLogsIndex',
-            'STATUS'=>'1'
-        ] );
+//        MENUITEM::create( [
+//            'ID'=>11015,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>1,
+//            'NAV_LABEL'=>1,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'1A',
+//            'NAME'=>'Activity Logs',
+//            'SHOW'=>'1',
+//            'URL'=>'company/activityLogsIndex',
+//            'STATUS'=>'1'
+//        ] );
 //
 //
 //        MENUITEM::create( [
@@ -472,6 +472,20 @@ class MenuItemsTableSeeder extends Seeder
 //            'NAME'=>'Add Product Category',
 //            'SHOW'=>'1',
 //            'URL'=>'product/categoryIndex',
+//            'STATUS'=>'1'
+//        ] );
+
+
+//            MENUITEM::create( [
+//            'ID'=>52010,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Add Sub Category',
+//            'SHOW'=>'1',
+//            'URL'=>'product/subCategoryIndex',
 //            'STATUS'=>'1'
 //        ] );
 
