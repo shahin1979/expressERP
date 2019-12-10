@@ -195,37 +195,6 @@
             $('#top-head').hide();
         });
 
-        // add new project
-
-        $(document).on('click', '.btn-new-project', function (e) {
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var url = 'newProjectSave';
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
-
-                data: $('#add-project').serialize(),
-
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                },
-
-                success: function (data) {
-
-                    alert(data.success);
-                    $('#modal-new-project').modal('hide');
-                    $('#project-table').DataTable().draw(false);
-                }
-            });
-        });
-
-
         $(document).on('click', '.btn-category-update', function (e) {
             e.preventDefault();
             alert($('#id_for_update').val());

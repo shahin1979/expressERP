@@ -28,6 +28,8 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 //    Route::post('group/save','GLGroupCo@store');
 
     Route::get('depreciationSetupIndex','DepreciationSetupCO@index');
+    Route::get('getDepreciationData','DepreciationSetupCO@getDepreciationData');
+    Route::post('saveDepreciationAccount','DepreciationSetupCO@store');
 
 });
 
