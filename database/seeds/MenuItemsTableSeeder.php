@@ -490,6 +490,19 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+//        MENUITEM::create( [
+//            'ID'=>52015,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Item Units',
+//            'SHOW'=>'1',
+//            'URL'=>'product/itemUnitIndex',
+//            'STATUS'=>'1'
+//        ] );
+
 
 
 //        MENUITEM::create( [

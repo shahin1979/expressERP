@@ -4,9 +4,9 @@ namespace App\Models\Inventory\Product;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ItemUnit extends Model
+class ItemBrand extends Model
 {
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -16,11 +16,10 @@ class ItemUnit extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'formal_name',
-        'no_of_decimal_places',
+        'manufacturer',
+        'image_path',
         'status',
         'locale',
         'user_id',
     ];
-
 }

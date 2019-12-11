@@ -1,6 +1,6 @@
-SELECT ''''||column_name||''','
+SELECT ''''||lower(column_name)||''','
 FROM USER_TAB_COLUMNS
-WHERE table_name = 'COMPANY_PROPERTIES'
+WHERE table_name = 'ITEM_UNITS'
 order by column_id
 
 
