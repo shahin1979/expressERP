@@ -504,6 +504,111 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+//        MENUITEM::create( [
+//            'ID'=>52020,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Item Brands',
+//            'SHOW'=>'1',
+//            'URL'=>'product/itemBrandIndex',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>52025,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Item Sizes',
+//            'SHOW'=>'1',
+//            'URL'=>'product/itemSizeIndex',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>52030,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Item Colors',
+//            'SHOW'=>'1',
+//            'URL'=>'product/itemColorIndex',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>52035,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Item Models',
+//            'SHOW'=>'1',
+//            'URL'=>'product/itemModelIndex',
+//            'STATUS'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'ID'=>52040,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Manage Godowns',
+//            'SHOW'=>'1',
+//            'URL'=>'product/itemGodownIndex',
+//            'STATUS'=>'1'
+//        ] );
+
+//        MENUITEM::create( [
+//            'ID'=>52045,
+//            'COMPANY_ID'=>1,
+//            'MODULE_ID'=>5,
+//            'NAV_LABEL'=>5,
+//            'MENU_TYPE'=>'SM',
+//            'MENU_PREFIX'=>'5A',
+//            'NAME'=>'Manage Racks',
+//            'SHOW'=>'1',
+//            'URL'=>'product/itemRackIndex',
+//            'STATUS'=>'1'
+//        ] );
+
+
+        MENUITEM::create( [
+            'ID'=>52050,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>5,
+            'NAV_LABEL'=>5,
+            'MENU_TYPE'=>'SM',
+            'MENU_PREFIX'=>'5A',
+            'NAME'=>'Add Edit Taxes',
+            'SHOW'=>'1',
+            'URL'=>'product/itemTaxIndex',
+            'STATUS'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'ID'=>52055,
+            'COMPANY_ID'=>1,
+            'MODULE_ID'=>5,
+            'NAV_LABEL'=>5,
+            'MENU_TYPE'=>'SM',
+            'MENU_PREFIX'=>'5A',
+            'NAME'=>'Add Edit Products',
+            'SHOW'=>'1',
+            'URL'=>'product/productIndex',
+            'STATUS'=>'1'
+        ] );
+
 
 //        MENUITEM::create( [
 //            'ID'=>90001,
