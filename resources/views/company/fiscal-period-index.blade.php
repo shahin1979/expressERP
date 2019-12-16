@@ -46,11 +46,11 @@
                 responsive: true,
                 ajax: 'fiscalData',
                 columns: [
-                    { data: 'fpno', name: 'fpno' },
-                    { data: 'fiscalyear', name: 'fiscalyear' },
-                    { data: 'monthname', name: 'monthname' },
-                    { data: 'startdate', name: 'startdate' },
-                    { data: 'enddate', name: 'enddate'},
+                    { data: 'fp_no', name: 'fp_no' },
+                    { data: 'fiscal_year', name: 'fiscal_year' },
+                    { data: 'month_name', name: 'month_name' },
+                    { data: 'start_date', name: 'start_date' },
+                    { data: 'end_date', name: 'end_date'},
                     { data: 'depreciation', name: 'depreciation', orderable: false, searchable: false, printable: false}
                 ]
             });

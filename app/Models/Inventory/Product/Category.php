@@ -9,7 +9,7 @@ class Category extends Model
 {
     use LogsActivity;
 
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
     protected static $logAttributes = ['*'];
     protected static $recordEvents = ['updated','deleted'];
     protected static $logOnlyDirty = true;
@@ -20,16 +20,16 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'COMPANY_ID',
-        'NAME',
-        'ALIAS',
-        'HAS_SUB',
-        'ACC_NO',
-        'LOCALE',
-        'INVENTORY_AMT',
-        'ACCOUNT_BAL',
-        'USER_ID',
-        'STATUS',
+        'company_id',
+        'name',
+        'alias',
+        'has_sub',
+        'acc_no',
+        'status',
+        'locale',
+        'inventory_amt',
+        'acc_balance',
+        'user_id',
     ];
 
 }

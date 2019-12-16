@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use Illuminate\Http\Request;
 use App\Models\Inventory\Product\Category;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,9 @@ class CategoryCO extends Controller
 {
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>52005,'user_id'=>$this->user_id
+            ]);
         return view('inventory.product.product-category-index');
     }
 
@@ -47,12 +51,12 @@ class CategoryCO extends Controller
         try {
 
             $ids = Category::query()->create([
-                'COMPANY_ID' => $this->company_id,
-                'NAME' => Str::upper($request['name']),
-                'STATUS' => true,
-                'HAS_SUB' => $request->has('sub_category') ? true : false,
-                'ACC_NO' =>$request['acc_no'],
-                'USER_ID' => $this->user_id
+                'company_id' => $this->company_id,
+                'name' => Str::upper($request['name']),
+                'status' => true,
+                'has_sub' => $request->has('sub_category') ? true : false,
+                'acc_no' =>$request['acc_no'],
+                'user_id' => $this->user_id
             ]);
 
         }catch (\Exception $e)
@@ -70,9 +74,9 @@ class CategoryCO extends Controller
     public function update(Request $request, $id)
     {
         $updateCategory = Category::query()->find($id);
-        $updateCategory->name = $request['NAME'];
-        $updateCategory->has_sub = $request['HAS_SUB'] == 1 ? true : false;
-        $updateCategory->acc_no = $request['ACC_NO'];
+        $updateCategory->name = $request['name'];
+        $updateCategory->has_sub = $request['has_sub'] == 1 ? true : false;
+        $updateCategory->acc_no = $request['acc_no'];
 
         DB::begintransaction();
 

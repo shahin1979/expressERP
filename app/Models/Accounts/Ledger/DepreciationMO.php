@@ -9,25 +9,25 @@ class DepreciationMO extends Model
 {
     protected $table = "depreciation";
 
-    protected $guarded = ['ID','CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 
     protected $fillable = [
-        'COMPANY_ID',
-        'ACC_NO',
-        'FP_NO',
-        'START_DATE',
-        'END_DATE',
-        'OPEN_BAL',
-        'ADDITIONAL_BAL',
-        'TOTAL_BAL',
-        'DEP_RATE',
-        'DEP_AMT',
-        'CLOSING_BAL',
-        'APPROVE_STATUS',
-        'APPROVE_DATE',
-        'CONTRA_ACC',
-        'USER_ID',
-        'AUTHORIZER_ID',
+        'company_id',
+        'acc_no',
+        'fp_no',
+        'start_date',
+        'end_date',
+        'open_bal',
+        'additional_bal',
+        'total_bal',
+        'dep_rate',
+        'dep_amt',
+        'closing_bal',
+        'approve_status',
+        'approve_date',
+        'contra_acc',
+        'user_id',
+        'authorizer_id',
     ];
 
     public function account() {

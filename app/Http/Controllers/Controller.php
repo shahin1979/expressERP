@@ -25,8 +25,8 @@ class Controller extends BaseController
 
             $this->fiscal_year = FiscalPeriod::query()
                 ->where('company_id',Auth::user()->company_id)
-                ->where('fpno',1)->where('status',true)
-                ->value('fiscalyear');
+                ->where('fp_no',1)->where('status',true)
+                ->value('fiscal_year');
 
             return $next($request);
         });

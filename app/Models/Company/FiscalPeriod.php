@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FiscalPeriod extends Model
 {
 
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 //    protected $dates = ['FPSTART'];
 
     /**
@@ -17,16 +17,16 @@ class FiscalPeriod extends Model
      * @var array
      */
     protected $fillable = [
-        'COMPANY_ID',
-        'FISCALYEAR',
-        'YEAR',
-        'FPNO',
-        'MONTHSL',
-        'MONTHNAME',
-        'STARTDATE',
-        'ENDDATE',
-        'STATUS',
-        'DEPRECIATION',
+        'company_id',
+        'fiscal_year',
+        'year',
+        'fp_no',
+        'month_serial',
+        'month_name',
+        'start_date',
+        'end_date',
+        'status',
+        'depreciation',
     ];
 
 

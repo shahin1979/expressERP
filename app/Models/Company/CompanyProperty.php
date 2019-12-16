@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanyProperty extends Model
 {
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 //    protected $dates = ['FPSTART'];
 
     /**
@@ -15,18 +15,18 @@ class CompanyProperty extends Model
      * @var array
      */
     protected $fillable = [
-            'COMPANY_ID',
-            'PROJECT',
-            'INVENTORY',
-            'AUTO_LEDGER',
-            'CASH',
-            'BANK',
-            'SALES',
-            'PURCHASE',
-            'CAPITAL',
-            'CURRENCY',
-            'FPSTART',
-            'POSTED',
+        'company_id',
+        'project',
+        'inventory',
+        'auto_ledger',
+        'cash',
+        'bank',
+        'sales',
+        'purchase',
+        'capital',
+        'currency',
+        'fp_start',
+        'posted',
     ];
 
     public function company()

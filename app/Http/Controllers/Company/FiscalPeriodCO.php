@@ -14,7 +14,6 @@ class FiscalPeriodCO extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -35,13 +34,13 @@ class FiscalPeriodCO extends Controller
                     return '<input type="checkbox" name="depreciation" value="'.$fiscal->fpNo.'" disabled="disabled">';
             })
 
-            ->editColumn('startdate', function ($fiscal) {
-                return Carbon::parse($fiscal->startdate)->format('d-m-Y');
+            ->editColumn('start_date', function ($fiscal) {
+                return Carbon::parse($fiscal->start_date)->format('d-m-Y');
             })
-            ->editColumn('enddate', function ($fiscal) {
-                return Carbon::parse($fiscal->enddate)->format('d-m-Y');
+            ->editColumn('end_date', function ($fiscal) {
+                return Carbon::parse($fiscal->end_date)->format('d-m-Y');
             })
-            ->rawColumns(['depreciation','startdate','enddate'])
+            ->rawColumns(['depreciation','start_date','end_date'])
             ->make(true);
     }
 

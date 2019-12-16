@@ -134,9 +134,12 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
     Route::get('productIndex','ProductsCO@index');
     Route::post('productIndex','ProductsCO@store');
 
+    Route::get('itemSKU','ProductsCO@getSKU');
+
     Route::get('getProductDBData','ProductsCO@getProductsDBData');
 
     Route::post('products/update/{id}','ProductsCO@update');
     Route::delete('products/delete/{id}','ProductsCO@destroy');
+
 
 });

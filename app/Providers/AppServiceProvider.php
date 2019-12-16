@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\MenuItem;
 use App\Models\Common\TransType;
+use App\Models\Common\UserActivity;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyModule;
 use App\Models\Company\CompanyProperty;
@@ -49,8 +50,8 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if (Schema::hasTable('fiscal_periods')) {
-                $min_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',1)->value('startdate');
-                $max_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fpno',5)->value('enddate');
+                $min_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fp_no',1)->value('start_date');
+                $max_date = FiscalPeriod::query()->where('company_id', session('comp_id'))->where('status',true)->where('fp_no',5)->value('end_date');
                 $view->with('min_date',$min_date)->with('max_date',$max_date);
             }
         });
@@ -110,9 +111,14 @@ class AppServiceProvider extends ServiceProvider
             $user_permissions = $user_permissions->sortBy('id');
 //            $user_permissions = collect($user_permissions);
 
+            $user_activities = UserActivity::query()->where('user_id',Auth::id())
+                ->orderBy('id','DESC')
+                ->take(5)->get();
+
             //////////////////////////////////////////////
 
-            $view->with('comp_menus',$comp_menus)->with('user_permissions',$user_permissions)->with('role_id',$role_id);
+            $view->with('comp_menus',$comp_menus)->with('user_permissions',$user_permissions)->with('role_id',$role_id)
+            ->with('user_activities',$user_activities);
 
         });
 

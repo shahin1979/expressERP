@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TransCode extends Model
 {
 
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -15,10 +15,10 @@ class TransCode extends Model
      * @var array
      */
     protected $fillable = [
-        'COMPANY_ID',
-        'TRANS_CODE',
-        'TRANS_NAME',
-        'LAST_TRANS_ID',
+        'company_id',
+        'trans_code',
+        'trans_name',
+        'last_trans_id',
     ];
 
 

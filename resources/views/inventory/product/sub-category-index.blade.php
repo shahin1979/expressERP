@@ -85,24 +85,25 @@
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
                 <tr>
-                    <td><label for="name" class="control-label">Category Name</label></td>
-                    <td><input id="name_for_edit" type="text" class="form-control" name="name_for_edit" value="" required autofocus></td>
+                    <td><label for="category_id" class="control-label">Category Name</label></td>
+                    <td>{!! Form::select('category_id',$categories,null,array('id'=>'category-id-for-edit','class'=>'form-control','autofocus','required')) !!}</td>
                 </tr>
                 <tr>
-                    <td><label for="group_name">Has Sub Category ?</label></td>
-                    <td><input type="checkbox" id="sub_category_for_edit" name="sub_category_for_edit" data-toggle="toggle" data-onstyle="primary"></td>
+                    <td><label for="name" class="control-label">Name</label></td>
+                    <td><input id="name-for-edit" type="text" class="form-control" name="name" value="" required autofocus></td>
                 </tr>
+
                 @if($comp_modules->contains('module_id',4))
                     <tr>
                         <td><label for="group_name">GL Account No</label></td>
-                        <td><input id="acc_no_for_edit" type="text" class="form-control" name="acc_no_for_edit" value=""></td>
+                        <td><input id="acc-no-for-edit" type="text" class="form-control" name="acc_no" value=""></td>
                     </tr>
                 @endif
                 </tbody>
-                <input id="id_for_update" type="hidden" name="id_for_update"/>
+                <input id="id-for-update" type="hidden" name="id-for-update"/>
                 <tfoot>
                 <tr>
-                    <td colspan="4"><button type="submit" id="btn-category-update" class="btn btn-primary btn-category-update">Submit</button></td>
+                    <td colspan="4"><button type="submit" id="btn-sub-category-update" class="btn btn-primary btn-sub-category-update">Update</button></td>
                 </tr>
                 </tfoot>
 
@@ -143,15 +144,14 @@
 
             $(this).on('click', '.btn-sub-category-edit', function (e) {
 
-                $('#name_for_edit').val($(this).data('name'));
-                $('#acc_no_for_edit').val($(this).data('acc-no'));
-                $('#id_for_update').val($(this).data('rowid'));
 
-                $(this).data('sub') == true ? $('#sub_category_for_edit').bootstrapToggle('on') : '';
-                $(this).data('sub') == true ? $("#sub_category_for_edit").prop("checked", true) : '';
+                $('#category-id-for-edit').val($(this).data('category'));
+                $('#name-for-edit').val($(this).data('name'));
+                $('#acc-no-for-edit').val($(this).data('ledger'));
+                $('#id-for-update').val($(this).data('rowid'));
 
                 $('#edit-category').show();
-                $('#categories-table').parents('div.dataTables_wrapper').first().hide();
+                $('#sub-categories-table').parents('div.dataTables_wrapper').first().hide();
                 $('#top-head').hide();
             });
 
@@ -181,7 +181,7 @@
                     },
 
                 }).always(function (data) {
-                    $('#group-table').DataTable().draw(true);
+                    $('#sub-categories-table').DataTable().draw(true);
                 })
             });
 
@@ -232,10 +232,10 @@
                 },
 
                 success: function (data) {
-                    $('#edit-category').hide();
-                    $('#categories-table').DataTable().draw(false);
+                    $('#edit-sub-category').hide();
+                    $('#sub-categories-table').DataTable().draw(false);
                     $('#top-head').show();
-                    $('#categories-table').parents('div.dataTables_wrapper').first().show();
+                    $('#sub-categories-table').parents('div.dataTables_wrapper').first().show();
 
                 }
 

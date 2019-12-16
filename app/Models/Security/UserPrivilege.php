@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserPrivilege extends Model
 {
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 //    protected $dates = ['FPSTART'];
 
     /**
@@ -16,16 +16,16 @@ class UserPrivilege extends Model
      * @var array
      */
     protected $fillable = [
-        'COMPANY_ID',
-        'MODULE_ID',
-        'USER_ID',
-        'MENU_ID',
-        'VIEW',
-        'ADD',
-        'EDIT',
-        'DELETE',
-        'PRIVILEGE',
-        'APPROVER_ID',
+        'company_id',
+        'module_id',
+        'user_id',
+        'menu_id',
+        'view',
+        'add',
+        'edit',
+        'delete',
+        'privilege',
+        'approver_id',
     ];
 
     public function menus()

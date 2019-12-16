@@ -26,7 +26,7 @@ class CreateCompanyPropertiesTable extends Migration
             $table->integer('purchase',false)->default(401);
             $table->integer('capital',false)->default(501);
             $table->char('currency',3)->nullable();
-            $table->date('fpStart');
+            $table->date('fp_start');
             $table->boolean('posted')->default(false);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
@@ -48,6 +48,6 @@ class CreateCompanyPropertiesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('company_properties');
-        DB::unprepared('DROP TRIGGER tr_company_properties_updated_at');
+//        DB::unprepared('DROP TRIGGER tr_company_properties_updated_at');
     }
 }

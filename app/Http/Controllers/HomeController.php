@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Common\UserActivity;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 
@@ -25,6 +26,10 @@ class HomeController extends Controller
     public function index()
     {
         $activity = Activity::all()->last();
+
+//        $user_menus = UserMenu::query()->where('user_id',$this->user_id)->get();
+
+//        dd($user_menus);
 
 
 //        echo($activity->description); //returns 'deleted'

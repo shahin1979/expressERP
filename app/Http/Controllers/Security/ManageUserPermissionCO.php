@@ -46,7 +46,7 @@ class ManageUserPermissionCO extends Controller
 
     public function userData($id)
     {
-        $data = UserPrivilege::query()->where('USER_ID',$id)->get();
+        $data = UserPrivilege::query()->where('user_id',$id)->get();
 
 //        dd($data);
 
@@ -73,11 +73,11 @@ class ManageUserPermissionCO extends Controller
                     $module_id = MenuItem::query()->where('id',$view)->value('module_id');
 
                     UserPrivilege::query()->updateOrCreate(
-                        ['COMPANY_ID'=>$this->company_id,'USER_ID'=>$request['user_id'],'MENU_ID'=>$view],
+                        ['company_id'=>$this->company_id,'user_id'=>$request['user_id'],'menu_id'=>$view],
                         [
-                            'MODULE_ID'=>$module_id,
-                            'VIEW'=>true,
-                            'APPROVER_ID'=>$this->user_id
+                            'module_id'=>$module_id,
+                            'view'=>true,
+                            'approver_id'=>$this->user_id
                             ]);
                 }
             }
@@ -89,11 +89,11 @@ class ManageUserPermissionCO extends Controller
                     $module_id = MenuItem::query()->where('id',$add)->value('module_id');
 
                     UserPrivilege::query()->updateOrCreate(
-                        ['COMPANY_ID'=>$this->company_id,'USER_ID'=>$request['user_id'],'MENU_ID'=>$add],
+                        ['company_id'=>$this->company_id,'user_id'=>$request['user_id'],'menu_id'=>$add],
                         [
-                            'MODULE_ID'=>$module_id,
-                            'ADD'=>true,
-                            'APPROVER_ID'=>$this->user_id]);
+                            'module_id'=>$module_id,
+                            'add'=>true,
+                            'approver_id'=>$this->user_id]);
                 }
             }
 
@@ -104,11 +104,11 @@ class ManageUserPermissionCO extends Controller
                     $module_id = MenuItem::query()->where('id',$edit)->value('module_id');
 
                     UserPrivilege::query()->updateOrCreate(
-                        ['COMPANY_ID'=>$this->company_id,'USER_ID'=>$request['user_id'],'MENU_ID'=>$edit],
+                        ['company_id'=>$this->company_id,'user_id'=>$request['user_id'],'menu_id'=>$edit],
                         [
-                            'MODULE_ID'=>$module_id,
-                            'EDIT'=>true,
-                            'APPROVER_ID'=>$this->user_id]);
+                            'module_id'=>$module_id,
+                            'edit'=>true,
+                            'approver_id'=>$this->user_id]);
                 }
             }
 
@@ -119,11 +119,11 @@ class ManageUserPermissionCO extends Controller
                     $module_id = MenuItem::query()->where('id',$delete)->value('module_id');
 
                     UserPrivilege::query()->updateOrCreate(
-                        ['COMPANY_ID'=>$this->company_id,'USER_ID'=>$request['user_id'],'MENU_ID'=>$delete],
+                        ['company_id'=>$this->company_id,'user_id'=>$request['user_id'],'menu_id'=>$delete],
                         [
-                            'MODULE_ID'=>$module_id,
-                            'DELETE'=>true,
-                            'APPROVER_ID'=>$this->user_id]);
+                            'module_id'=>$module_id,
+                            'delete'=>true,
+                            'approver_id'=>$this->user_id]);
                 }
             }
 

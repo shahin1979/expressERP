@@ -19,7 +19,7 @@ class CompanyPropertiesCO extends Controller
 {
     public function index()
     {
-        $basic = CompanyProperty::query()->where('COMPANY_ID',$this->company_id)->first();
+        $basic = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
 //        dd($basic);
 
@@ -29,7 +29,7 @@ class CompanyPropertiesCO extends Controller
 
         $modules = AppModule::query()->get();
 
-        $comp_modules = CompanyModule::query()->where('COMPANY_ID',$this->company_id)->get();
+        $comp_modules = CompanyModule::query()->where('company_id',$this->company_id)->get();
 
 
 
@@ -57,14 +57,14 @@ class CompanyPropertiesCO extends Controller
         try {
 
             CompanyProperty::query()->updateOrCreate(
-                ['COMPANY_ID' => $this->company_id],
+                ['company_id' => $this->company_id],
                 [
-                    'INVENTORY' => $request->has('hInventory') ? 1 : 0,
-                    'PROJECT' => $request->has('hProject') ? 1 : 0,
-                    'AUTO_LEDGER' => $request->has('hAuto_ledger') ? 1 : 0,
-                    'FPSTART' => Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
-                    'CURRENCY' => $currency,
-                    'POSTED' => 1
+                    'inventory' => $request->has('hInventory') ? 1 : 0,
+                    'project' => $request->has('hProject') ? 1 : 0,
+                    'auto_ledger' => $request->has('hAuto_ledger') ? 1 : 0,
+                    'fp_start' => Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
+                    'currency' => $currency,
+                    'posted' => 1
                 ]
             );
 
@@ -74,9 +74,9 @@ class CompanyPropertiesCO extends Controller
             //insert new modules for the company
             foreach ($request['module_id'] as $row)
             {
-                CompanyModule::query()->updateOrCreate(['COMPANY_ID' => $this->company_id,'MODULE_ID'=>$row],
+                CompanyModule::query()->updateOrCreate(['company_id' => $this->company_id,'module_id'=>$row],
                     [
-                        'STATUS'=>true
+                        'status'=>true
                     ]);
             }
 
@@ -90,82 +90,82 @@ class CompanyPropertiesCO extends Controller
                 $yr = Carbon::now()->format('Y');
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'PM'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'PM'],
                     [
-                    'COMPANY_ID'=>$this->company_id,
-                    'TRANS_CODE'=>'PM',
-                    'TRANS_NAME'=>'Payment',
-                    'LAST_TRANS_ID'=>$yr.'10000001'
+                    'company_id'=>$this->company_id,
+                    'trans_code'=>'PM',
+                    'trans_name'=>'Payment',
+                    'last_trans_id'=>$yr.'10000001'
                     ]
                 );
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'RC'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'RC'],
                     [
-                        'COMPANY_ID'=>$this->company_id,
-                        'TRANS_CODE'=>'RC',
-                        'TRANS_NAME'=>'Receive',
-                        'LAST_TRANS_ID'=>$yr.'20000001'
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'RC',
+                        'trans_name'=>'Receive',
+                        'last_trans_id'=>$yr.'20000001'
                     ]
                 );
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'JV'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'JV'],
                     [
-                        'COMPANY_ID'=>$this->company_id,
-                        'TRANS_CODE'=>'JV',
-                        'TRANS_NAME'=>'Journal',
-                        'LAST_TRANS_ID'=>$yr.'30000001'
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'JV',
+                        'trans_name'=>'Journal',
+                        'last_trans_id'=>$yr.'30000001'
                     ]
                 );
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'RQ'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'RQ'],
                     [
-                        'COMPANY_ID'=>$this->company_id,
-                        'TRANS_CODE'=>'RQ',
-                        'TRANS_NAME'=>'Requisition',
-                        'LAST_TRANS_ID'=>$yr.'40000001'
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'RQ',
+                        'trans_name'=>'Requisition',
+                        'last_trans_id'=>$yr.'40000001'
                     ]
                 );
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'SL'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'SL'],
                     [
-                        'COMPANY_ID'=>$this->company_id,
-                        'TRANS_CODE'=>'SL',
-                        'TRANS_NAME'=>'Sales Invoice',
-                        'LAST_TRANS_ID'=>$yr.'50000001'
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'SL',
+                        'trans_name'=>'Sales Invoice',
+                        'last_trans_id'=>$yr.'50000001'
                     ]
                 );
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'DC'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'DC'],
                     [
-                        'COMPANY_ID'=>$this->company_id,
-                        'TRANS_CODE'=>'DC',
-                        'TRANS_NAME'=>'Delivery Challan',
-                        'LAST_TRANS_ID'=>$yr.'60000001'
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'DC',
+                        'trans_name'=>'Delivery Challan',
+                        'last_trans_id'=>$yr.'60000001'
                     ]
                 );
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'PR'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'PR'],
                     [
-                        'COMPANY_ID'=>$this->company_id,
-                        'TRANS_CODE'=>'PR',
-                        'TRANS_NAME'=>'Purchase Invoice',
-                        'LAST_TRANS_ID'=>$yr.'70000001'
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'PR',
+                        'trans_name'=>'Purchase Invoice',
+                        'last_trans_id'=>$yr.'70000001'
                     ]
                 );
 
                 TransCode::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'TRANS_CODE'=>'IR'],
+                    ['company_id'=>$this->company_id,'trans_code'=>'IR'],
                     [
-                        'COMPANY_ID'=>$this->company_id,
-                        'TRANS_CODE'=>'IR',
-                        'TRANS_NAME'=>'Item Receive',
-                        'LAST_TRANS_ID'=>$yr.'80000001'
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'IR',
+                        'trans_name'=>'Item Receive',
+                        'last_trans_id'=>$yr.'80000001'
                     ]
                 );
 
@@ -174,86 +174,86 @@ class CompanyPropertiesCO extends Controller
                 //ADD INITIAL ACCOUNTS OF THE GENERAL LEDGER
 
                 GeneralLedger::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'10112100'],
+                    ['company_id'=>$this->company_id,'acc_no'=>'10112100'],
                     [
-                        'LEDGER_CODE'=>'101',
-                        'ACC_NAME'=>'CASH IN HAND',
-                        'ACC_TYPE'=>'A',
-                        'TYPE_CODE'=>12,
-                        'ACC_RANGE'=>'10112999',
-                        'IS_GROUP'=>true,
-                        'CURRENCY'=>$currency,
-                        'USER_ID'=>$this->user_id
+                        'ledger_code'=>'101',
+                        'acc_name'=>'CASH IN HAND',
+                        'acc_type'=>'A',
+                        'type_code'=>12,
+                        'acc_range'=>'10112999',
+                        'is_group'=>true,
+                        'currency'=>$currency,
+                        'user_id'=>$this->user_id
                     ]
                 );
 
                 GeneralLedger::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'10112101'],
+                    ['company_id'=>$this->company_id,'acc_no'=>'10112101'],
                     [
-                        'LEDGER_CODE'=>'101',
-                        'ACC_NAME'=>'Cash In Hand',
-                        'ACC_TYPE'=>'A',
-                        'TYPE_CODE'=>12,
-                        'ACC_RANGE'=>'10112101',
-                        'IS_GROUP'=>false,
-                        'CURRENCY'=>$currency,
-                        'USER_ID'=>$this->user_id
+                        'ledger_code'=>'101',
+                        'acc_name'=>'Cash In Hand',
+                        'acc_type'=>'A',
+                        'type_code'=>12,
+                        'acc_range'=>'10112101',
+                        'is_group'=>false,
+                        'currency'=>$currency,
+                        'user_id'=>$this->user_id
                     ]
                 );
 
                 GeneralLedger::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'10212100'],
+                    ['company_id'=>$this->company_id,'acc_no'=>'10212100'],
                     [
-                        'LEDGER_CODE'=>'102',
-                        'ACC_NAME'=>'CASH AT BANK',
-                        'ACC_TYPE'=>'A',
-                        'TYPE_CODE'=>12,
-                        'ACC_RANGE'=>'10212999',
-                        'IS_GROUP'=>true,
-                        'CURRENCY'=>$currency,
-                        'USER_ID'=>$this->user_id
+                        'ledger_code'=>'102',
+                        'acc_name'=>'CASH AT BANK',
+                        'acc_type'=>'A',
+                        'type_code'=>12,
+                        'acc_range'=>'10212999',
+                        'is_group'=>true,
+                        'currency'=>$currency,
+                        'user_id'=>$this->user_id
                     ]
                 );
 
                 GeneralLedger::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'30112100'],
+                    ['company_id'=>$this->company_id,'acc_no'=>'30112100'],
                     [
-                        'LEDGER_CODE'=>'301',
-                        'ACC_NAME'=>'SALES ACCOUNT',
-                        'ACC_TYPE'=>'I',
-                        'TYPE_CODE'=>31,
-                        'ACC_RANGE'=>'30112999',
-                        'IS_GROUP'=>true,
-                        'CURRENCY'=>$currency,
-                        'USER_ID'=>$this->user_id
+                        'ledger_code'=>'301',
+                        'acc_name'=>'SALES ACCOUNT',
+                        'acc_type'=>'I',
+                        'type_code'=>31,
+                        'acc_range'=>'30112999',
+                        'is_group'=>true,
+                        'currency'=>$currency,
+                        'user_id'=>$this->user_id
                     ]
                 );
 
                 GeneralLedger::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'40112100'],
+                    ['company_id'=>$this->company_id,'acc_no'=>'40112100'],
                     [
-                        'LEDGER_CODE'=>'401',
-                        'ACC_NAME'=>'PURCHASE ACCOUNT',
-                        'ACC_TYPE'=>'E',
-                        'TYPE_CODE'=>41,
-                        'ACC_RANGE'=>'40112999',
-                        'IS_GROUP'=>true,
-                        'CURRENCY'=>$currency,
-                        'USER_ID'=>$this->user_id
+                        'ledger_code'=>'401',
+                        'acc_name'=>'PURCHASE ACCOUNT',
+                        'acc_type'=>'E',
+                        'type_code'=>41,
+                        'acc_range'=>'40112999',
+                        'is_group'=>true,
+                        'currency'=>$currency,
+                        'user_id'=>$this->user_id
                     ]
                 );
 
                 GeneralLedger::query()->updateOrCreate(
-                    ['COMPANY_ID'=>$this->company_id,'ACC_NO'=>'50112100'],
+                    ['company_id'=>$this->company_id,'acc_no'=>'50112100'],
                     [
-                        'LEDGER_CODE'=>'501',
-                        'ACC_NAME'=>'RETAINED EARNINGS',
-                        'ACC_TYPE'=>'C',
-                        'TYPE_CODE'=>51,
-                        'ACC_RANGE'=>'50112999',
-                        'IS_GROUP'=>true,
-                        'CURRENCY'=>$currency,
-                        'USER_ID'=>$this->user_id
+                        'ledger_code'=>'501',
+                        'acc_name'=>'RETAINED EARNINGS',
+                        'acc_type'=>'C',
+                        'type_code'=>51,
+                        'acc_range'=>'50112999',
+                        'is_group'=>true,
+                        'currency'=>$currency,
+                        'user_id'=>$this->user_id
                     ]
                 );
 
@@ -280,16 +280,16 @@ class CompanyPropertiesCO extends Controller
 
 
                     FiscalPeriod::create([
-                        'COMPANY_ID' => $this->company_id,
-                        'FISCALYEAR' => $f_y,
-                        'YEAR' =>$year,
-                        'FPNO' => $fpNo,
-                        'MONTHSL' => $month_sl,
-                        'MONTHNAME' => $month,
-                        'STARTDATE' => Carbon::parse($start_date)->format('Y-m-d'),
-                        'ENDDATE' => Carbon::parse($start_date)->format( 'Y-m-t' ),
-                        'STATUS' => $status,
-                        'DEPRECIATION' => false
+                        'company_id' => $this->company_id,
+                        'fiscal_year' => $f_y,
+                        'year' =>$year,
+                        'fp_no' => $fpNo,
+                        'month_serial' => $month_sl,
+                        'month_name' => $month,
+                        'start_date' => Carbon::parse($start_date)->format('Y-m-d'),
+                        'end_date' => Carbon::parse($start_date)->format( 'Y-m-t' ),
+                        'status' => $status,
+                        'depreciation' => false
                     ]);
 
                     $start_date = Carbon::parse($start_date)->addMonth(1);

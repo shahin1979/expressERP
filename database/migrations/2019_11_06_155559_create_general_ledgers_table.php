@@ -110,6 +110,5 @@ class CreateGeneralLedgersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('general_ledgers');
-        DB::unprepared('DROP TRIGGER tr_general_ledgers_updated_at');
     }
 }

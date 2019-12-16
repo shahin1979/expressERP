@@ -9,7 +9,7 @@ class SubCategory extends Model
 {
     use LogsActivity;
 
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
     protected static $logAttributes = ['*'];
     protected static $recordEvents = ['updated','deleted'];
     protected static $logOnlyDirty = true;
@@ -20,14 +20,14 @@ class SubCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'COMPANY_ID',
-        'CATEGORY_ID',
-        'NAME',
-        'ALIAS',
-        'ACC_NO',
-        'STATUS',
-        'LOCALE',
-        'USER_ID',
+        'company_id',
+        'category_id',
+        'name',
+        'alias',
+        'acc_no',
+        'status',
+        'locale',
+        'user_id',
     ];
 
     public function group()

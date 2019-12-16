@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItemUnit extends Model
 {
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 
     /**
      * The attributes that are mass assignable.

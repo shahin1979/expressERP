@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompanyModule extends Model
 {
-    protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
+    protected $guarded = ['id', 'created_at','updated_at'];
 //    protected $dates = ['FPSTART'];
 
     /**
@@ -16,9 +16,9 @@ class CompanyModule extends Model
      * @var array
      */
     protected $fillable = [
-        'COMPANY_ID',
-        'MODULE_ID',
-        'STATUS',
+        'company_id',
+        'module_id',
+        'status',
     ];
 
     public function company()

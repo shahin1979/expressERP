@@ -12,643 +12,643 @@ class MenuItemsTableSeeder extends Seeder
      */
     public function run()
     {
-//        MENUITEM::create( [
-//            'ID'=>10001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>1,
-//            'NAV_LABEL'=>1,
-//            'MENU_TYPE'=>'CM',
-//            'MENU_PREFIX'=>'1',
-//            'NAME'=>'COMPANY MODULE',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>11000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>1,
-//            'NAV_LABEL'=>1,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'1A',
-//            'NAME'=>'COMPANY BASIC',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>11001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>1,
-//            'NAV_LABEL'=>1,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'1A',
-//            'NAME'=>'Company Info',
-//            'SHOW'=>'1',
-//            'URL'=>'company/basicIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>11005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>1,
-//            'NAV_LABEL'=>1,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'1A',
-//            'NAME'=>'Fiscal Period',
-//            'SHOW'=>'1',
-//            'URL'=>'company/fiscalPeriodIndex',
-//            'STATUS'=>'1'
-//        ] );
-
-//        MENUITEM::create( [
-//            'ID'=>11015,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>1,
-//            'NAV_LABEL'=>1,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'1A',
-//            'NAME'=>'Activity Logs',
-//            'SHOW'=>'1',
-//            'URL'=>'company/activityLogsIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>20001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>2,
-//            'NAV_LABEL'=>2,
-//            'MENU_TYPE'=>'CM',
-//            'MENU_PREFIX'=>'2',
-//            'NAME'=>'SECURITY MODULE',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>21000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>2,
-//            'NAV_LABEL'=>2,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'2B',
-//            'NAME'=>'USER BASIC',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>21001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>2,
-//            'NAV_LABEL'=>2,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'2B',
-//            'NAME'=>'Register New User',
-//            'SHOW'=>'1',
-//            'URL'=>'register',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>21005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>2,
-//            'NAV_LABEL'=>2,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'2B',
-//            'NAME'=>'Update User',
-//            'SHOW'=>'1',
-//            'URL'=>'security/updateUserIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>21010,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>2,
-//            'NAV_LABEL'=>2,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'2B',
-//            'NAME'=>'Change User Password',
-//            'SHOW'=>'1',
-//            'URL'=>'security/changePasswordIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>21015,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>2,
-//            'NAV_LABEL'=>2,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'2B',
-//            'NAME'=>'Reset User Password',
-//            'SHOW'=>'1',
-//            'URL'=>'security/resetPasswordIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>21020,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>2,
-//            'NAV_LABEL'=>2,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'2B',
-//            'NAME'=>'Manage User Permissions',
-//            'SHOW'=>'1',
-//            'URL'=>'security/managePermissionIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>30001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>3,
-//            'NAV_LABEL'=>3,
-//            'MENU_TYPE'=>'CM',
-//            'MENU_PREFIX'=>'3',
-//            'NAME'=>'HRM MODULE',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>31000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>3,
-//            'NAV_LABEL'=>3,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'3A',
-//            'NAME'=>'ADMINISTRATION',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>33000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>3,
-//            'NAV_LABEL'=>3,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'3D',
-//            'NAME'=>'HUMAN RESOURCES',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>33005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>3,
-//            'NAV_LABEL'=>3,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'3D',
-//            'NAME'=>'Add New Resource',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//
-//
-//
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>40001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'CM',
-//            'MENU_PREFIX'=>'4',
-//            'NAME'=>'ACCOUNTS MODULE',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>42000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'4A',
-//            'NAME'=>'LEDGER ENTRY',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>42005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4A',
-//            'NAME'=>'Group Ledger',
-//            'SHOW'=>'1',
-//            'URL'=>'ledger/GLGroupIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>42010,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4A',
-//            'NAME'=>'Account Ledger',
-//            'SHOW'=>'1',
-//            'URL'=>'ledger/GLAccountHeadIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>42020,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4A',
-//            'NAME'=>'Depreciation Setup',
-//            'SHOW'=>'1',
-//            'URL'=>'ledger/depreciationSetupIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>42015,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4A',
-//            'NAME'=>'Opening Balance',
-//            'SHOW'=>'1',
-//            'URL'=>'ledger/openingBalanceIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>44000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'4D',
-//            'NAME'=>'VOUCHER ENTRY',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>44005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4D',
-//            'NAME'=>'Payment Voucher',
-//            'SHOW'=>'1',
-//            'URL'=>'transaction/transPaymentIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>44010,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4D',
-//            'NAME'=>'Receive Voucher',
-//            'SHOW'=>'1',
-//            'URL'=>'transaction/transReceiveIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>44015,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4D',
-//            'NAME'=>'Journal Voucher',
-//            'SHOW'=>'1',
-//            'URL'=>'transaction/transJournalIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//            MENUITEM::create( [
-//            'ID'=>44025,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4D',
-//            'NAME'=>'Edit Un Auth Voucher',
-//            'SHOW'=>'1',
-//            'URL'=>'transaction/editUnAuthVoucherIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//
-//
-//            MENUITEM::create( [
-//            'ID'=>47000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'4M',
-//            'NAME'=>'TRANSACTION REPORT',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>47005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4M',
-//            'NAME'=>'Daily Transaction List',
-//            'SHOW'=>'1',
-//            'URL'=>'accounts/report/dailyTransactionIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>47015,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>4,
-//            'NAV_LABEL'=>4,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'4M',
-//            'NAME'=>'Print Voucher',
-//            'SHOW'=>'1',
-//            'URL'=>'accounts/report/printVoucherIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//
-//
-//        MENUITEM::create( [
-//            'ID'=>50001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'CM',
-//            'MENU_PREFIX'=>'5',
-//            'NAME'=>'INVENTORY MODULE',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>52000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'BASIC DATA',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>52005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Add Product Category',
-//            'SHOW'=>'1',
-//            'URL'=>'product/categoryIndex',
-//            'STATUS'=>'1'
-//        ] );
-
-
-//            MENUITEM::create( [
-//            'ID'=>52010,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Add Sub Category',
-//            'SHOW'=>'1',
-//            'URL'=>'product/subCategoryIndex',
-//            'STATUS'=>'1'
-//        ] );
-
-
-//        MENUITEM::create( [
-//            'ID'=>52015,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Item Units',
-//            'SHOW'=>'1',
-//            'URL'=>'product/itemUnitIndex',
-//            'STATUS'=>'1'
-//        ] );
-
-
-//        MENUITEM::create( [
-//            'ID'=>52020,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Item Brands',
-//            'SHOW'=>'1',
-//            'URL'=>'product/itemBrandIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>52025,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Item Sizes',
-//            'SHOW'=>'1',
-//            'URL'=>'product/itemSizeIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>52030,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Item Colors',
-//            'SHOW'=>'1',
-//            'URL'=>'product/itemColorIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>52035,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Item Models',
-//            'SHOW'=>'1',
-//            'URL'=>'product/itemModelIndex',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>52040,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Manage Godowns',
-//            'SHOW'=>'1',
-//            'URL'=>'product/itemGodownIndex',
-//            'STATUS'=>'1'
-//        ] );
-
-//        MENUITEM::create( [
-//            'ID'=>52045,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>5,
-//            'NAV_LABEL'=>5,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'5A',
-//            'NAME'=>'Manage Racks',
-//            'SHOW'=>'1',
-//            'URL'=>'product/itemRackIndex',
-//            'STATUS'=>'1'
-//        ] );
-
-
         MENUITEM::create( [
-            'ID'=>52050,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>5,
-            'NAV_LABEL'=>5,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'5A',
-            'NAME'=>'Add Edit Taxes',
-            'SHOW'=>'1',
-            'URL'=>'product/itemTaxIndex',
-            'STATUS'=>'1'
+            'id'=>10001,
+            'company_id'=>1,
+            'module_id'=>1,
+            'nav_label'=>1,
+            'menu_type'=>'CM',
+            'menu_prefix'=>'1',
+            'name'=>'COMPANY MODULE',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
         ] );
 
         MENUITEM::create( [
-            'ID'=>52055,
-            'COMPANY_ID'=>1,
-            'MODULE_ID'=>5,
-            'NAV_LABEL'=>5,
-            'MENU_TYPE'=>'SM',
-            'MENU_PREFIX'=>'5A',
-            'NAME'=>'Add Edit Products',
-            'SHOW'=>'1',
-            'URL'=>'product/productIndex',
-            'STATUS'=>'1'
+            'id'=>11000,
+            'company_id'=>1,
+            'module_id'=>1,
+            'nav_label'=>1,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'1A',
+            'name'=>'COMPANY BASIC',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>11001,
+            'company_id'=>1,
+            'module_id'=>1,
+            'nav_label'=>1,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'1A',
+            'name'=>'Company Info',
+            'show'=>'1',
+            'url'=>'company/basicIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>11005,
+            'company_id'=>1,
+            'module_id'=>1,
+            'nav_label'=>1,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'1A',
+            'name'=>'Fiscal Period',
+            'show'=>'1',
+            'url'=>'company/fiscalPeriodIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>11015,
+            'company_id'=>1,
+            'module_id'=>1,
+            'nav_label'=>1,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'1A',
+            'name'=>'Activity Logs',
+            'show'=>'1',
+            'url'=>'company/activityLogsIndex',
+            'status'=>'1'
         ] );
 
 
-//        MENUITEM::create( [
-//            'ID'=>90001,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>9,
-//            'NAV_LABEL'=>9,
-//            'MENU_TYPE'=>'CM',
-//            'MENU_PREFIX'=>'9',
-//            'NAME'=>'PROJECTS MODULE',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>92000,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>9,
-//            'NAV_LABEL'=>9,
-//            'DIV_CLASS'=>'nav-item has-sub',
-//            'I_CLASS'=>'fa fa-sitemap',
-//            'MENU_TYPE'=>'MM',
-//            'MENU_PREFIX'=>'9A',
-//            'NAME'=>'PROJECT DATA',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'ID'=>92005,
-//            'COMPANY_ID'=>1,
-//            'MODULE_ID'=>9,
-//            'NAV_LABEL'=>9,
-//            'MENU_TYPE'=>'SM',
-//            'MENU_PREFIX'=>'9A',
-//            'NAME'=>'New Project',
-//            'SHOW'=>'1',
-//            'URL'=>'home',
-//            'STATUS'=>'1'
-//        ] );
+        MENUITEM::create( [
+            'id'=>20001,
+            'company_id'=>1,
+            'module_id'=>2,
+            'nav_label'=>2,
+            'menu_type'=>'CM',
+            'menu_prefix'=>'2',
+            'name'=>'SECURITY MODULE',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>21000,
+            'company_id'=>1,
+            'module_id'=>2,
+            'nav_label'=>2,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'2B',
+            'name'=>'USER BASIC',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>21001,
+            'company_id'=>1,
+            'module_id'=>2,
+            'nav_label'=>2,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'2B',
+            'name'=>'Register New User',
+            'show'=>'1',
+            'url'=>'register',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>21005,
+            'company_id'=>1,
+            'module_id'=>2,
+            'nav_label'=>2,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'2B',
+            'name'=>'Update User',
+            'show'=>'1',
+            'url'=>'security/updateUserIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>21010,
+            'company_id'=>1,
+            'module_id'=>2,
+            'nav_label'=>2,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'2B',
+            'name'=>'Change User Password',
+            'show'=>'1',
+            'url'=>'security/changePasswordIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>21015,
+            'company_id'=>1,
+            'module_id'=>2,
+            'nav_label'=>2,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'2B',
+            'name'=>'Reset User Password',
+            'show'=>'1',
+            'url'=>'security/resetPasswordIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>21020,
+            'company_id'=>1,
+            'module_id'=>2,
+            'nav_label'=>2,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'2B',
+            'name'=>'Manage User Permissions',
+            'show'=>'1',
+            'url'=>'security/managePermissionIndex',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>30001,
+            'company_id'=>1,
+            'module_id'=>3,
+            'nav_label'=>3,
+            'menu_type'=>'CM',
+            'menu_prefix'=>'3',
+            'name'=>'HRM MODULE',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>31000,
+            'company_id'=>1,
+            'module_id'=>3,
+            'nav_label'=>3,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'3A',
+            'name'=>'ADMINISTRATION',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>33000,
+            'company_id'=>1,
+            'module_id'=>3,
+            'nav_label'=>3,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'3D',
+            'name'=>'HUMAN RESOURCES',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>33005,
+            'company_id'=>1,
+            'module_id'=>3,
+            'nav_label'=>3,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'3D',
+            'name'=>'Add New Resource',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+
+
+
+
+
+
+        MENUITEM::create( [
+            'id'=>40001,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'CM',
+            'menu_prefix'=>'4',
+            'name'=>'ACCOUNTS MODULE',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>42000,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'4A',
+            'name'=>'LEDGER ENTRY',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>42005,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4A',
+            'name'=>'Group Ledger',
+            'show'=>'1',
+            'url'=>'ledger/GLGroupIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>42010,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4A',
+            'name'=>'Account Ledger',
+            'show'=>'1',
+            'url'=>'ledger/GLAccountHeadIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>42020,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4A',
+            'name'=>'Depreciation Setup',
+            'show'=>'1',
+            'url'=>'ledger/depreciationSetupIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>42015,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4A',
+            'name'=>'Opening Balance',
+            'show'=>'1',
+            'url'=>'ledger/openingBalanceIndex',
+            'status'=>'1'
+        ] );
+
+
+
+        MENUITEM::create( [
+            'id'=>44000,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'4D',
+            'name'=>'VOUCHER ENTRY',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>44005,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4D',
+            'name'=>'Payment Voucher',
+            'show'=>'1',
+            'url'=>'transaction/transPaymentIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>44010,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4D',
+            'name'=>'Receive Voucher',
+            'show'=>'1',
+            'url'=>'transaction/transReceiveIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>44015,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4D',
+            'name'=>'Journal Voucher',
+            'show'=>'1',
+            'url'=>'transaction/transJournalIndex',
+            'status'=>'1'
+        ] );
+
+            MENUITEM::create( [
+            'id'=>44025,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4D',
+            'name'=>'Edit Un Auth Voucher',
+            'show'=>'1',
+            'url'=>'transaction/editUnAuthVoucherIndex',
+            'status'=>'1'
+        ] );
+
+
+
+
+            MENUITEM::create( [
+            'id'=>47000,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'4M',
+            'name'=>'TRANSACTION REPORT',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>47005,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4M',
+            'name'=>'Daily Transaction List',
+            'show'=>'1',
+            'url'=>'accounts/report/dailyTransactionIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>47015,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4M',
+            'name'=>'Print Voucher',
+            'show'=>'1',
+            'url'=>'accounts/report/printVoucherIndex',
+            'status'=>'1'
+        ] );
+
+
+
+        MENUITEM::create( [
+            'id'=>50001,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'CM',
+            'menu_prefix'=>'5',
+            'name'=>'INVENTORY MODULE',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52000,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'5A',
+            'name'=>'BASIC DATA',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52005,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Add Product Category',
+            'show'=>'1',
+            'url'=>'product/categoryIndex',
+            'status'=>'1'
+        ] );
+
+
+            MENUITEM::create( [
+            'id'=>52010,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Add Sub Category',
+            'show'=>'1',
+            'url'=>'product/subCategoryIndex',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>52015,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Item Units',
+            'show'=>'1',
+            'url'=>'product/itemUnitIndex',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>52020,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Item Brands',
+            'show'=>'1',
+            'url'=>'product/itemBrandIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52025,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Item Sizes',
+            'show'=>'1',
+            'url'=>'product/itemSizeIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52030,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Item Colors',
+            'show'=>'1',
+            'url'=>'product/itemColorIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52035,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Item Models',
+            'show'=>'1',
+            'url'=>'product/itemModelIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52040,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Manage Godowns',
+            'show'=>'1',
+            'url'=>'product/itemGodownIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52045,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Manage Racks',
+            'show'=>'1',
+            'url'=>'product/itemRackIndex',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>52050,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Add Edit Taxes',
+            'show'=>'1',
+            'url'=>'product/itemTaxIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>52055,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5A',
+            'name'=>'Add Edit Products',
+            'show'=>'1',
+            'url'=>'product/productIndex',
+            'status'=>'1'
+        ] );
+
+
+        MENUITEM::create( [
+            'id'=>90001,
+            'company_id'=>1,
+            'module_id'=>9,
+            'nav_label'=>9,
+            'menu_type'=>'CM',
+            'menu_prefix'=>'9',
+            'name'=>'PROJECTS MODULE',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>92000,
+            'company_id'=>1,
+            'module_id'=>9,
+            'nav_label'=>9,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'9A',
+            'name'=>'PROJECT DATA',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>92005,
+            'company_id'=>1,
+            'module_id'=>9,
+            'nav_label'=>9,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'9A',
+            'name'=>'New Project',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
     }
 }

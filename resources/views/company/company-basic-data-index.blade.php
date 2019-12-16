@@ -71,7 +71,7 @@
 
                             <tr>
                                 <td>FP Start</td>
-                                <td>{!! Form::text('fp_start',(isset($basic->fpstart) ? \Carbon\Carbon::parse($basic->fpstart)->format('d-m-Y')  : \Carbon\Carbon::now()->format('d-m-Y')), array('id' => 'fp_start', 'class' => 'form-control','readonly')) !!}</td>
+                                <td>{!! Form::text('fp_start',(isset($basic->fp_start) ? \Carbon\Carbon::parse($basic->fp_start)->format('d-m-Y')  : \Carbon\Carbon::now()->format('d-m-Y')), array('id' => 'fp_start', 'class' => 'form-control','readonly')) !!}</td>
                             </tr>
 
                             <tr>

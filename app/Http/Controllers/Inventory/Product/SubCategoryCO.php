@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use App\Models\Inventory\Product\Category;
 use App\Models\Inventory\Product\SubCategory;
 use Illuminate\Http\Request;
@@ -17,6 +18,10 @@ class SubCategoryCO extends Controller
         $categories = Category::query()->where('company_id',$this->company_id)
             ->where('status',true)->pluck('name','id');
 
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>52010,'user_id'=>$this->user_id
+        ]);
+
         return view('inventory.product.sub-category-index',compact('categories',$categories));
     }
 
@@ -30,8 +35,9 @@ class SubCategoryCO extends Controller
                 return '<div class="btn-category btn-group-sm" role="group" aria-label="Action Button">
                     <button data-remote="view/'.$sbcs->id.'"  type="button" class="btn btn-view btn-sm btn-success"><i class="fa fa-book-open">View</i></button>
                     <button data-remote="edit/' . $sbcs->id . '" data-rowid="'. $sbcs->id . '"
+                        data-category="'. $sbcs->category_id . '"
                         data-name="'. $sbcs->name . '"
-                        data-acc-no="'. $sbcs->acc_no . '"
+                        data-ledger="'. $sbcs->acc_no . '"
                         type="button" class="btn btn-sm btn-category-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
                     <button data-remote="subcategory/delete/'.$sbcs->id.'"  type="button" class="btn btn-category-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>
@@ -50,12 +56,12 @@ class SubCategoryCO extends Controller
         try {
 
             $ids = SubCategory::query()->create([
-                'COMPANY_ID' => $this->company_id,
-                'CATEGORY_ID'=>$request['category_id'],
-                'NAME' => Str::upper($request['name']),
-                'STATUS' => true,
-                'ACC_NO' =>$request->filled('acc_no') ? $request['acc_no'] : null,
-                'USER_ID' => $this->user_id
+                'company_id' => $this->company_id,
+                'category_id'=>$request['category_id'],
+                'name' => Str::upper($request['name']),
+                'status' => true,
+                'acc_no' =>$request->filled('acc_no') ? $request['acc_no'] : null,
+                'user_id' => $this->user_id
             ]);
 
         }catch (\Exception $e)
@@ -72,16 +78,16 @@ class SubCategoryCO extends Controller
 
     public function update(Request $request, $id)
     {
-        $updateCategory = Category::query()->find($id);
-        $updateCategory->name = $request['NAME'];
-        $updateCategory->has_sub = $request['HAS_SUB'] == 1 ? true : false;
-        $updateCategory->acc_no = $request['ACC_NO'];
+//        $updateCategory = Category::query()->find($id);
+//        $updateCategory->name = $request['name'];
+//        $updateCategory->has_sub = $request['HAS_SUB'] == 1 ? true : false;
+//        $updateCategory->acc_no = $request['ACC_NO'];
 
         DB::begintransaction();
 
         try {
 
-            $updateCategory->save();
+//            $updateCategory->save();
 
         }catch (\Exception $e)
         {
