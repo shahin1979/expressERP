@@ -17,6 +17,7 @@ use App\Models\Inventory\Product\Rack;
 use App\Models\Inventory\Product\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class ProductsCO extends Controller
 {
@@ -66,15 +67,67 @@ class ProductsCO extends Controller
         //
     }
 
+    public function getProductsDBData()
+    {
+        $products = ProductMO::query()->where('company_id',$this->company_id)->with('category','subcategory')->get();
+
+        return DataTables::of($products)
+            ->addColumn('action', function ($products) {
+
+                return '<div class="btn-unit btn-group-sm" role="group" aria-label="Action Button">
+                    <button data-remote="view/'.$products->id.'"  type="button" class="btn btn-view btn-sm btn-success"><i class="fa fa-book-open">View</i></button>
+                    <button data-remote="edit/' . $products->id . '" data-rowid="'. $products->id . '"
+                        data-name="'. $products->name . '"
+                        data-formal="'. $products->formal_name . '"
+                        data-decimal="'. $products->no_of_decimal_places . '"
+                        type="button" class="btn btn-sm btn-product-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
+                    <button data-remote="unit/delete/'.$products->id.'"  type="button" class="btn btn-unit-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                    </div>
+
+                    ';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+
+        $request['company_id'] = $this->company_id;
+        $request['user_id'] = $this->user_id;
+        $request['product_code'] = str_pad($request['category_id'],4,0).int_random();
+
+
+        DB::beginTransaction();
+
+        try{
+
+            $id = ProductMO::query()->create($request->except('product-image'));
+
+            if($request->hasfile('product-image'))
+            {
+                $file = $request->file('product-image');
+                $name = $id->id.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path().'/photo/', $name);
+
+                ProductMO::query()->where('id',$id->id)->update(['image'=>'photo/'.$name]);
+            }
+
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return redirect()->back()->with('error','Not Saved '.$error);
+        }
+
+        DB::commit();
+
+        return redirect()->action('Inventory\Product\ProductsCO@index')->with('success','Product Successfully Saved');
     }
 
     /**

@@ -1,9 +1,9 @@
 <div id="new-product" class="row col-md-8" style="border-right: solid; overflow: scroll; height: 600px">
 
-    <form class="form-horizontal" role="form" method="POST" action="{{ url('/product.data.new') }}" accept-charset="UTF-8" enctype="multipart/form-data">
+    <form class="form-horizontal" role="form" method="POST" action="{{ url('product/productIndex') }}" accept-charset="UTF-8" enctype="multipart/form-data">
         {{ csrf_field() }}
 
-        <table class="table table-striped">
+        <table class="table table-striped table-striped table-responsive table-success">
             <tbody>
             <tr>
                 <td><label for="name" class="control-label">Name <span style="color: red">*</span></label></td>
@@ -27,7 +27,7 @@
                 <td><label for="second_unit" class="control-label">Second Unit</label></td>
                 <td>{!! Form::select('second_unit', $units , null , array('id' => 'second_unit', 'class' => 'form-control','placeholder' => 'Second Unit...')) !!}</td>
                 <td><label for="third_unit" class="control-label">Third Unit</label></td>
-                <td>{!! Form::select('third_unit', $units , null , array('id' => 'third_unit', 'class' => 'form-control')) !!}</td>
+                <td>{!! Form::select('third_unit', $units , null , array('id' => 'third_unit', 'class' => 'form-control','placeholder' => 'Third Unit...')) !!}</td>
             </tr>
 
             <tr>
@@ -60,13 +60,13 @@
 
             <tr>
                 <td><label for="reorder_point" class="control-label">Reorder Level</label></td>
-                <td><input id="reorder_point" type="text" class="form-control" name="reorder_point" value="" required></td>
+                <td><input id="reorder_point" type="text" class="form-control" name="reorder_point" value="{!! 0 !!}" required></td>
                 <td><label for="expiry_date" class="control-label" style="text-align: left">Expiry Date</label></td>
                 <td><input id="expiry_date" type="text" class="form-control" name="expiry_date" value=""></td>
             </tr>
 
             <tr>
-                <td><label for="reorder_point" class="control-label">Short Description</label></td>
+                <td><label for="description_short" class="control-label">Short Description</label></td>
                 <td>{!! Form::textarea('description_short',null,['id'=>'description_short','size' => '20x3','class'=>'field']) !!}</td>
                 <td><label for="expiry_date" class="control-label">Long Description</label></td>
                 <td>{!! Form::textarea('description_long',null,['id'=>'description_long','size' => '20x3','class'=>'field']) !!}</td>
@@ -80,7 +80,7 @@
                             <label class="btn btn-success btn-file">
                                 <span>Browse</span>
                                 <!-- The file is stored here. -->
-                                <input type="file" name="photo-image" id="photo-image">
+                                <input type="file" name="product-image" id="product-image">
                             </label>
                             <button type="button" class="btn btn-default">Remove</button>
                         </div>
