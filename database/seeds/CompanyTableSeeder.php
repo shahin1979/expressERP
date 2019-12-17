@@ -13,15 +13,15 @@ class CompanyTableSeeder extends Seeder
     {
         DB::table('companies')->insert([
             'group_id'=>1,
-            'name' => 'ABC Company Limited',
+            'name' => 'Spider IT Limited',
             'address' => '77/A, East Rajabazar,West Panthapath, Dhaka-1215',
             'city' => 'Dhaka',
             'country'=>'Bangladesh',
-            'email' => 'abc@abcmail.com',
+            'email' => 'spider@abcmail.com',
             'phone_no'=>'01709635863',
             'post_code'=>'1215',
             'currency' =>'BDT',
-            'website' => 'www.abccompany.com'
+            'website' => 'www.spider.com'
         ]);
 
         DB::table('companies')->insert([
