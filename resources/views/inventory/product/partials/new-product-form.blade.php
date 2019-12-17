@@ -78,7 +78,7 @@
                     <div class="imageupload">
                         <div class="file-tab">
                             <label class="btn btn-success btn-file">
-                                <span>Browse</span>
+                                <span>Upload</span>
                                 <!-- The file is stored here. -->
                                 <input type="file" name="product-image" id="product-image">
                             </label>
