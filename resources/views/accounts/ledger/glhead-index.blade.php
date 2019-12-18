@@ -156,8 +156,8 @@
                 type: 'POST',
                 dataType: 'json',
 
-                data: {method: '_POST', submit: true, LEDGER_CODE:$('#ledger_code').val(),
-                    ACC_NAME:$('#acc_name').val(),
+                data: {method: '_POST', submit: true, ledger_code:$('#ledger_code').val(),
+                    acc_name:$('#acc_name').val(),
                 },
 
                 error: function (request, status, error) {
@@ -191,7 +191,7 @@
                 type: 'POST',
                 dataType: 'json',
 
-                data: {method: '_POST', submit: true, ACC_NAME:$('#acc_name_for_edit').val(),
+                data: {method: '_POST', submit: true, acc_name:$('#acc_name_for_edit').val(),
                 },
 
                 error: function (request, status, error) {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserMenusTable extends Migration
+class CreateUserActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUserMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_menus', function (Blueprint $table) {
+        Schema::create('user_activities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
@@ -29,7 +29,7 @@ class CreateUserMenusTable extends Migration
         });
 
         DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_user_menus_updated_at BEFORE INSERT OR UPDATE ON user_menus FOR EACH ROW
+            CREATE OR REPLACE TRIGGER tr_user_activities_updated_at BEFORE INSERT OR UPDATE ON user_activities FOR EACH ROW
             BEGIN
                 :NEW.updated_at := SYSDATE;
             END;
@@ -43,6 +43,6 @@ class CreateUserMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_menus');
+        Schema::dropIfExists('user_activities');
     }
 }

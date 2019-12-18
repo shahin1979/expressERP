@@ -36,11 +36,11 @@ class AppModuleTableSeeder extends Seeder
             'description' => 'Inventory Related Activities'
         ]);
 
-//        DB::table('app_modules')->insert([
-//            'id'=>9,
-//            'module_name' => 'Project Module',
-//            'description' => 'Project Related Activities'
-//        ]);
+        DB::table('app_modules')->insert([
+            'id'=>9,
+            'module_name' => 'Project Module',
+            'description' => 'Project Related Activities'
+        ]);
 
 
     }
