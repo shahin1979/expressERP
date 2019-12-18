@@ -78,8 +78,27 @@ class ProductsCO extends Controller
                     <button data-remote="view/'.$products->id.'"  type="button" class="btn btn-view btn-sm btn-success"><i class="fa fa-book-open">View</i></button>
                     <button data-remote="edit/' . $products->id . '" data-rowid="'. $products->id . '"
                         data-name="'. $products->name . '"
-                        data-formal="'. $products->formal_name . '"
-                        data-decimal="'. $products->no_of_decimal_places . '"
+                        data-brand="'. $products->brand_id . '"
+                        data-category="'. $products->category_id . '"
+
+                        data-subcategory="'. $products->subcategory_id . '"
+                        data-unit_name="'. $products->unit_name . '"
+                        data-second="'. $products->second_unit . '"
+                        data-category="'. $products->category_id . '"
+                        data-third="'. $products->third_unit . '"
+                        data-size="'. $products->size_id . '"
+                        data-color="'. $products->color_id . '"
+                        data-model="'. $products->model_id . '"
+                        data-tax="'. $products->tax_id . '"
+                        data-retail-price="'. $products->retail_price . '"
+                        data-buy-price="'. $products->buy_price . '"
+                        data-category="'. $products->category_id . '"
+                        data-category="'. $products->category_id . '"
+
+
+
+
+
                         type="button" class="btn btn-sm btn-product-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
                     <button data-remote="unit/delete/'.$products->id.'"  type="button" class="btn btn-unit-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>

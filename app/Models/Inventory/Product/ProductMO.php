@@ -16,7 +16,7 @@ class ProductMO extends Model
         'brand_id',
         'category_id',
         'subcategory_id',
-        'multiple_unit',
+        'multi_unit',
         'unit_name',
         'second_unit',
         'third_unit',

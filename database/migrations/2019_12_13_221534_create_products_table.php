@@ -28,12 +28,12 @@ class CreateProductsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
             $table->integer('subcategory_id')->unsigned()->nullable();
             $table->foreign('subcategory_id')->references('id')->on('sub_categories')->onDelete('CASCADE');
-            $table->boolean('multiple_unit')->default(0);
+            $table->boolean('multi_unit')->default(0);
             $table->string('unit_name',10);
             $table->foreign('unit_name')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->string('second_unit',10)->nullable();;
+            $table->string('second_unit',10)->nullable();
             $table->foreign('second_unit')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->string('third_unit',10)->nullable();;
+            $table->string('third_unit',10)->nullable();
             $table->foreign('third_unit')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->boolean('variants')->default(0);
             $table->integer('size_id')->unsigned()->nullable();
@@ -57,18 +57,32 @@ class CreateProductsTable extends Migration
             $table->decimal('unit_price',15,2)->default(0.00);
             $table->decimal('reorder_point',15,2)->nullable()->default(0);
             $table->decimal('opening_qty',15,2)->default(0);
+            $table->decimal('opening_qty_unit_two',15,2)->default(0);
+            $table->decimal('opening_qty_unit_three',15,2)->default(0);
             $table->decimal('opening_value',15,2)->default(0);
             $table->decimal('on_hand',15,2)->default(0);
+            $table->decimal('on_hand_unit_two',15,2)->default(0);
+            $table->decimal('on_hand_unit_three',15,2)->default(0);
             $table->date('expiry_date')->nullable();
             $table->decimal('committed',15,2)->default(0);
             $table->decimal('in_comming',15,2)->default(0);
             $table->decimal('max_online_stock',15,2)->default(0);
             $table->decimal('min_online_order',15,2)->default(0);
             $table->decimal('purchase_qty',15,2)->default(0);
+            $table->decimal('purchase_qty_unit_two',15,2)->default(0);
+            $table->decimal('purchase_qty_unit_three',15,2)->default(0);
             $table->decimal('sell_qty',15,2)->default(0);
+            $table->decimal('sell_qty_unit_two',15,2)->default(0);
+            $table->decimal('sell_qty_unit_three',15,2)->default(0);
             $table->decimal('salvage_qty',15,2)->default(0);
+            $table->decimal('salvage_qty_unit_two',15,2)->default(0);
+            $table->decimal('salvage_qty_unit_three',15,2)->default(0);
             $table->decimal('received_qty',15,2)->default(0);
+            $table->decimal('received_qty_unit_two',15,2)->default(0);
+            $table->decimal('received_qty_unit_three',15,2)->default(0);
             $table->decimal('return_qty',15,2)->default(0);
+            $table->decimal('return_qty_unit_two',15,2)->default(0);
+            $table->decimal('return_qty_unit_three',15,2)->default(0);
             $table->integer('shipping')->unsigned()->nullable()->default(0);
             $table->decimal('discount', 15, 2)->default(0);
             $table->text('description_short')->nullable();
@@ -93,6 +107,7 @@ class CreateProductsTable extends Migration
             $table->index('category_id');
             $table->index('subcategory_id');
             $table->index('name');
+            $table->index('unit_name');
         });
 
         DB::unprepared('
