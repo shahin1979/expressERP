@@ -70,7 +70,7 @@ if (typeof jQuery === 'undefined') {
         resetUrlTab($urlTab);
         showFileTab($fileTab);
         enable.call($imageupload);
-        
+
         // Unbind all previous bound event handlers.
         $fileTabButton.off();
         $browseFileButton.off();
@@ -230,7 +230,7 @@ if (typeof jQuery === 'undefined') {
     function resetFileTab($fileTab) {
         $fileTab.find('.alert').remove();
         $fileTab.find('img').remove();
-        $fileTab.find('.btn span').text('Browse');
+        $fileTab.find('.btn span').text('Select Photo');
         $fileTab.find('.btn:eq(1)').hide();
         $fileTab.find('input').val('');
     }
@@ -239,7 +239,7 @@ if (typeof jQuery === 'undefined') {
         var $browseFileButton = $fileTab.find('.btn:eq(0)');
         var $removeFileButton = $fileTab.find('.btn:eq(1)');
         var $fileInput = $browseFileButton.find('input');
-        
+
         $fileTab.find('.alert').remove();
         $fileTab.find('img').remove();
         $browseFileButton.find('span').text('Browse');
@@ -251,7 +251,7 @@ if (typeof jQuery === 'undefined') {
         }
 
         $browseFileButton.prop('disabled', true);
-        
+
         var file = $fileInput[0].files[0];
 
         isValidImageFile(file, function(isValid, message) {
@@ -324,7 +324,7 @@ if (typeof jQuery === 'undefined') {
 
         $urlInput.prop('disabled', true);
         $submitUrlButton.prop('disabled', true);
-        
+
         isValidImageUrl(url, function(isValid, message) {
             if (isValid) {
                 // Submit URL value.

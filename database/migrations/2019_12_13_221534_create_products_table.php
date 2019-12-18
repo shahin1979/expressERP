@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',160);
-            $table->string('product_code',8);
+            $table->unsignedBigInteger('product_code');
             $table->unique(array('company_id', 'product_code'));
 //            $table->integer('relationship_id')->unsigned()->nullable()->index('FK_products_relationships');
 //            $table->foreign('relationship_id')->references('id')->on('relationships')->onDelete('CASCADE');
@@ -31,9 +31,9 @@ class CreateProductsTable extends Migration
             $table->boolean('multiple_unit')->default(0);
             $table->string('unit_name',10);
             $table->foreign('unit_name')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->string('second_unit',10);
+            $table->string('second_unit',10)->nullable();;
             $table->foreign('second_unit')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->string('third_unit',10);
+            $table->string('third_unit',10)->nullable();;
             $table->foreign('third_unit')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->boolean('variants')->default(0);
             $table->integer('size_id')->unsigned()->nullable();
