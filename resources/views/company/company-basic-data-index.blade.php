@@ -4,6 +4,9 @@
     <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
     <link href="{!! asset('assets/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css') !!}" rel="stylesheet">
     <script src="{!! asset('assets/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js') !!}"></script>
+    <link href="{!! asset('assets/css/bootstrap-imageupload.css') !!}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{!! asset('assets/js/bootstrap-imageupload.js') !!}"></script>
+
 {{--    <link href="{!! asset('assets/css/jquery.datetimepicker.min.css') !!}" rel="stylesheet" type="text/css" />--}}
 
 
@@ -25,7 +28,7 @@
             </div>
         </div>
 
-        {!! Form::open(['url'=>'company/propertiesSave','method'=>'POST']) !!}
+        {!! Form::open(['url'=>'company/propertiesSave','method'=>'POST','enctype'=>'multipart/form-data']) !!}
         <div class="row">
 
             <div class="col-sm-6">
@@ -80,6 +83,24 @@
                                     <input type="checkbox" {!! isset($basic->auto_ledger) ?  $basic->auto_ledger == 1 ? 'checked' : 'unchecked' : 'unchecked' !!} name="hAuto_ledger" data-toggle="toggle" data-onstyle="primary">
                                 </td>
                             </tr>
+
+                            <tr>
+                                <td>Company Logo</td>
+                                <td>
+                                    <div class="imageupload">
+                                        <div class="file-tab">
+                                            <label class="btn btn-success btn-file">
+                                                <span>Upload</span>
+                                                <!-- The file is stored here. -->
+                                                <input type="file" name="company_logo" id="company_logo">
+                                            </label>
+                                            <button type="button" class="btn btn-default">Remove</button>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+
 
 
 
@@ -244,6 +265,14 @@
                 inline:false
             });
         });
+
+        $('.imageupload').imageupload({
+            allowedFormats: [ "jpg", "jpeg", "png" ],
+            previewWidth: 250,
+            previewHeight: 250,
+            maxFileSizeKb: 2048
+        });
+
 
     </script>
 

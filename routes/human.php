@@ -13,3 +13,14 @@ Route::group(['prefix' => 'employee', 'namespace' => 'Human\Employee', 'middlewa
     Route::post('save','GLAccountHeadCo@store');
 
 });
+
+Route::group(['prefix' => 'location', 'namespace' => 'Human\Admin', 'middleware' => ['auth']], function () {
+
+    Route::get('locationIndex','LocationsCO@index');
+    Route::post('locationIndex','LocationsCO@store');
+
+    Route::get('locationDBData','LocationsCO@getLocationDTData');
+    Route::post('image/upload','LocationsCO@uploadImage');
+
+
+});

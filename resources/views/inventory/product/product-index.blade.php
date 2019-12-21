@@ -187,7 +187,7 @@
                 responsive: true,
                 ajax: 'getProductDBData',
                 columns: [
-                    { data: 'product_code', name: 'product_code' },
+                    { data: 'sku', name: 'sku' },
                     { data: 'category.name', name: 'category.name' },
                     { data: 'subcategory.name', name: 'subcategory.name' },
                     { data: 'name', name: 'name' },

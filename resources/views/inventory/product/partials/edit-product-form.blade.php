@@ -1,5 +1,3 @@
-<script src="{!! asset('assets/js/image.js') !!}"></script>
-<link href="{!! asset('assets/css/image.css') !!}" rel="stylesheet">
 <div class="jumbotron" id="edit-product">
     <div class="row w-100">
         <div class="col-md-8">

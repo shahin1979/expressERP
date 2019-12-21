@@ -81,6 +81,14 @@ class CompanyPropertiesCO extends Controller
             }
 
 
+            if($request->hasfile('company_logo'))
+            {
+                $file = $request->file('company_logo');
+                $name = $this->company_id.'_logo.'.$file->getClientOriginalExtension();
+                $file->move(public_path().'/company/', $name);
+
+                CompanyProperty::query()->where('company_id',$this->company_id)->update(['company_logo'=>'company/'.$name]);
+            }
 
 
         // ADD TRANSACTION TYPES AND RELATED VOUCHER NO

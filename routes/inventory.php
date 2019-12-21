@@ -143,3 +143,23 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
 
 
 });
+
+// REQUISITION ROUTES
+
+
+Route::group(['prefix' => 'requisition', 'namespace' => 'Inventory\Requisition', 'middleware' => ['auth']], function () {
+
+    Route::get('createReqIndex','CreateRequisitionCO@index');
+    Route::post('createReqIndex','CreateRequisitionCO@store');
+
+    Route::get('productList','CreateRequisitionCO@autocomplete');
+
+//    Route::get('itemSKU','ProductsCO@getSKU');
+//
+//    Route::get('getProductDBData','ProductsCO@getProductsDBData');
+//
+//    Route::post('products/update/{id}','ProductsCO@update');
+//    Route::delete('products/delete/{id}','ProductsCO@destroy');
+
+
+});

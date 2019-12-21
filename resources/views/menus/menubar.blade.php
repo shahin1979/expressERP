@@ -2,7 +2,7 @@
     <div class="sidebar-header">
         <a class="header-brand" href="{!! url('home') !!}">
             <div class="logo-img">
-                <img src="{!! asset('assets/images/logo_here.png') !!}" height="50px" width="50px" class="header-brand-img" alt="LOGO">
+                <img src="{!! $company->company_logo !!}" height="50px" width="100px" class="header-brand-img" alt="LOGO">
             </div>
             {{--<span class="text">BRBHS</span>--}}
         </a>

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Human\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common\Bangladesh;
-use App\Models\HRM\Common\Religion;
-use App\Models\HRM\Employee\EmpPersonal;
+use App\Models\Human\Common\Religion;
+use App\Models\Human\Employee\EmpPersonal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -95,37 +95,37 @@ class EmployeePersonalCO extends Controller
 
     public function store(Request $request)
     {
-        $request['COMPANY_ID'] = $this->company_id;
-        $request['USER_ID'] = $this->user_id;
-        $request['STATUS'] = true;
-        $request['RELIGION_ID'] = $request['religion_id'];
-        $request['NAME'] = $request['name'];
-        $request['EMPLOYEE_ID'] = $request['employee_id'];
-        $request['MARITAL_STATUS'] = $request->has('marital_status') ? true : false;
-        $request['SPOUSE_NAME'] = $request['spouse_name'];
-        $request['FATHER_NAME'] = $request['father_name'];
-        $request['MOTHER_NAME'] = $request['mother_name'];
-        $request['PHONE'] = $request['phone'];
-        $request['MOBILE'] = $request['mobile'];
-        $request['PM_ADDRESS1'] = $request['pm_address1'];
-        $request['PM_ADDRESS2'] = $request['pm_address2'];
-        $request['PM_DISTRICT'] = $request['pm_district'];
-        $request['PM_POST_CODE'] = $request['pm_post_code'];
-        $request['PR_ADDRESS1'] = $request['pr_address1'];
-        $request['PR_ADDRESS2'] = $request['pr_address2'];
-        $request['PR_DISTRICT'] = $request['pr_district'];
-        $request['PR_POST_CODE'] = $request['pr_post_code'];
-        $request['M_ADDRESS1'] = $request['m_address1'];
-        $request['M_ADDRESS2'] = $request['m_address2'];
-        $request['M_DISTRICT'] = $request['m_district'];
-        $request['M_POST_CODE'] = $request['m_post_code'];
-        $request['DOB'] = Carbon::createFromFormat('d-m-Y',$request['dob'])->format('Y-m-d') ;
-        $request['BLOOD_GROUP'] = $request['blood_group'];
-        $request['GENDER'] = $request['gender'];
-        $request['LAST_EDUCATION'] = $request['last_education'];
-        $request['PROF_SPECIALITY'] = $request['prof_speciality'];
-        $request['BIOGRAPHY'] = $request['biography'];
-        $request['NATIONAL_ID'] = $request['national_id'];
+        $request['company_id'] = $this->company_id;
+        $request['user_id'] = $this->user_id;
+        $request['status'] = true;
+//        $request['religion_id'] = $request['religion_id'];
+//        $request['name'] = $request['name'];
+//        $request['EMPLOYEE_ID'] = $request['employee_id'];
+        $request['marital_status'] = $request->has('marital_status') ? true : false;
+//        $request['SPOUSE_NAME'] = $request['spouse_name'];
+//        $request['FATHER_NAME'] = $request['father_name'];
+//        $request['MOTHER_NAME'] = $request['mother_name'];
+//        $request['PHONE'] = $request['phone'];
+//        $request['MOBILE'] = $request['mobile'];
+//        $request['PM_ADDRESS1'] = $request['pm_address1'];
+//        $request['PM_ADDRESS2'] = $request['pm_address2'];
+//        $request['PM_DISTRICT'] = $request['pm_district'];
+//        $request['PM_POST_CODE'] = $request['pm_post_code'];
+//        $request['PR_ADDRESS1'] = $request['pr_address1'];
+//        $request['PR_ADDRESS2'] = $request['pr_address2'];
+//        $request['PR_DISTRICT'] = $request['pr_district'];
+//        $request['PR_POST_CODE'] = $request['pr_post_code'];
+//        $request['M_ADDRESS1'] = $request['m_address1'];
+//        $request['M_ADDRESS2'] = $request['m_address2'];
+//        $request['M_DISTRICT'] = $request['m_district'];
+//        $request['M_POST_CODE'] = $request['m_post_code'];
+        $request['dob'] = Carbon::createFromFormat('d-m-Y',$request['dob'])->format('Y-m-d') ;
+//        $request['BLOOD_GROUP'] = $request['blood_group'];
+//        $request['GENDER'] = $request['gender'];
+//        $request['LAST_EDUCATION'] = $request['last_education'];
+//        $request['PROF_SPECIALITY'] = $request['prof_speciality'];
+//        $request['BIOGRAPHY'] = $request['biography'];
+//        $request['NATIONAL_ID'] = $request['national_id'];
 
 
 

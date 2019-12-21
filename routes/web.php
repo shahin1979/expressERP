@@ -31,6 +31,10 @@ Route::group(['prefix' => 'company', 'namespace' => 'Company', 'middleware' => [
 
     Route::get('activityLogsIndex','LogActivityCO@index');
 
+    Route::get('dataMigrationIndex','DataMigrationCO@index');
+    Route::post('dataMigrationIndex','DataMigrationCO@migrate');
+
+
 //    Route::get('account.group.data','AccountController@getGroupData');
 //    Route::post('account.group.add','AccountController@addGroupData');
 //    Route::any('account.group.update/{id}','AccountController@editGroupData');
