@@ -15,8 +15,8 @@ return [
     |
     */
 
-//    'default' => env('DB_CONNECTION', 'oracle'),
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'oracle'),
+//    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -109,8 +109,8 @@ return [
 
         'oracle' => [
             'driver' => 'oracle',
-            'host' => '192.168.88.137',
-//            'host' => '192.168.182.140',
+//            'host' => '192.168.88.137',
+            'host' => '192.168.182.140',
             'port' => '1521',
             'database' => 'ORCL',
             'service_name' => 'orcl.fmtech.com',

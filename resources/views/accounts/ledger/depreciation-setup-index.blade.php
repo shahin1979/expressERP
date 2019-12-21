@@ -190,6 +190,8 @@
         });
 
         var url = 'saveDepreciationAccount';
+        var table= $('#depreciation-table').DataTable();
+
         $.ajax({
             url: url,
             type: 'POST',
@@ -203,9 +205,10 @@
 
             success: function (data) {
 
-                alert(data.success);
-                $('#modal-new-project').modal('hide');
-                $('#project-table').DataTable().draw(false);
+                // alert(data.success);
+                $('#depreciation-setup').hide();
+                $('#depreciation-table').parents('div.dataTables_wrapper').first().show();
+                $('#depreciation-table').DataTable().draw(false);
             }
         });
     });

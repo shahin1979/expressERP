@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Ledger;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\DepreciationMO;
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Common\UserActivity;
 use App\Models\Company\FiscalPeriod;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -16,18 +17,17 @@ class DepreciationSetupCO extends Controller
     public function index()
     {
 
-//        $fpData =FiscalPeriod::query()
-//            ->where('depreciation',false)
-//            ->where('company_id',$this->company_id)
-//            ->orderBy('fpno', 'asc')->first();
-//
-//        dd($fpData);
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>42020,'user_id'=>$this->user_id
+            ]);
 
         $ledgers = GeneralLedger::query()->where('company_id',$this->company_id)
             ->where('type_code',11)->pluck('acc_name','acc_no');
 
         $contra = GeneralLedger::query()->where('company_id',$this->company_id)
-            ->where('acc_type','E')->pluck('acc_name','acc_no');
+            ->where('acc_type','E')->where('is_group',false)
+            ->orderBy('acc_name')
+            ->pluck('acc_name','acc_no');
 
         return view('accounts.ledger.depreciation-setup-index',compact('ledgers','contra'));
     }
@@ -60,7 +60,7 @@ class DepreciationSetupCO extends Controller
         $fpData =FiscalPeriod::query()
             ->where('depreciation',false)
             ->where('company_id',$this->company_id)
-            ->orderBy('fpno', 'asc')->first();
+            ->orderBy('fp_no', 'asc')->first();
 
 
 
@@ -69,14 +69,14 @@ class DepreciationSetupCO extends Controller
         try {
 
             DepreciationMO::query()->insert(
-                ['COMPANY_ID' => $this->company_id,
-                    'END_DATE' => $fpData->enddate,
-                    'START_DATE' =>$fpData->startdate,
-                    'ACC_NO' => $request['acc_no'],
-                    'DEP_RATE' => $request['rate'],
-                    'CONTRA_ACC'=>$request['contra_acc'],
-                    'FP_NO'=>$fpData->fpno,
-                    'USER_ID' => $this->user_id
+                ['company_id' => $this->company_id,
+                    'end_date' => $fpData->end_date,
+                    'start_date' =>$fpData->start_date,
+                    'acc_no' => $request['acc_no'],
+                    'dep_rate' => $request['rate'],
+                    'contra_acc'=>$request['contra_acc'],
+                    'fp_no'=>$fpData->fp_no,
+                    'user_id' => $this->user_id
                 ]
             );
 

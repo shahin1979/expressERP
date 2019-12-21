@@ -60,15 +60,15 @@ class GLAccountHeadCo extends Controller
 
     public function store(Request $request)
     {
-        $group = GeneralLedger::query()->where('ledger_code',$request['LEDGER_CODE'])->where('is_group',true)->first();
+        $group = GeneralLedger::query()->where('ledger_code',$request['ledger_code'])->where('is_group',true)->first();
 
-        $request['COMPANY_ID'] = $this->company_id;
-        $request['USER_ID'] = $this->user_id;
-        $max_acc = GeneralLedger::query()->where('ledger_code',$request['LEDGER_CODE'])->max('acc_no');
-        $request['ACC_NO'] = $max_acc + 2;
-        $request['ACC_TYPE'] = $group->acc_type;
-        $request['TYPE_CODE'] = $group->type_code;
-        $request['IS_GROUP'] = false;
+        $request['company_id'] = $this->company_id;
+        $request['user_id'] = $this->user_id;
+        $max_acc = GeneralLedger::query()->where('ledger_code',$request['ledger_code'])->max('acc_no');
+        $request['acc_no'] = $max_acc + 2;
+        $request['acc_type'] = $group->acc_type;
+        $request['type_code'] = $group->type_code;
+        $request['is_group'] = false;
 
         DB::begintransaction();
 
@@ -119,7 +119,7 @@ class GLAccountHeadCo extends Controller
     public function update(Request $request, $id)
     {
         $ledger = GeneralLedger::query()->find($id);
-        $ledger->acc_name = $request['ACC_NAME'];
+        $ledger->acc_name = $request['acc_name'];
 
         DB::beginTransaction();
 
