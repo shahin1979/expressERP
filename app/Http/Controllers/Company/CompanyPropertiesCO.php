@@ -63,6 +63,7 @@ class CompanyPropertiesCO extends Controller
                     'project' => $request->has('hProject') ? 1 : 0,
                     'auto_ledger' => $request->has('hAuto_ledger') ? 1 : 0,
                     'fp_start' => Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
+                    'trans_min_date'=> Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
                     'currency' => $currency,
                     'posted' => 1
                 ]

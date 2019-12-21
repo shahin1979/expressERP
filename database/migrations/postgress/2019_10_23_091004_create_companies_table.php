@@ -26,6 +26,8 @@ class CreateCompaniesTable extends Migration
             $table->string('phone_no',200)->nullable();;
             $table->string('email',190)->unique()->nullable();
             $table->string('website',190)->nullable();
+            $table->string('head_office_address',200)->nullable();
+            $table->string('factory_address',200)->nullable();
             $table->char('currency',3)->default('BDT');
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->boolean('status')->default(true);

@@ -23,6 +23,8 @@ class CreateCompaniesTable extends Migration
             $table->string('state',200)->nullable();
             $table->string('post_code',200)->nullable();;
             $table->string('country',100);
+            $table->string('head_office_address',200)->nullable();
+            $table->string('factory_address',200)->nullable();
             $table->string('phone_no',200)->nullable();;
             $table->string('email',190)->unique()->nullable();
             $table->string('website',190)->nullable();

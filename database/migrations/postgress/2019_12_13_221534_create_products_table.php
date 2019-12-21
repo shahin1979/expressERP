@@ -30,18 +30,14 @@ class CreateProductsTable extends Migration
             $table->foreign('subcategory_id')->references('id')->on('sub_categories')->onDelete('CASCADE');
             $table->boolean('multi_unit')->default(0);
             $table->string('unit_name',10);
-            $table->foreign('unit_name')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->string('second_unit',10)->nullable();
-            $table->foreign('second_unit')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->string('third_unit',10)->nullable();
-            $table->foreign('third_unit')->references('name')->on('item_units')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->boolean('variants')->default(0);
             $table->integer('size_id')->unsigned()->nullable();
             $table->foreign('size_id')->references('id')->on('item_sizes')->onDelete('CASCADE');
             $table->integer('color_id')->unsigned()->nullable();
             $table->foreign('color_id')->references('id')->on('item_colors')->onDelete('CASCADE');
             $table->string('sku', 50)->nullable();
-            $table->unique(array('company_id','sku'));
             $table->integer('model_id')->unsigned()->nullable();
             $table->foreign('model_id')->references('id')->on('item_models')->onDelete('CASCADE');
             $table->integer('tax_id')->unsigned()->nullable();
@@ -108,6 +104,8 @@ class CreateProductsTable extends Migration
             $table->index('subcategory_id');
             $table->index('name');
             $table->index('unit_name');
+            $table->unique(array('company_id', 'name'));
+            $table->unique(array('company_id','sku'));
         });
 
 

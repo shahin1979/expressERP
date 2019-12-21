@@ -24,9 +24,9 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'company_id'=>1,
             'role_id'=>2,
-            'full_name' => 'Admin',
-            'name' => 'Admin',
-            'email' => 'admin@abcmail.com',
+            'full_name' => 'Matin Admin',
+            'name' => 'Matin',
+            'email' => 'matin@matincottonmills.com',
             'password' => bcrypt('pass123'),
             'pass_exp_date'=>'2020-11-24'
         ]);
@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
             'role_id'=>3,
             'full_name' => 'Atiqur Rahman Khadem',
             'name' => 'Khadem',
-            'email' => 'khadem@abcmail.com',
+            'email' => 'khadem@matincottonmills.com',
             'password' => bcrypt('pass123'),
             'pass_exp_date'=>'2020-11-24'
         ]);
@@ -45,9 +45,9 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'company_id'=>2,
             'role_id'=>2,
-            'full_name' => 'F M Technologies',
-            'name' => 'FMAdmin',
-            'email' => 'FMAdmin@fmtechbd.com',
+            'full_name' => 'Mumanu Admin',
+            'name' => 'Mumanu',
+            'email' => 'mumanu@mumanupolyester.com',
             'password' => bcrypt('pass123'),
             'pass_exp_date'=>'2020-11-24'
         ]);
@@ -57,7 +57,7 @@ class UsersTableSeeder extends Seeder
             'role_id'=>3,
             'full_name' => 'Sharif Muhammed Shahin',
             'name' => 'Shahin',
-            'email' => 'shahin@fmtechbd.com',
+            'email' => 'shahin@mumanupolyester.com',
             'password' => bcrypt('pass123'),
             'pass_exp_date'=>'2020-11-24'
         ]);

@@ -18,8 +18,10 @@ class CreateAppModulesTable extends Migration
             $table->string('module_name',150);
             $table->string('description',255);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->index('module_name');
         });
+
     }
 
     /**

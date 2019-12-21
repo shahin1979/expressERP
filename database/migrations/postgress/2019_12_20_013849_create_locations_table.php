@@ -26,6 +26,8 @@ class CreateLocationsTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->unique(['company_id', 'name']);
+            $table->index('name');
+            $table->index('company_id');
         });
     }
 

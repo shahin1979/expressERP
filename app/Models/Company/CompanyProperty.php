@@ -26,6 +26,9 @@ class CompanyProperty extends Model
         'capital',
         'currency',
         'fp_start',
+        'trans_min_date',
+        'company_logo',
+        'company_logo2',
         'posted',
     ];
 

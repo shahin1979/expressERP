@@ -31,8 +31,12 @@ class CreateUserPrivilegesTable extends Migration
             $table->bigInteger('approver_id')->unsigned();
             $table->foreign('approver_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->index('user_id');
+            $table->index('company_id');
         });
+
+
     }
 
     /**

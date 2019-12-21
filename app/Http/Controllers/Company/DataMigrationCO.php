@@ -36,10 +36,10 @@ class DataMigrationCO extends Controller
 
         try {
 
-            DB::statement('TRUNCATE TABLE item_units RESTART identity CASCADE;');
-            DB::statement('TRUNCATE TABLE categories RESTART identity CASCADE;');
-            DB::statement('TRUNCATE TABLE sub_categories RESTART identity CASCADE;');
-            DB::statement('TRUNCATE TABLE products RESTART identity CASCADE;');
+//            DB::statement('TRUNCATE TABLE item_units RESTART identity CASCADE;');
+//            DB::statement('TRUNCATE TABLE categories RESTART identity CASCADE;');
+//            DB::statement('TRUNCATE TABLE sub_categories RESTART identity CASCADE;');
+//            DB::statement('TRUNCATE TABLE products RESTART identity CASCADE;');
 
             foreach ($units as $unit) {
                 ItemUnit::query()->insert([

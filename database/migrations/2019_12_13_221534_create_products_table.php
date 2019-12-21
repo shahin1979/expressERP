@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',160);
             $table->unsignedBigInteger('product_code');
-            $table->unique(array('company_id', 'product_code'));
+            $table->unique(array('company_id', 'name'));
 //            $table->integer('relationship_id')->unsigned()->nullable()->index('FK_products_relationships');
 //            $table->foreign('relationship_id')->references('id')->on('relationships')->onDelete('CASCADE');
             $table->integer('brand_id')->unsigned()->nullable();
@@ -103,6 +103,7 @@ class CreateProductsTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field
+            $table->unique(array('company_id', 'name'));
             $table->index('company_id');
             $table->index('category_id');
             $table->index('subcategory_id');

@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'oracle'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 //    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
@@ -106,22 +106,19 @@ return [
 //            'prefix_schema' => env('DB_SCHEMA_PREFIX', ''),
 //            'edition'       => env('DB_EDITION', 'ora$base'),
 //        ],
-
-        'oracle' => [
-            'driver' => 'oracle',
+//
+//        'oracle' => [
+//            'driver' => 'oracle',
 //            'host' => '192.168.88.137',
-            'host' => '192.168.182.140',
-            'port' => '1521',
-            'database' => 'ORCL',
-            'service_name' => 'orcl.fmtech.com',
-            'username' => 'EXPRESS',
-            'password' => 'EXPRESS##123',
-            'charset' => '',
-            'prefix' => '',
-//            'options'  => [
-//                PDO::ATTR_CASE => PDO::CASE_UPPER,
-//                ]
-        ]
+////            'host' => '192.168.182.140',
+//            'port' => '1521',
+//            'database' => 'ORCL',
+//            'service_name' => 'orcl.fmtech.com',
+//            'username' => 'EXPRESS',
+//            'password' => 'EXPRESS##123',
+//            'charset' => '',
+//            'prefix' => '',
+//        ]
     ],
 
     /*

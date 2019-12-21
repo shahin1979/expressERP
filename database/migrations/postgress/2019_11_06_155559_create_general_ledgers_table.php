@@ -87,6 +87,8 @@ class CreateGeneralLedgersTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->unique(array('company_id', 'acc_no'));
+            $table->unique(array('company_id', 'acc_name'));
+            $table->index('company_id');
             $table->index('acc_no');
             $table->index('acc_name');
             $table->index('ledger_code');

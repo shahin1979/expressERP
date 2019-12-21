@@ -32,6 +32,7 @@ class CreateItemTaxesTable extends Migration
             $table->index('name');
             $table->index('company_id');
             $table->index('acc_no');
+            $table->unique(array('company_id', 'name'));
         });
 
 

@@ -16,7 +16,7 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('group_id')->unsigned();
-            $table->foreign('group_id')->references('id')->on('group_companies')->onDelete('NO ACTION');
+            $table->foreign('group_id')->references('id')->on('group_companies')->onDelete('CASCADE');
             $table->string('name',240);
             $table->string('address',200);
             $table->string('city',200);
@@ -26,12 +26,16 @@ class CreateCompaniesTable extends Migration
             $table->string('phone_no',200)->nullable();;
             $table->string('email',190)->unique()->nullable();
             $table->string('website',190)->nullable();
+            $table->string('head_office_address',200)->nullable();
+            $table->string('factory_address',200)->nullable();
             $table->char('currency',3)->default('BDT');
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->boolean('status')->default(true);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
+
+
     }
 
     /**
