@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
+    <script src="{!! asset('assets/js/jquery-3.3.1.min.js') !!}"></script>
     <script src="{!! asset('assets/js/bootstrap3-typeahead.js') !!}"></script>
 
     <nav aria-label="breadcrumb">
@@ -14,7 +14,7 @@
     <div class="col-sm-10 text-left col-sm-offset-1">
         <div class="controls">
 
-            {!! Form::open(['url'=>'createReqIndex','method' => 'POST']) !!}
+            {!! Form::open(['url'=>'requisition/createReqIndex','method' => 'POST']) !!}
             {{ csrf_field() }}
 
             {{--<div class="row col-md-6 col-md-offset-1" style="border-right: solid">--}}
@@ -56,13 +56,8 @@
                                 <button style="margin: 0 auto" type="button" onclick="$(this).tooltip('destroy'); $('#item-row-{{ $item_row }}').remove();" data-toggle="tooltip" title="delete-item" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                             </td>
                             <td>
-                                <div class="form-group mx-sm-6 mb-1">
-                                    <label for="search_name" class="sr-only">Search by ID/Name</label>
-                                    <input type="text" class="form-control typeahead position-relative" name="search_name" id="search" placeholder="search by name or id" autocomplete="off">
-                                </div>
-{{--                                    <input class="form-control typeahead" required="required" placeholder="Enter Product" name="item[{{ $item_row }}][name]" type="text" id="item-name-{{ $item_row }}" autocomplete="off">--}}
-{{--                                    <input name="item[{{ $item_row }}][item_id]" type="hidden" id="item-id-{{ $item_row }}">--}}
-
+                                <input class="form-control typeahead position-relative" required="required" placeholder="Enter Product" name="item[{{ $item_row }}][name]" type="text" id="item-name-{{ $item_row }}" autocomplete="off">
+                                <input name="item[{{ $item_row }}][item_id]" type="hidden" id="item-id-{{ $item_row }}">
                             </td>
                             <td>
                                 <input class="form-control text-center" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}">
@@ -88,13 +83,6 @@
             {!! Form::submit('SUBMIT',['class'=>'btn btn-primary button-control pull-right']) !!}
         </div>
         {!! Form::close() !!}
-
-        {{--{!! Form::open(['url'=>'inventoryHome', 'method' => 'GET']) !!}--}}
-
-        {{--<div class="col-md-6">--}}
-        {{--{!! Form::submit('EXIT',['class'=>'btn btn-primary button-control pull-right']) !!}--}}
-        {{--</div>--}}
-        {{--{!! Form::close() !!}--}}
 
     </div>
 

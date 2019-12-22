@@ -33,4 +33,9 @@ class CreateRequisitionCO extends Controller
 
         return response()->json($items);
     }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
 }

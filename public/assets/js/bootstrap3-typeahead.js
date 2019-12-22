@@ -678,7 +678,7 @@
             },
             bootstrap4: {
                 menu: '<div class="typeahead dropdown-menu" role="listbox"></div>',
-                item: '<button class="dropdown-item" style="color: #0a0a0a" role="option"></button>',
+                item: '<button class="dropdown-item" role="option"></button>',
                 itemContentSelector: '.dropdown-item',
                 headerHtml: '<h6 class="dropdown-header"></h6>',
                 headerDivider: '<div class="dropdown-divider"></div>'
