@@ -15,7 +15,7 @@ class CreateItemSizesTable extends Migration
     {
         Schema::create('item_sizes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('size',80);
             $table->string('description',120)->nullable();
@@ -26,7 +26,7 @@ class CreateItemSizesTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('size');
-            $table->unique(array('company_id', 'name'));
+            $table->unique(array('company_id', 'size'));
             $table->index('company_id');
         });
 

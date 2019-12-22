@@ -15,7 +15,7 @@ class CreateItemBrandsTable extends Migration
     {
         Schema::create('item_brands', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name', 50);
             $table->string('manufacturer',120)->nullable();

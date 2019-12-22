@@ -186,7 +186,7 @@ class CompanyPropertiesCO extends Controller
                     ['company_id'=>$this->company_id,'acc_no'=>'10112100'],
                     [
                         'ledger_code'=>'101',
-                        'acc_name'=>'CASH IN HAND',
+                        'acc_name'=>'CASH ON HAND',
                         'acc_type'=>'A',
                         'type_code'=>12,
                         'acc_range'=>'10112999',
@@ -203,7 +203,7 @@ class CompanyPropertiesCO extends Controller
                         'acc_name'=>'Cash In Hand',
                         'acc_type'=>'A',
                         'type_code'=>12,
-                        'acc_range'=>'10112101',
+                        'acc_range'=>'10112102',
                         'is_group'=>false,
                         'currency'=>$currency,
                         'user_id'=>$this->user_id

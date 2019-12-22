@@ -15,7 +15,7 @@ class CreateGodownsTable extends Migration
     {
         Schema::create('godowns', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',60);
             $table->string('address',200)->nullable();
