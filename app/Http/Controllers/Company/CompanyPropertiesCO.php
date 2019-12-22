@@ -203,7 +203,7 @@ class CompanyPropertiesCO extends Controller
                         'acc_name'=>'Cash In Hand',
                         'acc_type'=>'A',
                         'type_code'=>12,
-                        'acc_range'=>'10112101',
+                        'acc_range'=>'10112102',
                         'is_group'=>false,
                         'currency'=>$currency,
                         'user_id'=>$this->user_id
