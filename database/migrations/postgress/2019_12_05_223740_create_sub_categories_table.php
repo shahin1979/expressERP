@@ -31,6 +31,7 @@ class CreateSubCategoriesTable extends Migration
             $table->softDeletes();
             $table->index('name');
             $table->index('company_id');
+            $table->unique(array('company_id', 'name'));
         });
 
 

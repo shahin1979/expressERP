@@ -33,6 +33,7 @@ class CreateUserPrivilegesTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->index('user_id');
+            $table->index('company_id');
         });
 
 

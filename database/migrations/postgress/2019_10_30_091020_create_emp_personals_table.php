@@ -64,6 +64,7 @@ class CreateEmpPersonalsTable extends Migration
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->index('name');
             $table->index('employee_id');
+            $table->index('company_id');
         });
 
 

@@ -32,7 +32,7 @@ class CreateProjectsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->unique(array('company_id', 'project_code'));
+            $table->unique(array('company_id', 'project_name'));
 
 
         });

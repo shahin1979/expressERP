@@ -9,6 +9,12 @@
 {{--                    </div>--}}
 
 {{--                </a>--}}
+                <a class="header-brand" href="{!! url('home') !!}">
+                    <div class="logo-img">
+                        <img src="{!! isset($company->company_logo) !!}" height="40px" width="150px" class="header-brand-img" alt="LOGO">
+                    </div>
+                </a>
+
                 <div style="padding-left: 10rem; font-weight: bold; font-size: 1.3rem">{!! session('company_name') !!}</div>
 
             </div>

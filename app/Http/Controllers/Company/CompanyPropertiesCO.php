@@ -63,6 +63,7 @@ class CompanyPropertiesCO extends Controller
                     'project' => $request->has('hProject') ? 1 : 0,
                     'auto_ledger' => $request->has('hAuto_ledger') ? 1 : 0,
                     'fp_start' => Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
+                    'trans_min_date'=> Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
                     'currency' => $currency,
                     'posted' => 1
                 ]
@@ -81,6 +82,14 @@ class CompanyPropertiesCO extends Controller
             }
 
 
+            if($request->hasfile('company_logo'))
+            {
+                $file = $request->file('company_logo');
+                $name = $this->company_id.'_logo.'.$file->getClientOriginalExtension();
+                $file->move(public_path().'/company/', $name);
+
+                CompanyProperty::query()->where('company_id',$this->company_id)->update(['company_logo'=>'company/'.$name]);
+            }
 
 
         // ADD TRANSACTION TYPES AND RELATED VOUCHER NO

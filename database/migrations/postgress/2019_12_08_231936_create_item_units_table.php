@@ -17,7 +17,7 @@ class CreateItemUnitsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
-            $table->string('name',10)->unique();
+            $table->string('name',10);
             $table->string('formal_name',60)->nullable();
             $table->integer('no_of_decimal_places',false)->default(2);
             $table->boolean('status')->default(true);
@@ -27,6 +27,9 @@ class CreateItemUnitsTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->index('name');
+            $table->unique(array('company_id', 'name'));
+            $table->index('company_id');
+
         });
     }
 

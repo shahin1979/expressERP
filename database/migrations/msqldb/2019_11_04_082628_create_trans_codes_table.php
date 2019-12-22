@@ -22,7 +22,11 @@ class CreateTransCodesTable extends Migration
             $table->bigInteger('last_trans_id',false);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->index('trans_code');
+            $table->index('company_id');
         });
+
+
     }
 
     /**

@@ -23,6 +23,7 @@ class CreateTransCodesTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->index('trans_code');
+            $table->index('company_id');
         });
 
 

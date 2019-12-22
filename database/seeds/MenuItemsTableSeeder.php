@@ -1,15 +1,15 @@
 <?php
-
+//
 use Illuminate\Database\Seeder;
 use App\Models\Common\MenuItem;
-
+//
 class MenuItemsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+//    /**
+//     * Run the database seeds.
+//     *
+//     * @return void
+//     */
     public function run()
     {
         MENUITEM::create( [
@@ -76,6 +76,19 @@ class MenuItemsTableSeeder extends Seeder
             'name'=>'Activity Logs',
             'show'=>'1',
             'url'=>'company/activityLogsIndex',
+            'status'=>'1'
+        ] );
+
+            MENUITEM::create( [
+            'id'=>11030,
+            'company_id'=>1,
+            'module_id'=>1,
+            'nav_label'=>1,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'1A',
+            'name'=>'Data Migration',
+            'show'=>'1',
+            'url'=>'company/dataMigrationIndex',
             'status'=>'1'
         ] );
 
@@ -204,6 +217,20 @@ class MenuItemsTableSeeder extends Seeder
             'status'=>'1'
         ] );
 
+        MENUITEM::create( [
+            'id'=>31075,
+            'company_id'=>1,
+            'module_id'=>3,
+            'nav_label'=>3,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'3A',
+            'name'=>'Add New Location',
+            'show'=>'1',
+            'url'=>'location/locationIndex',
+            'status'=>'1'
+        ] );
+
+
 
         MENUITEM::create( [
             'id'=>33000,
@@ -229,7 +256,7 @@ class MenuItemsTableSeeder extends Seeder
             'menu_prefix'=>'3D',
             'name'=>'Add New Resource',
             'show'=>'1',
-            'url'=>'home',
+            'url'=>'employee/empPersonalIndex',
             'status'=>'1'
         ] );
 
@@ -608,6 +635,38 @@ class MenuItemsTableSeeder extends Seeder
             'url'=>'product/productIndex',
             'status'=>'1'
         ] );
+
+
+        MENUITEM::create( [
+            'id'=>54000,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'5B',
+            'name'=>'REQUISITION',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>54005,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5B',
+            'name'=>'Create Requisition',
+            'show'=>'1',
+            'url'=>'requisition/createReqIndex',
+            'status'=>'1'
+        ] );
+
+
+
 
 
         MENUITEM::create( [

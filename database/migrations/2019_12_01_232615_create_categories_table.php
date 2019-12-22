@@ -30,6 +30,7 @@ class CreateCategoriesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->unique(array('company_id', 'name'));
             $table->index('name');
             $table->index('company_id');
         });

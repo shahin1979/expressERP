@@ -13,28 +13,28 @@ class CompanyTableSeeder extends Seeder
     {
         DB::table('companies')->insert([
             'group_id'=>1,
-            'name' => 'Spider IT Limited',
-            'address' => '77/A, East Rajabazar,West Panthapath, Dhaka-1215',
-            'city' => 'Dhaka',
+            'name' => 'M.A Matin Cotton Mills Limited',
+            'address' => '7, Mujib Sarak, Sirajganj, Bangladesh',
+            'city' => 'Sirajganj',
             'country'=>'Bangladesh',
-            'email' => 'spider@abcmail.com',
-            'phone_no'=>'01709635863',
+            'email' => 'taj.matincotton@gmail.com',
+            'phone_no'=>'+88-0751-63314, +88-0751-62902 ',
             'post_code'=>'1215',
             'currency' =>'BDT',
-            'website' => 'www.spider.com'
+            'website' => 'http://matincottonmills.com/'
         ]);
 
         DB::table('companies')->insert([
             'group_id'=>1,
-            'name' => 'FM Technologies Limited',
-            'address' => 'New Elephant Road, Dhaka-1215',
+            'name' => 'MUMANU Polyester Industries Ltd',
+            'address' => '3/8 A, Block: D, Dhaka',
             'city' => 'Dhaka',
             'country'=>'Bangladesh',
-            'email' => 'fmtech@fmtechbd.com',
-            'phone_no'=>'01709635863',
+            'email' => 'mumanupolyester@gmail.com',
+            'phone_no'=>'01928-281818',
             'post_code'=>'1215',
             'currency' =>'BDT',
-            'website' => 'www.fmtechbd.com'
+            'website' => 'https://mumanupsf.com/'
         ]);
     }
 }
