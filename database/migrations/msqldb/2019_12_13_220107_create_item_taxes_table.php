@@ -15,7 +15,7 @@ class CreateItemTaxesTable extends Migration
     {
         Schema::create('item_taxes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',120);
             $table->char('applicable_on',1)->default('S')->comment('P=Purchase ; S= Sales B=Both ;');

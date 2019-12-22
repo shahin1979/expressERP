@@ -15,7 +15,7 @@ class CreateItemUnitsTable extends Migration
     {
         Schema::create('item_units', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',10);
             $table->string('formal_name',60)->nullable();

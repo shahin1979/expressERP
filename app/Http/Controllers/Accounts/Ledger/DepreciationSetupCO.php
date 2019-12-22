@@ -7,6 +7,7 @@ use App\Models\Accounts\Ledger\DepreciationMO;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\UserActivity;
 use App\Models\Company\FiscalPeriod;
+use App\Traits\AccountTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,8 +15,12 @@ use Yajra\DataTables\DataTables;
 
 class DepreciationSetupCO extends Controller
 {
+    use AccountTrait;
+
     public function index()
     {
+
+//        dd($this->get_account_balance('10112101',$this->company_id));
 
         UserActivity::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'menu_id'=>42020,'user_id'=>$this->user_id

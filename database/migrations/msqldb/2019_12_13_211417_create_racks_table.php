@@ -15,10 +15,10 @@ class CreateRacksTable extends Migration
     {
         Schema::create('racks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',60);
-            $table->integer('godown_id')->unsigned()->nullable();
+            $table->bigInteger('godown_id')->unsigned()->nullable();
             $table->foreign('godown_id')->references('id')->on('godowns')->onDelete('CASCADE');
             $table->boolean('status')->default(True);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');

@@ -9,6 +9,7 @@ use App\Models\Inventory\Product\ItemUnit;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -16,6 +17,9 @@ class DataMigrationCO extends Controller
 {
     public function index()
     {
+//        dd(Config::get('database.default'));
+
+
         UserActivity::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'menu_id'=>11030,'user_id'=>$this->user_id
             ]);
@@ -25,7 +29,7 @@ class DataMigrationCO extends Controller
 
     public function migrate()
     {
-        $connection = DB::connection('mysql');
+        $connection = DB::connection('mcottondb');
 
         $units = $connection->table('item_units')->get();
         $data = $connection->table('item_groups')->get();
@@ -36,10 +40,27 @@ class DataMigrationCO extends Controller
 
         try {
 
-//            DB::statement('TRUNCATE TABLE item_units RESTART identity CASCADE;');
-//            DB::statement('TRUNCATE TABLE categories RESTART identity CASCADE;');
-//            DB::statement('TRUNCATE TABLE sub_categories RESTART identity CASCADE;');
-//            DB::statement('TRUNCATE TABLE products RESTART identity CASCADE;');
+            if(Config::get('database.default') == 'mysql')
+            {
+
+                DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+
+                DB::statement('TRUNCATE TABLE item_units;');
+                DB::statement('TRUNCATE TABLE categories;');
+                DB::statement('TRUNCATE TABLE sub_categories;');
+                DB::statement('TRUNCATE TABLE products;');
+
+                DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+            }
+
+            if(Config::get('database.default') == 'pgsql')
+            {
+                DB::statement('TRUNCATE TABLE item_units RESTART identity CASCADE;');
+                DB::statement('TRUNCATE TABLE categories RESTART identity CASCADE;');
+                DB::statement('TRUNCATE TABLE sub_categories RESTART identity CASCADE;');
+                DB::statement('TRUNCATE TABLE products RESTART identity CASCADE;');
+            }
+
 
             foreach ($units as $unit) {
                 ItemUnit::query()->insert([
@@ -108,6 +129,9 @@ class DataMigrationCO extends Controller
                 }
 
             }
+
+
+
 
         }catch (\Exception $e)
         {
