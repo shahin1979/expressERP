@@ -8,6 +8,7 @@ use App\Models\Inventory\Product\Category;
 use App\Models\Inventory\Product\ItemUnit;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SubCategory;
+use App\Traits\MigrationTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,8 @@ use Illuminate\Support\Str;
 
 class DataMigrationCO extends Controller
 {
+    use MigrationTrait;
+
     public function index()
     {
 //        dd(Config::get('database.default'));
@@ -29,6 +32,12 @@ class DataMigrationCO extends Controller
 
     public function migrate()
     {
+
+//        $output = $this->matinDB($this->company_id);
+        $output = $this->mumanuDB($this->company_id);
+
+        dd($output);
+
         $connection = DB::connection('mcottondb');
 
         $units = $connection->table('item_units')->get();

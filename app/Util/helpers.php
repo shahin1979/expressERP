@@ -101,8 +101,8 @@ if (!function_exists('date_validation')) {
      */
     function date_validation($tr_date)
     {
-        $start_date = FiscalPeriod::query()->where('status',true)->where('fpno',1)->value('startdate');
-        $end_date = FiscalPeriod::query()->where('status',true)->where('fpno',5)->value('enddate');
+        $start_date = FiscalPeriod::query()->where('status',true)->where('fp_no',1)->value('start_date');
+        $end_date = FiscalPeriod::query()->where('status',true)->where('fp_no',5)->value('end_date');
 
         if($tr_date >= $start_date and $tr_date <= $end_date)
         {
@@ -114,12 +114,12 @@ if (!function_exists('date_validation')) {
 }
 
 if (!function_exists('get_fp_from_month_sl')) {
-    function get_fp_from_month_sl($monthsl, $company_id)
+    function get_fp_from_month_sl($month_serial, $company_id)
     {
 
-        $fpno = FiscalPeriod::where('MONTHSL',(int)$monthsl)
+        $fpno = FiscalPeriod::where('month_serial',(int)$month_serial)
             ->where('company_id',$company_id)
-            ->value('fpno');
+            ->value('fp_no');
 
         return $fpno;
     }

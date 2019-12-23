@@ -256,7 +256,7 @@ class CompanyPropertiesCO extends Controller
                     ['company_id'=>$this->company_id,'acc_no'=>'50112100'],
                     [
                         'ledger_code'=>'501',
-                        'acc_name'=>'RETAINED EARNINGS',
+                        'acc_name'=>'RETAINED EARNINGS A/C',
                         'acc_type'=>'C',
                         'type_code'=>51,
                         'acc_range'=>'50112999',

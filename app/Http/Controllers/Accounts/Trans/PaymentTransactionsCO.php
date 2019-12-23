@@ -206,7 +206,7 @@ class PaymentTransactionsCO extends Controller
                 'fiscal_year' => $this->fiscal_year,
                 'trans_desc1' => $request->filled('trans_desc2') ? $request['trans_desc2'] : 'Payment Transaction',
                 'trans_desc2' => 'Debit Transaction',
-                'post_date' => False,
+                'post_flag' => False,
                 'user_id' => $this->user_id
             ]);
 
