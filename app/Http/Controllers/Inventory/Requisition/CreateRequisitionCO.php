@@ -4,9 +4,16 @@ namespace App\Http\Controllers\Inventory\Requisition;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
+use App\Models\Company\TransCode;
 use App\Models\Human\Admin\Location;
+use App\Models\Inventory\Movement\Requisition;
+use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class CreateRequisitionCO extends Controller
 {
@@ -27,7 +34,7 @@ class CreateRequisitionCO extends Controller
     {
         $term = $request['term'];
 
-        $items = ProductMO::select('id as item_id', 'name','tax_id','unit_price')
+        $items = ProductMO::query()->select('id as item_id', 'name','tax_id','unit_price')
             ->where('company_id',$this->company_id)
             ->where('name', 'LIKE', '%'.$term.'%')->get();
 
@@ -36,6 +43,55 @@ class CreateRequisitionCO extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        DB::beginTransaction();
+
+        try{
+
+            $tr_code =  TransCode::query()->where('company_id',$this->company_id)->where('trans_code','RQ')
+                ->lockForUpdate()->first();
+            $req_no = $tr_code->last_trans_id;
+
+            $request['company_id'] = $this->company_id;
+            $request['ref_no'] = $req_no;
+            $request['req_date'] = Carbon::now();
+            $request['user_id'] = $this->user_id;
+
+            $inserted = Requisition::query()->create($request->all()); //Insert Data Into Requisition Table
+
+            if ($request['item']) {
+                foreach ($request['item'] as $item) {
+
+                    $requisition_item['company_id'] = $this->company_id;
+                    $requisition_item['ref_no'] = $req_no;
+                    $requisition_item['ref_id'] = $inserted->id;
+                    $requisition_item['ref_type'] = 'R'; //Requisition
+                    $requisition_item['to_whom'] = $request['requisition_for'];
+                    $requisition_item['tr_date']= Carbon::now();
+                    $requisition_item['product_id'] = $item['item_id'];
+                    $requisition_item['quantity'] = $item['quantity'];
+                    $requisition_item['remarks'] = $item['remarks'];
+
+                    TransProduct::query()->create($requisition_item);
+
+                    $request->session()->flash('alert-success', 'Requisition Data Successfully Completed For Approval');
+
+                }
+            }
+
+            TransCode::query()->where('company_id',$this->company_id)
+                ->where('trans_code','RQ')
+                ->increment('last_trans_id');
+
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return redirect()->back()->with('error','Requisition Failed To Save '.$error);
+        }
+
+        DB::commit();
+
+        return redirect()->action('Inventory\Requisition\CreateRequisitionCO@index')->with('success','Requisition Data Saved');
+
     }
 }

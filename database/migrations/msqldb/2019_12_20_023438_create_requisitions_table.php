@@ -17,7 +17,7 @@ class CreateRequisitionsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
-            $table->integer('ref_no',false)->unsigned();
+            $table->bigInteger('ref_no')->unsigned();
             $table->char('req_type',1)->comments('P = Purchase, C = Consumption'); //1 for consumption 2 for purchase
             $table->date('req_date');
             $table->bigInteger('requisition_for')->unsigned()->comment('From Location Table Type F');
