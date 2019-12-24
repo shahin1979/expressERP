@@ -79,7 +79,7 @@ if (!function_exists('get_account_balance')) {
     function get_account_balance($acc_no, $company_id)
     {
         $balance = GeneralLedger::query()->where('company_id',$company_id)
-            ->where('acc_no','10112101')->value('curr_bal');
+            ->where('acc_no',$acc_no)->value('curr_bal');
 
 //        dd($balance);
 
@@ -137,5 +137,47 @@ if (!function_exists('get_currency')) {
     }
 }
 
+if (!function_exists('convertToCamelCase')) {
 
+    function convertToCamelCase(string $value, string $encoding = null) {
+        if ($encoding == null)
+        {
+            $encoding = mb_internal_encoding();
+        }
 
+        $stripChars = "()[]{}=?!.:,-_+\"#~/";
+        $len = strlen( $stripChars );
+
+            for($i = 0; $len > $i; $i ++)
+            {
+                $value = str_replace( $stripChars [$i], " ", $value );
+            }
+        $value = mb_convert_case( $value, MB_CASE_TITLE, $encoding );
+        $value = preg_replace( "/\s+/", " ", $value );
+
+        return $value;
+    }
+}
+
+if (!function_exists('dateDifference')) {
+
+    /**
+     *
+     * @param int $min
+     * @param int $max
+     *
+     * @param int $bytes
+     *
+     * @return int|number
+     */
+    function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' )
+    {
+        $datetime1 = date_create($date_1);
+        $datetime2 = date_create($date_2);
+
+        $interval = date_diff($datetime1, $datetime2);
+
+        return $interval->format($differenceFormat);
+    }
+
+}

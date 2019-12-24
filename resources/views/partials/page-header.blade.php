@@ -11,7 +11,7 @@
 {{--                </a>--}}
                 <a class="header-brand" href="{!! url('home') !!}">
                     <div class="logo-img">
-                        <img src="{!! isset($company->company_logo) !!}" height="40px" width="150px" class="header-brand-img" alt="LOGO">
+                        <img src="{!! isset($users_company->company_logo) !!}" height="40px" width="150px" class="header-brand-img" alt="LOGO">
                     </div>
                 </a>
 

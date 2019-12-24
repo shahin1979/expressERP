@@ -45,8 +45,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
 
             if (Schema::hasTable('companies')) {
-                $company = CompanyProperty::query()->where('company_id', session('comp_id'))->with('company')->first();
-                $view->with('company',$company);
+                $users_company = CompanyProperty::query()->where('company_id', session('comp_id'))->with('company')->first();
+                $view->with('users_company',$users_company);
             }
 
             if (Schema::hasTable('fiscal_periods')) {

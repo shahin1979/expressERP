@@ -64,6 +64,16 @@ Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middl
     Route::get('editUnAuthVoucherIndex','EditGLVoucherCO@index');
     Route::post('updateUnAuthVoucherIndex','EditGLVoucherCO@update');
 
+    //Authorise Transaction Routes
+
+    Route::get('authoriseTransIndex','AuthoriseTransactionCO@index');
+    Route::post('authoriseTransIndex','AuthoriseTransactionCO@update');
+
+    Route::get('getUnAuthVoucherData','AuthoriseTransactionCO@getVoucherData');
+    Route::get('details/{id}','AuthoriseTransactionCO@details');
+
+
+
 });
 
 

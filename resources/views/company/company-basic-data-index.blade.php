@@ -30,6 +30,7 @@
 
         {!! Form::open(['url'=>'company/propertiesSave','method'=>'POST','enctype'=>'multipart/form-data']) !!}
         <div class="row">
+{{--            <div><img src="{!! asset($users_company->company_logo) !!}" height="40px" width="150px" class="header-brand-img" alt="LOGO"></div>--}}
 
             <div class="col-sm-6">
                 <div class="card">
@@ -130,6 +131,11 @@
                                     <td width="150px"><input type="checkbox" {!! empty($comp_modules) ? 'unchecked' : $comp_modules->contains('module_id',$row->id) ? 'checked' : 'unchecked' !!} name="module_id[]" value="{!! $row->id !!}" data-toggle="toggle" data-onstyle="primary">
                                 </tr>
                             @endforeach
+
+                            <tr>
+                                <td>Logo</td>
+                                <td><img src="{!! asset($users_company->company_logo) !!}" class="rounded float-left" style="height: 100px; width: 150px" alt="..."></td>
+                            </tr>
                             </tbody>
                             <tfoot>
                             <tr>
@@ -267,7 +273,7 @@
         });
 
         $('.imageupload').imageupload({
-            allowedFormats: [ "jpg", "jpeg", "png" ],
+            allowedFormats: [ "jpg", "jpeg" ],
             previewWidth: 250,
             previewHeight: 250,
             maxFileSizeKb: 2048
