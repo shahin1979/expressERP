@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Requisition extends Model
@@ -21,4 +22,14 @@ class Requisition extends Model
         'status',
         'user_id',
     ];
+
+    public function items()
+    {
+        return $this->hasMany(TransProduct::class,'ref_id','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -415,18 +415,18 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1'
 //        ] );
 
-        MENUITEM::query()->create( [
-            'id'=>44035,
-            'company_id'=>1,
-            'module_id'=>4,
-            'nav_label'=>4,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'4D',
-            'name'=>'Authorise Transactions',
-            'show'=>'1',
-            'url'=>'transaction/authoriseTransIndex',
-            'status'=>'1'
-        ] );
+//        MENUITEM::query()->create( [
+//            'id'=>44035,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4D',
+//            'name'=>'Authorise Transactions',
+//            'show'=>'1',
+//            'url'=>'transaction/authoriseTransIndex',
+//            'status'=>'1'
+//        ] );
 
 
 
@@ -677,6 +677,20 @@ class MenuItemsTableSeeder extends Seeder
 //            'url'=>'requisition/createReqIndex',
 //            'status'=>'1'
 //        ] );
+
+
+            MENUITEM::create( [
+            'id'=>54015,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5B',
+            'name'=>'Update Requisition',
+            'show'=>'1',
+            'url'=>'requisition/editReqIndex',
+            'status'=>'1'
+        ] );
 //
 //
 //

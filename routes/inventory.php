@@ -154,6 +154,10 @@ Route::group(['prefix' => 'requisition', 'namespace' => 'Inventory\Requisition',
 
     Route::get('productList','CreateRequisitionCO@autocomplete');
 
+
+    Route::get('editReqIndex','EditRequisitionCO@index');
+    Route::get('requisitionData','EditRequisitionCO@getReqData');
+
 //    Route::get('itemSKU','ProductsCO@getSKU');
 //
 //    Route::get('getProductDBData','ProductsCO@getProductsDBData');

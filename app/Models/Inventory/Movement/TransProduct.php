@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Database\Eloquent\Model;
 
 class TransProduct extends Model
@@ -33,4 +34,14 @@ class TransProduct extends Model
         'remarks',
         'status',
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(ProductMO::class,'product_id','id');
+    }
+
+    public function requisition()
+    {
+        return $this->belongsTo(Requisition::class,'ref_id','id');
+    }
 }
