@@ -70,7 +70,7 @@ Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middl
     Route::post('authoriseTransIndex','AuthoriseTransactionCO@update');
 
     Route::get('getUnAuthVoucherData','AuthoriseTransactionCO@getVoucherData');
-    Route::get('details/{id}','AuthoriseTransactionCO@details');
+    Route::get('authorise/{id}','AuthoriseTransactionCO@authorise');
 
 
 
@@ -84,6 +84,8 @@ Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', '
     Route::get('dailyTransactionIndex','DailyTransactionReportCO@index');
     Route::get('printVoucherIndex','PrintVoucherControllerCO@index');
 
+
+    Route::get('TrialBalanceReportIndex','RepTrialBalanceCO@index');
 
 
 });

@@ -8,6 +8,7 @@ use App\Models\Company\TransCode;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 class Transaction extends Model
 {
@@ -54,7 +55,7 @@ class Transaction extends Model
 
     public function account()
     {
-        return $this->belongsTo(GeneralLedger::class,'acc_no','acc_no');
+        return $this->belongsTo(GeneralLedger::class,'acc_no','acc_no')->where('company_id',Session::get('comp_id'));
     }
 
     public function type()
