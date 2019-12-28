@@ -34,7 +34,7 @@ class CreateRequisitionCO extends Controller
     {
         $term = $request['term'];
 
-        $items = ProductMO::query()->select('id as item_id', 'name','tax_id','unit_price')
+        $items = ProductMO::query()->select('id as item_id', 'name','tax_id','unit_price','unit_name')
             ->where('company_id',$this->company_id)
             ->where('name', 'LIKE', '%'.$term.'%')->get();
 
@@ -65,7 +65,7 @@ class CreateRequisitionCO extends Controller
                     $requisition_item['ref_no'] = $req_no;
                     $requisition_item['ref_id'] = $inserted->id;
                     $requisition_item['ref_type'] = 'R'; //Requisition
-                    $requisition_item['to_whom'] = $request['requisition_for'];
+                    $requisition_item['to_whom'] = $item['requisition_for'];
                     $requisition_item['tr_date']= Carbon::now();
                     $requisition_item['product_id'] = $item['item_id'];
                     $requisition_item['quantity'] = $item['quantity'];

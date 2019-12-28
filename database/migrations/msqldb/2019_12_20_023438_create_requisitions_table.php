@@ -20,8 +20,6 @@ class CreateRequisitionsTable extends Migration
             $table->bigInteger('ref_no')->unsigned();
             $table->char('req_type',1)->comments('P = Purchase, C = Consumption'); //1 for consumption 2 for purchase
             $table->date('req_date');
-            $table->bigInteger('requisition_for')->unsigned()->comment('From Location Table Type F');
-            $table->foreign('requisition_for')->references('id')->on('locations')->onDelete('CASCADE');
             $table->bigInteger('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('CASCADE');
             $table->string('description')->nullable();

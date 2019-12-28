@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,5 +44,10 @@ class TransProduct extends Model
     public function requisition()
     {
         return $this->belongsTo(Requisition::class,'ref_id','id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class,'to_whom','id');
     }
 }

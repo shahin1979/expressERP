@@ -11,27 +11,28 @@
         </ol>
     </nav>
 
-    <div class="col-sm-10 text-left col-sm-offset-1">
+    <div class="col-sm-12 text-left col-sm-offset-1">
         <div class="controls">
 
             {!! Form::open(['url'=>'requisition/createReqIndex','method' => 'POST']) !!}
             {{ csrf_field() }}
 
             {{--<div class="row col-md-6 col-md-offset-1" style="border-right: solid">--}}
-            <table class="table table-sm table-responsive">
+            <table class="table table-sm table-responsive table-primary">
                 <tbody>
                 <tr>
                     <td><label for="req_type" class="control-label">Requisition Type</label></td>
                     <td>{!! Form::select('req_type', array('0' => 'Please Select', 'P' => 'Purchase', 'C' => 'Consumption'), null , array('id' => 'req_type', 'class' => 'form-control')) !!}</td>
                     <td><label for="req_date" class="control-label">Date</label></td>
                     <td>{!! Form::text('req_date', \Carbon\Carbon::now()->format('d/m/Y') , array('id' => 'req_date', 'class' => 'form-control','required','disabled')) !!}</td>
-                </tr>
-                <tr>
-                    <td><label for="requisition_for" class="control-label">Requisition For</label></td>
-                    <td>{!! Form::select('requisition_for', $locations, null , array('id' => 'requisition_for', 'class' => 'form-control')) !!}</td>
                     <td><label for="refno" class="control-label">Requisition No</label></td>
                     <td>{!! Form::text('ref_no','RQ' , array('id' => 'ref_no', 'class' => 'form-control')) !!}</td>
                 </tr>
+{{--                <tr>--}}
+{{--                    <td><label for="requisition_for" class="control-label">Requisition For</label></td>--}}
+{{--                    <td>{!! Form::select('requisition_for', $locations, null , array('id' => 'requisition_for', 'class' => 'form-control')) !!}</td>--}}
+{{--                    --}}
+{{--                </tr>--}}
                 </tbody>
                 <tfoot></tfoot>
             </table>
@@ -44,9 +45,11 @@
                         <thead>
                         <tr style="background-color: #f9f9f9;">
                             <th width="5%"  class="text-center">Action</th>
-                            <th width="40%" class="text-left">Product</th>
+                            <th width="25%" class="text-left">Product</th>
+                            <th width="25%" class="text-left">Requisition For</th>
                             <th width="15%" class="text-center">Quantity</th>
-                            <th width="40%" class="text-right">Remarks</th>
+                            <th width="10%" class="text-center">Unit</th>
+                            <th width="20%" class="text-right">Remarks</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -55,12 +58,22 @@
                             <td class="text-center">
                                 <button style="margin: 0 auto" type="button" onclick="$(this).tooltip('destroy'); $('#item-row-{{ $item_row }}').remove();" data-toggle="tooltip" title="delete-item" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                             </td>
+
+
                             <td>
                                 <input class="form-control typeahead position-relative" required="required" placeholder="Enter Product" name="item[{{ $item_row }}][name]" type="text" id="item-name-{{ $item_row }}" autocomplete="off">
                                 <input name="item[{{ $item_row }}][item_id]" type="hidden" id="item-id-{{ $item_row }}">
                             </td>
+
+                            <td>
+                                {!! Form::select("item[$item_row][requisition_for]", $locations, null , array('class' => 'form-control')) !!}
+                            </td>
+
                             <td>
                                 <input class="form-control text-center" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}">
+                            </td>
+                            <td id="item-unit-{{ $item_row }}">
+
                             </td>
                             <td>
                                 <input class="form-control" name="item[{{ $item_row }}][remarks]" type="text" id="item-remarks-{{ $item_row }}">
@@ -96,16 +109,36 @@
 
         function addItem() {
             html  = '<tr id="item-row-' + item_row + '">';
+
             html += '  <td class="text-center" style="vertical-align: middle;">';
             html += '      <button style="margin: 0 auto" type="button" onclick="$(this).tooltip(\'destroy\'); $(\'#item-row-' + item_row + '\').remove(); totalItem();" data-toggle="tooltip" title="{{ trans('general.delete') }}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
             html += '  </td>';
+
             html += '  <td>';
             html += '      <input class="form-control typeahead position-relative" required="required" autocomplete="off" placeholder="{{ trans('general.form.enter', ['field' => trans_choice('invoices.item_name', 1)]) }}" name="item[' + item_row + '][name]" type="text" id="item-name-' + item_row + '">';
             html += '      <input name="item[' + item_row + '][item_id]" type="hidden" id="item-id-' + item_row + '">';
             html += '  </td>';
+
+
+
+            html += '  <td>';
+            html += '      <select class="form-control select" name="item[' + item_row + '][requisition_for]" id="item-requisition-' + item_row + '">';
+            html += '         <option selected="selected" value="">Please Select</option>';
+            @foreach($locations as $for_key => $for_value)
+                html += '         <option value="{{ $for_key }}">{{ $for_value }}</option>';
+            @endforeach
+                html += '      </select>';
+            html += '  </td>';
+
+
             html += '  <td>';
             html += '      <input class="form-control text-center" required="required" name="item[' + item_row + '][quantity]" type="text" id="item-quantity-' + item_row + '">';
             html += '  </td>';
+
+            html += '  <td id="item-unit-' + item_row + '">';
+            html += '  </td>';
+
+
             html += '  <td>';
             html += '      <input class="form-control" name="item[' + item_row + '][remarks]" type="text" id="item-remarks-' + item_row + '">';
             html += '  </td>';
@@ -155,6 +188,7 @@
                 afterSelect: function (data) {
                     $('#item-id-' + item_id).val(data.item_id);
                     $('#item-quantity-' + item_id).val('1');
+                    $('#item-unit-' + item_id).html(data.unit_name);
                 }
             });
         });

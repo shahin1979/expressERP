@@ -16,7 +16,6 @@ class Requisition extends Model
         'ref_no',
         'req_type',
         'req_date',
-        'requisition_for',
         'authorized_by',
         'description',
         'status',

@@ -10,113 +10,83 @@
         </ol>
     </nav>
 
-{{--    <div class="justify-content-center">--}}
-{{--        <img src="{!! asset('assets/images/page-under-construction.jpg') !!}" class="img-responsive">--}}
-{{--    </div>--}}
-
-
-    {{--    <div class="row">--}}
-    {{--        <div class="col-md-6">--}}
-    {{--            <div class="pull-left">--}}
-    {{--                <button type="button" class="btn btn-project btn-success" data-toggle="modal" data-target="#modal-new-project"><i class="fa fa-plus"></i>New Project</button>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--        <div class="col-md-6">--}}
-    {{--            <div class="pull-right">--}}
-    {{--                <button type="button" class="btn btn-print-project btn-success"><i class="fa fa-print"></i>Print</button>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-
-    <div class="row col-md-10 col-md-offset-1 dataTables_wrapper" style="overflow-x:auto;">
+    <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
         <table class="table table-bordered table-hover table-responsive" id="requisition-table">
             <thead style="background-color: #b0b0b0">
             <tr>
                 <th>Req No</th>
                 <th>Req Date</th>
                 <th>Req Type</th>
+                <th>Req For</th>
                 <th>product</th>
                 <th>Quantity</th>
+                <th>Created By</th>
                 <th>Action</th>
             </tr>
             </thead>
         </table>
     </div>
 
-    <div class="row">
-        <div class="col-sm-6">
+
+    <form id="ajax-items">
+    <div class="row" id="edit-section">
+        <div class="col-sm-5">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title">Requisition Info</h5>
+                    <table id="requisition-main" class="table table-striped requisition-main">
+
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+
+
+
+        <div class="col-sm-7" >
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="card" id="edit-requisition">
-        <div class="card-header">
-            Edit Requisition Items
-        </div>
-        <div class="card-body">
-            <form class="form-horizontal" role="form" action="{{ url('requisition.edit.post') }}" method="POST" >
-                {{ csrf_field() }}
-
-                    <table id="edit-table" class="table table-striped edit-table">
-                        <thead style="background-color: #8eb4cb">
+                    <h5 class="card-title">Product Info</h5>
+                    <table id="requisition-items" class="table table-striped table-info table-bordered requisition-items">
+                        <thead>
                         <tr>
-                            <th>Req No</th>
-                            <th>product</th>
+                            <th>Requisition For</th>
+                            <th>Item</th>
                             <th>Quantity</th>
                         </tr>
                         </thead>
+
                         <tbody>
 
                         </tbody>
 
                         <tfoot>
                         <tr>
-                            <td colspan="3"><button type="submit" class="btn btn-primary btn-update pull-right">Submit</button></td>
+                            <td colspan="3"><button type="submit" id="btn-update-requisition" class="btn btn-primary update-requisition">Update</button></td>
                         </tr>
                         </tfoot>
+
                     </table>
-{{--                <div class="modal-footer">--}}
-{{--                    <div class="col-md-10 col-md-offset-1">--}}
-{{--                        <button type="submit" class="btn btn-primary pull-right">Submit</button>--}}
-{{--                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cancel</button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-            </form>
 
-
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
         </div>
+
     </div>
-
-
-    <div id="edit-requisition">
-        <table class="table table-responsive table-striped table-hover">
-
-        </table>
-    </div>
-
-
+    </form>
 @endsection
 
 @push('scripts')
 
     <script>
+
+        $(document).ready(function(){
+
+            $('#edit-section').hide();
+
+        });
+
+
         $(function() {
             var table= $('#requisition-table').DataTable({
                 processing: true,
@@ -128,8 +98,10 @@
                     { data: 'ref_no', name: 'requisitions.ref_no' },
                     { data: 'req_date', name: 'requisitions.req_date' },
                     { data: 'req_type', name: 'requisitions.req_type', orderable: false, searchable: false },
+                    { data:'req_for', name: 'req_for'},
                     { data: 'product', name: 'product' },
                     { data: 'quantity', name: 'quantity' },
+                    { data: 'user.name', name: 'user.name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
             });
@@ -137,8 +109,19 @@
 
             $(this).on('click', '.btn-edit', function (e) {
                 e.preventDefault();
-
                 var url = $(this).data('remote');
+
+                $(".req-info").remove();
+
+                var reqHTML = '';
+
+                reqHTML = '<tr class="req-info">' +
+                    '<td align="left">Req No</td><td align="left">' + $(this).data('requisition') + '</td></tr>' +
+                    '<tr class="req-info"><td align="left">Req Date</td><td align="left">' + $(this).data('date') + '</td>/tr>' +
+                    '<tr class="req-info"><td align="left">Req Type</td><td align="left">' + $(this).data('type') + '</td></tr>';
+
+                $('#requisition-main').append(reqHTML);
+
 
                 //Ajax Load data from ajax
                 $.ajax({
@@ -148,21 +131,20 @@
 
                     success: function(data)
                     {
-                        $(".tabonedata").remove();
+                        $(".req_items").remove();
 //
                         var trHTML = '';
                         $.each(data, function (i, item) {
 
-                            trHTML += '<tr class="tabonedata">' +
-                                '<td align="left">' + item.refno + '</td><td>' +  item.item.name + '</td>' +
-                                '<td align="right"><input name="quantity[]" class="form-control text-right" type="text" id="quantity" value="'+ item.quantity +'"></td>' +
-                                '<td><input name="id[]" type="hidden" id="id" value="'+ item.id +'"></td></tr>';
+                            trHTML += '<tr class="req_items">' +
+                                '<td align="right">' + item.location.name +'</td>' +
+                                '<td align="right">' + item.item.name +'</td>' +
+                                '<td align="right"><input name="item[' + i + '][quantity]" class="form-control text-right" type="text" id="quantity" value="'+ item.quantity +'"></td>' +
+                                '<td><input name="item[' + i +'][id]" type="hidden" id="id" value="'+ item.id +'"></td></tr>';
                         });
 //
-                        $('#edittable').append(trHTML);
+                        $('#requisition-items').append(trHTML);
 
-                        $('#edit-modal').modal('show'); // show bootstrap modal when complete loaded
-                        $('.modal-title').text('Requisition Details'); // Set title to Bootstrap modal title
 
                     },
                     error: function (jqXHR, textStatus, errorThrown)
@@ -171,7 +153,48 @@
                     }
                 });
 
+                $('#edit-section').show();
+                $('#requisition-table').parents('div.dataTables_wrapper').first().hide();
+
             });
+
+
+
+
+            $('#ajax-items').submit(function(e) {
+                // Stop the browser from submitting the form.
+                e.preventDefault();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var url = 'updateRequisition';
+
+                // confirm then
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('form').serialize(),
+
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    },
+
+                    success: function (data) {
+
+                        alert(data.success);
+                        $('#edit-section').hide();
+                        $('#requisition-table').parents('div.dataTables_wrapper').first().show();
+                        $('#requisition-table').DataTable().draw(true);
+                    },
+
+                });
+
+            });
+
 
 
         });

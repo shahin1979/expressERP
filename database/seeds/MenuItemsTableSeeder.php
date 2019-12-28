@@ -348,21 +348,6 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-            MENUITEM::create( [
-            'id'=>42050,
-            'company_id'=>1,
-            'module_id'=>4,
-            'nav_label'=>4,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'4A',
-            'name'=>'Trial Balance',
-            'show'=>'1',
-            'url'=>'accounts/report/TrialBalanceReportIndex',
-            'status'=>'1'
-        ] );
-
-
-
 //        MENUITEM::create( [
 //            'id'=>44000,
 //            'company_id'=>1,
@@ -704,6 +689,19 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Update Requisition',
 //            'show'=>'1',
 //            'url'=>'requisition/editReqIndex',
+//            'status'=>'1'
+//        ] );
+
+//        MENUITEM::create( [
+//            'id'=>54025,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5B',
+//            'name'=>'Approve Requisition',
+//            'show'=>'1',
+//            'url'=>'requisition/approveReqIndex',
 //            'status'=>'1'
 //        ] );
 //

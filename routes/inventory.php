@@ -151,12 +151,18 @@ Route::group(['prefix' => 'requisition', 'namespace' => 'Inventory\Requisition',
 
     Route::get('createReqIndex','CreateRequisitionCO@index');
     Route::post('createReqIndex','CreateRequisitionCO@store');
-
     Route::get('productList','CreateRequisitionCO@autocomplete');
 
 
     Route::get('editReqIndex','EditRequisitionCO@index');
     Route::get('requisitionData','EditRequisitionCO@getReqData');
+    Route::get('edit/{id}','EditRequisitionCO@edit');
+    Route::post('updateRequisition','EditRequisitionCO@update');
+
+    Route::get('approveReqIndex','ApproveRequisitionCO@index');
+    Route::get('reqDataForApprove','ApproveRequisitionCO@getReqData');
+    Route::post('approve/{id}','ApproveRequisitionCO@approve');
+    Route::post('reject/{id}','ApproveRequisitionCO@reject');
 
 //    Route::get('itemSKU','ProductsCO@getSKU');
 //
