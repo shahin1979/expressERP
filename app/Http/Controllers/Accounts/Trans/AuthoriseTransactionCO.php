@@ -28,7 +28,7 @@ class AuthoriseTransactionCO extends Controller
 //            ->where('company_id',$this->company_id)->with('account');
 
         $vouchers = Transaction::query()->where('post_flag',false)
-            ->where('company_id',$this->company_id)
+            ->where('company_id',$this->company_id)->where('fp_no',5)
             ->select('voucher_no','trans_date','tr_code','user_id', DB::raw('count(*) as trans_count'),
                 DB::raw('sum(dr_amt) as trans_amt'))
             ->groupBy('voucher_no','trans_date','tr_code','user_id')->with('user')->get();

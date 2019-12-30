@@ -9,6 +9,7 @@ use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Movement\Requisition;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Redirect;
 
 class CreateRequisitionCO extends Controller
 {
+    use TransactionsTrait;
+
     public function index()
     {
         UserActivity::query()->updateOrCreate(
@@ -47,8 +50,11 @@ class CreateRequisitionCO extends Controller
 
         try{
 
-            $tr_code =  TransCode::query()->where('company_id',$this->company_id)->where('trans_code','RQ')
+            $tr_code =  TransCode::query()->where('company_id',$this->company_id)
+                ->where('trans_code','RQ')
+                ->where('fiscal_year',$this->get_fiscal_year(Carbon::now()->format('Y-m-d')))
                 ->lockForUpdate()->first();
+
             $req_no = $tr_code->last_trans_id;
 
             $request['company_id'] = $this->company_id;

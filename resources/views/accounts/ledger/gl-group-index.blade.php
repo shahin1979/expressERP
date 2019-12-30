@@ -116,7 +116,7 @@
                     { data: 'acc_name', name: 'acc_name' },
                     { data: 'acc_type', name: 'acc_type' },
                     { data: 'details.description', name: 'details.description'},
-                    { data: 'curr_bal', name: 'curr_bal'},
+                    { data: 'curr_bal', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'curr_bal'},
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
 
                 ]

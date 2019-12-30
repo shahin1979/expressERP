@@ -11,12 +11,15 @@ use App\Models\Company\TransCode;
 use App\Models\Common\Country;
 use App\Models\Company\Company;
 use App\Models\Company\CompanyProperty;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CompanyPropertiesCO extends Controller
 {
+    use TransactionsTrait;
+
     public function index()
     {
         $basic = CompanyProperty::query()->where('company_id',$this->company_id)->first();
@@ -43,12 +46,7 @@ class CompanyPropertiesCO extends Controller
     public function store(Request $request)
     {
 
-//        dd($request->all());
-//
-//        foreach ($request['module_id'])
-//        {
-//
-//        }
+        $fiscal_period = $this->get_fiscal_year($request['fp_start']);
 
         DB::beginTransaction();
 
@@ -104,6 +102,7 @@ class CompanyPropertiesCO extends Controller
                     'company_id'=>$this->company_id,
                     'trans_code'=>'PM',
                     'trans_name'=>'Payment',
+                    'fiscal_year'=>$fiscal_period,
                     'last_trans_id'=>$yr.'10000001'
                     ]
                 );
@@ -114,6 +113,7 @@ class CompanyPropertiesCO extends Controller
                         'company_id'=>$this->company_id,
                         'trans_code'=>'RC',
                         'trans_name'=>'Receive',
+                        'fiscal_year'=>$fiscal_period,
                         'last_trans_id'=>$yr.'20000001'
                     ]
                 );
@@ -124,6 +124,7 @@ class CompanyPropertiesCO extends Controller
                         'company_id'=>$this->company_id,
                         'trans_code'=>'JV',
                         'trans_name'=>'Journal',
+                        'fiscal_year'=>$fiscal_period,
                         'last_trans_id'=>$yr.'30000001'
                     ]
                 );
@@ -134,6 +135,7 @@ class CompanyPropertiesCO extends Controller
                         'company_id'=>$this->company_id,
                         'trans_code'=>'RQ',
                         'trans_name'=>'Requisition',
+                        'fiscal_year'=>$fiscal_period,
                         'last_trans_id'=>$yr.'40000001'
                     ]
                 );
@@ -144,6 +146,7 @@ class CompanyPropertiesCO extends Controller
                         'company_id'=>$this->company_id,
                         'trans_code'=>'SL',
                         'trans_name'=>'Sales Invoice',
+                        'fiscal_year'=>$fiscal_period,
                         'last_trans_id'=>$yr.'50000001'
                     ]
                 );
@@ -154,6 +157,7 @@ class CompanyPropertiesCO extends Controller
                         'company_id'=>$this->company_id,
                         'trans_code'=>'DC',
                         'trans_name'=>'Delivery Challan',
+                        'fiscal_year'=>$fiscal_period,
                         'last_trans_id'=>$yr.'60000001'
                     ]
                 );
@@ -164,6 +168,7 @@ class CompanyPropertiesCO extends Controller
                         'company_id'=>$this->company_id,
                         'trans_code'=>'PR',
                         'trans_name'=>'Purchase Invoice',
+                        'fiscal_year'=>$fiscal_period,
                         'last_trans_id'=>$yr.'70000001'
                     ]
                 );
@@ -174,6 +179,7 @@ class CompanyPropertiesCO extends Controller
                         'company_id'=>$this->company_id,
                         'trans_code'=>'IR',
                         'trans_name'=>'Item Receive',
+                        'fiscal_year'=>$fiscal_period,
                         'last_trans_id'=>$yr.'80000001'
                     ]
                 );
@@ -271,11 +277,11 @@ class CompanyPropertiesCO extends Controller
 
                 $start_date = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d');
 
-                $end_dt = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->endOfMonth();
+//                $end_dt = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->endOfMonth();
 
-                $f_y1 = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y');
-                $f_y2 = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->addMonth(11)->format('Y');
-                $f_y = $f_y1.'-'.$f_y2;
+//                $f_y1 = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y');
+//                $f_y2 = Carbon::createFromFormat('d-m-Y',$request['fp_start'])->addMonth(11)->format('Y');
+//                $f_y = $f_y1.'-'.$f_y2;
 
 
                 for ($m=1; $m <=12; $m++) {
@@ -288,9 +294,9 @@ class CompanyPropertiesCO extends Controller
                     $status = true;
 
 
-                    FiscalPeriod::create([
+                    FiscalPeriod::query()->create([
                         'company_id' => $this->company_id,
-                        'fiscal_year' => $f_y,
+                        'fiscal_year' => $fiscal_period,
                         'year' =>$year,
                         'fp_no' => $fpNo,
                         'month_serial' => $month_sl,

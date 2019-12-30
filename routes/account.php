@@ -17,6 +17,8 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
     Route::post('update/{id}','GLAccountHeadCo@update');
     Route::delete('head/delete/{id}','GLAccountHeadCo@destroy');
 
+    Route::get('rptTrialBalanceIndex','RepTrialBalanceCO@index');
+
 
 });
 
@@ -30,6 +32,10 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
     Route::get('depreciationSetupIndex','DepreciationSetupCO@index');
     Route::get('getDepreciationData','DepreciationSetupCO@getDepreciationData');
     Route::post('saveDepreciationAccount','DepreciationSetupCO@store');
+
+    //Reports
+
+
 
 });
 
@@ -85,7 +91,7 @@ Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', '
     Route::get('printVoucherIndex','PrintVoucherControllerCO@index');
 
 
-    Route::get('TrialBalanceReportIndex','RepTrialBalanceCO@index');
+
 
 
 });

@@ -18,6 +18,7 @@ class TransCode extends Model
         'company_id',
         'trans_code',
         'trans_name',
+        'fiscal_year',
         'last_trans_id',
     ];
 

@@ -21,7 +21,7 @@
 
                 <div class="div">
                     <br/>
-                    {!! Form::open(['url'=>'accounts/report/TrialBalanceReportIndex', 'method' => 'GET']) !!}
+                    {!! Form::open(['url'=>'ledger/rptTrialBalanceIndex', 'method' => 'GET']) !!}
 
                     <table width="80%" class="table table-responsive table-hover" >
 
@@ -52,7 +52,18 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function(){
 
+        $( "#date_to" ).datetimepicker({
+            format:'d-m-Y',
+            timepicker: false,
+            closeOnDateSelect: true,
+            scrollInput : false,
+            inline:false
+        });
+    });
+</script>
 
 
 @endpush

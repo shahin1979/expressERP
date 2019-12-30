@@ -22,7 +22,7 @@ class CreateTransProductsTable extends Migration
             $table->date('tr_date');
             $table->char('ref_type',1)->comments('P = Purchase, R = Requisition, S = Sales, I = Import, D = Delivery, E = Export'); //1 for consumption 2 for purchase
 
-            $table->integer('to_whom')->unsigned()->comment('From Location Table Type F')->comments('For which department this was created');
+            $table->bigInteger('to_whom')->unsigned()->comment('From Location Table Type F')->comments('For which department this was created');
             $table->foreign('to_whom')->references('id')->on('locations')->onDelete('CASCADE');
 
             $table->bigInteger('product_id')->unsigned();

@@ -134,7 +134,7 @@
 
                             <tr>
                                 <td>Logo</td>
-                                <td><img src="{!! asset($users_company->company_logo) !!}" class="rounded float-left" style="height: 100px; width: 150px" alt="..."></td>
+                                <td><img src="{!! asset(isset($users_company->company_logo)) !!}" class="rounded float-left" style="height: 100px; width: 150px" alt="..."></td>
                             </tr>
                             </tbody>
                             <tfoot>
@@ -273,7 +273,7 @@
         });
 
         $('.imageupload').imageupload({
-            allowedFormats: [ "jpg", "jpeg" ],
+            allowedFormats: [ "jpg", "jpeg","gif" ],
             previewWidth: 250,
             previewHeight: 250,
             maxFileSizeKb: 2048

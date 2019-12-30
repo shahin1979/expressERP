@@ -9,6 +9,7 @@ use App\Models\Company\CompanyProperty;
 use App\Models\Company\FiscalPeriod;
 use App\Models\Company\TransCode;
 use App\Models\Projects\Project;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ use Response;
 
 class PaymentTransactionsCO extends Controller
 {
+    use TransactionsTrait;
     /**
      * Display a listing of the resource.
      *
@@ -102,7 +104,9 @@ class PaymentTransactionsCO extends Controller
             $data = $request->all();
             $trans_amt = 0;
 
-            $tr_code =  TransCode::query()->where('company_id',$this->company_id)->where('trans_code','PM')
+            $tr_code =  TransCode::query()->where('company_id',$this->company_id)
+                ->where('trans_code','PM')
+                ->where('fiscal_year',$this->get_fiscal_year($request['trans_date']))
                 ->lockForUpdate()->first();
 
             $voucher_no = $tr_code->last_trans_id;

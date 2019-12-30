@@ -8,6 +8,7 @@ use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\CompanyProperty;
 use App\Models\Company\TransCode;
 use App\Models\Projects\Project;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,7 @@ use Illuminate\Support\Str;
 
 class JournalTransactionCO extends Controller
 {
+    use TransactionsTrait;
     /**
      * Display a listing of the resource.
      *
@@ -60,7 +62,9 @@ class JournalTransactionCO extends Controller
 
         try{
 
-            $tr_code =  TransCode::query()->where('company_id',$this->company_id)->where('trans_code','JV')
+            $tr_code =  TransCode::query()->where('company_id',$this->company_id)
+                ->where('trans_code','JV')
+                ->where('fiscal_year',$this->get_fiscal_year($request['trans_date']))
                 ->lockForUpdate()->first();
 
             $voucher_no = $tr_code->last_trans_id;

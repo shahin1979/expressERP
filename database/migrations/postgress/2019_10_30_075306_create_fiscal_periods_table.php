@@ -24,7 +24,7 @@ class CreateFiscalPeriodsTable extends Migration
             $table->string('month_name',9);
             $table->date('start_date');
             $table->date('end_date');
-            $table->boolean('status');
+            $table->boolean('status')->default(1);
             $table->boolean('depreciation');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'company_id'=>1,
+            'company_id'=>2,
             'role_id'=>2,
             'full_name' => 'Matin Admin',
             'name' => 'Matin',
@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'company_id'=>1,
+            'company_id'=>2,
             'role_id'=>3,
             'full_name' => 'Atiqur Rahman Khadem',
             'name' => 'Khadem',
@@ -43,7 +43,7 @@ class UsersTableSeeder extends Seeder
 
 
         DB::table('users')->insert([
-            'company_id'=>2,
+            'company_id'=>3,
             'role_id'=>2,
             'full_name' => 'Mumanu Admin',
             'name' => 'Mumanu',
@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'company_id'=>2,
+            'company_id'=>3,
             'role_id'=>3,
             'full_name' => 'Sharif Muhammed Shahin',
             'name' => 'Shahin',

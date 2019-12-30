@@ -35,11 +35,11 @@ class GeneralLedger extends Model
         'opn_cr',
         'start_dr',
         'start_cr',
-        'curr_bal',
-        'cyr_dr',
-        'cyr_cr',
-        'dr_00',
-        'cr_00',
+        'curr_bal', //current year posted + unposted
+        'cyr_dr', // current year posted Trans
+        'cyr_cr', // current year posted trans
+        'dr_00', // current year posted + unposted
+        'cr_00', // current year posted + unposted
         'pyr_dr',
         'pyr_cr',
         'dr_01',
