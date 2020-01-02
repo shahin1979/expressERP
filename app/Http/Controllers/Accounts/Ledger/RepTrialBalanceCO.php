@@ -44,29 +44,41 @@ class RepTrialBalanceCO extends Controller
             {
                 $ln['acc_no'] = $row->acc_no;
                 $ln['acc_name'] = $row->acc_name;
-                $dr_amt = 0;
-                $cr_amt = 0;
+                $ln['acc_type'] = $row->acc_type;
 
-                for($i = 0; $i< $fp_no; $i++)
+                $dr_amt = $row->start_dr;
+                $cr_amt = $row->start_cr;
+
+
+
+                for($i = 1; $i< $fp_no; $i++)
                 {
                     $var = str_pad($i,2,"0",STR_PAD_LEFT);
                     $field_dr = 'dr_'.$var;
                     $field_cr = 'cr_'.$var;
 
-                    $dr_amt += $row->{$field_dr};
-                    $cr_amt += $row->{$field_cr};
+                    $dr_amt = $dr_amt + $row->{$field_dr};
+                    $cr_amt = $cr_amt + $row->{$field_cr};
+
+//                    dd($field_dr);
                 }
 
                 $ln['opening_dr'] = $dr_amt;
                 $ln['opening_cr'] = $cr_amt;
 
-                $ln['dr_tr'] = $trans->where('acc_no','10112102')->first()->dr_amt;
-                $ln['cr_tr'] = $trans->where('acc_no','10112102')->first()->cr_amt;
+
+
+
+
+                $ln['dr_tr'] = isset($trans->where('acc_no',$row->acc_no)->first()->dr_amt) ? $trans->where('acc_no',$row->acc_no)->first()->dr_amt : 0;
+                $ln['cr_tr'] = isset($trans->where('acc_no',$row->acc_no)->first()->cr_amt) ? $trans->where('acc_no',$row->acc_no)->first()->cr_amt : 0;
+
+                $ln['balance'] = ($ln['opening_dr'] + $ln['dr_tr']) - ($ln['opening_cr'] + $ln['cr_tr']);
 
                 $report->push($ln);
             }
 
-            dd ($report);
+            return view('accounts.report.ledger.rep-trial-balance-index',compact('report','toDate'));
         }
 
 //        dd (Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-01'));

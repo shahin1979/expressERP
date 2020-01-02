@@ -360,6 +360,20 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1'
 //        ] );
 
+
+//            MENUITEM::create( [
+//            'id'=>42055,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4A',
+//            'name'=>'General Ledger',
+//            'show'=>'1',
+//            'url'=>'ledger/rptGeneralLedgerIndex',
+//            'status'=>'1'
+//        ] );
+
 //
 //
 //

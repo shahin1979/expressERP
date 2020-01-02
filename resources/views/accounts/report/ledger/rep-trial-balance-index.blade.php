@@ -48,6 +48,66 @@
         </div>
     </div>
 
+    @if(!empty($report))
+
+        <div class="card">
+            <div class="card-header">
+                Trial Balance As On {!! $toDate !!}
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-bordered table-hover table-responsive">
+                        <thead>
+                        <tr >
+                            <th>Acc No</th>
+                            <th>Acc Name</th>
+                            <th>Acc Type</th>
+                            <th style="text-align: right">Opening Debit</th>
+                            <th style="text-align: right">Opening Credit</th>
+                            <th style="text-align: right">Debit</th>
+                            <th style="text-align: right">Credit</th>
+                            <th style="text-align: right">Balance</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($report as $i=>$row)
+                        <tr style="background-color: {!! $i%2 == 0 ? '#67b84c' : '#ffffff' !!}">
+                            <td>{!! $row['acc_no'] !!}</td>
+                            <td>{!! $row['acc_name'] !!}</td>
+                            <td>{!! $row['acc_type'] !!}</td>
+                            <td style="text-align: right">{!! number_format($row['opening_dr'],2) !!}</td>
+                            <td style="text-align: right">{!! number_format($row['opening_cr'],2) !!}</td>
+                            <td style="text-align: right">{!! number_format($row['dr_tr'],2) !!}</td>
+                            <td style="text-align: right">{!! number_format($row['cr_tr'],2) !!}</td>
+                            <td style="text-align: right">{!! number_format($row['balance'],2)  !!}</td>
+
+                        </tr>
+                        @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: #3A92AF">
+                                <td colspan="3">Grand Total</td>
+                                <td style="text-align: right">{!! number_format($report->sum('opening_dr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->sum('opening_cr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->sum('dr_tr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->sum('cr_tr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->sum('balance'),2)  !!}</td>
+
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+    @endif
+
 
 @endsection
 

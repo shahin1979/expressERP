@@ -19,6 +19,8 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 
     Route::get('rptTrialBalanceIndex','RepTrialBalanceCO@index');
 
+    Route::get('rptGeneralLedgerIndex','RepGeneralLedgerCO@index');
+
 
 });
 

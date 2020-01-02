@@ -44,7 +44,7 @@ class Transaction extends Model
         'post_date',
         'authorizer_id',
         'jv_flag',
-        'tr_stare',
+        'tr_state',
         'export_flag',
         'user_id',
     ];

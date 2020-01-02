@@ -10,17 +10,20 @@ use Illuminate\Support\Facades\DB;
 
 trait AccountTrait
 {
-    public function get_account_balance($acc_no, $company_id, $from_date, $to_date)
+    public function get_account_balance($acc_no, $company_id, $from_date)
     {
-        $ledger = GeneralLedger::query()->where('company_id',$company_id)
+        $opening = Transaction::query()->where('company_id',$company_id)
+            ->where('tr_state',false)->where('acc_no',$acc_no)
+            ->where('trans_date','<',$from_date)
+            ->select(DB::Raw('acc_no, sum(dr_amt) as open_dr, sum(cr_amt) as open_cr'))->groupBy('acc_no')
+            ->first();
+
+        $gl = GeneralLedger::query()->where('company_id',$this->company_id)
             ->where('acc_no',$acc_no)->first();
 
-         $trans_before_date = Transaction::query()->where('company_id',$company_id)
-                    ->where('acc_no',$acc_no)  ->where('tr_state',false)
-                    ->whereDate('tr_date','<',$from_date)
-                    ->sum(DB::Raw('dr_amt-cr_amt'));
+        $opening_bal = isset($opening) ? ($opening->open_dr + $gl->start_dr) - ($opening->open_cr + $gl->start_cr) : $gl->start_dr - $gl->open_cr;
 
-        return $acc_no;
+        return $opening_bal;
     }
 
 }
