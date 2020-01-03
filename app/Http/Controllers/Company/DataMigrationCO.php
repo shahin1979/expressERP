@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
+use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Product\Category;
 use App\Models\Inventory\Product\ItemUnit;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SubCategory;
 use App\Traits\MigrationTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +26,8 @@ class DataMigrationCO extends Controller
 
 
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>11030,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>11030,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
             ]);
 
         return view('company.data-migration-index');
@@ -34,14 +37,21 @@ class DataMigrationCO extends Controller
     {
 
 //        $output = $this->matinDB($this->company_id);
-        $output = $this->matinDB($this->company_id);
+//        $output = $this->matinDB($this->company_id);
+
+        $output = $this->MTRequisition($this->company_id);
 
         dd($output);
 
         $connection = DB::connection('mcottondb');
 
+
+
+        //End Test Area
+
+
         $units = $connection->table('item_units')->get();
-        $data = $connection->table('item_groups')->get();
+        $groups = $connection->table('item_groups')->get();
         $products = $connection->table('item_lists')
             ->where('deleted',false)->get();
 
@@ -68,8 +78,12 @@ class DataMigrationCO extends Controller
                 DB::statement('TRUNCATE TABLE categories RESTART identity CASCADE;');
                 DB::statement('TRUNCATE TABLE sub_categories RESTART identity CASCADE;');
                 DB::statement('TRUNCATE TABLE products RESTART identity CASCADE;');
+                DB::statement('TRUNCATE TABLE locations RESTART identity CASCADE;');
+                DB::statement('TRUNCATE TABLE requisitions RESTART identity CASCADE;');
+                DB::statement('TRUNCATE TABLE trans_products RESTART identity CASCADE;');
             }
 
+            // MIGRATE ITEM UNITS TABLE
 
             foreach ($units as $unit) {
                 ItemUnit::query()->insert([
@@ -81,7 +95,9 @@ class DataMigrationCO extends Controller
                 ]);
             }
 
-            foreach ($data as $row)
+            // CATEGORIES SUB CATEGORIES & PRODUCTS TABLE MIGRATION
+
+            foreach ($groups as $row)
             {
                 if($row->isGroup == true)
                 {
@@ -93,7 +109,7 @@ class DataMigrationCO extends Controller
                         'user_id' => $this->user_id
                     ]);
 
-                    $sbcs = $data->where('groupCode',$row->groupCode)
+                    $sbcs = $groups->where('groupCode',$row->groupCode)
                         ->where('isGroup',false);
 
                     foreach ($sbcs as $sbc)
@@ -138,6 +154,37 @@ class DataMigrationCO extends Controller
                 }
 
             }
+
+            // END  CATEGORIES SUB CATEGORIES & PRODUCTS TABLE MIGRATION
+
+            //MIGRATION DEPARTMENTS TABLE
+
+            $departments = $connection->table('item_departments')->get();
+
+            $location = Collect([]);
+            $newLine = [];
+
+
+            foreach ($departments as $row)
+            {
+
+                $newLine['company_id'] = $this->company_id;
+                $newLine['location_type'] = 'F';
+                $newLine['name'] = $row->deptName;
+                $newLine['dept_code'] = $row->deptCode;
+
+                $inserted = Location::query()->create($newLine);
+
+                $newLine['id'] = $inserted->id;
+                $location->push($newLine);
+
+            }
+
+
+            //REQUISITION TABLE MIGRATION
+
+
+
 
 
 

@@ -733,6 +733,20 @@ class MenuItemsTableSeeder extends Seeder
 //            'url'=>'requisition/approveReqIndex',
 //            'status'=>'1'
 //        ] );
+
+
+            MENUITEM::create( [
+            'id'=>54050,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5B',
+            'name'=>'Print Requisition',
+            'show'=>'1',
+            'url'=>'requisition/printReqIndex',
+            'status'=>'1'
+        ] );
 //
 //
 //

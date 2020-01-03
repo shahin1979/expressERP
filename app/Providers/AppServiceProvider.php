@@ -112,8 +112,8 @@ class AppServiceProvider extends ServiceProvider
 //            $user_permissions = collect($user_permissions);
 
             $user_activities = UserActivity::query()->where('user_id',Auth::id())
-                ->orderBy('id','DESC')
-                ->take(5)->get();
+                ->orderBy('updated_at','DESC')
+                ->take(10)->get();
 
             //////////////////////////////////////////////
 

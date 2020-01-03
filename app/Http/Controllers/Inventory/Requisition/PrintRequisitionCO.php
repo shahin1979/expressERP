@@ -5,26 +5,29 @@ namespace App\Http\Controllers\Inventory\Requisition;
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
 use App\Models\Inventory\Movement\Requisition;
-use App\Models\Inventory\Movement\TransProduct;
+use Carbon\Carbon;
+use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class ApproveRequisitionCO extends Controller
+class PrintRequisitionCO extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>54025,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>54050,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
             ]);
 
-        return view('inventory.requisition.approve-requisition-index');
+        return view('inventory.requisition.report-requisition-index');
     }
 
-    public function getReqData()
+    public function getPrintReqData()
     {
         $query = Requisition::query()->where('company_id',$this->company_id)
-            ->where('status',1)->with('items')->with('user')->select('requisitions.*');
+            ->whereIn('status',[2,3])->with('items')->with('user')
+            ->orderBy('ref_no', 'desc')
+            ->select('requisitions.*');
 
         return Datatables::eloquent($query)
             ->addColumn('product', function (Requisition $requisition) {
@@ -51,38 +54,35 @@ class ApproveRequisitionCO extends Controller
                 $type = $requisition->req_type == 'P' ? 'Purchase' : 'Consumption';
 
                 return '
-                    <button  data-remote="approve/' . $requisition->id . '" type="button" class="btn btn-approve btn-xs btn-primary"></i> Approve</button>
-                    <button data-remote="reject/' . $requisition->id . '" type="button" class="btn btn-xs btn-delete btn-danger pull-right">Reject</button>
+                    <button  data-remote="print/' . $requisition->id . '" type="button" class="btn btn-print btn-xs btn-primary"><i class="fa fa-print">Print</i></button>
                     ';
             })
             ->rawColumns(['product','quantity','req_type','req_for','action'])
             ->make(true);
     }
 
-    public function approve($id)
+    public function print($id)
     {
-        DB::beginTransaction();
+        $requisition = Requisition::query()->where('company_id',$this->company_id)
+            ->where('id',$id)->with('items')->with('user','approver')->first();
 
-        try {
+        $view = \View::make('inventory.requisition.pdf-requisition',compact('requisition'));
+        $html = $view->render();
 
-            Requisition::query()->where('company_id',$this->company_id)
-                ->where('id',$id)->update(['status'=>2,'authorized_by'=>$this->user_id]);
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+//                    $pdf = new TCPDF('L', PDF_UNIT, array(105,148), true, 'UTF-8', false);
+//                    $pdf::setMargin(0,0,0);
 
-            TransProduct::query()->where('company_id',$this->company_id)
-                ->where('ref_type','R')
-                ->where('ref_id',$id)
-                ->update(['status'=>2]);
 
-        }catch (\Exception $e)
-        {
-            DB::rollBack();
-            $error = $e->getMessage();
-            return response()->json(['error' => $error], 404);
-        }
+        $pdf::SetMargins(15, 0, 5,0);
 
-        DB::commit();
+        $pdf::AddPage();
 
-        return response()->json(['success'=>'Requisition Approved'],200);
+        $pdf::writeHTML($html, true, false, true, false, '');
+        $pdf::Output('requisitions.pdf');
+
+        return view('inventory.requisition.pdf-requisition');
+
     }
 
 }

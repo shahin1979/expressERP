@@ -7,6 +7,10 @@ namespace App\Traits;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\TransCode;
+use App\Models\Human\Admin\Location;
+use App\Models\Inventory\Movement\Requisition;
+use App\Models\Inventory\Movement\TransProduct;
+use App\Models\Inventory\Product\ProductMO;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -40,6 +44,15 @@ trait MigrationTrait
 //                DB::statement('TRUNCATE TABLE products;');
 
                 DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+            }
+
+            if (Config::get('database.default') == 'pgsql') {
+
+                DB::statement('TRUNCATE TABLE general_ledgers RESTART IDENTITY CASCADE;');
+                DB::statement('TRUNCATE TABLE transactions RESTART IDENTITY CASCADE;');
+//                DB::statement('TRUNCATE TABLE categories RESTART IDENTITY CASCADE;');
+//                DB::statement('TRUNCATE TABLE sub_categories RESTART IDENTITY CASCADE;');
+//                DB::statement('TRUNCATE TABLE products RESTART IDENTITY CASCADE;');
             }
 
             $count = 0;
@@ -383,6 +396,143 @@ trait MigrationTrait
         return $count;
 
 
+    }
+
+    public function MTRequisition($company_id)
+    {
+        ini_set('max_execution_time', 600);
+
+        $connection = DB::connection('mcottondb');
+
+        DB::statement('TRUNCATE TABLE locations RESTART identity CASCADE;');
+        DB::statement('TRUNCATE TABLE requisitions RESTART identity CASCADE;');
+
+        // Test Area
+
+        $departments = $connection->table('item_departments')->get();
+
+        $location = Collect([]);
+        $newLine = [];
+
+        $count = 0;
+
+        foreach ($departments as $row)
+        {
+
+            $newLine['company_id'] = $company_id;
+            $newLine['location_type'] = 'F';
+            $newLine['name'] = $row->deptName;
+            $newLine['dept_code'] = $row->deptCode;
+            $newLine['user_id'] = Auth::id();
+
+            $new_location = Location::query()->create($newLine);
+
+            $newLine['id'] = $new_location->id;
+            $location->push($newLine);
+
+            $count ++;
+        }
+
+//        dd($location);
+
+
+
+        $requisitions = $connection->table('item_requisitions')->get();
+
+        $collection = $requisitions->unique('reqRefNo');
+
+        $req_sl = 40000001;
+
+        foreach ($collection as $row)
+        {
+
+            if($row->reqDate < '2019-07-01')
+            {
+                $req_no = '2018'.$req_sl;
+            }else
+            {
+                $tr_code =  TransCode::query()->where('company_id',$company_id)
+                    ->where('trans_code','RQ')
+//                    ->where('fiscal_year','2029-2020')
+                    ->lockForUpdate()->first();
+
+                $req_no = $tr_code->last_trans_id;
+
+                TransCode::query()->where('company_id',$company_id)
+                    ->where('trans_code','RQ')
+                    ->increment('last_trans_id');
+            }
+
+            $inserted = Requisition::query()->create([
+                'company_id'=>$company_id,
+                'ref_no'=>$req_no,
+                'req_type'=> $row->reqType =='Purchase' ? 'P' : 'C',
+                'req_date'=>$row->reqDate,
+                'status'=>$row->status,
+                'user_id'=>Auth::id(),
+                'authorized_by'=>Auth::id(),
+            ]);
+
+            $reqs = $connection->table('item_requisitions')
+                ->where('reqRefNo',$row->reqRefNo)
+                ->where(DB::Raw('length(itemCode)'),9)
+                ->get();
+
+            foreach ($reqs as $req) {
+
+                $req_for = $location->where('dept_code',$req->reqFor)->first();
+                $product = ProductMO::query()
+                    ->where('product_code',$req->itemCode)
+                    ->where('company_id',$company_id)
+                    ->first();
+
+                if(!empty($product))
+                {
+                    TransProduct::query()->insert([
+                        'company_id'=>$company_id,
+                        'ref_no'=>$req_no,
+                        'ref_id'=>$inserted->id,
+                        'ref_type'=>'R',
+                        'to_whom'=>isset($req_for['id']) ? $req_for['id'] : null,
+                        'tr_date'=>$row->reqDate,
+                        'product_id'=>$product->id,
+                        'name'=>$product->name,
+                        'quantity'=>$row->reqQuantity,
+                        'approved'=>$row->approvedQty,
+                        'purchased'=>$row->purchasedQty,
+                        'received'=>$row->receivedQty,
+                        'remarks'=>'Migrated',
+                        'status'=>$row->status
+                    ]);
+                }
+
+            }
+
+            if($row->reqDate < '2019-07-01')
+            {
+                $req_sl ++;
+
+            }else
+            {
+                TransCode::query()->where('company_id',$this->company_id)
+                    ->where('trans_code','RQ')
+//                    ->where('fiscal_year','2029-2020')
+                    ->increment('last_trans_id');
+            }
+
+
+            //Update req no
+
+
+
+            //
+
+
+        }
+
+        return $count;
+
+        //End Test Area
     }
 
 }

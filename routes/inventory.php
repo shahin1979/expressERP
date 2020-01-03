@@ -164,11 +164,11 @@ Route::group(['prefix' => 'requisition', 'namespace' => 'Inventory\Requisition',
     Route::post('approve/{id}','ApproveRequisitionCO@approve');
     Route::post('reject/{id}','ApproveRequisitionCO@reject');
 
-//    Route::get('itemSKU','ProductsCO@getSKU');
+    Route::get('printReqIndex','PrintRequisitionCO@index');
 //
-//    Route::get('getProductDBData','ProductsCO@getProductsDBData');
+    Route::get('reqDataForPrint','PrintRequisitionCO@getPrintReqData');
 //
-//    Route::post('products/update/{id}','ProductsCO@update');
+    Route::get('print/{id}','PrintRequisitionCO@print');
 //    Route::delete('products/delete/{id}','ProductsCO@destroy');
 
 
