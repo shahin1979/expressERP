@@ -173,3 +173,38 @@ Route::group(['prefix' => 'requisition', 'namespace' => 'Inventory\Requisition',
 
 
 });
+
+
+
+// PURCHASE ROUTES
+
+
+Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'middleware' => ['auth']], function () {
+
+    Route::get('supplierInfoIndex','SupplierInfoCO@index');
+    Route::post('supplierInfoIndex','SupplierInfoCO@store');
+
+    Route::get('purchaseProductIndex','PurchaseProductCO@index');
+    Route::post('purchaseProductIndex','PurchaseProductCO@store');
+//    Route::get('productList','CreateRequisitionCO@autocomplete');
+//
+//
+//    Route::get('editReqIndex','EditRequisitionCO@index');
+//    Route::get('requisitionData','EditRequisitionCO@getReqData');
+//    Route::get('edit/{id}','EditRequisitionCO@edit');
+//    Route::post('updateRequisition','EditRequisitionCO@update');
+//
+//    Route::get('approveReqIndex','ApproveRequisitionCO@index');
+//    Route::get('reqDataForApprove','ApproveRequisitionCO@getReqData');
+//    Route::post('approve/{id}','ApproveRequisitionCO@approve');
+//    Route::post('reject/{id}','ApproveRequisitionCO@reject');
+//
+//    Route::get('printReqIndex','PrintRequisitionCO@index');
+////
+//    Route::get('reqDataForPrint','PrintRequisitionCO@getPrintReqData');
+////
+//    Route::get('print/{id}','PrintRequisitionCO@print');
+//    Route::delete('products/delete/{id}','ProductsCO@destroy');
+
+
+});

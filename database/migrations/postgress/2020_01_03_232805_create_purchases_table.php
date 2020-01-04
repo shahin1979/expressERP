@@ -37,9 +37,9 @@ class CreatePurchasesTable extends Migration
             $table->char('status',2)->unsigned()->default(1)->comments('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
             $table->char('stock_status',1)->unsigned()->default('A')->comments('A = Available, F=FINISHED');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field
 
         });

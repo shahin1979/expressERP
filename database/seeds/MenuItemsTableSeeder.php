@@ -525,7 +525,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'i_class'=>'fa fa-sitemap',
 //            'menu_type'=>'MM',
 //            'menu_prefix'=>'5A',
-//            'name'=>'BASIC DATA',
+//            'name'=>'PRODUCTS BASIC',
 //            'show'=>'1',
 //            'url'=>'home',
 //            'status'=>'1'
@@ -735,19 +735,62 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
-            MENUITEM::create( [
-            'id'=>54050,
-            'company_id'=>1,
-            'module_id'=>5,
-            'nav_label'=>5,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'5B',
-            'name'=>'Print Requisition',
-            'show'=>'1',
-            'url'=>'requisition/printReqIndex',
-            'status'=>'1'
-        ] );
+//            MENUITEM::create( [
+//            'id'=>54050,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5B',
+//            'name'=>'Print Requisition',
+//            'show'=>'1',
+//            'url'=>'requisition/printReqIndex',
+//            'status'=>'1'
+//        ] );
 //
+
+
+//            MENUITEM::create( [
+//            'id'=>56000,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'PURCHASE',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1'
+//        ] );
+
+//        MENUITEM::create( [
+//            'id'=>56002,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Supplier Information',
+//            'show'=>'1',
+//            'url'=>'purchase/supplierInfoIndex',
+//            'status'=>'1'
+//        ] );
+
+//        MENUITEM::create( [
+//            'id'=>56005,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Purchase Product',
+//            'show'=>'1',
+//            'url'=>'purchase/purchaseProductIndex',
+//            'status'=>'1'
+//        ] );
+
 //
 //
 //
