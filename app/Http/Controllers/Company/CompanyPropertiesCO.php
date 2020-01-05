@@ -46,7 +46,7 @@ class CompanyPropertiesCO extends Controller
     public function store(Request $request)
     {
 
-        $fiscal_period = $this->get_fiscal_year($request['fp_start']);
+        $fiscal_period = $this->create_fiscal_year($request['fp_start']);
 
         DB::beginTransaction();
 

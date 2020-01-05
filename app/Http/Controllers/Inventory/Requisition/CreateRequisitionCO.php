@@ -52,7 +52,7 @@ class CreateRequisitionCO extends Controller
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','RQ')
-                ->where('fiscal_year',$this->get_fiscal_year(Carbon::now()->format('Y-m-d')))
+                ->where('fiscal_year',$this->get_fiscal_year(Carbon::now()->format('Y-m-d'),$this->company_id))
                 ->lockForUpdate()->first();
 
             $req_no = $tr_code->last_trans_id;

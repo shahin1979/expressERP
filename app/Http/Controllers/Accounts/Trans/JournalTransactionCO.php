@@ -47,7 +47,6 @@ class JournalTransactionCO extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -64,7 +63,7 @@ class JournalTransactionCO extends Controller
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','JV')
-                ->where('fiscal_year',$this->get_fiscal_year($request['trans_date']))
+                ->where('fiscal_year',$this->get_fiscal_year($request['trans_date'],$this->company_id))
                 ->lockForUpdate()->first();
 
             $voucher_no = $tr_code->last_trans_id;
@@ -78,28 +77,28 @@ class JournalTransactionCO extends Controller
                 {
                     $ledger_code = Str::substr($request['accDr'][$i],0,3);
 
-                    Transaction::create([
-                        'COMPANY_ID' => $this->company_id,
-                        'PROJECT_ID' => $request['project_code'][$i],
-                        'TR_CODE' => 'JV',
-                        'TRANS_TYPE'=>$request['type_id'],
-                        'PERIOD' => $period,
-                        'FP_NO' => $fp_no,
-                        'TRANS_ID' => $trans_id,
-                        'TRANS_GROUP_ID' => $trans_id,
-                        'TRANS_DATE' => $tr_date,
-                        'VOUCHER_NO' => $voucher_no,
-                        'ACC_NO' => $request['accDr'][$i],
-                        'CONTRA_ACC'=>null,
-                        'DR_AMT' => $request['drAmt'][$i],
-                        'CR_AMT' => 0,
-                        'TRANS_AMT' => $request['drAmt'][$i],
-                        'CURRENCY' => get_currency($this->company_id),
-                        'FISCAL_YEAR' => $this->fiscal_year,
-                        'TRANS_DESC1' => $request['trans_desc'],
-                        'TRANS_DESC2' => 'journal Transaction',
-                        'POST_FLAG' => False,
-                        'USER_ID' => $this->user_id
+                    Transaction::query()->create([
+                        'company_id' => $this->company_id,
+                        'project_id' => $request['project_code'][$i],
+                        'tr_code' => 'JV',
+                        'trans_type_id'=>$request['type_id'],
+                        'period' => $period,
+                        'fp_no' => $fp_no,
+                        'trans_id' => $trans_id,
+                        'trans_group_id' => $trans_id,
+                        'trans_date' => $tr_date,
+                        'voucher_no' => $voucher_no,
+                        'acc_no' => $request['accDr'][$i],
+                        'contra_acc'=>null,
+                        'dr_amt' => $request['drAmt'][$i],
+                        'cr_amt' => 0,
+                        'trans_amt' => $request['drAmt'][$i],
+                        'currency' => get_currency($this->company_id),
+                        'fiscal_year' => $this->fiscal_year,
+                        'trans_desc1' => $request['trans_desc'],
+                        'trans_desc2' => 'journal Transaction',
+                        'post_flag' => False,
+                        'user_id' => $this->user_id
                     ]);
 
 
@@ -126,28 +125,28 @@ class JournalTransactionCO extends Controller
 
                 if($request['crAmt'][$i] > 0)
                 {
-                    Transaction::create([
-                        'COMPANY_ID' => $this->company_id,
-                        'PROJECT_ID' => $request['project_code'],
-                        'TR_CODE' => 'JV',
-                        'PERIOD' => $period,
-                        'TRANS_TYPE'=>$request['type_id'],
-                        'FP_NO' => $fp_no,
-                        'CHEQUE_NO'=>null,
-                        'TRANS_ID' => $trans_id,
-                        'TRANS_GROUP_ID' => $trans_id,
-                        'TRANS_DATE' => $tr_date,
-                        'VOUCHER_NO' => $voucher_no,
-                        'ACC_NO' => $request['accCr'][$i],
-                        'DR_AMT' => 0,
-                        'CR_AMT' => $request['crAmt'][$i],
-                        'TRANS_AMT' => $request['crAmt'][$i],
-                        'CURRENCY' => get_currency($this->company_id),
-                        'FISCAL_YEAR' => $this->fiscal_year,
-                        'TRANS_DESC1' => $request['trans_desc'],
-                        'TRANS_DESC2' => 'Journal Credit Transaction',
-                        'POST_FLAG' => False,
-                        'USER_ID' => $this->user_id
+                    Transaction::query()->create([
+                        'company_id' => $this->company_id,
+                        'project_id' => $request['project_code'],
+                        'tr_code' => 'JV',
+                        'period' => $period,
+                        'trans_type_id'=>$request['type_id'],
+                        'fp_no' => $fp_no,
+                        'cheque_no'=>null,
+                        'trans_id' => $trans_id,
+                        'trans_group_id' => $trans_id,
+                        'trans_date' => $tr_date,
+                        'voucher_no' => $voucher_no,
+                        'acc_no' => $request['accCr'][$i],
+                        'dr_amt' => 0,
+                        'cr_amt' => $request['crAmt'][$i],
+                        'trans_amt' => $request['crAmt'][$i],
+                        'currency' => get_currency($this->company_id),
+                        'fiscal_year' => $this->fiscal_year,
+                        'trans_desc1' => $request['trans_desc'],
+                        'trans_desc2' => 'Journal Credit Transaction',
+                        'post_flag' => False,
+                        'user_id' => $this->user_id
                     ]);
 
                     $ldgr_credit = Str::substr($request['accCr'][$i],0,3);

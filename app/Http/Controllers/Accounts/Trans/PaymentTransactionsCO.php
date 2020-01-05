@@ -106,10 +106,12 @@ class PaymentTransactionsCO extends Controller
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','PM')
-                ->where('fiscal_year',$this->get_fiscal_year($request['trans_date']))
+                ->where('fiscal_year',$this->get_fiscal_year($request['trans_date'],$this->company_id))
                 ->lockForUpdate()->first();
 
             $voucher_no = $tr_code->last_trans_id;
+
+
 
            // DEBIT TRANSACTION ENTRY
 

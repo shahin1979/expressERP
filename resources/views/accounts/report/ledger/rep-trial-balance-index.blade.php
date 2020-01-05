@@ -59,7 +59,7 @@
 
                     <table class="table table-striped table-bordered table-hover table-responsive">
                         <thead>
-                        <tr >
+                        <tr class="table-primary">
                             <th>Acc No</th>
                             <th>Acc Name</th>
                             <th>Acc Type</th>
@@ -72,7 +72,7 @@
                         </thead>
                         <tbody>
                         @foreach($report as $i=>$row)
-                        <tr style="background-color: {!! $i%2 == 0 ? '#67b84c' : '#ffffff' !!}">
+                        <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
                             <td>{!! $row['acc_no'] !!}</td>
                             <td>{!! $row['acc_name'] !!}</td>
                             <td>{!! $row['acc_type'] !!}</td>
