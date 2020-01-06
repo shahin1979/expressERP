@@ -20,6 +20,7 @@ class Requisition extends Model
         'description',
         'status',
         'user_id',
+        'extra_field'
     ];
 
     public function items()

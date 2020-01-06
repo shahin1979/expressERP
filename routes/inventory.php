@@ -182,6 +182,7 @@ Route::group(['prefix' => 'requisition', 'namespace' => 'Inventory\Requisition',
 Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'middleware' => ['auth']], function () {
 
     Route::get('supplierInfoIndex','SupplierInfoCO@index');
+    Route::get('getSupplierInfo','SupplierInfoCO@getSupplierData');
     Route::post('supplierInfoIndex','SupplierInfoCO@store');
 
     Route::get('purchaseProductIndex','PurchaseProductCO@index');

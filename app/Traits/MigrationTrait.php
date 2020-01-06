@@ -6,8 +6,10 @@ namespace App\Traits;
 
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Company\Relationship;
 use App\Models\Company\TransCode;
 use App\Models\Human\Admin\Location;
+use App\Models\Inventory\Movement\Purchase;
 use App\Models\Inventory\Movement\Requisition;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
@@ -407,6 +409,9 @@ trait MigrationTrait
         DB::statement('TRUNCATE TABLE locations RESTART identity CASCADE;');
         DB::statement('TRUNCATE TABLE requisitions RESTART identity CASCADE;');
 
+//        DB::statement('ALTER TABLE requisitions ADD extra_field VARCHAR(150);');
+
+
         // Test Area
 
         $departments = $connection->table('item_departments')->get();
@@ -433,12 +438,8 @@ trait MigrationTrait
             $count ++;
         }
 
-//        dd($location);
-
-
 
         $requisitions = $connection->table('item_requisitions')->get();
-
         $collection = $requisitions->unique('reqRefNo');
 
         $req_sl = 40000001;
@@ -458,9 +459,9 @@ trait MigrationTrait
 
                 $req_no = $tr_code->last_trans_id;
 
-                TransCode::query()->where('company_id',$company_id)
-                    ->where('trans_code','RQ')
-                    ->increment('last_trans_id');
+//                TransCode::query()->where('company_id',$company_id)
+//                    ->where('trans_code','RQ')
+//                    ->increment('last_trans_id');
             }
 
             $inserted = Requisition::query()->create([
@@ -469,6 +470,7 @@ trait MigrationTrait
                 'req_type'=> $row->reqType =='Purchase' ? 'P' : 'C',
                 'req_date'=>$row->reqDate,
                 'status'=>$row->status,
+                'extra_field'=>$row->reqRefNo,
                 'user_id'=>Auth::id(),
                 'authorized_by'=>Auth::id(),
             ]);
@@ -520,19 +522,83 @@ trait MigrationTrait
                     ->increment('last_trans_id');
             }
 
-
-            //Update req no
-
-
-
-            //
-
-
         }
 
         return $count;
 
         //End Test Area
+    }
+
+    public function MTPurchase($company_id)
+    {
+        ini_set('max_execution_time', 600);
+
+        $connection = DB::connection('mcottondb');
+
+        DB::statement('TRUNCATE TABLE relationships RESTART identity CASCADE;');
+
+        $data = $connection->table('customers')
+            ->where('customerType','E')
+            ->get();
+
+        $collection = Collect([]);
+        $newLine = [];
+        $count = 0;
+        foreach ($data as $row)
+        {
+            $newLine['company_id'] = $company_id;
+            $newLine['relation_type'] = 'LS';
+            $newLine['name'] = $row->custName;
+            $newLine['fax_number'] = $row->custID;
+            $newLine['address'] = $row->custAddress;
+            $newLine['phone_number'] = $row->phoneNo;
+            $newLine['ledger_acc_no'] = $row->glhead;
+            $newLine['email'] = $row->email;
+            $newLine['user_id'] = Auth::id();
+
+            Relationship::query()->create($newLine);
+
+        }
+
+        $purchase = $connection->table('purchase_header')->get();
+        $items = $connection->table('purchase_items')->get();
+
+
+        $newLine = [];
+        $pr_sl = 70000001;
+
+//        foreach ($purchase as $invoice)
+//        {
+//            if($row->purchaseOrderNo < '2019-07-01')
+//            {
+//                $pi_no = '2018'.$pr_sl;
+//            }else
+//            {
+//                $tr_code =  TransCode::query()->where('company_id',$company_id)
+//                    ->where('trans_code','PR')
+//                    ->lockForUpdate()->first();
+//
+//                $pi_no = $tr_code->last_trans_id;
+//            }
+//
+//            $inserted = Purchase::query()->create([
+//                'company_id'=>$company_id,
+//                'ref_no'=>$pi_no,
+//                'req_type'=> $row->reqType =='Purchase' ? 'P' : 'C',
+//                'req_date'=>$row->reqDate,
+//                'status'=>$row->status,
+//                'extra_field'=>$row->reqRefNo,
+//                'user_id'=>Auth::id(),
+//                'authorized_by'=>Auth::id(),
+//            ]);
+//
+//            $newLine['company_id'] = $company_id;
+//            $newLine['user_id'] = Auth::id();
+//
+//            Purchase::query()->create($newLine);
+//        }
+
+        return $count;
     }
 
 }

@@ -29,6 +29,12 @@ class CreateRequisitionsTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field
+            $table->string('extra_field',150)->nullable();
+            $table->index('company_id');
+            $table->unique(array('company_id', 'ref_no'));
+            $table->index('ref_no');
+            $table->index('req_date');
+            $table->index('req_type');
         });
 
         DB::unprepared('

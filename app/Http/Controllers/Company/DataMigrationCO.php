@@ -36,11 +36,10 @@ class DataMigrationCO extends Controller
     public function migrate()
     {
 
+//        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
-//        $output = $this->matinDB($this->company_id);
-
-//        $output = $this->MTRequisition($this->company_id);
         $output = $this->MTRequisition($this->company_id);
+//        $output = $this->MTPurchase($this->company_id);
 
         dd($output);
 
