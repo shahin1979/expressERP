@@ -97,3 +97,21 @@ Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', '
 
 
 });
+
+
+
+// BUDGET ROUTES
+
+Route::group(['prefix' => 'budget', 'namespace' => 'Accounts\Budget', 'middleware' => ['auth']], function () {
+
+    //PAYMENT TRANSACTIONS ROUTE
+
+    Route::get('prepareBudgetIndex','PrepareBudgetCO@index');
+    Route::get('getBudgetInfo','PrepareBudgetCO@getBudgetInfo');
+    Route::post('prepareBudgetIndex','PrepareBudgetCO@store');
+
+
+
+
+
+});

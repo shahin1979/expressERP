@@ -374,6 +374,58 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1'
 //        ] );
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        MENUITEM::create( [
+//        'id'=>43000,
+//        'company_id'=>1,
+//        'module_id'=>4,
+//        'nav_label'=>4,
+//        'div_class'=>'nav-item has-sub',
+//        'i_class'=>'fa fa-sitemap',
+//        'menu_type'=>'MM',
+//        'menu_prefix'=>'4B',
+//        'name'=>'ANNUAL BUDGET',
+//        'show'=>'1',
+//        'url'=>'home',
+//        'status'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>43005,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4B',
+//            'name'=>'Prepare Budget',
+//            'show'=>'1',
+//            'url'=>'budget/prepareBudgetIndex',
+//            'status'=>'1'
+//        ] );
+
+
+
+
+
+
+
+
+
+
+
 //
 //
 //

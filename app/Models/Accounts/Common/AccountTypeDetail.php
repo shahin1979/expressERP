@@ -19,7 +19,7 @@ class AccountTypeDetail extends Model
     protected $fillable = [
         'ACCOUNT_TYPE_ID',
         'TYPE_CODE',
-        'DESCRIPTION'
+        'description'
     ];
 
     public function parent()
