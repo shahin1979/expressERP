@@ -92,10 +92,6 @@ Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', '
     Route::get('dailyTransactionIndex','DailyTransactionReportCO@index');
     Route::get('printVoucherIndex','PrintVoucherControllerCO@index');
 
-
-
-
-
 });
 
 
@@ -110,8 +106,19 @@ Route::group(['prefix' => 'budget', 'namespace' => 'Accounts\Budget', 'middlewar
     Route::get('getBudgetInfo','PrepareBudgetCO@getBudgetInfo');
     Route::post('prepareBudgetIndex','PrepareBudgetCO@store');
 
+});
 
 
+
+// FINANCIAL STATEMENTS' ROUTES
+
+Route::group(['prefix' => 'statement', 'namespace' => 'Accounts\Statement', 'middleware' => ['auth']], function () {
+
+    //PAYMENT TRANSACTIONS ROUTE
+
+    Route::get('createFileIndex','CreateStatementFileCO@index');
+    Route::get('getStatementFileInfo','CreateStatementFileCO@getStatementFileInfo');
+    Route::post('createFileIndex','CreateStatementFileCO@store');
 
 
 });

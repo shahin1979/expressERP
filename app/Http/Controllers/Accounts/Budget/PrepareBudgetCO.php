@@ -9,6 +9,7 @@ use App\Models\Company\FiscalPeriod;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class PrepareBudgetCO extends Controller
@@ -42,8 +43,8 @@ class PrepareBudgetCO extends Controller
             ->addColumn('action', function ($accounts) {
 
                 return '<button data-remote="edit/'.$accounts->id.'"
-                                data-accNo="'.$accounts->acc_no.'"
-                                data-accName="'.$accounts->acc_name.'"
+                                data-number="'.$accounts->acc_no.'"
+                                data-name="'.$accounts->acc_name.'"
                                 data-bdt00="'.$accounts->cyr_bgt_tr.'"
                                 data-bdt01="'.$accounts->bgt_01.'"
                                 data-bdt02="'.$accounts->bgt_02.'"
@@ -66,7 +67,30 @@ class PrepareBudgetCO extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        DB::beginTransaction();
+
+        try {
+
+            $total = 0;
+            for($i=1; $i<=12; $i++)
+            {
+                $total = $total + $request['bgt_'.str_pad($i,2,"0",STR_PAD_LEFT)];
+            }
+            $request['cyr_bgt_tr'] = $total;
+
+            GeneralLedger::query()->where('company_id',$this->company_id)
+                ->where('acc_no',$request['acc_no'])
+                ->update($request->except('_token','acc_no','cyr_total'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return redirect()->back()->with(['error'=>$error]);
+        }
+
+        DB::commit();
+
+        return redirect()->action('Accounts\Budget\PrepareBudgetCO@index')->with('success','Annual budget updated');
 
     }
 }

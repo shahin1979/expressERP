@@ -43,14 +43,16 @@
         </div>
 
         {!! Form::open(['url'=>'budget/prepareBudgetIndex','method'=>'POST']) !!}
+
+        <input name="acc_no" id="acc_no" type="hidden">
+
         <div id="new-budget" class="col-md-8">
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
                 <tr>
-                    <td id="acc_name"></td>
-                    <td id="acc_no"></td>
+                    <td colspan="2" id="acc_name" style="color: #a94442"></td>
                     <td><label for="name" class="control-label">Current Year</label></td>
-                    <td colspan="3"><input id="cyr_bgt_tr" style="background-color: #f1f1f1" type="text" class="form-control text-right" name="cyr_bgt_tr" value="" required autofocus></td>
+                    <td colspan="3"><input id="cyr_total" style="background-color: #f1f1f1" type="text" class="form-control text-right" name="cyr_total" value="" required autofocus></td>
                 </tr>
                 <tr>
                     <td><label for="bgt_01" class="control-label">{!! $months[0]->month_name !!}</label></td>
@@ -139,24 +141,43 @@
         });
 
         $('body').on("click", ".btn-edit", function (e) {
-            $('#cyr_bgt_tr').val($(this).data('bdt00'));
+            $('#acc_name').html('Account : '+ $(this).data('number') + ' : ' + $(this).data('name'));
+            $('#cyr_total').val($(this).data('bdt00'));
             $('#bgt_01').val($(this).data('bdt01'));
             $('#bgt_02').val($(this).data('bdt02'));
-            $('#bdgt03').val($(this).data('bdt03'));
-            $('#bdgt04').val($(this).data('bdt04'));
-            $('#bdgt05').val($(this).data('bdt05'));
-            $('#bdgt06').val($(this).data('bdt06'));
-            $('#bdgt07').val($(this).data('bdt07'));
-            $('#bdgt08').val($(this).data('bdt08'));
-            $('#bdgt09').val($(this).data('bdt09'));
-            $('#bdgt10').val($(this).data('bdt10'));
-            $('#bdgt11').val($(this).data('bdt11'));
-            $('#bdgt12').val($(this).data('bdt12'));
+            $('#bgt_03').val($(this).data('bdt03'));
+            $('#bgt_04').val($(this).data('bdt04'));
+            $('#bgt_05').val($(this).data('bdt05'));
+            $('#bgt_06').val($(this).data('bdt06'));
+            $('#bgt_07').val($(this).data('bdt07'));
+            $('#bgt_08').val($(this).data('bdt08'));
+            $('#bgt_09').val($(this).data('bdt09'));
+            $('#bgt_10').val($(this).data('bdt10'));
+            $('#bgt_11').val($(this).data('bdt11'));
+            $('#bgt_12').val($(this).data('bdt12'));
+
+            $('#acc_no').val($(this).data('number'));
 
             $('#new-budget').show();
             $('#budgets-table').parents('div.dataTables_wrapper').first().hide();
 
         });
+
+        $( "#cyr_total" ).keyup(function() {
+            $('#bgt_01').val($(this).val()/12);
+            $('#bgt_02').val($(this).val()/12);
+            $('#bgt_03').val($(this).val()/12);
+            $('#bgt_04').val($(this).val()/12);
+            $('#bgt_05').val($(this).val()/12);
+            $('#bgt_06').val($(this).val()/12);
+            $('#bgt_07').val($(this).val()/12);
+            $('#bgt_08').val($(this).val()/12);
+            $('#bgt_09').val($(this).val()/12);
+            $('#bgt_10').val($(this).val()/12);
+            $('#bgt_11').val($(this).val()/12);
+            $('#bgt_12').val($(this).val()/12);
+        });
+
     });
 
 

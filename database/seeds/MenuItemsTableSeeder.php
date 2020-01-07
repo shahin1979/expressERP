@@ -554,6 +554,37 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //
+
+//            MENUITEM::create( [
+//            'id'=>49000,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'FINANCIAL STATEMENT',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>49005,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Statement File',
+//            'show'=>'1',
+//            'url'=>'statement/createFileIndex',
+//            'status'=>'1'
+//        ] );
+
+
+
 //
 //        MENUITEM::create( [
 //            'id'=>50001,
