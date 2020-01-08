@@ -30,11 +30,10 @@
             <table class="table table-bordered table-hover" id="suppliers-table">
                 <thead style="background-color: #b0b0b0">
                 <tr>
-                    <th>Id</th>
                     <th>Name</th>
-                    {{--<th>Type</th>--}}
-                    <th>Street </th>
+                    <th>GL Account</th>
                     <th>Address </th>
+                    <th>City</th>
                     <th>Phone No</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -43,7 +42,7 @@
             </table>
         </div>
 
-        {!! Form::open(['url'=>'product/categoryIndex','method'=>'POST']) !!}
+        {!! Form::open(['url'=>'purchase/supplierInfoIndex','method'=>'POST']) !!}
         <div id="new-supplier" class="col-md-12">
             <table width="100%" class="table table-bordered table-striped table-hover table-info">
                 <tbody>
@@ -143,11 +142,36 @@
 
         });
 
+
+        $(function() {
+            var table= $('#suppliers-table').DataTable({
+                processing: true,
+                serverSide: true,
+                autoWidth: false,
+                responsive: true,
+                ajax: 'getSupplierInfo',
+                columns: [
+                    { data: 'name', name: 'name' },
+                    { data: 'ledger_acc_no', name: 'ledger_acc_no' },
+                    { data: 'address', name: 'address' },
+                    { data: 'city', name: 'city' },
+                    { data: 'phone_number', name: 'phone_number' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false, printable: false},
+                    { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
+                ]
+            });
+        });
+
+
+
+
+
         $(document).on('click', '.btn-supplier-add', function (e) {
             $('#new-supplier').show();
             $('#suppliers-table').parents('div.dataTables_wrapper').first().hide();
             $('#top-head').hide();
         });
+
 
 
     </script>

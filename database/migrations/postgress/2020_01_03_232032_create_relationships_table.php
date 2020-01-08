@@ -45,6 +45,8 @@ class CreateRelationshipsTable extends Migration
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field
+            $table->string('extra_field',150)->nullable();
+            $table->index('company_id');
         });
     }
 
