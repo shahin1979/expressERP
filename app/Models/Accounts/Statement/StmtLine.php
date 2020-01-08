@@ -4,9 +4,9 @@ namespace App\Models\Accounts\Statement;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StmtList extends Model
+class StmtLine extends Model
 {
-    protected $table = "stmt_lists";
+    protected $table = "stmt_lines";
 
     protected $guarded = ['id', 'created_at','updated_at'];
 

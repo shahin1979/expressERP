@@ -117,8 +117,10 @@ Route::group(['prefix' => 'statement', 'namespace' => 'Accounts\Statement', 'mid
     //PAYMENT TRANSACTIONS ROUTE
 
     Route::get('createFileIndex','CreateStatementFileCO@index');
-    Route::get('getStatementFileInfo','CreateStatementFileCO@getStatementFileInfo');
+    Route::get('statementFileList','CreateStatementFileCO@getStatementFileList');
     Route::post('createFileIndex','CreateStatementFileCO@store');
+
+    Route::post('updateFileIndex','CreateStatementFileCO@update');
 
 
 });

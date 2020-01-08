@@ -1,8 +1,11 @@
+Oracle
+
 SELECT ''''||lower(column_name)||''','
 FROM USER_TAB_COLUMNS
 WHERE table_name = 'ITEM_UNITS'
 order by column_id
 
+PG
 
 SELECT  ''''||lower(c.column_name)||''','
 from pg_catalog.pg_statio_all_tables as st
@@ -10,6 +13,13 @@ inner join pg_catalog.pg_description pgd on (pgd.objoid=st.relid)
 right outer join information_schema.columns c on (pgd.objsubid=c.ordinal_position and  c.table_schema=st.schemaname and c.table_name=st.relname)
 where table_schema = 'public' and table_name = 'menu_items';
 
+
+MYSQL
+
+SELECT concat("'",column_name,"',")
+FROM information_schema.columns
+WHERE `TABLE_SCHEMA`='express'
+and table_name='stmt_lists'
 
 array validation
 
