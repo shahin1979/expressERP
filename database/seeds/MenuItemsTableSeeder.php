@@ -583,6 +583,34 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1'
 //        ] );
 
+        MENUITEM::create( [
+            'id'=>49015,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4X',
+            'name'=>'Prepare Statement',
+            'show'=>'1',
+            'url'=>'statement/lineStatementIndex',
+            'status'=>'1'
+        ] );
+
+        MENUITEM::create( [
+            'id'=>49020,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4X',
+            'name'=>'Print Statement',
+            'show'=>'1',
+            'url'=>'statement/printStatementIndex',
+            'status'=>'1'
+        ] );
+
+
+
 
 
 //

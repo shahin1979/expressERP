@@ -20,7 +20,7 @@ class CreateStmtLinesTable extends Migration
             $table->char('file_no',4);
             $table->integer('line_no',false)->default(0);
             $table->integer('text_position',false)->default(0);
-            $table->integer('font',false)->default(10);
+            $table->integer('font_size',false)->default(10);
             $table->string('texts',40);
             $table->string('acc_type',1)->nullable();
             $table->string('bal_type',3)->nullable();

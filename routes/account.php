@@ -123,4 +123,12 @@ Route::group(['prefix' => 'statement', 'namespace' => 'Accounts\Statement', 'mid
     Route::post('updateFileIndex','CreateStatementFileCO@update');
 
 
+
+    Route::get('lineStatementIndex','CreateStatementLineCO@index');
+    Route::get('getStatementLineData/{id}','CreateStatementLineCO@getStatementLineData');
+    Route::post('lineStatementIndex','CreateStatementLineCO@store');
+
+    Route::post('updateLineIndex','CreateStatementLineCO@update');
+
+
 });
