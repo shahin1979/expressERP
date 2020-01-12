@@ -9,6 +9,7 @@ use App\Models\Accounts\Statement\StmtList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class CreateStatementLineCO extends Controller
@@ -56,25 +57,30 @@ class CreateStatementLineCO extends Controller
 
             ->addColumn('action', function ($lines) {
 
-                return '<button data-rowId="'.$lines->id.'"
+                return '<button data-id="'.$lines->id.'"
                                 data-file="'.$lines->file_no.'"
                                 data-name="'.$lines->name->file_desc.'"
                                 data-line="'.$lines->line_no.'"
-                                data-textPosition="'.$lines->text_position.'"
-                                data-fontSize="'.$lines->font_size.'"
+                                data-position="'.$lines->text_position.'"
+                                data-font="'.$lines->font_size.'"
                                 data-texts="'.$lines->texts.'"
-                                data-accType="'.$lines->acc_type.'"
+                                data-type="'.$lines->acc_type.'"
                                 data-note="'.$lines->note.'"
                                 data-ac11="'.$lines->ac11.'"
                                 data-ac12="'.$lines->ac12.'"
                                 data-ac21="'.$lines->ac21.'"
                                 data-ac22="'.$lines->ac22.'"
-                                data-subTotal="'.$lines->sub_total.'"
+                                data-calculation="'.$lines->sub_total.'"
                                 data-formula="'.$lines->formula.'"
                     type="button" class="btn btn-statement-edit btn-xs btn-primary">Edit</button>
-                <button data-remote="statement/delete/'.$lines->id.'"  type="button" class="btn btn-delete btn-xs btn-danger pull-right">Delete</button>';
+                <button data-remote="lineDelete/'.$lines->id.'"  type="button" class="btn btn-delete btn-xs btn-danger pull-right">Delete</button>';
             })
-            ->rawColumns(['action'])
+            ->addColumn('variable', function ($lines) {
+
+                return Str::length($lines->sub_total) > 0 ? $lines->sub_total : $lines->formula;
+            })
+            ->rawColumns(['action','variable'])
+
             ->make(true);
     }
 
@@ -107,13 +113,9 @@ class CreateStatementLineCO extends Controller
 
         try {
 
-            StmtList::query()->where('company_id',$this->company_id)
-                ->where('file_no',$request['file_no'])
-                ->update([
-                    'file_desc'=>$request['file_desc'],
-                    'import_file'=>$request['import_file'],'import_line'=>$request['import_line'],
-                    'into_line'=>$request['into_line']
-                ]);
+            StmtLine::query()->where('company_id',$this->company_id)
+                ->where('id',$request['id'])
+                ->update($request->except('file_no','method','submit'));
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -123,6 +125,26 @@ class CreateStatementLineCO extends Controller
 
         DB::commit();
 
-        return response()->json(['success'=>'Statement File Updated Successfully'],200);
+        return response()->json(['success'=>'Statement Line Updated Successfully'],200);
+    }
+
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            StmtLine::query()->where('company_id',$this->company_id)
+                ->where('id',$id)->delete();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return response()->json(['error' => $error], 404);
+        }
+
+        DB::commit();
+
+        return response()->json(['success'=>'Statement Line Deleted Successfully'],200);
     }
 }

@@ -128,7 +128,8 @@ Route::group(['prefix' => 'statement', 'namespace' => 'Accounts\Statement', 'mid
     Route::get('getStatementLineData/{id}','CreateStatementLineCO@getStatementLineData');
     Route::post('lineStatementIndex','CreateStatementLineCO@store');
 
-    Route::post('updateLineIndex','CreateStatementLineCO@update');
+    Route::post('updateStatementLineIndex','CreateStatementLineCO@update');
+    Route::delete('lineDelete/{id}','CreateStatementLineCO@destroy');
 
 
 });

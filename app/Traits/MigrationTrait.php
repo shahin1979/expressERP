@@ -5,6 +5,8 @@ namespace App\Traits;
 
 
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Accounts\Statement\StmtLine;
+use App\Models\Accounts\Statement\StmtList;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\Relationship;
 use App\Models\Company\TransCode;
@@ -599,6 +601,64 @@ trait MigrationTrait
 //        }
 
         return $count;
+    }
+
+    public function MTStatement($company_id)
+    {
+        $connection = DB::connection('mcottondb');
+
+//        DB::statement('TRUNCATE TABLE stmt_lists RESTART identity CASCADE;');
+        DB::statement('TRUNCATE TABLE stmt_lists;');
+        DB::statement('TRUNCATE TABLE stmt_lines;');
+
+
+        $data = $connection->table('stmt_lists')->get();
+
+        $newLine = [];
+        foreach ($data as $row)
+        {
+            $newLine['company_id'] = $company_id;
+            $newLine['file_no'] = $row->fileNo;
+            $newLine['file_desc'] = $row->fileDesc;
+            $newLine['import_file'] = $row->importFile;
+            $newLine['import_line'] = $row->importLine;
+            $newLine['into_line'] = $row->intoLine;
+            $newLine['user_id'] = Auth::id();
+
+            StmtList::query()->create($newLine);
+
+        }
+
+        $data = $connection->table('stmt_data')->get();
+
+        $newRow = [];
+        $count = 0;
+        foreach ($data as $row)
+        {
+            $newRow['company_id'] = $company_id;
+            $newRow['file_no'] = $row->fileNo;
+            $newRow['line_no'] = $row->lineNo;
+            $newRow['text_position'] = $row->textPosition;
+            $newRow['font_size'] = $row->font;
+            $newRow['texts'] = $row->texts;
+            $newRow['acc_type'] = $row->accType;
+            $newRow['bal_type'] = $row->balType;
+            $newRow['note'] = $row->note;
+            $newRow['ac11'] = $row->ac11;
+            $newRow['ac12'] = $row->ac12;
+            $newRow['ac21'] = $row->ac21;
+            $newRow['ac22'] = $row->ac22;
+            $newRow['figure_position'] = $row->figrPosition;
+            $newRow['sub_total'] = $row->subTotal;
+            $newRow['formula'] = $row->pFormula;
+            $newRow['user_id'] = Auth::id();
+
+            StmtLine::query()->create($newRow);
+            $count++;
+        }
+
+        return $count;
+
     }
 
 }

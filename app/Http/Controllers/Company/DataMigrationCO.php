@@ -38,8 +38,9 @@ class DataMigrationCO extends Controller
 
 //        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
-        $output = $this->MTRequisition($this->company_id);
+//        $output = $this->MTRequisition($this->company_id);
 //        $output = $this->MTPurchase($this->company_id);
+        $output = $this->MTStatement($this->company_id);
 
         dd($output);
 

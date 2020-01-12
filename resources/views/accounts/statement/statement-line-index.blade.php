@@ -66,7 +66,6 @@
                     <th>Ac1 End</th>
                     <th>Ac2 Start</th>
                     <th>Ac2 End</th>
-                    <th>Sub Total</th>
                     <th>Formula</th>
                     <th>Action</th>
                 </tr>
@@ -83,6 +82,15 @@
                 <div class="card-header bg-success">Insert Statement Details</div>
 
                 <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="pull-left">
+                                <a class="btn btn-primary btn-back"> <i class="fa fa-list"></i> Back </a>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <table width="100%" class="table table-bordered table-striped table-hover">
                         <tbody>
@@ -158,6 +166,15 @@
 
                 <div class="card-body">
 
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="pull-left">
+                                <a class="btn btn-primary btn-back"> <i class="fa fa-list"></i> Back </a>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <table width="100%" class="table table-bordered table-striped table-hover">
                         <tbody>
 
@@ -170,7 +187,7 @@
 
                         <tr>
                             <td><label for="import_line" class="control-label">LINE NO:</label></td>
-                            <td><input id="u_line_no" type="text" class="form-control text-right" name="line_no" value=""></td>
+                            <td><input id="u_line_no" type="text" class="form-control text-right" name="line_no" value="" readonly></td>
                             <td><label for="text_position" class="control-label">TEXT POSITION :</label></td>
                             <td>{!! Form::select('text_position',[5 => '5', 10 => '10',15 => '15'],15,array('id'=>'u_text_position','class'=>'form-control')) !!}</td>
                         </tr>
@@ -212,11 +229,11 @@
 
                         </tbody>
 
-                        <input id="u_id" type="hidden" name="u_id"/>
+                        <input id="u_id" type="hidden" name="id"/>
 
                         <tfoot>
                         <tr>
-                            <td colspan="4"><button type="submit" id="btn-statement-update" class="btn btn-primary btn-statement-update">Update</button></td>
+                            <td colspan="4"><button type="submit" id="btn-line-update" class="btn btn-primary btn-line-update">Update</button></td>
                         </tr>
                         </tfoot>
                     </table>
@@ -244,6 +261,15 @@
 
         });
 
+        $(document).on('click', '.btn-back', function (e) {
+
+            $('#new-statement').hide();
+            $('#edit-statement').hide();
+            $('#statements-table').parents('div.dataTables_wrapper').first().show();
+            $('#top-head').show();
+
+        });
+
         $(document).on('click', '.btn-statement-add', function (e) {
             $('#new-statement').show();
             $('#statements-table').parents('div.dataTables_wrapper').first().hide();
@@ -264,8 +290,7 @@
                     { data: 'ac12', name: 'ac12' },
                     { data: 'ac21', name: 'ac21' },
                     { data: 'ac22', name: 'ac22' },
-                    { data: 'sub_total', name: 'sub_total' },
-                    { data: 'formula', name: 'formula' },
+                    { data: 'variable', name: 'variable' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
             });
@@ -276,21 +301,103 @@
                 $('#u_file_desc').val($(this).data('name'));
                 $('#u_line_no').val($(this).data('line'));
                 $('#u_texts').val($(this).data('texts'));
-                $('#u_font_size').val($(this).data('fontSize'));
-                $('#u_acc_type').val($(this).data('accType'));
+                $('#u_font_size').val($(this).data('font'));
+                $('#u_text_position').val($(this).data('position'));
+                $('#u_acc_type').val($(this).data('type'));
                 $('#u_ac11').val($(this).data('ac11'));
                 $('#u_ac12').val($(this).data('ac12'));
                 $('#u_ac21').val($(this).data('ac21'));
                 $('#u_ac22').val($(this).data('ac22'));
-                $('#u_sub_total').val($(this).data('subTotal'));
+                $('#u_sub_total').val($(this).data('calculation'));
                 $('#u_formula').val($(this).data('formula'));
-                $('#u_id').val($(this).data('rowId'));
+                $('#u_id').val($(this).data('id'));
 
                 $('#edit-statement').show();
                 $('#statements-table').parents('div.dataTables_wrapper').first().hide();
                 $('#top-head').hide();
             });
+
+
+            $(this).on('click', '.btn-delete', function (e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                var url = $(this).data('remote');
+                // confirm then
+                $.ajax({
+                    beforeSend: function (request) {
+                        return confirm("Are you sure to delete ?");
+                    },
+                    url: url,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: {method: '_DELETE', submit: true}
+                }).always(function (data) {
+                    $('#statements-table').DataTable().draw(false);
+                });
+            });
+
         });
+
+        $(document).on('click', '.btn-line-update', function (e) {
+
+            e.preventDefault();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url = 'updateStatementLineIndex';
+
+            // confirm then
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+
+                data: {method: '_POST', submit: true,
+                    file_no:$('#u_file_no').val(),
+                    text_position:$('#u_text_position').val(),
+                    texts:$('#u_texts').val(),
+                    font_size:$('#u_font_size').val(),
+                    acc_type:$('#u_acc_type').val(),
+                    ac11:$('#u_ac11').val(),
+                    ac12:$('#u_ac12').val(),
+                    ac21:$('#u_ac21').val(),
+                    ac22:$('#u_ac22').val(),
+                    sub_total:$('#u_sub_total').val(),
+                    formula:$('#u_formula').val(),
+                    id:$('#u_id').val(),
+
+                },
+
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                },
+
+                success: function (data) {
+                    alert(data.success);
+                    $('#edit-statement').hide();
+                    $('#statements-table').DataTable().draw(false);
+                    $('#top-head').show();
+                    $('#statements-table').parents('div.dataTables_wrapper').first().show();
+                }
+            });
+        });
+
+
+
+
+        $(function (){
+            $(document).on("focus", "input:text", function() {
+                $(this).select();
+            });
+        });
+
 
     </script>
 
