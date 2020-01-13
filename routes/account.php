@@ -82,6 +82,9 @@ Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middl
 
 
 
+
+
+
 });
 
 
@@ -131,5 +134,11 @@ Route::group(['prefix' => 'statement', 'namespace' => 'Accounts\Statement', 'mid
     Route::post('updateStatementLineIndex','CreateStatementLineCO@update');
     Route::delete('lineDelete/{id}','CreateStatementLineCO@destroy');
 
+
+    // Print Statement Routes
+
+    Route::get('printStatementIndex','PrintStatementCO@index');
+    Route::post('prepareStatementIndex','PrintStatementCO@prepare');
+    Route::get('showStatementIndex','PrintStatementCO@show');
 
 });
