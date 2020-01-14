@@ -187,10 +187,14 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
 
     Route::get('purchaseProductIndex','PurchaseProductCO@index');
     Route::post('purchaseProductIndex','PurchaseProductCO@store');
-//    Route::get('productList','CreateRequisitionCO@autocomplete');
+
+    Route::get('purchaseRequisitionIndex','RequisitionPurchaseCO@index');
 //
 //
-//    Route::get('editReqIndex','EditRequisitionCO@index');
+    Route::get('reqDataForPurchase','RequisitionPurchaseCO@getReqPurchaseData');
+    Route::get('purchaseIndex/{id}','RequisitionPurchaseCO@purchase');
+
+    Route::post('itemSummary','RequisitionPurchaseCO@itemSum');
 //    Route::get('requisitionData','EditRequisitionCO@getReqData');
 //    Route::get('edit/{id}','EditRequisitionCO@edit');
 //    Route::post('updateRequisition','EditRequisitionCO@update');

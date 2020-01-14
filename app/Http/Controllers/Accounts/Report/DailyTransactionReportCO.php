@@ -9,6 +9,9 @@ use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DailyTransactionReportCO extends Controller
 {
@@ -70,6 +73,9 @@ class DailyTransactionReportCO extends Controller
                     switch($request['action'])
                     {
                         case 'preview':
+
+                            $trans = $this->paginate($trans);
+
                             break;
 
                         case 'print':
@@ -101,6 +107,18 @@ class DailyTransactionReportCO extends Controller
                 }
             }
         return view('accounts.report.transaction.daily-transaction-index',compact('trans','dates'));
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
 }

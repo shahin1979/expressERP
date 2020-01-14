@@ -27,16 +27,16 @@
 
 
         <div class="row dataTables_wrapper" style="overflow-x:auto;">
-            <table class="table table-bordered table-hover" id="suppliers-table">
+            <table class="table table-bordered table-hover table-striped" id="suppliers-table">
                 <thead style="background-color: #b0b0b0">
-                <tr>
+                <tr class="table-success">
                     <th>Name</th>
                     <th>GL Account</th>
                     <th>Address </th>
                     <th>City</th>
                     <th>Phone No</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th style="width: 12%">Action</th>
                 </tr>
                 </thead>
             </table>

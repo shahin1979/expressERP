@@ -114,6 +114,8 @@
 
         </div>
 
+        {{ $trans->links() }}
+
 
     @endif
 

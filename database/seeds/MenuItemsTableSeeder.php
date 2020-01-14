@@ -583,32 +583,32 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1'
 //        ] );
 
-        MENUITEM::create( [
-            'id'=>49015,
-            'company_id'=>1,
-            'module_id'=>4,
-            'nav_label'=>4,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'4X',
-            'name'=>'Prepare Statement',
-            'show'=>'1',
-            'url'=>'statement/lineStatementIndex',
-            'status'=>'1'
-        ] );
-
-        MENUITEM::create( [
-            'id'=>49020,
-            'company_id'=>1,
-            'module_id'=>4,
-            'nav_label'=>4,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'4X',
-            'name'=>'Print Statement',
-            'show'=>'1',
-            'url'=>'statement/printStatementIndex',
-            'status'=>'1'
-        ] );
-
+//        MENUITEM::create( [
+//            'id'=>49015,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Prepare Statement',
+//            'show'=>'1',
+//            'url'=>'statement/lineStatementIndex',
+//            'status'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>49020,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Print Statement',
+//            'show'=>'1',
+//            'url'=>'statement/printStatementIndex',
+//            'status'=>'1'
+//        ] );
+//
 
 
 
@@ -896,9 +896,23 @@ class MenuItemsTableSeeder extends Seeder
 //            'nav_label'=>5,
 //            'menu_type'=>'SM',
 //            'menu_prefix'=>'5E',
-//            'name'=>'Purchase Product',
+//            'name'=>'Direct Purchase Product',
 //            'show'=>'1',
 //            'url'=>'purchase/purchaseProductIndex',
+//            'status'=>'1'
+//        ] );
+
+//
+//            MENUITEM::create( [
+//            'id'=>56015,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Purchase Against Requisition',
+//            'show'=>'1',
+//            'url'=>'purchase/purchaseRequisitionIndex',
 //            'status'=>'1'
 //        ] );
 

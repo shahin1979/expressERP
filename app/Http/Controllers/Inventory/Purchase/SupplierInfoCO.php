@@ -25,18 +25,20 @@ class SupplierInfoCO extends Controller
             ->addColumn('action', function ($suppluers) {
 
                 return '<div class="btn-category btn-group-sm" role="group" aria-label="Action Button">
-                    <button data-remote="view/'.$suppluers->id.'"  type="button" class="btn btn-view btn-sm btn-info"><i class="fa fa-book-open">View</i></button>
                     <button data-remote="edit/' . $suppluers->id . '" data-rowid="'. $suppluers->id . '"
                         data-category="'. $suppluers->category_id . '"
                         data-name="'. $suppluers->name . '"
                         data-ledger="'. $suppluers->acc_no . '"
-                        type="button" class="btn btn-sm btn-category-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
-                    <button data-remote="subcategory/delete/'.$suppluers->id.'"  type="button" class="btn btn-category-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                        type="button" class="btn btn-sm btn-category-edit btn-primary pull-center">Edit</i></button>
+                    <button data-remote="subcategory/delete/'.$suppluers->id.'"  type="button" class="btn btn-category-delete btn-sm btn-danger">Delete</i></button>
                     </div>
 
                     ';
             })
-            ->rawColumns(['action'])
+            ->editColumn('status',function ($suppluers){
+                return $suppluers->status == 1 ? 'Active' : 'Inactive';
+            })
+            ->rawColumns(['action','status'])
             ->make(true);
     }
 
