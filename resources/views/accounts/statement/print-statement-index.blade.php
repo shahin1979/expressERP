@@ -40,7 +40,7 @@
 
                 <div class="div">
                     <br/>
-                    {!! Form::open(['url'=>'statement/showStatementIndex', 'method' => 'GET']) !!}
+                    {!! Form::open(['url'=>'statement/showStatementIndex', 'method' => 'GET' ,'target'=>'_blank']) !!}
 
                     <table width="90%" class="table table-responsive table-hover" >
 

@@ -43,5 +43,10 @@ class StmtLine extends Model
         return $this->belongsTo(StmtList::class,'file_no' ,'file_no');
     }
 
+//    public function getFormulaAttribute($value)
+//    {
+//        return str_replace('+', '', $value);
+//    }
+
 
 }

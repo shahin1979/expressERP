@@ -30,9 +30,9 @@ class CreateStmtLinesTable extends Migration
             $table->string('ac21',9)->nullable();
             $table->string('ac22',9)->nullable();
             $table->integer('figure_position',false)->nullable()->default(0);
-            $table->char('sub_total',1)->nullable();
-            $table->string('formula',51)->nullable();
-            $table->decimal('range_val1',15,2)->nullable()->defalut(0);
+            $table->char('sub_total',1)->nullable()->default(null);
+            $table->string('formula',51)->nullable()->default(null);
+            $table->decimal('range_val1',15,2)->nullable()->default(0);
             $table->decimal('print_val1',15,2)->nullable()->default(0);
             $table->decimal('range_val2',15,2)->nullable()->default(0);
             $table->decimal('print_val2',15,2)->nullable()->default(0);
