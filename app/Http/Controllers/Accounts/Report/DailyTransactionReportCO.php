@@ -69,12 +69,20 @@ class DailyTransactionReportCO extends Controller
                         ->get();
 
                     $dates = $trans->unique('trans_date');
+                    $params = collect();
 
                     switch($request['action'])
                     {
                         case 'preview':
 
-                            $trans = $this->paginate($trans);
+                            $params['date_from'] = $date_from;
+                            $params['date_to'] = $date_to;
+                            $params['dates'] = $dates;
+
+
+                            $trans = $this->paginate($trans,5);
+                            $trans->appends($request->all())
+                                ->setPath('dailyTransactionIndex');
 
                             break;
 

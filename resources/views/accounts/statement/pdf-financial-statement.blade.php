@@ -44,10 +44,10 @@
                         <tr style="line-height: 200%;">
 
                             @if($row->text_position == 5)
-                                <td colspan="3" width="60%" style="border-bottom-width:0.2px; font-size:12pt;">{!! $row->texts !!}</td>
-                                <td width="10%" style="border-bottom-width:0.2px; font-size:12pt;">{!! $row->note !!}</td>
-                                @if($row->text_position ==60)
-                                    <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:12pt;">{!! (number_format(abs($row->print_val),2)) !!}</td>
+                                <td colspan="3" width="60%" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! $row->texts !!}</td>
+                                <td width="10%" style="border-bottom-width:0.2px; font-size:12pt; font-weight: bold">{!! $row->note !!}</td>
+                                @if($row->figure_position == 60)
+                                    <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! (number_format(abs($row->print_val),2)) !!}</td>
                                 @endif
                             @endif
 
@@ -55,15 +55,14 @@
                                 <td width="10%"></td>
                                 <td colspan="2" width="50%" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! $row->texts !!}</td>
                                 <td width="10%" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! $row->note !!}</td>
-                                    <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! (number_format(abs($row->print_val),2)) !!}</td>
 
-{{--                                @if($row->text_position == 60)--}}
-{{--                                    @if($row->line_no == 600 and $row->file_no=='PL01' and $row->print_val > 0)--}}
-{{--                                        <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! (number_format(abs($row->print_val),2)) !!}(Loss)</td>--}}
-{{--                                    @else--}}
-{{--                                        <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! (number_format(abs($row->print_val),2)) !!}</td>--}}
-{{--                                    @endif--}}
-{{--                                @endif--}}
+                                @if($row->figure_position == 60)
+                                    @if($row->line_no == 600 and $row->file_no=='PL01' and $row->print_val > 0)
+                                        <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! (number_format(abs($row->print_val),2)) !!}(Loss)</td>
+                                    @else
+                                        <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:10pt; font-weight: bold">{!! (number_format(abs($row->print_val),2)) !!}</td>
+                                    @endif
+                                @endif
 
                             @endif
 
@@ -71,7 +70,7 @@
                                 <td colspan="2"  width="15%"></td>
                                 <td width="45%" style="border-bottom-width:0.2px; font-size:10pt;">{!! $row->texts !!}</td>
                                 <td width="10%" style="border-bottom-width:0.2px; font-size:10pt;">{!! $row->note !!}</td>
-                                @if($row->figure_position ==60)
+                                @if($row->figure_position == 60)
                                     <td width="25%" align="right" style="border-bottom-width:0.2px; font-size:10pt;">{!! (number_format(abs($row->print_val),2)) !!}</td>
                                 @endif
                             @endif

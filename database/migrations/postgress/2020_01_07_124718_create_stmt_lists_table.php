@@ -25,6 +25,7 @@ class CreateStmtListsTable extends Migration
             $table->string('base_formula',9)->nullable();
             $table->decimal('import_value',15,2)->nullable()->default(0);
             $table->integer('order_sequence')->nullable();
+            $table->boolean('posted')->default(0);
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('value_date')->nullable();
