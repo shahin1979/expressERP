@@ -11,7 +11,7 @@
     </nav>
 
     <div class="container-fluid">
-
+        {!! Form::open(['url'=>'purchase/reqPurchase','method'=>'POST']) !!}
         <div class="form-group col-md-12" style="background-color: rgba(177, 245, 174, 0.33)">
             {!! Form::label('items', 'Items', ['class' => 'control-label']) !!}
             <div class="table-responsive">

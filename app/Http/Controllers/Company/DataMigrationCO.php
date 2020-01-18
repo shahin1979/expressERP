@@ -39,8 +39,8 @@ class DataMigrationCO extends Controller
 //        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
-//        $output = $this->MTPurchase($this->company_id);
-        $output = $this->MTStatement($this->company_id);
+        $output = $this->MTPurchase($this->company_id);
+//        $output = $this->MTStatement($this->company_id);
 
         dd($output);
 
@@ -173,6 +173,7 @@ class DataMigrationCO extends Controller
                 $newLine['location_type'] = 'F';
                 $newLine['name'] = $row->deptName;
                 $newLine['dept_code'] = $row->deptCode;
+                $newLine['user_id'] = $this->user_id;
 
                 $inserted = Location::query()->create($newLine);
 

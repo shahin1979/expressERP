@@ -195,7 +195,8 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
     Route::get('purchaseIndex/{id}','RequisitionPurchaseCO@purchase');
 
     Route::post('itemSummary','RequisitionPurchaseCO@itemSum');
-//    Route::get('requisitionData','EditRequisitionCO@getReqData');
+    Route::post('reqPurchase','RequisitionPurchaseCO@reqPurchaseStore');
+
 //    Route::get('edit/{id}','EditRequisitionCO@edit');
 //    Route::post('updateRequisition','EditRequisitionCO@update');
 //
