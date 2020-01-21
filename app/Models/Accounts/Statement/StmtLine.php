@@ -35,6 +35,8 @@ class StmtLine extends Model
         'print_val3',
         'print_val',
         'pcnt',
+        'negative_value',
+        'import_line',
         'user_id',
     ];
 

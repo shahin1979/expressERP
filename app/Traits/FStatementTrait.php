@@ -27,6 +27,8 @@ trait FStatementTrait
             ->where('sub_total','<>','')
             ->where('file_no',$file_no)->get();
 
+        $nextFile = 99;
+
 //        if($lines[0]->file_no == 'MA01')
 //        {
 //            dd('here');
@@ -58,6 +60,9 @@ trait FStatementTrait
                     {
                         StmtLine::query()->where('id',$row->id)
                             ->increment('range_val1',$acc_bal->trans_bal + $item->start_dr - $item->start_cr);
+                    }else{
+                        StmtLine::query()->where('id',$row->id)
+                            ->increment('range_val1',$item->start_dr - $item->start_cr);
                     }
 
                 }
@@ -72,13 +77,29 @@ trait FStatementTrait
                     {
                         StmtLine::query()->where('id',$row->id)
                             ->increment('range_val2',$acc_bal->trans_bal + $item->start_dr - $item->start_cr);
+                    }else{
+                        StmtLine::query()->where('id',$row->id)
+                            ->increment('range_val2',$item->start_dr - $item->start_cr);
                     }
+                }
 
+                // Import value update to related line
+                if($row->import_line == true)
+                {
+                    $imp_value = StmtList::query()->where('company_id',$company_id)
+                        ->where('file_no',$file_no)->first();
+
+                    StmtLine::query()->where('id',$row->id)->update(['range_val1'=>$imp_value->import_value]);
                 }
 
                 StmtLine::query()->where('id',$row->id)->update(['range_val3'=>DB::raw('range_val1 + range_val2')]);
-
             }
+
+            // Make Negetive Value Line Negetive
+
+            StmtLine::query()->where('negative_value',true)->update(['range_val3'=>DB::raw('range_val3*(-1)')]);
+
+          //  updating sub totals
 
             $collection = StmtLine::query()->where('company_id',$company_id)
                 ->where('file_no',$file_no)
@@ -121,6 +142,8 @@ trait FStatementTrait
                     ->where('import_file',$file_no)
                     ->update(['import_value'=>$import_value]);
 
+                $nextFile = $import->file_no;
+
 //                dd($import_value);
             }
 
@@ -137,7 +160,7 @@ trait FStatementTrait
 //
 //        DB::commit();
 
-        return true;
+        return $nextFile;
     }
 
 }

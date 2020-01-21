@@ -4,6 +4,7 @@
 namespace App\Traits;
 
 
+use App\Models\Accounts\Ledger\DepreciationMO;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Statement\StmtLine;
 use App\Models\Accounts\Statement\StmtList;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\DB;
 
 trait MigrationTrait
 {
+    use TransactionsTrait;
+
     public function matinDB($company_id)
     {
         $connection = DB::connection('mcottondb');
@@ -129,14 +132,14 @@ trait MigrationTrait
             // Migrate Transactions Table
 
             $transactions = $connection->table('transactions')
-                ->where('comp_code',12)->get();
+                ->where('comp_code',12)
+                ->where('trans_date','>','2019-11-30')
+                ->get();
 
 
             $data = $connection->table('transactions')
                 ->select(DB::Raw('distinct voucher_no, j_code'))
                 ->where('comp_code',12)
-//                ->where('trans_date','<','2019-07-10')
-//                ->where('voucher_no',5100766)
                 ->get();
 
 
@@ -164,8 +167,6 @@ trait MigrationTrait
                     ->where('voucher_no',$trans->voucher_no)
                     ->get();
 
-//                dd($trans_all);
-
                 foreach ($trans_all as $item)
                 {
                     $sl = Carbon::parse($item->trans_date)->format('m');
@@ -178,7 +179,7 @@ trait MigrationTrait
                             'company_id'=>$company_id,
                             'period'=>$item->period,
                             'tr_code'=>$jcode,
-                            'trans_type_id'=>6,
+                            'trans_type_id'=>8,
                             'fp_no'=>$fp_no,
                             'ref_no'=>$item->ref_no,
                             'cheque_no'=>$item->cheque_no,
@@ -236,7 +237,7 @@ trait MigrationTrait
                             'company_id'=>$company_id,
                             'period'=>$item->period,
                             'tr_code'=>$jcode,
-                            'trans_type_id'=>6,
+                            'trans_type_id'=>8,
                             'fp_no'=>$fp_no,
                             'ref_no'=>$item->ref_no,
                             'cheque_no'=>$item->cheque_no,
@@ -259,8 +260,6 @@ trait MigrationTrait
                             'post_date'=>$item->trans_date,
                             'user_id'=>Auth::id(),
                         ]);
-
-//                        $var = str_pad($item->fp_no,2,"0",STR_PAD_LEFT);
 
                         GeneralLedger::query()->where('company_id',$company_id)
                             ->where('acc_no',$item->acc_dr)
@@ -651,6 +650,8 @@ trait MigrationTrait
             $newRow['figure_position'] = $row->figrPosition;
             $newRow['sub_total'] = $row->subTotal;
             $newRow['formula'] = $row->pFormula;
+            $newRow['import_line'] = $row->fixedValue;
+            $newRow['negative_value'] = $row->negVal;
             $newRow['user_id'] = Auth::id();
 
             StmtLine::query()->create($newRow);
@@ -659,6 +660,41 @@ trait MigrationTrait
 
         return $count;
 
+    }
+
+    public function depreciation($company_id, $connection)
+    {
+        DB::statement('TRUNCATE TABLE depreciation;');
+
+
+        $data = $connection->table('fixed_asset_sch')->get();
+
+        $newLine = [];
+        $count = 0;
+        foreach ($data as $row)
+        {
+            $newLine['company_id'] = $company_id;
+            $newLine['acc_no'] = $row->accNo;
+            $newLine['fp_no'] = $row->fpNo;
+            $newLine['fiscal_year'] = $this->get_fiscal_year_db_date($company_id,$row->opnDate);
+            $newLine['start_date'] = $row->opnDate;
+            $newLine['end_date'] = $row-> endDate ;
+            $newLine['open_bal'] = $row->openBall;
+            $newLine['additional_bal'] = $row->Addition;
+            $newLine['total_bal'] = $row->totalVal;
+            $newLine['dep_rate'] = $row->depRate;
+            $newLine['dep_amt'] = $row->deprAmt;
+            $newLine['closing_bal'] = $row->finalval;
+            $newLine['contra_acc'] = $row->contraAcc;
+            $newLine['approve_date'] = $row->postDate;
+            $newLine['approve_status'] = $row->postingStatus;
+            $newLine['user_id'] = Auth::id();
+
+            DepreciationMO::query()->create($newLine);
+            $count++;
+
+        }
+        return $count;
     }
 
 }

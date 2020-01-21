@@ -10,6 +10,7 @@ use App\Models\Inventory\Product\ItemUnit;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SubCategory;
 use App\Traits\MigrationTrait;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -36,13 +37,19 @@ class DataMigrationCO extends Controller
     public function migrate()
     {
 
+        $connection = DB::connection('mcottondb');
+
 //        $output = $this->mumanuDB($this->company_id);
-//        $output = $this->matinDB($this->company_id);
+        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
-        $output = $this->MTPurchase($this->company_id);
-//        $output = $this->MTStatement($this->company_id);
+//        $output = $this->MTPurchase($this->company_id);
+        $output = $this->MTStatement($this->company_id);
+        $output = $this->depreciation($this->company_id,$connection);
+//        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
 
         dd($output);
+
+        dd('here');
 
         $connection = DB::connection('mcottondb');
 

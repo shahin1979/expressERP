@@ -33,7 +33,8 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 
     Route::get('depreciationSetupIndex','DepreciationSetupCO@index');
     Route::get('getDepreciationData','DepreciationSetupCO@getDepreciationData');
-    Route::post('saveDepreciationAccount','DepreciationSetupCO@store');
+    Route::post('saveDepreciationAccount','DepreciationSetupCO@create');
+    Route::post('depreciation/store','DepreciationSetupCO@store');
 
     //Reports
 

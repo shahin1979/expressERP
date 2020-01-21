@@ -291,7 +291,7 @@ class CompanyPropertiesCO extends Controller
 
                     $month_sl = Carbon::parse($start_date)->format('m');
                     $month = date('F', mktime(0,0,0,$month_sl, 1, date('Y')));
-                    $status = true;
+                    $status = 'A';
 
 
                     FiscalPeriod::query()->create([

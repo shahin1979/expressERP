@@ -35,7 +35,7 @@ class RepGeneralLedgerCO extends Controller
             $ledger = GeneralLedger::query()->where('company_id',$this->company_id)
                 ->where('acc_no',$request['acc_no'])->first();
 
-            $opening_bal = $this->get_account_balance($request['acc_no'],$this->company_id,$fromDate);
+            $opening_bal = $this->get_account_opening_balance($request['acc_no'],$this->company_id,$fromDate);
 
             $data = Transaction::query()->where('company_id',$this->company_id)
                 ->where('tr_state',false)

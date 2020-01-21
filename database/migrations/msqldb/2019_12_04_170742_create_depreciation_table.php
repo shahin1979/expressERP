@@ -19,6 +19,7 @@ class CreateDepreciationTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('acc_no',8);
             $table->integer('fp_no',false);
+            $table->char('fiscal_year',9);
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('open_bal',15,2)->default(0);

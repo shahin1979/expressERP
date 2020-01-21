@@ -37,6 +37,26 @@ class TransTypeTableSeeder extends Seeder
         ]);
 
         DB::table('trans_types')->insert([
+            'name' => 'DEP',
+            'description' => 'Depreciation',
+        ]);
+
+        DB::table('trans_types')->insert([
+            'name' => 'Migrated',
+            'description' => 'Migrated',
+        ]);
+
+        DB::table('trans_types')->insert([
+            'name' => 'Sales',
+            'description' => 'Sales',
+        ]);
+
+        DB::table('trans_types')->insert([
+            'name' => 'Purchase',
+            'description' => 'Purchase',
+        ]);
+
+        DB::table('trans_types')->insert([
             'name' => 'Others',
             'description' => 'Others',
         ]);

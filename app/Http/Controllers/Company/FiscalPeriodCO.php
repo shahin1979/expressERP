@@ -22,7 +22,7 @@ class FiscalPeriodCO extends Controller
 
     public function getFiscalData()
     {
-        $fiscal = FiscalPeriod::query()->where('status',True)->where('company_id',$this->company_id);
+        $fiscal = FiscalPeriod::query()->where('status','A')->where('company_id',$this->company_id);
 //        dd($fiscal);
 
 

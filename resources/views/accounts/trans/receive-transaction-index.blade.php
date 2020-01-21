@@ -107,7 +107,7 @@
                     <tr>
                         <td>Debit</td>
                         <td width="20%">{!! Form::select('acc_dr',$debits, '10112101', array('id' => 'acc_dr', 'class' => 'form-control')) !!}</td>
-                        <td width="10%">{!! Form::text('curr_bal', (get_account_balance('10112101',$users_company->company_id)) , array('id' => 'curr_bal', 'class' => 'form-control head-balance text-right', 'readonly' => 'true')) !!}</td>
+                        <td width="10%">{!! Form::text('curr_bal', (get_account_curr_balance('10112101',$users_company->company_id)) , array('id' => 'curr_bal', 'class' => 'form-control head-balance text-right', 'readonly' => 'true')) !!}</td>
                         <td width="5%">Type</td>
                         <td>{!! Form::select('type_id',$trans_types, 6, array('id' => 'type_id', 'class' => 'form-control')) !!}</td>
                         <td>{!! Form::label('date','Date:', array('class' => 'col-md-1 control-label')) !!}</td>

@@ -126,7 +126,7 @@
                     <tr>
                         <td>Credit</td>
                         <td width="25%">{!! Form::select('acc_cr',$credits, '10112101', array('id' => 'acc_cr', 'class' => 'form-control')) !!}</td>
-                        <td width="20%">{!! Form::text('curr_bal', (get_account_balance('10112102',$users_company->company_id)) , array('id' => 'curr_bal', 'class' => 'form-control head-balance text-right', 'readonly' => 'true')) !!}</td>
+                        <td width="20%">{!! Form::text('curr_bal', (get_account_curr_balance('10112102',$users_company->company_id)) , array('id' => 'curr_bal', 'class' => 'form-control head-balance text-right', 'readonly' => 'true')) !!}</td>
                         <td width="5%">Type</td>
                         <td width="20%">{!! Form::select('type_id',$trans_types, 6, array('id' => 'type_id', 'class' => 'form-control')) !!}</td>
                         <td width="10%">{!! Form::label('date','Date:', array('class' => 'col-md-1 control-label')) !!}</td>

@@ -15,6 +15,7 @@ class DepreciationMO extends Model
         'company_id',
         'acc_no',
         'fp_no',
+        'fiscal_year',
         'start_date',
         'end_date',
         'open_bal',

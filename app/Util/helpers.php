@@ -64,7 +64,7 @@ if (!function_exists('convert_to_camel_case')) {
     }
 }
 
-if (!function_exists('get_account_balance')) {
+if (!function_exists('get_account_curr_balance')) {
 
     /**
      * generate secure random numbers
@@ -76,7 +76,7 @@ if (!function_exists('get_account_balance')) {
      *
      * @return int|number
      */
-    function get_account_balance($acc_no, $company_id)
+    function get_account_curr_balance($acc_no, $company_id)
     {
         $balance = GeneralLedger::query()->where('company_id',$company_id)
             ->where('acc_no',$acc_no)->value('curr_bal');

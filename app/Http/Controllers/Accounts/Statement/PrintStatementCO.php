@@ -52,6 +52,8 @@ class PrintStatementCO extends Controller
 
 //        dd($filesWithoutImport);
 
+        $nextFile = null;
+
         DB::beginTransaction();
 
         try {
@@ -60,6 +62,20 @@ class PrintStatementCO extends Controller
 
                 $output = $this->range_value($this->company_id, $row->file_no, $report_date);
 
+                if($output != 99)
+                {
+                    $nextFile = $output;
+                }
+
+            }
+
+            $restCount = StmtList::query()->where('company_id',$this->company_id)
+                ->where('posted',false)->count();
+
+            for($i = 0; $i <$restCount; $i++ )
+            {
+                $output = $this->range_value($this->company_id, $nextFile, $report_date);
+                $nextFile = $output;
             }
 
         }catch (\Exception $e) {
@@ -159,7 +175,7 @@ class PrintStatementCO extends Controller
 //
 //        DB::commit();
 
-        return response()->json(['success'=>$report_date],200);
+        return response()->json(['success'=>$nextFile],200);
     }
 
     public function show(Request $request)

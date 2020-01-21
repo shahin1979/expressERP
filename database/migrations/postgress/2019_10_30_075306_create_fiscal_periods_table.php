@@ -24,10 +24,14 @@ class CreateFiscalPeriodsTable extends Migration
             $table->string('month_name',9);
             $table->date('start_date');
             $table->date('end_date');
-            $table->boolean('status')->default(1);
+            $table->char('status',1)->default('A'); // A=Active  C=Closed
             $table->boolean('depreciation');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+
+            $table->index('fp_no');
+            $table->index('status');
+            $table->index('company_id');
         });
 
 
