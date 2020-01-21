@@ -43,7 +43,7 @@
                         </td>
 
                         <td>
-                            {!! Form::select('item[' . $item_row . '][supplier]',$suppliers , null, ['id'=> 'item-supplier-'. $item_row, 'class' => 'form-control', 'placeholder' => 'Please Select']) !!}
+                            {!! Form::select('item[' . $item_row . '][supplier_id]',$suppliers , null, ['id'=> 'item-supplier-id-'. $item_row, 'class' => 'form-control', 'placeholder' => 'Please Select']) !!}
                         </td>
 
                         <td>

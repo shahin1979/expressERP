@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\Models\Company\Relationship;
 use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class TransProduct extends Model
         'ref_id',
         'tr_date',
         'ref_type',
-        'to_whom',
+        'relationship_id',
         'product_id',
         'name',
         'quantity',
@@ -48,6 +49,11 @@ class TransProduct extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class,'to_whom','id');
+        return $this->belongsTo(Location::class,'relationship_id','id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Relationship::class,'relationship_id','id');
     }
 }

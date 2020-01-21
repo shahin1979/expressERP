@@ -496,7 +496,7 @@ trait MigrationTrait
                         'ref_no'=>$req_no,
                         'ref_id'=>$inserted->id,
                         'ref_type'=>'R',
-                        'to_whom'=>isset($req_for['id']) ? $req_for['id'] : null,
+                        'relationship_id'=>isset($req_for['id']) ? $req_for['id'] : null,
                         'tr_date'=>$row->reqDate,
                         'product_id'=>$product->id,
                         'name'=>$product->name,

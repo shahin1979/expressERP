@@ -71,7 +71,7 @@ class CreateRequisitionCO extends Controller
                     $requisition_item['ref_no'] = $req_no;
                     $requisition_item['ref_id'] = $inserted->id;
                     $requisition_item['ref_type'] = 'R'; //Requisition
-                    $requisition_item['to_whom'] = $item['requisition_for'];
+                    $requisition_item['relationship_id'] = $item['requisition_for'];
                     $requisition_item['tr_date']= Carbon::now();
                     $requisition_item['product_id'] = $item['item_id'];
                     $requisition_item['quantity'] = $item['quantity'];

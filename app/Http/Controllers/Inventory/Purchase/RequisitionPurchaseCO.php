@@ -160,7 +160,7 @@ class RequisitionPurchaseCO extends Controller
                     $purchase_item['ref_no'] = $pur_no;
                     $purchase_item['ref_id'] = $inserted->id;
                     $purchase_item['ref_type'] = 'P'; //Requisition
-//                    $purchase_item['to_whom'] = $item['requisition_for'];
+                    $purchase_item['relationship_id'] = $item['supplier_id'];
                     $purchase_item['tr_date']= Carbon::now();
                     $purchase_item['product_id'] = $item['item_id'];
                     $purchase_item['quantity'] = $item['quantity'];
@@ -181,21 +181,21 @@ class RequisitionPurchaseCO extends Controller
         {
             DB::rollBack();
             $error = $e->getMessage();
-            return redirect()->back()->with('error','Requisition Failed To Save '.$error);
+            return redirect()->back()->with('error','Purchase Failed To Save '.$error);
         }
 
         DB::commit();
 
-        return redirect()->action('Inventory\Requisition\CreateRequisitionCO@index')->with('success','Requisition Data Saved');
+        return redirect()->action('Inventory\Purchase\RequisitionPurchaseCO@index')->with('success','Purchase Data Saved');
 
-        $request['company_id'] = $this->company_id;
-        $request['user_id'] = $this->user_id;
-
-
-        Purchase::query()->create($request->except('_token'));
-
-
-        dd($request->all());
+//        $request['company_id'] = $this->company_id;
+//        $request['user_id'] = $this->user_id;
+//
+//
+//        Purchase::query()->create($request->except('_token'));
+//
+//
+//        dd($request->all());
 
     }
 }

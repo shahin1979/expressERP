@@ -21,16 +21,13 @@ class CreateTransProductsTable extends Migration
             $table->bigInteger('ref_id',false)->unsigned()->comments('Invoice, Purchase, Requisition No, Challan id');;
             $table->date('tr_date');
             $table->char('ref_type',1)->comments('P = Purchase, R = Requisition, S = Sales, I = Import, D = Delivery, E = Export'); //1 for consumption 2 for purchase
-
-            $table->bigInteger('to_whom')->unsigned()->nullable()->comment('From Location Table Type F')->comments('For which department this was created');
-            $table->foreign('to_whom')->references('id')->on('locations')->onDelete('CASCADE');
-
+            $table->integer('relationship_id')->unsigned()->nullable()->comment('For which department/supplier/ buyer etc this was created');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
             $table->string('name',160)->nullable();
             $table->decimal('quantity',15,2)->default(0.00);
             $table->decimal('unit_price',15,2)->default(0.00);
-            $table->bigInteger('tax_id')->unsigned()->nullable();
+            $table->bigInteger('tax_id')->unsigned()->nullable()->index('FK_products_tax');
             $table->foreign('tax_id')->references('id')->on('item_taxes')->onDelete('CASCADE');
             $table->decimal('tax_total',15,2)->default(0.00);
             $table->decimal('total_price',15,2)->default(0.00);
@@ -50,8 +47,6 @@ class CreateTransProductsTable extends Migration
             $table->index('ref_no');
             $table->index('product_id');
             $table->index('tr_date');
-            $table->index('ref_id');
-            $table->index('tax_id');
         });
     }
 
