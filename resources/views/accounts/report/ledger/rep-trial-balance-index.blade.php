@@ -27,7 +27,7 @@
 
                         <tr>
                             <td width="5%"><label for="date_from" class="control-label" >Trial Balance For</label></td>
-                            <td width="10%">{!! Form::select('type_code',['A'=>'Account Wise', 'G'=>'Group Wise'], 'A'  , array('id' => 'type_code', 'class' => 'form-control','required')) !!}</td>
+                            <td width="10%">{!! Form::select('report_type',['A'=>'Account Wise', 'G'=>'Group Wise'], 'A'  , array('id' => 'report_type', 'class' => 'form-control','required')) !!}</td>
                             <td width="5%"><label for="date_to" class="control-label" >As On</label></td>
                             <td width="10%">{!! Form::text('date_to', Carbon\Carbon::now()->format('d-m-Y'), array('id' => 'date_to', 'class' => 'form-control','required','readonly')) !!}</td>
                         </tr>
@@ -52,7 +52,7 @@
 
         <div class="card">
             <div class="card-header">
-                Trial Balance As On {!! $toDate !!}
+                Trial Balance As On {!! $params['toDate'] !!}
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -72,27 +72,36 @@
                         </thead>
                         <tbody>
                         @foreach($report as $i=>$row)
-                        <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
-                            <td>{!! $row['acc_no'] !!}</td>
-                            <td>{!! $row['acc_name'] !!}</td>
-                            <td>{!! $row['acc_type'] !!}</td>
-                            <td style="text-align: right">{!! number_format($row['opening_dr'],2) !!}</td>
-                            <td style="text-align: right">{!! number_format($row['opening_cr'],2) !!}</td>
-                            <td style="text-align: right">{!! number_format($row['dr_tr'],2) !!}</td>
-                            <td style="text-align: right">{!! number_format($row['cr_tr'],2) !!}</td>
-                            <td style="text-align: right">{!! number_format($row['balance'],2)  !!}</td>
+                            @if($row['is_group'] == $params['report_type'])
+                            <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
+                                <td>{!! $row['acc_no'] !!}</td>
+                                <td>{!! $row['acc_name'] !!}</td>
+                                <td>{!! $row['acc_type'] !!}</td>
+                                <td style="text-align: right">{!! number_format($row['opening_dr'],2) !!}</td>
+                                <td style="text-align: right">{!! number_format($row['opening_cr'],2) !!}</td>
 
-                        </tr>
+                                @if($params['report_type'] == false)
+
+                                <td style="text-align: right">{!! number_format($row['dr_tr'],2) !!}</td>
+                                <td style="text-align: right">{!! number_format($row['cr_tr'],2) !!}</td>
+                                <td style="text-align: right">{!! number_format($row['balance'],2)  !!}</td>
+                                @else
+                                    <td style="text-align: right">{!! number_format($report->where('ledger_code',$row['ledger_code'])->where('is_group',false)->sum('dr_tr'),2) !!}</td>
+                                    <td style="text-align: right">{!! number_format($report->where('ledger_code',$row['ledger_code'])->where('is_group',false)->sum('cr_tr'),2) !!}</td>
+                                    <td style="text-align: right">{!! number_format($report->where('ledger_code',$row['ledger_code'])->where('is_group',false)->sum('balance'),2)  !!}</td>
+                                @endif
+                            </tr>
+                            @endif
                         @endforeach
                         </tbody>
                         <tfoot>
                             <tr style="background-color: #3A92AF">
                                 <td colspan="3">Grand Total</td>
-                                <td style="text-align: right">{!! number_format($report->sum('opening_dr'),2)  !!}</td>
-                                <td style="text-align: right">{!! number_format($report->sum('opening_cr'),2)  !!}</td>
-                                <td style="text-align: right">{!! number_format($report->sum('dr_tr'),2)  !!}</td>
-                                <td style="text-align: right">{!! number_format($report->sum('cr_tr'),2)  !!}</td>
-                                <td style="text-align: right">{!! number_format($report->sum('balance'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('opening_dr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('opening_cr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('dr_tr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('cr_tr'),2)  !!}</td>
+                                <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('balance'),2)  !!}</td>
 
                             </tr>
                         </tfoot>
@@ -103,9 +112,6 @@
 
             </div>
         </div>
-
-
-
     @endif
 
 

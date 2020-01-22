@@ -108,26 +108,22 @@ trait MigrationTrait
 
             //Update Group ba
 
-//            $sum = GeneralLedger::query()->where('company_id',$company_id)
-//                ->where('is_group',false)
-//                ->select('ledger_code',DB::raw('sum(start_dr) as start_dr, sum(start_cr) as start_cr,
-//                                    sum(cyr_dr) as cyr_dr, sum(cyr_cr) as cyr_cr, sum(curr_bal) as curr_bal'))
-//                ->groupBy('ledger_code')
-//                ->get();
-//
-//            foreach ($sum as $item)
-//            {
-//                GeneralLedger::query()->where('company_id',$company_id)
-//                    ->where('is_group',true)
-//                    ->where('ledger_code',$item->ledger_code)
-//                    ->update([
-//                        'start_dr'=>$item->start_dr,
-//                        'start_cr'=>$item->start_cr,
-//                        'cyr_dr'=>$item->cyr_dr,
-//                        'cyr_cr'=>$item->cyr_cr,
-//                        'curr_bal'=>$item->curr_bal
-//                        ]);
-//            }
+            $sum = GeneralLedger::query()->where('company_id',$company_id)
+                ->where('is_group',false)
+                ->select('ledger_code',DB::raw('sum(start_dr) as start_dr, sum(start_cr) as start_cr'))
+                ->groupBy('ledger_code')
+                ->get();
+
+            foreach ($sum as $item)
+            {
+                GeneralLedger::query()->where('company_id',$company_id)
+                    ->where('is_group',true)
+                    ->where('ledger_code',$item->ledger_code)
+                    ->update([
+                        'start_dr'=>$item->start_dr,
+                        'start_cr'=>$item->start_cr,
+                        ]);
+            }
 
             // Migrate Transactions Table
 

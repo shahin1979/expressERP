@@ -20,20 +20,18 @@ class RepTrialBalanceCO extends Controller
 
         if(!empty($request['date_to']))
         {
-            $ledgers = GeneralLedger::query()->where('company_id',$this->company_id)
-                ->where('is_group',false)->get();
+            $ledgers = GeneralLedger::query()->where('company_id',$this->company_id)->get();
 
-            $fromDate = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-d');
-            $toDate = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-01');
+            $toDate = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-d');
+            $fromDate = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-01');
 
             $trans = Transaction::query()->where('company_id',$this->company_id)
                 ->where('tr_state',false)
-                ->whereBetween('trans_date',[$toDate,$fromDate])
+                ->whereBetween('trans_date',[$fromDate, $toDate])
                 ->select('acc_no',DB::Raw('sum(dr_amt) dr_amt, sum(cr_amt) cr_amt'))
                 ->groupBy('acc_no')
                 ->get();
 
-//            dd($trans->where('acc_no','10112102')->first()->dr_amt);
 
             $fp_no = get_fp_from_month_sl(Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('m'),$this->company_id);
 
@@ -45,11 +43,11 @@ class RepTrialBalanceCO extends Controller
                 $ln['acc_no'] = $row->acc_no;
                 $ln['acc_name'] = $row->acc_name;
                 $ln['acc_type'] = $row->acc_type;
+                $ln['ledger_code'] = $row->ledger_code;
+                $ln['is_group'] = $row->is_group;
 
                 $dr_amt = $row->start_dr;
                 $cr_amt = $row->start_cr;
-
-
 
                 for($i = 1; $i< $fp_no; $i++)
                 {
@@ -66,10 +64,6 @@ class RepTrialBalanceCO extends Controller
                 $ln['opening_dr'] = $dr_amt;
                 $ln['opening_cr'] = $cr_amt;
 
-
-
-
-
                 $ln['dr_tr'] = isset($trans->where('acc_no',$row->acc_no)->first()->dr_amt) ? $trans->where('acc_no',$row->acc_no)->first()->dr_amt : 0;
                 $ln['cr_tr'] = isset($trans->where('acc_no',$row->acc_no)->first()->cr_amt) ? $trans->where('acc_no',$row->acc_no)->first()->cr_amt : 0;
 
@@ -78,7 +72,14 @@ class RepTrialBalanceCO extends Controller
                 $report->push($ln);
             }
 
-            return view('accounts.report.ledger.rep-trial-balance-index',compact('report','toDate'));
+            $params = collect();
+
+            $params['toDate'] = $toDate;
+            $params['report_type'] = $request['report_type'] == 'A' ? false : true;
+
+//            $group = $report->
+
+            return view('accounts.report.ledger.rep-trial-balance-index',compact('report','params'));
         }
 
 //        dd (Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-01'));
