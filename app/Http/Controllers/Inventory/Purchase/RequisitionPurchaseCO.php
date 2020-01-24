@@ -21,6 +21,17 @@ class RequisitionPurchaseCO extends Controller
 
     public function index()
     {
+//        if($this->company_modules->contains('module_id',4))
+//        {
+//            dd('Yes');
+//        }
+//        if($this->company_modules->where('module_id',4)->exists())
+//        {
+//            dd('Yes');
+//        }
+//
+//        dd($this->company_modules->where('module_id',4)->first());
+
         return view('inventory.purchase.requisition-purchase-index');
     }
 
@@ -87,8 +98,10 @@ class RequisitionPurchaseCO extends Controller
 
         $sub_total = 0;
         $tax_total = 0;
+        $item_tax_total = 0;
 
         $items = array();
+        $taxes = array();
 
         if ($input_items) {
             foreach ($input_items as $key => $item) {
@@ -117,11 +130,13 @@ class RequisitionPurchaseCO extends Controller
                 $total = $item_sub_total + $item_tax_total;
 
                 $items[$key] = $total;
+                $taxes[$key] = $item_tax_total;
+
             }
         }
 
         $json->items = $items;
-
+        $json->taxes = $taxes;
         $json->sub_total = $sub_total;
         $json->tax_total = $tax_total;
 
@@ -134,6 +149,8 @@ class RequisitionPurchaseCO extends Controller
 
     public function reqPurchaseStore(Request $request)
     {
+
+        dd($request['item']);
 
         DB::beginTransaction();
 
@@ -148,6 +165,7 @@ class RequisitionPurchaseCO extends Controller
 
             $request['company_id'] = $this->company_id;
             $request['ref_no'] = $pur_no;
+            $request['invoice_amt'] = $request['purchase-amt'];
             $request['po_date'] = Carbon::now();
             $request['user_id'] = $this->user_id;
 
@@ -155,7 +173,8 @@ class RequisitionPurchaseCO extends Controller
 
             if ($request['item']) {
                 foreach ($request['item'] as $item) {
-
+                    if ($item['quantity'] > 0)
+                    {
                     $purchase_item['company_id'] = $this->company_id;
                     $purchase_item['ref_no'] = $pur_no;
                     $purchase_item['ref_id'] = $inserted->id;
@@ -164,18 +183,37 @@ class RequisitionPurchaseCO extends Controller
                     $purchase_item['tr_date']= Carbon::now();
                     $purchase_item['product_id'] = $item['item_id'];
                     $purchase_item['quantity'] = $item['quantity'];
+                    $purchase_item['unit_price'] = $item['price'];
+                    $purchase_item['tax_total'] = $item['tax_amt'];
+                    $purchase_item['total_price'] = $item['quantity']*$item['price'] + $item['tax_amt'];
                     $purchase_item['remarks'] = $item['remarks'];
 
                     TransProduct::query()->create($purchase_item);
 
-                    $request->session()->flash('alert-success', 'Requisition Data Successfully Completed For Approval');
+                    // If Accounting Module Then
+                    if($this->company_modules->where('module_id',4)->exist())
+                    {
+                        $input = [];
+
+                        $input['company_id'] = $this->company_id;
+
+                        $this->transaction_entry($input);
+//                        dd('Yes');
+                    }
+
+                        // End of Accounting Trans
+
+                    }
+//                    $request->session()->flash('alert-success', 'Requisition Data Successfully Completed For Approval');
 
                 }
             }
 
             TransCode::query()->where('company_id',$this->company_id)
-                ->where('trans_code','RQ')
+                ->where('trans_code','PR')
                 ->increment('last_trans_id');
+
+
 
         }catch (\Exception $e)
         {
@@ -187,15 +225,6 @@ class RequisitionPurchaseCO extends Controller
         DB::commit();
 
         return redirect()->action('Inventory\Purchase\RequisitionPurchaseCO@index')->with('success','Purchase Data Saved');
-
-//        $request['company_id'] = $this->company_id;
-//        $request['user_id'] = $this->user_id;
-//
-//
-//        Purchase::query()->create($request->except('_token'));
-//
-//
-//        dd($request->all());
 
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company\CompanyModule;
+use App\Models\Company\CompanyProperty;
 use App\Models\Company\FiscalPeriod;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -17,6 +19,8 @@ class Controller extends BaseController
     public $user_id;
     public $fiscal_year;
 
+    public $company_modules;
+
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -27,6 +31,8 @@ class Controller extends BaseController
                 ->where('company_id',Auth::user()->company_id)
                 ->where('fp_no',1)->where('status',true)
                 ->value('fiscal_year');
+
+            $this->company_modules = CompanyModule::query()->where('company_id',Auth::user()->company_id)->first();
 
             return $next($request);
         });

@@ -47,13 +47,14 @@
                         </td>
 
                         <td>
-                            <input class="form-control text-right" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}">
+                            <input class="form-control text-right" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}" value="0">
                         </td>
                         <td>
-                            <input class="form-control text-right" required="required" name="item[{{ $item_row }}][price]" type="text" id="item-price-{{ $item_row }}">
+                            <input class="form-control text-right" required="required" name="item[{{ $item_row }}][price]" type="text" id="item-price-{{ $item_row }}" value="0">
                         </td>
                         <td>
                             {!! Form::select('item[' . $item_row . '][tax]',$taxes , null, ['id'=> 'item-tax-'. $item_row, 'class' => 'form-control', 'placeholder' => 'Please Select']) !!}
+                            <input name="item[{{ $item_row }}][tax_amt]" type="hidden" id="tax-amt-{{ $item_row }}" value="">
                         </td>
                         <td class="text-right" style="vertical-align: middle;">
                             <span id="item-total-{{ $item_row }}">0</span>
@@ -73,6 +74,8 @@
                     <tr>
                         <td class="text-right" colspan="6"><strong>Purchase Toal</strong></td>
                         <td class="text-right"><span id="grand-total">0</span></td>
+                        <input name="purchase_total" type="hidden" id="purchase-amt" value="">
+                        <input name="total_tax" type="hidden" id="total-tax" value="">
                     </tr>
                     </tbody>
                     <tfoot>
@@ -123,9 +126,15 @@
                             $('#item-total-' + key).html(value);
                         });
 
+                        $.each( data.taxes, function( key, value ) {
+                            $('#tax-amt-'+ key).val(value);
+                        });
+
                         $('#sub-total').html(data.sub_total);
                         $('#tax-total').html(data.tax_total);
+                        $('#total-tax').val(data.tax_total);
                         $('#grand-total').html(data.grand_total);
+                        $('#purchase-amt').val(data.grand_total);
 
                     }
                 }
