@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory\Purchase;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use App\Models\Company\Relationship;
 use App\Models\Company\TransCode;
 use App\Models\Inventory\Movement\Purchase;
@@ -13,6 +14,7 @@ use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class RequisitionPurchaseCO extends Controller
@@ -21,16 +23,10 @@ class RequisitionPurchaseCO extends Controller
 
     public function index()
     {
-//        if($this->company_modules->contains('module_id',4))
-//        {
-//            dd('Yes');
-//        }
-//        if($this->company_modules->where('module_id',4)->exists())
-//        {
-//            dd('Yes');
-//        }
-//
-//        dd($this->company_modules->where('module_id',4)->first());
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>56015,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
+            ]);
 
         return view('inventory.purchase.requisition-purchase-index');
     }
@@ -49,7 +45,7 @@ class RequisitionPurchaseCO extends Controller
 
             ->addColumn('quantity', function (Requisition $requisition) {
                 return $requisition->items->map(function($items) {
-                    return $items->quantity;
+                    return $items->quantity .' :: '.$items->purchased;
                 })->implode('<br>');
             })
 
@@ -150,24 +146,37 @@ class RequisitionPurchaseCO extends Controller
     public function reqPurchaseStore(Request $request)
     {
 
-        dd($request['item']);
-
         DB::beginTransaction();
 
         try{
 
+            $fiscal_year = $this->get_fiscal_year($request['pi_date'],$this->company_id);
+
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','PR')
-                ->where('fiscal_year',$this->get_fiscal_year(Carbon::now()->format('Y-m-d'),$this->company_id))
+                ->where('fiscal_year',$fiscal_year)
                 ->lockForUpdate()->first();
 
             $pur_no = $tr_code->last_trans_id;
 
             $request['company_id'] = $this->company_id;
             $request['ref_no'] = $pur_no;
-            $request['invoice_amt'] = $request['purchase-amt'];
-            $request['po_date'] = Carbon::now();
+            $request['contra_ref'] = $request['req_no'];
+            $request['invoice_date'] = Carbon::createFromFormat('d-m-Y', $request['pi_date'])->format('Y-m-d');
+            $request['due_amt'] = $request['invoice_amt'] - $request['paid_amt'] - $request['discount'];
+            $request['discount_amt'] = $request['discount'];
+            $request['po_date'] = Carbon::createFromFormat('d-m-Y', $request['pi_date'])->format('Y-m-d');
+            $request['purchase_type'] = 'LS';
+            $request['status'] = 'CR';
             $request['user_id'] = $this->user_id;
+
+            $requisitions = TransProduct::query()->where('company_id',$this->company_id)
+                ->where('ref_no',$request['req_no'])->get();
+
+            $rest = 0; // variable to calculate requisition quantity - purchased quantity
+
+
+//            dd('here');
 
             $inserted = Purchase::query()->create($request->all()); //Insert Data Into Requisition Table
 
@@ -178,34 +187,21 @@ class RequisitionPurchaseCO extends Controller
                     $purchase_item['company_id'] = $this->company_id;
                     $purchase_item['ref_no'] = $pur_no;
                     $purchase_item['ref_id'] = $inserted->id;
-                    $purchase_item['ref_type'] = 'P'; //Requisition
+                    $purchase_item['ref_type'] = 'P'; //Purchase
                     $purchase_item['relationship_id'] = $item['supplier_id'];
-                    $purchase_item['tr_date']= Carbon::now();
+                    $purchase_item['tr_date']= Carbon::createFromFormat('d-m-Y', $request['pi_date'])->format('Y-m-d');;
                     $purchase_item['product_id'] = $item['item_id'];
                     $purchase_item['quantity'] = $item['quantity'];
+                    $purchase_item['purchased'] = $item['quantity'];
                     $purchase_item['unit_price'] = $item['price'];
                     $purchase_item['tax_total'] = $item['tax_amt'];
                     $purchase_item['total_price'] = $item['quantity']*$item['price'] + $item['tax_amt'];
-                    $purchase_item['remarks'] = $item['remarks'];
 
                     TransProduct::query()->create($purchase_item);
 
-                    // If Accounting Module Then
-                    if($this->company_modules->where('module_id',4)->exist())
-                    {
-                        $input = [];
-
-                        $input['company_id'] = $this->company_id;
-
-                        $this->transaction_entry($input);
-//                        dd('Yes');
+                    $requisitions->where('product_id',$item['item_id'])->first()->increment('purchased',$item['quantity']);
+                    $rest = $rest + $requisitions->where('product_id',$item['item_id'])->first()->quantity - $requisitions->where('product_id',$item['item_id'])->first()->purchased;
                     }
-
-                        // End of Accounting Trans
-
-                    }
-//                    $request->session()->flash('alert-success', 'Requisition Data Successfully Completed For Approval');
-
                 }
             }
 
@@ -213,6 +209,13 @@ class RequisitionPurchaseCO extends Controller
                 ->where('trans_code','PR')
                 ->increment('last_trans_id');
 
+            // Check quantity left to be purchased
+
+            if($rest == 0)
+            {
+                Requisition::query()->where('company_id',$this->company_id)
+                    ->where('ref_no',$request['req_no'])->update(['status'=>3]);
+            }
 
 
         }catch (\Exception $e)
@@ -224,7 +227,7 @@ class RequisitionPurchaseCO extends Controller
 
         DB::commit();
 
-        return redirect()->action('Inventory\Purchase\RequisitionPurchaseCO@index')->with('success','Purchase Data Saved');
+        return redirect()->action('Inventory\Purchase\RequisitionPurchaseCO@index')->with('success','Purchase Data Saved For Authorisation');
 
     }
 }

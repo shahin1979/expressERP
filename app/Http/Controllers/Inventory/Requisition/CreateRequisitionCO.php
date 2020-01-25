@@ -23,7 +23,8 @@ class CreateRequisitionCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>54005,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>54005,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
             ]);
 
         $locations = Location::query()->where('company_id',$this->company_id)
@@ -50,17 +51,21 @@ class CreateRequisitionCO extends Controller
 
         try{
 
+            $fiscal_year = $this->get_fiscal_year($request['req_date'],$this->company_id);
+
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','RQ')
-                ->where('fiscal_year',$this->get_fiscal_year(Carbon::now()->format('Y-m-d'),$this->company_id))
+                ->where('fiscal_year',$fiscal_year)
                 ->lockForUpdate()->first();
 
             $req_no = $tr_code->last_trans_id;
 
             $request['company_id'] = $this->company_id;
             $request['ref_no'] = $req_no;
-            $request['req_date'] = Carbon::now();
+            $request['req_date'] = Carbon::createFromFormat('d-m-Y',$request['req_date'])->format('Y-m-d');
             $request['user_id'] = $this->user_id;
+
+//            dd('here');
 
             $inserted = Requisition::query()->create($request->all()); //Insert Data Into Requisition Table
 
@@ -72,7 +77,7 @@ class CreateRequisitionCO extends Controller
                     $requisition_item['ref_id'] = $inserted->id;
                     $requisition_item['ref_type'] = 'R'; //Requisition
                     $requisition_item['relationship_id'] = $item['requisition_for'];
-                    $requisition_item['tr_date']= Carbon::now();
+                    $requisition_item['tr_date']= $request['req_date'];
                     $requisition_item['product_id'] = $item['item_id'];
                     $requisition_item['quantity'] = $item['quantity'];
                     $requisition_item['remarks'] = $item['remarks'];

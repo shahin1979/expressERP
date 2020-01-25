@@ -10,10 +10,37 @@
         </ol>
     </nav>
 
+
+
+
+
     <div class="container-fluid">
         {!! Form::open(['url'=>'purchase/reqPurchase','method'=>'POST']) !!}
+
+
+        <table class="table table-sm table-responsive">
+            <tbody>
+            <tr>
+                <td><label for="pdate" class="control-label">Purchase Date</label></td>
+                <td>{!! Form::text('pi_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'pi_date', 'class' => 'form-control','required','readonly')) !!}</td>
+
+                <td align="right"><label for="paid_amt" class="control-label">Payment</label></td>
+                <td align="right">{!! Form::text('paid_amt',0.00 , array('id' => 'paid_amt', 'class' => 'form-control text-right')) !!}</td>
+                <td align="right"><label for="discount" class="control-label">Discount</label></td>
+                <td align="right">{!! Form::text('discount',0.00 , array('id' => 'discount', 'class' => 'form-control text-right')) !!}</td>
+            </tr>
+            <tr>
+                <td><label for="description" class="control-label">Remarks</label></td>
+                <td colspan="5">{!! Form::text('description', null , array('id' => 'description', 'class' => 'form-control')) !!}</td>
+            </tr>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+
+        <input name="req_no" type="hidden" id="req_no" value="{!! $requisitions->ref_no !!}">
+
         <div class="form-group col-md-12" style="background-color: rgba(177, 245, 174, 0.33)">
-            {!! Form::label('items', 'Items', ['class' => 'control-label']) !!}
+            {!! Form::label('items', 'Items for Requisition No :'.$requisitions->ref_no, ['class' => 'control-label','style'=>'color:RED; font-weight:bold']) !!}
             <div class="table-responsive">
                 <table class="table table-bordered" id="items">
                     <thead>
@@ -47,7 +74,7 @@
                         </td>
 
                         <td>
-                            <input class="form-control text-right" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}" value="0">
+                            <input class="form-control text-right" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}" value="{!! $row->quantity  - $row->purchased!!}">
                         </td>
                         <td>
                             <input class="form-control text-right" required="required" name="item[{{ $item_row }}][price]" type="text" id="item-price-{{ $item_row }}" value="0">
@@ -74,7 +101,7 @@
                     <tr>
                         <td class="text-right" colspan="6"><strong>Purchase Toal</strong></td>
                         <td class="text-right"><span id="grand-total">0</span></td>
-                        <input name="purchase_total" type="hidden" id="purchase-amt" value="">
+                        <input name="invoice_amt" type="hidden" id="purchase-amt" value="">
                         <input name="total_tax" type="hidden" id="total-tax" value="">
                     </tr>
                     </tbody>

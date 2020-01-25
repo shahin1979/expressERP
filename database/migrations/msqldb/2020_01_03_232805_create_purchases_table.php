@@ -23,8 +23,6 @@ class CreatePurchasesTable extends Migration
             $table->char('purchase_type',2)->comments('LP = Local Purchase, IM = Import BB=b2b l/c LC=Leter of Credit IV=Invoice'); //1 for consumption 2 for purchase
             $table->date('po_date');
             $table->date('invoice_date');
-            $table->bigInteger('supplier_id')->unsigned()->nullable()->index('FK_purchase_relationships')->comments('Suppliers');
-            $table->foreign('supplier_id')->references('id')->on('relationships')->onDelete('restrict');
             $table->decimal('invoice_amt',15,2)->default(0.00);
             $table->decimal('paid_amt',15,2)->default(0.00);
             $table->char('discount_type',1)->default('F')->comment('F=Fixed P=Percentage');

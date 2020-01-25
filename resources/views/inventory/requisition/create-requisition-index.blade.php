@@ -24,7 +24,7 @@
                     <td><label for="req_type" class="control-label">Requisition Type</label></td>
                     <td>{!! Form::select('req_type', array('0' => 'Please Select', 'P' => 'Purchase', 'C' => 'Consumption'), null , array('id' => 'req_type', 'class' => 'form-control')) !!}</td>
                     <td><label for="req_date" class="control-label">Date</label></td>
-                    <td>{!! Form::text('req_date', \Carbon\Carbon::now()->format('d/m/Y') , array('id' => 'req_date', 'class' => 'form-control','required','disabled')) !!}</td>
+                    <td>{!! Form::text('req_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'req_date', 'class' => 'form-control','required','readonly')) !!}</td>
                     <td><label for="refno" class="control-label">Requisition No</label></td>
                     <td>{!! Form::text('ref_no','RQ' , array('id' => 'ref_no', 'class' => 'form-control')) !!}</td>
                 </tr>

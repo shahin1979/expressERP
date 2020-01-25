@@ -25,6 +25,18 @@ trait TransactionsTrait
 
     }
 
+    public function get_fiscal_data_from_current_date($company_id)
+    {
+        $cal_date = Carbon::now()->format('Y-m-d');
+
+        $fiscal = FiscalPeriod::query()->where('company_id',$company_id)
+            ->whereDate('start_date','<=',$cal_date)
+            ->whereDate('end_date','>=',$cal_date)->first();
+
+        return $fiscal;
+
+    }
+
     public function create_fiscal_year($date)
     {
         $f_y1 = Carbon::createFromFormat('d-m-Y',$date)->format('Y');

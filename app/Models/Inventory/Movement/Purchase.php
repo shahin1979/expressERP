@@ -16,7 +16,6 @@ class Purchase extends Model
         'purchase_type',
         'po_date',
         'invoice_date',
-        'supplier_id',
         'invoice_amt',
         'paid_amt',
         'discount_type',
