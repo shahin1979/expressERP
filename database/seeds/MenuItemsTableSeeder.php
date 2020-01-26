@@ -916,6 +916,34 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1'
 //        ] );
 
+
+
+//            MENUITEM::create( [
+//            'id'=>56020,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Edit Purchase',
+//            'show'=>'1',
+//            'url'=>'purchase/editPurchaseIndex',
+//            'status'=>'1'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>56025,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Approve Purchase',
+//            'show'=>'1',
+//            'url'=>'purchase/approvePurchaseIndex',
+//            'status'=>'1'
+//        ] );
+
 //
 //
 //

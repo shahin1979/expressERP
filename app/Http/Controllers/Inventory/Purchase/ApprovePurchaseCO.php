@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Inventory\Purchase;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
+use App\Models\Inventory\Movement\Purchase;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class ApprovePurchaseCO extends Controller
 {
@@ -14,7 +17,42 @@ class ApprovePurchaseCO extends Controller
 
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>56025,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
+            ]);
 
+        return view('inventory.purchase.approve-purchase-index');
+    }
+
+    public function getPurchaseData()
+    {
+        $query = Purchase::query()->where('company_id',$this->company_id)
+            ->where('status','CR')->with('items')->with('user')->select('purchases.*');
+
+        return DataTables::eloquent($query)
+            ->addColumn('product', function (Purchase $purchase) {
+                return $purchase->items->map(function($items) {
+                    return $items->item->name;
+                })->implode('<br>');
+            })
+
+            ->addColumn('quantity', function (Purchase $purchase) {
+                return $purchase->items->map(function($items) {
+                    return $items->quantity;
+                })->implode('<br>');
+            })
+
+            ->addColumn('action', function (Purchase $purchase) {
+
+
+                return '
+                    <button  data-remote="approve/' . $purchase->id . '" type="button" class="btn btn-approve btn-xs btn-primary"></i> Approve</button>
+                    <button data-remote="reject/' . $purchase->id . '" type="button" class="btn btn-xs btn-delete btn-danger pull-right">Reject</button>
+                    ';
+            })
+            ->rawColumns(['product','quantity','action'])
+            ->make(true);
     }
 
     public function approve()
@@ -36,8 +74,8 @@ class ApprovePurchaseCO extends Controller
             $input['trans_date'] = $period->end_date;
 //            $input['voucher_no'] = $pur_no;
 //            $input['acc_no'] = $supplier->ledger_acc_no;
-            $input['ledger_code'] = Str::substr($supplier->ledger_acc_no,0,3);
-            $input['contra_acc'] = $row->contra_acc;
+//            $input['ledger_code'] = Str::substr($supplier->ledger_acc_no,0,3);
+//            $input['contra_acc'] = $row->contra_acc;
             $input['dr_amt'] = 0;
 //            $input['cr_amt'] = $dep_amt;
 //            $input['trans_amt'] = $dep_amt;

@@ -2,10 +2,13 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
 {
+    protected $table= 'purchases';
+
     protected $guarded = ['id', 'created_at','updated_at','deleted_at'];
 
     protected $fillable = [
@@ -29,4 +32,14 @@ class Purchase extends Model
         'user_id',
         'extra_field',
     ];
+
+    public function items()
+    {
+        return $this->hasMany(TransProduct::class,'ref_id','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
