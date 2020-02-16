@@ -10,6 +10,7 @@ use App\Models\Inventory\Product\ItemUnit;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SubCategory;
 use App\Traits\MigrationTrait;
+use App\Traits\PreviousDataMigrationTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use Illuminate\Support\Str;
 
 class DataMigrationCO extends Controller
 {
-    use MigrationTrait;
+    use MigrationTrait, PreviousDataMigrationTrait;
 
     public function index()
     {
