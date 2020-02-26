@@ -1918,6 +1918,10 @@ pre code {
     border: 0
 }
 
+.table-striped-formatted > tbody > tr:nth-child(2n+1) > td, .table-striped-formatted > tbody > tr:nth-child(2n+1) > th {
+    background-color: #dae5f4;
+}
+
 .form-control {
     display: block;
     width: 100%;
