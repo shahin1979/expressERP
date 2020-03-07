@@ -19,7 +19,7 @@ class Controller extends BaseController
     public $user_id;
     public $fiscal_year;
 
-    public $company_modules;
+//    public $company_modules;
 
     public function __construct()
     {
@@ -32,7 +32,7 @@ class Controller extends BaseController
                 ->where('fp_no',1)->where('status',true)
                 ->value('fiscal_year');
 
-            $this->company_modules = CompanyModule::query()->where('company_id',Auth::user()->company_id)->first();
+//            $this->company_modules = CompanyModule::query()->where('company_id',Auth::user()->company_id)->get();
 
             return $next($request);
         });
