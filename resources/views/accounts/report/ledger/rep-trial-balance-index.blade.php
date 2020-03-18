@@ -11,10 +11,10 @@
     </nav>
 
     <div class="container spark-screen">
-        <div class="row">
+        <div class="row" id="current">
             <div class="col-md-8 col-md-offset-1" >
                 <br/>
-                <div><h3>Daily Transactions Report</h3></div>
+                <div><h3>Trial Balance</h3></div>
                 <div style="background-color: #ff0000;height: 2px">&nbsp;</div>
                 <br/>
 
@@ -34,6 +34,43 @@
                         <tr>
                             <td colspan="2"><button name="action" type="submit" value="preview" class="btn btn-info btn-reject pull-left">Preview</button></td>
                             <td colspan="2"><button name="action" type="submit" value="print" class="btn btn-primary btn-approve pull-right">Print</button></td>
+                        </tr>
+
+                    </table>
+
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+
+            <div style="width: 5px"></div>
+
+        </div>
+
+
+        <div class="row" id="previous">
+            <div class="col-md-8 col-md-offset-1" >
+                <br/>
+                <div><h3>Trial Balance Previous Year</h3></div>
+                <div style="background-color: #058553;height: 2px">&nbsp;</div>
+                <br/>
+
+
+                <div class="div">
+                    <br/>
+                    {!! Form::open(['url'=>'ledger/rptTrialBalanceIndex', 'method' => 'GET']) !!}
+
+                    <table width="80%" class="table table-responsive table-hover" >
+
+                        <tr>
+                            <td width="5%"><label for="date_from" class="control-label" >Trial Balance For</label></td>
+                            <td width="10%">{!! Form::select('report_year',['2015-2016'=>'2015-2016', '2016-2017'=>'2016-2017','2017-2018'=>'2017-2018','2018-2019'=>'2018-2019'], 'A'  , array('id' => 'report_year', 'class' => 'form-control','required')) !!}</td>
+                            <td width="5%"><label for="date_to" class="control-label" >As On</label></td>
+                            <td width="10%">{!! Form::text('p_date_to', Carbon\Carbon::now()->format('d-m-Y'), array('id' => 'p_date_to', 'class' => 'form-control','required','readonly')) !!}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button name="action" type="submit" value="preview-p" class="btn btn-info btn-reject pull-left">Preview</button></td>
+                            <td colspan="2"><button name="action" type="submit" value="print-p" class="btn btn-primary btn-approve pull-right">Print</button></td>
                         </tr>
 
                     </table>
@@ -122,6 +159,14 @@
     $(document).ready(function(){
 
         $( "#date_to" ).datetimepicker({
+            format:'d-m-Y',
+            timepicker: false,
+            closeOnDateSelect: true,
+            scrollInput : false,
+            inline:false
+        });
+
+        $( "#p_date_to" ).datetimepicker({
             format:'d-m-Y',
             timepicker: false,
             closeOnDateSelect: true,

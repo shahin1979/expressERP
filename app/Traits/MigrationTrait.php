@@ -291,6 +291,7 @@ trait MigrationTrait
 
                 TransCode::query()->where('company_id',$this->company_id)
                     ->where('trans_code',$jcode)
+                    ->where('fiscal_year','2019-2020')
                     ->increment('last_trans_id');
 
             }
