@@ -35,7 +35,7 @@ class Purchase extends Model
 
     public function items()
     {
-        return $this->hasMany(TransProduct::class,'ref_id','id');
+        return $this->hasMany(TransProduct::class,'ref_no','ref_no');
     }
 
     public function user()

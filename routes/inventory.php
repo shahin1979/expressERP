@@ -202,7 +202,7 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
 //
     Route::get('approvePurchaseIndex','ApprovePurchaseCO@index');
     Route::get('purDataForApprove','ApprovePurchaseCO@getPurchaseData');
-//    Route::post('approve/{id}','ApproveRequisitionCO@approve');
+    Route::post('approve/{id}','ApprovePurchaseCO@approve');
 //    Route::post('reject/{id}','ApproveRequisitionCO@reject');
 //
 //    Route::get('printReqIndex','PrintRequisitionCO@index');

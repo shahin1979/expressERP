@@ -11,13 +11,15 @@
     </nav>
 
     <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
-        <table class="table table-bordered table-hover table-responsive" id="purchase-table">
-            <thead style="background-color: #b0b0b0">
+        <table class="table table-bordered table-hover table-responsive table-striped-formatted" id="purchase-table">
+            <thead style="background-color: #b8d1f3">
             <tr>
                 <th>PR No</th>
                 <th>PR Date</th>
+                <th>Supplier</th>
                 <th>Product</th>
                 <th>Quantity</th>
+                <th>Unit Price</th>
                 <th>Created By</th>
                 <th>Action</th>
             </tr>
@@ -44,8 +46,10 @@
                 columns: [
                     {data: 'ref_no', name: 'purchases.ref_no'},
                     {data: 'invoice_date', name: 'purchases.invoice_date'},
+                    {data: 'supplier', name: 'supplier'},
                     {data: 'product', name: 'product'},
                     {data: 'quantity', name: 'quantity'},
+                    {data: 'price', name: 'price'},
                     {data: 'user.name', name: 'user.name'},
                     {data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
@@ -76,7 +80,8 @@
                     },
 
                 }).always(function (data) {
-                    $('#requisition-table').DataTable().draw(true);
+                    alert(data.success);
+                    $('#purchase-table').DataTable().draw(true);
                 })
 
             });
