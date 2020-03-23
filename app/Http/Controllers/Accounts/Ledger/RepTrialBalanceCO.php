@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Accounts\Ledger;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Accounts\Previous\GeneralLedgerBackup;
+use App\Models\Accounts\Previous\TransactionBackup;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
 use Carbon\Carbon;
@@ -82,25 +84,33 @@ class RepTrialBalanceCO extends Controller
             return view('accounts.report.ledger.rep-trial-balance-index',compact('report','params'));
         }
 
+        return view('accounts.report.ledger.rep-trial-balance-index');
+    }
 
 
 
-        if(!empty($request['p_date_to']))
+    public function previousIndex(Request $request)
+    {
+        if(!empty($request['report_date']))
         {
-            $ledgers = GeneralLedger::query()->where('company_id',$this->company_id)->get();
+            $fiscal_year = $request['report_year'];
 
-            $toDate = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-d');
-            $fromDate = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-01');
+            $ledgers = GeneralLedgerBackup::query()->where('company_id',$this->company_id)
+                ->where('fiscal_year',$fiscal_year)->get();
 
-            $trans = Transaction::query()->where('company_id',$this->company_id)
+            $toDate = Carbon::createFromFormat('d-m-Y',$request['report_date'])->format('Y-m-d');
+            $fromDate = Carbon::createFromFormat('d-m-Y',$request['report_date'])->format('Y-m-01');
+
+            $trans = TransactionBackup::query()->where('company_id',$this->company_id)
                 ->where('tr_state',false)
+                ->where('fiscal_year',$fiscal_year)
                 ->whereBetween('trans_date',[$fromDate, $toDate])
                 ->select('acc_no',DB::Raw('sum(dr_amt) dr_amt, sum(cr_amt) cr_amt'))
                 ->groupBy('acc_no')
                 ->get();
 
 
-            $fp_no = get_fp_from_month_sl(Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('m'),$this->company_id);
+            $fp_no = get_fp_from_month_sl(Carbon::createFromFormat('d-m-Y',$request['report_date'])->format('m'),$this->company_id);
 
             $report = collect();
             $ln = [];
@@ -149,8 +159,6 @@ class RepTrialBalanceCO extends Controller
             return view('accounts.report.ledger.rep-trial-balance-index',compact('report','params'));
         }
 
-//        dd (Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-01'));
-
-        return view('accounts.report.ledger.rep-trial-balance-index');
+        return view('accounts.report.previous.prev-trial-balance-index');
     }
 }

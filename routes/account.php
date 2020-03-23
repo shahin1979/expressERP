@@ -19,6 +19,9 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 
     Route::get('rptTrialBalanceIndex','RepTrialBalanceCO@index');
 
+    Route::get('previousTrialBalanceIndex','RepTrialBalanceCO@previousIndex');
+
+
     Route::get('rptGeneralLedgerIndex','RepGeneralLedgerCO@index');
 
 
@@ -35,6 +38,9 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
     Route::get('getDepreciationData','DepreciationSetupCO@getDepreciationData');
     Route::post('saveDepreciationAccount','DepreciationSetupCO@create');
     Route::post('depreciation/store','DepreciationSetupCO@store');
+
+
+
 
     //Reports
 
