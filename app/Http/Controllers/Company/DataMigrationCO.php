@@ -46,12 +46,12 @@ class DataMigrationCO extends Controller
 //        $output = $this->MTPurchase($this->company_id);
 //        $output = $this->MTStatement($this->company_id);
 //        $output = $this->depreciation($this->company_id,$connection);
-//        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
+//        $output = $this->create_fiscal_period($this->company_id,'01-07-2018');
 
         // Previous data Migration
 
 //        $output = $this->trCode($this->company_id);
-        $output = $this->previousData($this->company_id,'2017-2018');
+        $output = $this->previousData($this->company_id,'2018-2019');
 
         // End
 
@@ -84,6 +84,9 @@ class DataMigrationCO extends Controller
                 DB::statement('TRUNCATE TABLE categories;');
                 DB::statement('TRUNCATE TABLE sub_categories;');
                 DB::statement('TRUNCATE TABLE products;');
+                DB::statement('TRUNCATE TABLE locations;');
+                DB::statement('TRUNCATE TABLE requisitions;');
+                DB::statement('TRUNCATE TABLE trans_products;');
 
                 DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
             }

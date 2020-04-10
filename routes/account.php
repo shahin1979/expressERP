@@ -24,6 +24,10 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 
     Route::get('rptGeneralLedgerIndex','RepGeneralLedgerCO@index');
 
+    Route::get('previousGenLedgerIndex','RepGeneralLedgerCO@previousGenLedgerIndex');
+
+    Route::get('ajax/{accNo}','RepGeneralLedgerCO@getAccount');
+
 
 });
 

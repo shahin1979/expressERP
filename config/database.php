@@ -15,8 +15,8 @@ return [
     |
     */
 
-//    'default' => env('DB_CONNECTION', 'mysql'),
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'mysql'),
+//    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +69,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'mc1718'),
+            'database' => env('DB_DATABASE', 'matin2018-19'),
             'username' => env('DB_USERNAME', 'adminuser'),
             'password' => env('DB_PASSWORD', 'power123'),
             'unix_socket' => env('DB_SOCKET', ''),
