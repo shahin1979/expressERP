@@ -79,10 +79,13 @@ class DailyTransactionReportCO extends Controller
                             $params['date_to'] = $date_to;
                             $params['dates'] = $dates;
 
+                            /// USING THIS PORTION FOR PAGINATION
 
-                            $trans = $this->paginate($trans,5);
-                            $trans->appends($request->all())
-                                ->setPath('dailyTransactionIndex');
+//                            $trans = $this->paginate($trans,5);
+//                            $trans->appends($request->all())
+//                                ->setPath('dailyTransactionIndex');
+
+                        /////////////////////////////////////////////////
 
                             break;
 

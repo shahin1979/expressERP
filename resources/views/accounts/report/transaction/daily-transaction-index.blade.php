@@ -114,7 +114,8 @@
 
         </div>
 
-        {{ $trans->links() }}
+{{--        FOR PAGINATION--}}
+{{--        {{ $trans->links() }}--}}
 
 
     @endif

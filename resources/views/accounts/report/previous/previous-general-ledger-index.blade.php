@@ -110,6 +110,7 @@
                         <th>Description</th>
                         <th style="text-align: right">Debit</th>
                         <th style="text-align: right">Credit</th>
+                        <th style="text-align: right">Balance</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -128,6 +129,7 @@
                             <td>{!! $row['description'] !!}</td>
                             <td style="text-align: right">{!! number_format($row['dr_amt'],2) !!}</td>
                             <td style="text-align: right">{!! number_format($row['cr_amt'],2) !!}</td>
+                            <td style="text-align: right">{!! number_format($row['balance'],2) !!}</td>
 
                         </tr>
                     @endforeach
@@ -142,6 +144,7 @@
                     <tr style="background-color: rgba(10,170,158,0.48)">
                         <td colspan="5">Closing Balance</td>
                         <td colspan="2" style="text-align: right">{!! number_format(($params['opening_bal'] + $report->sum('dr_amt') - $report->sum('cr_amt')),2) !!}</td>
+                        <td></td>
                     </tr>
                     </tfoot>
                 </table>

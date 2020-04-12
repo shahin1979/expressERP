@@ -21,7 +21,8 @@ trait FStatementTrait
             ->select(DB::Raw('acc_no, sum(dr_amt - cr_amt) as trans_bal'))
             ->groupBy('acc_no')->get();
 
-        $ledgers = GeneralLedger::query()->where('company_id',$company_id)->get();
+        $ledgers = GeneralLedger::query()->where('company_id',$company_id)
+            ->where('is_group',false)->get();
 
         $lines = StmtLine::query()->where('company_id',$company_id)
             ->where('sub_total','<>','')

@@ -48,6 +48,7 @@ class RepGeneralLedgerCO extends Controller
                         ->whereBetween('trans_date',[$fromDate,$toDate])
                         ->where('acc_no', $acc_no);
                 })->with('account')
+                ->orderBy('trans_date')
                 ->orderBy('voucher_no')
                 ->get();
 
@@ -67,6 +68,7 @@ class RepGeneralLedgerCO extends Controller
 
             $contra = collect();
             $contraLine = [];
+            $newLine['balance'] = $opening_bal;
 
             foreach ($trans as $row)
             {
@@ -79,6 +81,7 @@ class RepGeneralLedgerCO extends Controller
                 $newLine['dr_amt'] = $row->dr_amt;
                 $newLine['cr_amt'] = $row->cr_amt;
                 $newLine['description'] = $row->trans_desc1;
+                $newLine['balance'] = $newLine['balance'] + $row->dr_amt - $row->cr_amt;
 
                 // Contra Account for Debit Transactions
 
@@ -167,6 +170,7 @@ class RepGeneralLedgerCO extends Controller
                         ->whereBetween('trans_date',[$fromDate,$toDate])
                         ->where('acc_no', $acc_no);
                 })->with('account')
+                ->orderBy('trans_date')
                 ->orderBy('voucher_no')
                 ->get();
 
@@ -188,6 +192,7 @@ class RepGeneralLedgerCO extends Controller
 
             $contra = collect();
             $contraLine = [];
+            $newLine['balance'] = $opening_bal;
 
             foreach ($trans as $row)
             {
@@ -200,6 +205,7 @@ class RepGeneralLedgerCO extends Controller
                 $newLine['dr_amt'] = $row->dr_amt;
                 $newLine['cr_amt'] = $row->cr_amt;
                 $newLine['description'] = $row->trans_desc1;
+                $newLine['balance'] = $newLine['balance'] + $row->dr_amt - $row->cr_amt;
 
                 // Contra Account for Debit Transactions
 

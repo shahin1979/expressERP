@@ -70,7 +70,7 @@
 
 
 
-<div class="page-wrap">
+{{--<div >--}}
 
     <div class="main-content" style="padding-left: 50px">
 
@@ -85,7 +85,7 @@
 
 
 
-</div>
+{{--</div>--}}
 
 
 <div class="blank-space"></div>

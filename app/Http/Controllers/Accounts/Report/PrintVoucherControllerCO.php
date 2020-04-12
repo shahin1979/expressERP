@@ -74,19 +74,20 @@ class PrintVoucherControllerCO extends Controller
 
                     case 'print':
 
-                        dd('print');
+//                        dd('print');
 
-                        $view = \View::make('accounts.report.transaction.pdf-daily-transactions',compact('dates','trans'));
+                        $view = \View::make('accounts.report.transaction.pdf-voucher-print',compact('vouchers','trans'));
                         $html = $view->render();
 
-                        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+                        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(216,147), true, 'UTF-8', false);
 //                    $pdf = new TCPDF('L', PDF_UNIT, array(105,148), true, 'UTF-8', false);
 //                    $pdf::setMargin(0,0,0);
 
 
                         $pdf::SetMargins(15, 0, 5,0);
-
-                        $pdf::AddPage();
+                        $pdf::changeFormat(array(216,147));
+                        $pdf::reset();
+                        $pdf::AddPage('A');
 
                         $pdf::writeHTML($html, true, false, true, false, '');
                         $pdf::Output('transactions.pdf');
