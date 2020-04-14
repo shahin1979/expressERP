@@ -22,7 +22,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'COMPANY MODULE',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -37,7 +38,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'COMPANY BASIC',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -50,7 +52,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Company Info',
 //            'show'=>'1',
 //            'url'=>'company/basicIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -63,7 +66,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Fiscal Period',
 //            'show'=>'1',
 //            'url'=>'company/fiscalPeriodIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -76,7 +80,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Activity Logs',
 //            'show'=>'1',
 //            'url'=>'company/activityLogsIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //            MENUITEM::create( [
@@ -89,7 +94,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Data Migration',
 //            'show'=>'1',
 //            'url'=>'company/dataMigrationIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -103,7 +109,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'SECURITY MODULE',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -118,7 +125,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'USER BASIC',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -131,7 +139,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Register New User',
 //            'show'=>'1',
 //            'url'=>'register',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -145,7 +154,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Update User',
 //            'show'=>'1',
 //            'url'=>'security/updateUserIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -158,7 +168,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Change User Password',
 //            'show'=>'1',
 //            'url'=>'security/changePasswordIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -171,7 +182,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Reset User Password',
 //            'show'=>'1',
 //            'url'=>'security/resetPasswordIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -184,7 +196,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Manage User Permissions',
 //            'show'=>'1',
 //            'url'=>'security/managePermissionIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -198,7 +211,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'HRM MODULE',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -214,7 +228,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'ADMINISTRATION',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -227,7 +242,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Add New Location',
 //            'show'=>'1',
 //            'url'=>'location/locationIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -244,7 +260,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'HUMAN RESOURCES',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -257,7 +274,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Add New Resource',
 //            'show'=>'1',
 //            'url'=>'employee/empPersonalIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -276,7 +294,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'ACCOUNTS MODULE',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -291,7 +310,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'LEDGER ENTRY',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -304,7 +324,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Group Ledger',
 //            'show'=>'1',
 //            'url'=>'ledger/GLGroupIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -317,7 +338,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Account Ledger',
 //            'show'=>'1',
 //            'url'=>'ledger/GLAccountHeadIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -330,7 +352,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Depreciation Setup',
 //            'show'=>'1',
 //            'url'=>'ledger/depreciationSetupIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -343,7 +366,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Opening Balance',
 //            'show'=>'1',
 //            'url'=>'ledger/openingBalanceIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -357,7 +381,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Trial Balance',
 //            'show'=>'1',
 //            'url'=>'ledger/rptTrialBalanceIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -371,21 +396,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'General Ledger',
 //            'show'=>'1',
 //            'url'=>'ledger/rptGeneralLedgerIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //        MENUITEM::create( [
@@ -400,7 +413,8 @@ class MenuItemsTableSeeder extends Seeder
 //        'name'=>'ANNUAL BUDGET',
 //        'show'=>'1',
 //        'url'=>'home',
-//        'status'=>'1'
+//        'status'=>'1',
+//         'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -413,20 +427,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Prepare Budget',
 //            'show'=>'1',
 //            'url'=>'budget/prepareBudgetIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //        MENUITEM::create( [
@@ -441,7 +444,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'VOUCHER ENTRY',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -454,7 +458,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Payment Voucher',
 //            'show'=>'1',
 //            'url'=>'transaction/transPaymentIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -467,7 +472,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Receive Voucher',
 //            'show'=>'1',
 //            'url'=>'transaction/transReceiveIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -480,7 +486,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Journal Voucher',
 //            'show'=>'1',
 //            'url'=>'transaction/transJournalIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //            MENUITEM::create( [
@@ -493,7 +500,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Edit Un Auth Voucher',
 //            'show'=>'1',
 //            'url'=>'transaction/editUnAuthVoucherIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::query()->create( [
@@ -506,7 +514,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Authorise Transactions',
 //            'show'=>'1',
 //            'url'=>'transaction/authoriseTransIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -524,7 +533,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'TRANSACTION REPORT',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'R'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -537,7 +547,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Daily Transaction List',
 //            'show'=>'1',
 //            'url'=>'accounts/report/dailyTransactionIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'R'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -550,7 +561,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Print Voucher',
 //            'show'=>'1',
 //            'url'=>'accounts/report/printVoucherIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'R'
 //        ] );
 //
 //
@@ -567,7 +579,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'FINANCIAL STATEMENT',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'R'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -580,7 +593,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Statement File',
 //            'show'=>'1',
 //            'url'=>'statement/createFileIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -593,7 +607,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Prepare Statement',
 //            'show'=>'1',
 //            'url'=>'statement/lineStatementIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -606,12 +621,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Print Statement',
 //            'show'=>'1',
 //            'url'=>'statement/printStatementIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'R'
 //        ] );
-//
-//
-//
-//
 //
 //
 //        MENUITEM::create( [
@@ -624,7 +636,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'INVENTORY MODULE',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -639,7 +652,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'PRODUCTS BASIC',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -652,7 +666,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Add Product Category',
 //            'show'=>'1',
 //            'url'=>'product/categoryIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -666,7 +681,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Add Sub Category',
 //            'show'=>'1',
 //            'url'=>'product/subCategoryIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -680,7 +696,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Item Units',
 //            'show'=>'1',
 //            'url'=>'product/itemUnitIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -694,7 +711,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Item Brands',
 //            'show'=>'1',
 //            'url'=>'product/itemBrandIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -707,7 +725,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Item Sizes',
 //            'show'=>'1',
 //            'url'=>'product/itemSizeIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -720,7 +739,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Item Colors',
 //            'show'=>'1',
 //            'url'=>'product/itemColorIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -733,7 +753,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Item Models',
 //            'show'=>'1',
 //            'url'=>'product/itemModelIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -746,7 +767,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Manage Godowns',
 //            'show'=>'1',
 //            'url'=>'product/itemGodownIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -759,7 +781,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Manage Racks',
 //            'show'=>'1',
 //            'url'=>'product/itemRackIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -773,7 +796,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Add Edit Taxes',
 //            'show'=>'1',
 //            'url'=>'product/itemTaxIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -786,7 +810,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Add Edit Products',
 //            'show'=>'1',
 //            'url'=>'product/productIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -802,7 +827,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'REQUISITION',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -815,7 +841,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Create Requisition',
 //            'show'=>'1',
 //            'url'=>'requisition/createReqIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -829,7 +856,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Update Requisition',
 //            'show'=>'1',
 //            'url'=>'requisition/editReqIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -842,7 +870,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Approve Requisition',
 //            'show'=>'1',
 //            'url'=>'requisition/approveReqIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
@@ -856,13 +885,14 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Print Requisition',
 //            'show'=>'1',
 //            'url'=>'requisition/printReqIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'R'
 //        ] );
 //
 //
 //
 //            MENUITEM::create( [
-//            'id'=>56000,
+//            'id'=>55000,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -873,11 +903,12 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'PURCHASE',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>56002,
+//            'id'=>55002,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -886,11 +917,12 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Supplier Information',
 //            'show'=>'1',
 //            'url'=>'purchase/supplierInfoIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>56005,
+//            'id'=>55005,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -899,12 +931,13 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Direct Purchase Product',
 //            'show'=>'1',
 //            'url'=>'purchase/purchaseProductIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
 //            MENUITEM::create( [
-//            'id'=>56015,
+//            'id'=>55015,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -913,13 +946,14 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Purchase Against Requisition',
 //            'show'=>'1',
 //            'url'=>'purchase/purchaseRequisitionIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //
 //
 //            MENUITEM::create( [
-//            'id'=>56020,
+//            'id'=>55020,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -928,11 +962,12 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Edit Purchase',
 //            'show'=>'1',
 //            'url'=>'purchase/editPurchaseIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>56025,
+//            'id'=>55025,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -941,9 +976,57 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'Approve Purchase',
 //            'show'=>'1',
 //            'url'=>'purchase/approvePurchaseIndex',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
+
+
+//        MENUITEM::create( [
+//            'id'=>56000,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'5G',
+//            'name'=>'SALES',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+//        MENUITEM::create( [
+//            'id'=>56002,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5G',
+//            'name'=>'Customer Information',
+//            'show'=>'1',
+//            'url'=>'sales/customerInfoIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+//        MENUITEM::create( [
+//            'id'=>56004,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5G',
+//            'name'=>'Sale Items Rate',
+//            'show'=>'1',
+//            'url'=>'sales/salesRateIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+
 //
 //
 //
@@ -958,7 +1041,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'PROJECTS MODULE',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -973,7 +1057,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'PROJECT DATA',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
 //
 //        MENUITEM::create( [
@@ -986,7 +1071,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'name'=>'New Project',
 //            'show'=>'1',
 //            'url'=>'home',
-//            'status'=>'1'
+//            'status'=>'1',
+//            'content'=>'F'
 //        ] );
     }
 }

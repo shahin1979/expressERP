@@ -38,14 +38,15 @@ class DataMigrationCO extends Controller
     public function migrate()
     {
 
-        $connection = DB::connection('mcottondb');
+
+//        $connection = DB::connection('mcottondb');
 
 //        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
 //        $output = $this->MTPurchase($this->company_id);
 //        $output = $this->MTStatement($this->company_id);
-        $output = $this->depreciation($this->company_id,$connection);
+//        $output = $this->depreciation($this->company_id,$connection);
 //        $output = $this->create_fiscal_period($this->company_id,'01-07-2018');
 
         // Previous data Migration
@@ -55,7 +56,7 @@ class DataMigrationCO extends Controller
 
         // End
 
-        dd($output);
+//        dd($output);
 
 //        dd('here');
 

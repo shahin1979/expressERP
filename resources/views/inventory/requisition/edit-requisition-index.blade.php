@@ -27,6 +27,14 @@
         </table>
     </div>
 
+    <div class="row" id="top-head">
+        <div class="col-md-4">
+            <div class="pull-left">
+                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-print"></i>Back</button>
+            </div>
+        </div>
+    </div>
+
 
     <form id="ajax-items">
     <div class="row" id="edit-section">
@@ -83,6 +91,7 @@
         $(document).ready(function(){
 
             $('#edit-section').hide();
+            $('#top-head').hide();
 
         });
 
@@ -154,8 +163,15 @@
                 });
 
                 $('#edit-section').show();
+                $('#top-head').show();
                 $('#requisition-table').parents('div.dataTables_wrapper').first().hide();
 
+            });
+
+            $(this).on('click', '.btn-back', function (e) {
+                $('#edit-section').hide();
+                $('#top-head').hide();
+                $('#requisition-table').parents('div.dataTables_wrapper').first().show();
             });
 
 

@@ -29,6 +29,7 @@ class CreateMenuItemsTable extends Migration
             $table->boolean('show')->default(true);
             $table->string('url',300)->nullable();
             $table->boolean('status')->default(true);
+            $table->char('content',1)->default('F')->comment('F=>Form, R=>Report');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->index('module_id');

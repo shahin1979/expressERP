@@ -89,4 +89,9 @@ class ProductMO extends Model
         return $this->belongsTo(SubCategory::class);
     }
 
+    public function rate()
+    {
+        return $this->hasMany(SalesRateHistory::class)->where('status','A');
+    }
+
 }

@@ -404,8 +404,9 @@ trait MigrationTrait
 
         $connection = DB::connection('mcottondb');
 
-        DB::statement('TRUNCATE TABLE locations RESTART identity CASCADE;');
-        DB::statement('TRUNCATE TABLE requisitions RESTART identity CASCADE;');
+        DB::statement('TRUNCATE TABLE locations;');
+        DB::statement('TRUNCATE TABLE requisitions;');
+        DB::statement('TRUNCATE TABLE trans_products;');
 
 //        DB::statement('ALTER TABLE requisitions ADD extra_field VARCHAR(150);');
 
@@ -413,6 +414,7 @@ trait MigrationTrait
         // Test Area
 
         $departments = $connection->table('item_departments')->get();
+
 
         $location = Collect([]);
         $newLine = [];
@@ -440,27 +442,19 @@ trait MigrationTrait
         $requisitions = $connection->table('item_requisitions')->get();
         $collection = $requisitions->unique('reqRefNo');
 
-        $req_sl = 40000001;
+//        $req_sl = 40000001;
 
         foreach ($collection as $row)
         {
+            $fiscal = $this->get_fiscal_year_db_date($this->company_id,$row->reqDate);
 
-            if($row->reqDate < '2019-07-01')
-            {
-                $req_no = '2018'.$req_sl;
-            }else
-            {
-                $tr_code =  TransCode::query()->where('company_id',$company_id)
-                    ->where('trans_code','RQ')
-//                    ->where('fiscal_year','2029-2020')
-                    ->lockForUpdate()->first();
+            $tr_code =  TransCode::query()->where('company_id',$company_id)
+                ->where('trans_code','RQ')
+                ->where('fiscal_year',$fiscal)
+                ->lockForUpdate()->first();
 
-                $req_no = $tr_code->last_trans_id;
+            $req_no = $tr_code->last_trans_id;
 
-//                TransCode::query()->where('company_id',$company_id)
-//                    ->where('trans_code','RQ')
-//                    ->increment('last_trans_id');
-            }
 
             $inserted = Requisition::query()->create([
                 'company_id'=>$company_id,
@@ -497,28 +491,33 @@ trait MigrationTrait
                         'tr_date'=>$row->reqDate,
                         'product_id'=>$product->id,
                         'name'=>$product->name,
-                        'quantity'=>$row->reqQuantity,
-                        'approved'=>$row->approvedQty,
-                        'purchased'=>$row->purchasedQty,
-                        'received'=>$row->receivedQty,
+                        'quantity'=>$req->reqQuantity,
+                        'approved'=>$req->approvedQty,
+                        'purchased'=>$req->purchasedQty,
+                        'received'=>$req->receivedQty,
                         'remarks'=>'Migrated',
-                        'status'=>$row->status
+                        'status'=>$req->status
                     ]);
                 }
 
             }
 
-            if($row->reqDate < '2019-07-01')
-            {
-                $req_sl ++;
+            TransCode::query()->where('company_id',$this->company_id)
+                ->where('trans_code','RQ')
+                    ->where('fiscal_year',$fiscal)
+                ->increment('last_trans_id');
 
-            }else
-            {
-                TransCode::query()->where('company_id',$this->company_id)
-                    ->where('trans_code','RQ')
-//                    ->where('fiscal_year','2029-2020')
-                    ->increment('last_trans_id');
-            }
+//            if($row->reqDate < '2019-07-01')
+//            {
+//                $req_sl ++;
+//
+//            }else
+//            {
+//                TransCode::query()->where('company_id',$this->company_id)
+//                    ->where('trans_code','RQ')
+////                    ->where('fiscal_year','2029-2020')
+//                    ->increment('last_trans_id');
+//            }
 
         }
 

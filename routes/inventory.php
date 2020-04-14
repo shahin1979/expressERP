@@ -214,3 +214,50 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
 
 
 });
+
+
+
+// SALES ROUTES
+
+
+
+// PURCHASE ROUTES
+
+
+Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware' => ['auth']], function () {
+
+    Route::get('customerInfoIndex','CreateCustomerCO@index');
+    Route::get('getCustomerInfo','CreateCustomerCO@getCustomerData');
+    Route::post('customerInfoIndex','CreateCustomerCO@store');
+    Route::post('customerUpdateIndex','CreateCustomerCO@update');
+    Route::post('customerDeleteIndex','CreateCustomerCO@destroy');
+
+    Route::get('salesRateIndex','SaleItemsRateCO@index');
+    Route::post('updateProductRate','SaleItemsRateCO@update');
+//
+//    Route::get('purchaseRequisitionIndex','RequisitionPurchaseCO@index');
+//
+//
+//    Route::get('reqDataForPurchase','RequisitionPurchaseCO@getReqPurchaseData');
+//    Route::get('purchaseIndex/{id}','RequisitionPurchaseCO@purchase');
+//
+//    Route::post('itemSummary','RequisitionPurchaseCO@itemSum');
+//    Route::post('reqPurchase','RequisitionPurchaseCO@reqPurchaseStore');
+
+//    Route::get('edit/{id}','EditRequisitionCO@edit');
+//    Route::post('updateRequisition','EditRequisitionCO@update');
+//
+//    Route::get('approvePurchaseIndex','ApprovePurchaseCO@index');
+//    Route::get('purDataForApprove','ApprovePurchaseCO@getPurchaseData');
+//    Route::post('approve/{id}','ApprovePurchaseCO@approve');
+//    Route::post('reject/{id}','ApproveRequisitionCO@reject');
+//
+//    Route::get('printReqIndex','PrintRequisitionCO@index');
+////
+//    Route::get('reqDataForPrint','PrintRequisitionCO@getPrintReqData');
+////
+//    Route::get('print/{id}','PrintRequisitionCO@print');
+//    Route::delete('products/delete/{id}','ProductsCO@destroy');
+
+
+});
