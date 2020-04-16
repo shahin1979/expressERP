@@ -24,7 +24,7 @@ class RequisitionPurchaseCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>56015,'user_id'=>$this->user_id],
+            ['company_id'=>$this->company_id,'menu_id'=>55015,'user_id'=>$this->user_id],
             ['updated_at'=>Carbon::now()
             ]);
 
@@ -207,6 +207,7 @@ class RequisitionPurchaseCO extends Controller
 
             TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','PR')
+                ->where('fiscal_year',$fiscal_year)
                 ->increment('last_trans_id');
 
             // Check quantity left to be purchased

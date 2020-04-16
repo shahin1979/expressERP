@@ -91,7 +91,7 @@ class ProductMO extends Model
 
     public function rate()
     {
-        return $this->hasMany(SalesRateHistory::class)->where('status','A');
+        return $this->hasMany(SalesRateHistory::class,'product_id','id');
     }
 
 }

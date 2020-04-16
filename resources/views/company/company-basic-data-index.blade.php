@@ -86,6 +86,13 @@
                             </tr>
 
                             <tr>
+                                <td>Auto Delivery</td>
+                                <td>
+                                    <input type="checkbox" {!! isset($basic->auto_delivery) ?  $basic->auto_delivery == 1 ? 'checked' : 'unchecked' : 'unchecked' !!} name="auto_delivery" data-toggle="toggle" data-onstyle="primary">
+                                </td>
+                            </tr>
+
+                            <tr>
                                 <td>Company Logo</td>
                                 <td>
                                     <div class="imageupload">
@@ -134,7 +141,7 @@
 
                             <tr>
                                 <td>Logo</td>
-                                <td><img src="{!! asset(isset($users_company->company_logo)) !!}" class="rounded float-left" style="height: 100px; width: 150px" alt="..."></td>
+                                <td><img src="{!! asset($users_company->company_logo) !!}" class="rounded float-left" style="height: 150px; width: 150px" alt="..."></td>
                             </tr>
                             </tbody>
                             <tfoot>

@@ -91,6 +91,7 @@ class CreateRequisitionCO extends Controller
 
             TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','RQ')
+                ->where('fiscal_year',$fiscal_year)
                 ->increment('last_trans_id');
 
         }catch (\Exception $e)

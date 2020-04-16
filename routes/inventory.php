@@ -234,18 +234,17 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
 
     Route::get('salesRateIndex','SaleItemsRateCO@index');
     Route::post('updateProductRate','SaleItemsRateCO@update');
-//
-//    Route::get('purchaseRequisitionIndex','RequisitionPurchaseCO@index');
-//
-//
-//    Route::get('reqDataForPurchase','RequisitionPurchaseCO@getReqPurchaseData');
-//    Route::get('purchaseIndex/{id}','RequisitionPurchaseCO@purchase');
-//
-//    Route::post('itemSummary','RequisitionPurchaseCO@itemSum');
-//    Route::post('reqPurchase','RequisitionPurchaseCO@reqPurchaseStore');
+    Route::get('approveSalesRateIndex','SaleItemsRateCO@approveSalesRateIndex');
+    Route::post('approveProductRate','SaleItemsRateCO@approve');
+    Route::post('rejectProductRate','SaleItemsRateCO@reject');
+
+    Route::get('createSalesInvoiceIndex','SaleInvoiceCO@index');
+    Route::post('SalesInvoicePost','SaleInvoiceCO@store');
+    Route::get('salesProducts','SaleInvoiceCO@autocomplete');
+    Route::post('totalItem','SaleInvoiceCO@totalItem');
 
 //    Route::get('edit/{id}','EditRequisitionCO@edit');
-//    Route::post('updateRequisition','EditRequisitionCO@update');
+
 //
 //    Route::get('approvePurchaseIndex','ApprovePurchaseCO@index');
 //    Route::get('purDataForApprove','ApprovePurchaseCO@getPurchaseData');

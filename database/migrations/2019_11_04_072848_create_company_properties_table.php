@@ -20,6 +20,7 @@ class CreateCompanyPropertiesTable extends Migration
             $table->boolean('project')->default(0);
             $table->boolean('inventory')->default(0);
             $table->boolean('auto_ledger')->default(0);
+            $table->boolean('auto_delivery')->default(0);
             $table->integer('cash',false)->default(101);
             $table->integer('bank',false)->default(102);
             $table->integer('sales',false)->default(301);

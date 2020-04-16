@@ -19,6 +19,7 @@ class CompanyProperty extends Model
         'project',
         'inventory',
         'auto_ledger',
+        'auto_delivery',
         'cash',
         'bank',
         'sales',
