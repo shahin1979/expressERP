@@ -38,7 +38,7 @@ class SaleInvoiceCO extends Controller
     {
         $term = $request['term'];
 
-        $items = ProductMO::query()->select('id as item_id', 'name','tax_id','unit_price','unit_name')
+        $items = ProductMO::query()->select('id as item_id', 'name','unit_price','unit_name')
             ->where('company_id',$this->company_id)
             ->where('category_id',3)
             ->where('name', 'LIKE', '%'.$term.'%')->get();
@@ -48,6 +48,7 @@ class SaleInvoiceCO extends Controller
 
     public function totalItem(Request $request)
     {
+
         $input_items = $request['item'];
         $json = new \stdClass;
 
@@ -63,10 +64,10 @@ class SaleInvoiceCO extends Controller
                 $item_tax_total= 0;
                 $item_sub_total = ($item['price'] * $item['quantity']); //Money function gets last two digit as decimal
 
+
                 if (!empty($item['tax'])) {
+
                     $tax = ItemTax::query()->where('id', $item['tax'])->first();
-
-
                     if($tax->calculating_mode == 'P')
                     {
                         $item_tax_total = (($item['price'] * $item['quantity']) / 100) * $tax->rate;
@@ -105,12 +106,11 @@ class SaleInvoiceCO extends Controller
 
     public function store(Request $request)
     {
-//        dd($request->all());
-
         DB::beginTransaction();
         try{
 
             $fiscal_year = $this->get_fiscal_year($request['invoice_date'],$this->company_id);
+            $taxes = ItemTax::query()->where('company_id',$this->company_id)->where('status',true)->get();
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','SL')
@@ -122,6 +122,8 @@ class SaleInvoiceCO extends Controller
             $request['company_id'] = $this->company_id;
             $request['invoice_no'] = $invoice_no;
             $request['invoice_date'] = Carbon::createFromFormat('d-m-Y',$request['invoice_date'])->format('Y-m-d');
+            $request['due_amt'] = $request['invoice_amt'] - $request['discount_amt'] - $request['paid_amt'];
+            $request['invoice_type'] = $request['customer_id'] == 1 ? 'CA' : 'CR';
 //            $request['customer_id']
 //            $request['paid_amt'] =
 //            $request['discount_amt'] =
@@ -143,10 +145,12 @@ class SaleInvoiceCO extends Controller
                         $sales_item['quantity'] = $item['quantity'];
                         $sales_item['sold'] = $item['quantity'];
                         $sales_item['unit_price'] = $item['price'];
-                        $sales_item['tax_total'] = $item['tax'];
-                        $sales_item['total_price'] = $item['quantity']*$item['price'] + $item['tax'];
+                        $sales_item['tax_id'] = $item['tax'];
+                        $sales_item['tax_total'] = $item['tax_amt'];
+                        $sales_item['total_price'] = $item['quantity']*$item['price'] + $item['tax_amt'];
 
                         TransProduct::query()->create($sales_item);
+                        ProductMO::query()->where('id',$item['item_id'])->increment('committed',$item['quantity']);
                     }
                 }
             }

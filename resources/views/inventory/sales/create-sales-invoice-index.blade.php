@@ -22,13 +22,17 @@
         <table class="table table-sm table-responsive">
             <tbody>
             <tr>
-                <td><label for="invoice_type" class="control-label">Invoice Type</label></td>
-                <td>{!! Form::select('invoice_type', ['CI'=>'Credit Sale','MI'=>'Cash Sale'] , null , array('id' => 'invoice_type', 'class' => 'form-control')) !!}</td>
+{{--                <td><label for="invoice_type" class="control-label">Invoice Type</label></td>--}}
+{{--                <td>{!! Form::select('invoice_type', ['CI'=>'Credit Sale','MI'=>'Cash Sale'] , null , array('id' => 'invoice_type', 'class' => 'form-control')) !!}</td>--}}
                 <td><label for="customer_id" class="control-label">Customer</label></td>
                 <td>{!! Form::select('customer_id', $customers , null , array('id' => 'customer_id', 'class' => 'form-control','placeholder' => 'Select Customer')) !!}</td>
                 <td><button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#modal-unit"><i class="fa fa-plus"></i></button></td>
                 <td><label for="invoice_date" class="control-label">Date</label></td>
                 <td>{!! Form::text('invoice_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'invoice_date', 'class' => 'form-control','required','readonly')) !!}</td>
+                <td><label for="description" class="control-label">Direct Delivery</label></td>
+                <td>
+                    <input type="checkbox" {!! isset($basic->auto_delivery) ?  $basic->auto_delivery == 1 ? 'checked' : 'unchecked' : 'unchecked' !!} name="auto_delivery" data-toggle="toggle" data-onstyle="primary">
+                </td>
 {{--                <td align="right"><label for="orderNo" class="control-label">Order No</label></td>--}}
 {{--                <td align="right">{!! Form::text('orderNo','PO' , array('id' => 'orderNo', 'class' => 'form-control')) !!}</td>--}}
             </tr>
@@ -43,11 +47,9 @@
             </tr>
             <tr>
                 <td><label for="description" class="control-label">Remarks</label></td>
-                <td colspan="4">{!! Form::text('description', null , array('id' => 'description', 'class' => 'form-control')) !!}</td>
-                <td><label for="description" class="control-label">Direct Delivery</label></td>
-                <td>
-                    <input type="checkbox" {!! isset($basic->auto_delivery) ?  $basic->auto_delivery == 1 ? 'checked' : 'unchecked' : 'unchecked' !!} name="auto_delivery" data-toggle="toggle" data-onstyle="primary">
-                </td>
+                <td colspan="6">{!! Form::text('description', null , array('id' => 'description', 'class' => 'form-control')) !!}</td>
+
+
             </tr>
             </tbody>
             <tfoot></tfoot>
@@ -87,6 +89,7 @@
                         </td>
                         <td>
                             {!! Form::select('item[' . $item_row . '][tax]',$taxes , null, ['id'=> 'item-tax-'. $item_row, 'class' => 'form-control', 'placeholder' =>'Select Tax']) !!}
+                            <input name="item[{{ $item_row }}][tax_amt]" type="hidden" id="item-tax-amt-{{ $item_row }}">
                         </td>
                         <td class="text-right" style="vertical-align: middle;">
                             <span id="item-total-{{ $item_row }}">0</span>
@@ -98,7 +101,7 @@
                         <td class="text-right" colspan="5"></td>
                     </tr>
                     <tr>
-                        <td class="text-right" colspan="5"><strong>{{ trans('purchase.sub_total') }}</strong></td>
+                        <td class="text-right" colspan="5"><strong>Sub Total</strong></td>
                         <td class="text-right"><span id="sub-total">0</span></td>
                     </tr>
                     <tr>
@@ -159,6 +162,8 @@
                 html += '      </select>';
             html += '  </td>';
 
+            html += '  <input name="item[' + item_row + '][tax_amt]" type="hidden" id="item-tax-amt-' + item_row + '">';
+
             html += '  <td class="text-right" style="vertical-align: middle;">';
             html += '      <span id="item-total-' + item_row + '">0</span>';
             html += '  </td>';
@@ -208,7 +213,6 @@
                         $('#item-quantity-' + item_id).val('1');
                         $('#item-price-' + item_id).val(data.unit_price);
                         $('#item-tax-' + item_id).val(data.tax_id);
-                        $('#item-total-' + item_id).html(data.total);
 
                         totalItem();
                     }
@@ -223,27 +227,12 @@
                 totalItem();
             });
 
-            {{--$(document).on('change', '#customer_id', function (e) {--}}
-            {{--    $.ajax({--}}
-            {{--        url: '{{ url("incomes/customers/currency") }}',--}}
-            {{--        type: 'GET',--}}
-            {{--        dataType: 'JSON',--}}
-            {{--        data: 'customer_id=' + $(this).val(),--}}
-            {{--        success: function(data) {--}}
-            {{--            $('#currency_code').val(data.currency_code);--}}
-
-            {{--            // This event Select2 Stylesheet--}}
-            {{--            $('#currency_code').trigger('change');--}}
-            {{--        }--}}
-            {{--    });--}}
-            {{--});--}}
-
         function totalItem() {
             $.ajax({
                 url: '{{ url("sales/totalItem") }}',
                 type: 'POST',
                 dataType: 'JSON',
-                data: $('#currency_code, #paid_amt, #discount,  #items input[type=\'text\'],#items input[type=\'hidden\'], #items textarea, #items select'),
+                data: $('#paid_amt, #discount,  #items input[type=\'text\'],#items input[type=\'hidden\'], #items textarea, #items select'),
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                 success: function(data) {
                     if (data) {
@@ -251,10 +240,16 @@
                             $('#item-total-' + key).html(value);
                         });
 
+                        $.each( data.taxes, function( key, value ) {
+                            $('#item-tax-amt-' + key).val(value);
+                        });
+
+
                         $('#sub-total').html(data.sub_total);
                         $('#tax-total').html(data.tax_total);
                         $('#grand-total').html(data.grand_total);
-                        $('#due-amt').html(data.due_amt);
+
+                        $('#due-amt').html(data.grand_total);
                         $('#total-tax').val(data.tax_total);
                         $('#sales-amt').val(data.grand_total);
 
