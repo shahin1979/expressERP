@@ -7,6 +7,7 @@ namespace App\Traits;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\FiscalPeriod;
+use App\Models\Inventory\Product\ItemTax;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -59,7 +60,6 @@ trait TransactionsTrait
 
     public function create_fiscal_period($company_id,$date)
     {
-//        DB::statement('TRUNCATE TABLE fiscal_periods;');
 
         $start_date = Carbon::createFromFormat('d-m-Y',$date)->format('Y-m-d');
         $fiscal_period = $this->create_fiscal_year($date);
@@ -173,5 +173,30 @@ trait TransactionsTrait
 
     return $input;
 
+    }
+
+
+    public function tax_amount($tax_id, $price, $quantity)
+    {
+        $tax = ItemTax::query()->where('id',$tax_id)->first();
+        $item_tax_total = 0;
+        if(!empty($tax))
+        {
+            switch ($tax->calculating_mode)
+            {
+                case 'P':
+                    $item_tax_total = (($price * $quantity) / 100) * $tax->rate;
+                    break;
+
+                case 'F':
+                    $item_tax_total = $quantity*$tax->rate;
+                    break;
+
+                default:
+                    $item_tax_total = 0;
+            }
+        }
+
+        return $item_tax_total;
     }
 }

@@ -6,12 +6,18 @@ use App\Models\Company\Relationship;
 use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class TransProduct extends Model
 {
+    use LogsActivity;
+
     protected $table= 'trans_products';
 
     protected $guarded = ['id', 'created_at','updated_at','deleted_at'];
+    protected static $logAttributes = ['*'];
+    protected static $recordEvents = ['updated','deleted'];
+    protected static $logOnlyDirty = true;
 
     protected $fillable = [
         'company_id',
@@ -45,6 +51,11 @@ class TransProduct extends Model
     public function requisition()
     {
         return $this->belongsTo(Requisition::class,'ref_id','id');
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Sale::class,'ref_no','id');
     }
 
     public function location()

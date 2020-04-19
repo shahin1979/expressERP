@@ -242,12 +242,11 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
     Route::post('SalesInvoicePost','SaleInvoiceCO@store');
     Route::get('salesProducts','SaleInvoiceCO@autocomplete');
     Route::post('totalItem','SaleInvoiceCO@totalItem');
+    Route::get('EditSalesInvoiceIndex','SaleInvoiceCO@editIndex');
+    Route::get('salesInvoiceData','SaleInvoiceCO@InvoiceData');
+    Route::get('edit/{id}','SaleInvoiceCO@edit');
+    Route::post('updateSalesInvoice','SaleInvoiceCO@update');
 
-//    Route::get('edit/{id}','EditRequisitionCO@edit');
-
-//
-//    Route::get('approvePurchaseIndex','ApprovePurchaseCO@index');
-//    Route::get('purDataForApprove','ApprovePurchaseCO@getPurchaseData');
 //    Route::post('approve/{id}','ApprovePurchaseCO@approve');
 //    Route::post('reject/{id}','ApproveRequisitionCO@reject');
 //
