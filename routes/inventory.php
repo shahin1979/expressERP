@@ -246,11 +246,13 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
     Route::get('salesInvoiceData','SaleInvoiceCO@InvoiceData');
     Route::get('edit/{id}','SaleInvoiceCO@edit');
     Route::post('updateSalesInvoice','SaleInvoiceCO@update');
+    Route::get('ApproveSalesInvoiceIndex','SaleInvoiceCO@approveIndex');
+    Route::get('getApproveInvoice','SaleInvoiceCO@InvoiceApproveData');
+    Route::post('approveSalesInvoice/{id}','SaleInvoiceCO@approve');
 
-//    Route::post('approve/{id}','ApprovePurchaseCO@approve');
 //    Route::post('reject/{id}','ApproveRequisitionCO@reject');
 //
-//    Route::get('printReqIndex','PrintRequisitionCO@index');
+
 ////
 //    Route::get('reqDataForPrint','PrintRequisitionCO@getPrintReqData');
 ////

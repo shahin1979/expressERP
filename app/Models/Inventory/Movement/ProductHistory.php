@@ -8,11 +8,11 @@ use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class TransProduct extends Model
+class ProductHistory extends Model
 {
     use LogsActivity;
 
-    protected $table= 'trans_products';
+    protected $table= 'product_histories';
 
     protected $guarded = ['id', 'created_at','updated_at','deleted_at'];
     protected static $logAttributes = ['*'];
@@ -25,21 +25,13 @@ class TransProduct extends Model
         'ref_id',
         'tr_date',
         'ref_type',
-        'relationship_id',
         'product_id',
-        'name',
-        'quantity',
+        'quantity_in',
+        'quantity_out',
         'unit_price',
-        'tax_id',
-        'tax_total',
         'total_price',
-        'approved',
-        'purchased',
-        'sold',
-        'received',
-        'returned',
-        'delivered',
         'multi_unit',
+        'relationship_id',
         'remarks',
         'status',
     ];

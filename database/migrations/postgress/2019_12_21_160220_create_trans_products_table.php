@@ -37,6 +37,7 @@ class CreateTransProductsTable extends Migration
             $table->decimal('received',15,2)->default(0.00);
             $table->decimal('returned',15,2)->default(0.00);
             $table->decimal('delivered',15,2)->default(0.00);
+            $table->json('multi_unit')->nullable();
             $table->string('remarks',190)->nullable();
             $table->tinyInteger('status',false)->unsigned()->default(1)->comments('1 = created, 2= approved, 3= purchased, 4= received, 5=delevered, 6= rejected, 7=closed');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

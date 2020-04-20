@@ -87,6 +87,24 @@ if (!function_exists('get_account_curr_balance')) {
     }
 }
 
+// get account name from account number
+
+
+if (!function_exists('get_account_name_from_number')) {
+
+    /**
+     * generate secure random numbers
+     *
+     */
+    function get_account_name_from_number($company_id,$acc_no)
+    {
+        $ledger = GeneralLedger::query()->where('company_id',$company_id)
+            ->where('acc_no',$acc_no)->first();
+
+        return $ledger->acc_name;
+    }
+}
+
 
 if (!function_exists('date_validation')) {
 

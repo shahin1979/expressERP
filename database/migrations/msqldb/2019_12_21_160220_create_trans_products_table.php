@@ -17,10 +17,10 @@ class CreateTransProductsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
-            $table->bigInteger('ref_no',false)->unsigned()->comments('Invoice No, Purchase Order No, Requisition No, Challan N');;
-            $table->bigInteger('ref_id',false)->unsigned()->comments('Invoice, Purchase, Requisition No, Challan id');;
+            $table->bigInteger('ref_no',false)->unsigned()->comment('Invoice No, Purchase Order No, Requisition No, Challan N');;
+            $table->bigInteger('ref_id',false)->unsigned()->comment('Invoice, Purchase, Requisition No, Challan id');;
             $table->date('tr_date');
-            $table->char('ref_type',1)->comments('P = Purchase, R = Requisition, S = Sales, I = Import, D = Delivery, E = Export'); //1 for consumption 2 for purchase
+            $table->char('ref_type',1)->comment('P = Purchase, R = Requisition, S = Sales, I = Import, D = Delivery, E = Export'); //1 for consumption 2 for purchase
             $table->integer('relationship_id')->unsigned()->nullable()->comment('For which department/supplier/ buyer etc this was created');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
@@ -37,8 +37,9 @@ class CreateTransProductsTable extends Migration
             $table->decimal('received',15,2)->default(0.00);
             $table->decimal('returned',15,2)->default(0.00);
             $table->decimal('delivered',15,2)->default(0.00);
+            $table->json('multi_unit')->nullable();
             $table->string('remarks',190)->nullable();
-            $table->tinyInteger('status',false)->unsigned()->default(1)->comments('1 = created, 2= approved, 3= purchased, 4= received, 5=delevered, 6= rejected, 7=closed');
+            $table->tinyInteger('status',false)->unsigned()->default(1)->comment('1 = created, 2= approved, 3= purchased, 4= received, 5=delevered, 6= rejected, 7=closed');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->boolean('deleted')->default(false);
