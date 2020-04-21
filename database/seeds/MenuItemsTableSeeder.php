@@ -815,6 +815,21 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //
+//            MENUITEM::create( [
+//            'id'=>52060,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5A',
+//            'name'=>'Product Ledger Report',
+//            'show'=>'1',
+//            'url'=>'product/rptProductLedgerIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+
+//
 //        MENUITEM::create( [
 //            'id'=>54000,
 //            'company_id'=>1,
@@ -1041,47 +1056,62 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'F'
 //        ] );
 
-        MENUITEM::create( [
-            'id'=>56008,
-            'company_id'=>1,
-            'module_id'=>5,
-            'nav_label'=>5,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'5G',
-            'name'=>'Create Sales Invoice',
-            'show'=>'1',
-            'url'=>'sales/createSalesInvoiceIndex',
-            'status'=>'1',
-            'content'=>'F'
-        ] );
+//        MENUITEM::create( [
+//            'id'=>56008,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5G',
+//            'name'=>'Create Sales Invoice',
+//            'show'=>'1',
+//            'url'=>'sales/createSalesInvoiceIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>56010,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5G',
+//            'name'=>'Edit Sales Invoice',
+//            'show'=>'1',
+//            'url'=>'sales/EditSalesInvoiceIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>56012,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5G',
+//            'name'=>'Approve Sales Invoice',
+//            'show'=>'1',
+//            'url'=>'sales/ApproveSalesInvoiceIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
 
-        MENUITEM::create( [
-            'id'=>56010,
-            'company_id'=>1,
-            'module_id'=>5,
-            'nav_label'=>5,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'5G',
-            'name'=>'Edit Sales Invoice',
-            'show'=>'1',
-            'url'=>'sales/EditSalesInvoiceIndex',
-            'status'=>'1',
-            'content'=>'F'
-        ] );
 
-        MENUITEM::create( [
-            'id'=>56012,
-            'company_id'=>1,
-            'module_id'=>5,
-            'nav_label'=>5,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'5G',
-            'name'=>'Approve Sales Invoice',
-            'show'=>'1',
-            'url'=>'sales/ApproveSalesInvoiceIndex',
-            'status'=>'1',
-            'content'=>'F'
-        ] );
+//        MENUITEM::create( [
+//            'id'=>56030,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5G',
+//            'name'=>'Print Sales Invoice',
+//            'show'=>'1',
+//            'url'=>'sales/printSalesInvoiceIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
 
 //
 //

@@ -141,6 +141,9 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
     Route::post('products/update/{id}','ProductsCO@update');
     Route::delete('products/delete/{id}','ProductsCO@destroy');
 
+    Route::get('rptProductLedgerIndex','Report\ProductLedgerCO@index');
+    Route::get('productList','Report\ProductLedgerCO@autocomplete');
+
 
 });
 
@@ -250,11 +253,13 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
     Route::get('getApproveInvoice','SaleInvoiceCO@InvoiceApproveData');
     Route::post('approveSalesInvoice/{id}','SaleInvoiceCO@approve');
 
-//    Route::post('reject/{id}','ApproveRequisitionCO@reject');
+    //Report
+    Route::get('printSalesInvoiceIndex','PrintSalesInvoiceCO@index');
+
 //
 
 ////
-//    Route::get('reqDataForPrint','PrintRequisitionCO@getPrintReqData');
+
 ////
 //    Route::get('print/{id}','PrintRequisitionCO@print');
 //    Route::delete('products/delete/{id}','ProductsCO@destroy');
