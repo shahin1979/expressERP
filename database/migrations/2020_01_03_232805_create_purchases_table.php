@@ -34,12 +34,13 @@ class CreatePurchasesTable extends Migration
             $table->string('description')->nullable();
             $table->char('status',2)->unsigned()->default(1)->comments('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
             $table->char('stock_status',1)->unsigned()->default('A')->comments('A = Available, F=FINISHED');
+            $table->string('extra_field',150)->nullable();
+            $table->string('old_number',12)->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field
-            $table->string('extra_field',150)->nullable();
             $table->index('company_id');
             $table->unique(array('company_id', 'ref_no'));
             $table->index('ref_no');

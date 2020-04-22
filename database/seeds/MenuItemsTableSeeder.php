@@ -641,7 +641,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52000,
+//            'id'=>51000,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -657,7 +657,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52005,
+//            'id'=>51005,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -672,7 +672,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //            MENUITEM::create( [
-//            'id'=>52010,
+//            'id'=>51010,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -687,7 +687,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //        MENUITEM::create( [
-//            'id'=>52015,
+//            'id'=>51015,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -702,7 +702,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //        MENUITEM::create( [
-//            'id'=>52020,
+//            'id'=>51020,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -716,7 +716,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52025,
+//            'id'=>51025,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -730,7 +730,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52030,
+//            'id'=>51030,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -744,7 +744,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52035,
+//            'id'=>51035,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -758,7 +758,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52040,
+//            'id'=>51040,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -772,7 +772,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52045,
+//            'id'=>51045,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -787,7 +787,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //        MENUITEM::create( [
-//            'id'=>52050,
+//            'id'=>51050,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -801,7 +801,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>52055,
+//            'id'=>51055,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -816,7 +816,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //            MENUITEM::create( [
-//            'id'=>52060,
+//            'id'=>51060,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -828,10 +828,10 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'R'
 //        ] );
-
+//
 //
 //        MENUITEM::create( [
-//            'id'=>54000,
+//            'id'=>52000,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -847,7 +847,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>54005,
+//            'id'=>52005,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -862,7 +862,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //            MENUITEM::create( [
-//            'id'=>54015,
+//            'id'=>52015,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -876,7 +876,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>54025,
+//            'id'=>52025,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -891,7 +891,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //            MENUITEM::create( [
-//            'id'=>54050,
+//            'id'=>52050,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -907,7 +907,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //            MENUITEM::create( [
-//            'id'=>55000,
+//            'id'=>53000,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -923,7 +923,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>55002,
+//            'id'=>53002,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -937,7 +937,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>55005,
+//            'id'=>53005,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -952,7 +952,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //            MENUITEM::create( [
-//            'id'=>55015,
+//            'id'=>53015,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -968,7 +968,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //            MENUITEM::create( [
-//            'id'=>55020,
+//            'id'=>53020,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -982,7 +982,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>55025,
+//            'id'=>53025,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -996,9 +996,41 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 
-
 //        MENUITEM::create( [
-//            'id'=>56000,
+//            'id'=>54000,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'5F',
+//            'name'=>'RECEIVES',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>54002,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5F',
+//            'name'=>'Receive Against Purchase',
+//            'show'=>'1',
+//            'url'=>'receive/receivePurchaseIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
+//
+//
+//        MENUITEM::create( [
+//            'id'=>55000,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1012,9 +1044,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
+//
 //        MENUITEM::create( [
-//            'id'=>56002,
+//            'id'=>55002,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1026,9 +1058,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
+//
 //        MENUITEM::create( [
-//            'id'=>56004,
+//            'id'=>55004,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1041,9 +1073,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'F'
 //        ] );
 //
-
+//
 //        MENUITEM::create( [
-//            'id'=>56006,
+//            'id'=>55006,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1055,9 +1087,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
+//
 //        MENUITEM::create( [
-//            'id'=>56008,
+//            'id'=>55008,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1071,7 +1103,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>56010,
+//            'id'=>55010,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1085,7 +1117,7 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
-//            'id'=>56012,
+//            'id'=>55012,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1097,10 +1129,10 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
+//
+//
 //        MENUITEM::create( [
-//            'id'=>56030,
+//            'id'=>55030,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,

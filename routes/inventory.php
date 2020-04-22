@@ -220,6 +220,52 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
 
 
 
+// RECEIVES ROUTES
+
+
+Route::group(['prefix' => 'receive', 'namespace' => 'Inventory\Receives', 'middleware' => ['auth']], function () {
+
+    Route::get('receivePurchaseIndex','ReceiveAgainstPurchaseCO@index');
+//    Route::get('getCustomerInfo','CreateCustomerCO@getCustomerData');
+//    Route::post('customerInfoIndex','CreateCustomerCO@store');
+//    Route::post('customerUpdateIndex','CreateCustomerCO@update');
+//    Route::post('customerDeleteIndex','CreateCustomerCO@destroy');
+
+//    Route::get('salesRateIndex','SaleItemsRateCO@index');
+//    Route::post('updateProductRate','SaleItemsRateCO@update');
+//    Route::get('approveSalesRateIndex','SaleItemsRateCO@approveSalesRateIndex');
+//    Route::post('approveProductRate','SaleItemsRateCO@approve');
+//    Route::post('rejectProductRate','SaleItemsRateCO@reject');
+//
+//    Route::get('createSalesInvoiceIndex','SaleInvoiceCO@index');
+//    Route::post('SalesInvoicePost','SaleInvoiceCO@store');
+//    Route::get('salesProducts','SaleInvoiceCO@autocomplete');
+//    Route::post('totalItem','SaleInvoiceCO@totalItem');
+//    Route::get('EditSalesInvoiceIndex','SaleInvoiceCO@editIndex');
+//    Route::get('salesInvoiceData','SaleInvoiceCO@InvoiceData');
+//    Route::get('edit/{id}','SaleInvoiceCO@edit');
+//    Route::post('updateSalesInvoice','SaleInvoiceCO@update');
+//    Route::get('ApproveSalesInvoiceIndex','SaleInvoiceCO@approveIndex');
+//    Route::get('getApproveInvoice','SaleInvoiceCO@InvoiceApproveData');
+//    Route::post('approveSalesInvoice/{id}','SaleInvoiceCO@approve');
+//
+//    //Report
+//    Route::get('printSalesInvoiceIndex','PrintSalesInvoiceCO@index');
+
+//
+
+////
+
+////
+//    Route::get('print/{id}','PrintRequisitionCO@print');
+//    Route::delete('products/delete/{id}','ProductsCO@destroy');
+
+
+});
+
+
+
+
 // SALES ROUTES
 
 
@@ -266,3 +312,8 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
 
 
 });
+
+
+
+
+

@@ -532,15 +532,21 @@ trait MigrationTrait
 
         $connection = DB::connection('mcottondb');
 
-        DB::statement('TRUNCATE TABLE relationships RESTART identity CASCADE;');
+//        DB::statement('TRUNCATE TABLE relationships RESTART identity CASCADE;');
+        DB::statement('TRUNCATE TABLE relationships;');
+        DB::statement('TRUNCATE TABLE purchases;');
 
         $data = $connection->table('customers')
             ->where('customerType','E')
             ->get();
 
-        $collection = Collect([]);
+//        $collection = Collect([]);
         $newLine = [];
         $count = 0;
+        $suppliers = Collect([]);
+
+// Insert Relationship Table for suppliers
+
         foreach ($data as $row)
         {
             $newLine['company_id'] = $company_id;
@@ -554,46 +560,86 @@ trait MigrationTrait
             $newLine['user_id'] = Auth::id();
 
             Relationship::query()->create($newLine);
-
+            $suppliers->push($newLine);
+//            $count ++;
         }
+// End Relationship
 
+ // Insert Purchase Table Data
+        //
         $purchase = $connection->table('purchase_header')->get();
-        $items = $connection->table('purchase_items')->get();
+        $product = ProductMO::query()
+            ->where('company_id',$company_id)->get();
 
+        $requisitions = Requisition::query()->where('company_id',$company_id)
+            ->where('req_type','P')->get();
 
-        $newLine = [];
-        $pr_sl = 70000001;
+        foreach ($purchase as $row)
+        {
+            $fiscal = $this->get_fiscal_year_db_date($this->company_id,$row->poDate );
 
-//        foreach ($purchase as $invoice)
-//        {
-//            if($row->purchaseOrderNo < '2019-07-01')
-//            {
-//                $pi_no = '2018'.$pr_sl;
-//            }else
-//            {
-//                $tr_code =  TransCode::query()->where('company_id',$company_id)
-//                    ->where('trans_code','PR')
-//                    ->lockForUpdate()->first();
-//
-//                $pi_no = $tr_code->last_trans_id;
-//            }
-//
-//            $inserted = Purchase::query()->create([
-//                'company_id'=>$company_id,
-//                'ref_no'=>$pi_no,
-//                'req_type'=> $row->reqType =='Purchase' ? 'P' : 'C',
-//                'req_date'=>$row->reqDate,
-//                'status'=>$row->status,
-//                'extra_field'=>$row->reqRefNo,
-//                'user_id'=>Auth::id(),
-//                'authorized_by'=>Auth::id(),
-//            ]);
-//
-//            $newLine['company_id'] = $company_id;
-//            $newLine['user_id'] = Auth::id();
-//
-//            Purchase::query()->create($newLine);
-//        }
+            $tr_code =  TransCode::query()->where('company_id',$company_id)
+                ->where('trans_code','PR')
+                ->where('fiscal_year',$fiscal)->lockForUpdate()->first();
+
+            $pi_no = $tr_code->last_trans_id;
+
+            $inserted = Purchase::query()->create([
+                'company_id'=>$company_id,
+                'ref_no'=>$pi_no,
+                'contra_ref'=> $requisitions->where('extra_field',$row->RefNo)->first()->ref_no,
+                'po_date'=>$row->poDate,
+                'old_number'=>$row->purchaseOrderNo,
+                'purchase_type'=>'LP',
+                'invoice_amt'=>$row->totalAmount,
+                'invoice_date'=>$row->poDate,
+                'status'=>$row->status =='P' ? 'PR' : 'RC',
+                'user_id'=>Auth::id(),
+                'authorized_by'=>Auth::id(),
+            ]);
+
+            // Insert Purchase Items Table
+
+            $items = $connection->table('purchase_items')
+                ->where('purchaseOrderNo',$row->purchaseOrderNo)
+                ->where(DB::Raw('length(itemCode)'),9)
+                ->get();
+
+            foreach ($items as $item) {
+
+                $prod = $product->where('product_code',$item->itemCode)->first();
+                $supplier = Relationship::query()->where('fax_number',$item->suplierId)->first();
+
+                if(!empty($prod))
+                {
+                    TransProduct::query()->insert([
+                        'company_id'=>$company_id,
+                        'ref_no'=>$pi_no,
+                        'ref_id'=>$inserted->id,
+                        'ref_type'=>'P',
+                        'relationship_id'=>isset($supplier->id) ? $supplier->id : null,
+                        'tr_date'=>$row->poDate,
+                        'product_id'=>$prod->id,
+                        'name'=>$prod->name,
+                        'quantity'=>$item->itemQty,
+                        'unit_price'=>$item->unitPrice,
+                        'total_price' =>$item->itemQty*$item->unitPrice,
+                        'approved'=>$item->itemQty,
+                        'purchased'=>$item->itemQty,
+                        'received'=>$item->receivedQty,
+                        'returned'=>$item->returnQty,
+                        'remarks'=>'Migrated',
+                    ]);
+                }
+
+            }
+
+            TransCode::query()->where('company_id',$this->company_id)
+                ->where('trans_code','PR')
+                ->where('fiscal_year',$fiscal)
+                ->increment('last_trans_id');
+            $count ++ ;
+        }
 
         return $count;
     }

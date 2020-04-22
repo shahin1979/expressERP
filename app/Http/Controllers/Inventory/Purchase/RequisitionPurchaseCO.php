@@ -24,7 +24,7 @@ class RequisitionPurchaseCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>55015,'user_id'=>$this->user_id],
+            ['company_id'=>$this->company_id,'menu_id'=>53015,'user_id'=>$this->user_id],
             ['updated_at'=>Carbon::now()
             ]);
 

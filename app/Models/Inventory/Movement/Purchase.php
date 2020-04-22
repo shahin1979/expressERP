@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\Models\Company\Relationship;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,6 +32,7 @@ class Purchase extends Model
         'stock_status',
         'user_id',
         'extra_field',
+        'old_number',
     ];
 
     public function items()
@@ -42,4 +44,5 @@ class Purchase extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

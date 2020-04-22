@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePurchasesTable extends Migration
+class CreateSalesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreatePurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchases', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('sales', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
-            $table->bigInteger('ref_no',false)->unsigned();
-            $table->string('contra_ref',160)->nullable()->comment('purchase l/c #');
-            $table->string('invoice_no',160)->nullable()->comment('purchase Invoice #');
-            $table->char('purchase_type',2)->comment('LP = Local Purchase, IM = Import BB=b2b l/c LC=Leter of Credit IV=Invoice'); //1 for consumption 2 for purchase
-            $table->date('po_date');
+            $table->bigInteger('invoice_no',false)->unsigned();
+            $table->bigInteger('customer_id')->unsigned()->comment('ID from the relationship table');
+            $table->char('invoice_type',2)->comment('MI = Cash Sale, CI= Credit Invoice'); //1 for consumption 2 for purchase
             $table->date('invoice_date');
             $table->decimal('invoice_amt',15,2)->default(0.00);
             $table->decimal('paid_amt',15,2)->default(0.00);
@@ -31,21 +29,25 @@ class CreatePurchasesTable extends Migration
             $table->decimal('due_amt',15,2)->default(0.00);
             $table->bigInteger('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
+            $table->date('authorized_date')->nullable();
             $table->string('description')->nullable();
-            $table->char('status',2)->default(1)->comment('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
-            $table->string('old_number',12)->nullable();
-            $table->string('extra_field',150)->nullable();
+            $table->char('status',2)->default(1)->comment('CR = created, AP= approved, RC= received, DL=delivered, RJ= rejected, RT=>Returned CL=closed');
             $table->char('stock_status',1)->default('A')->comment('A = Available, F=FINISHED');
+            $table->boolean('direct_delivery')->default(0)->comment('1=> auto delivered after approving the invoice');
+            $table->boolean('delivery_status')->default(0);
+            $table->boolean('account_post')->default(0);
+            $table->bigInteger('account_voucher',false)->nullable()->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field
+            $table->string('extra_field',150)->nullable();
+            $table->string('old_invoice_no',15)->nullable();
             $table->index('company_id');
-            $table->unique(array('company_id', 'ref_no'));
-            $table->index('ref_no');
-            $table->index('po_date');
-
+            $table->unique(array('company_id', 'invoice_no'));
+            $table->index('invoice_no');
+            $table->index('invoice_date');
         });
     }
 
@@ -56,6 +58,6 @@ class CreatePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchases');
+        Schema::dropIfExists('sales');
     }
 }
