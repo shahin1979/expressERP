@@ -45,6 +45,7 @@ class DataMigrationCO extends Controller
 //        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
 //        $output = $this->MTPurchase($this->company_id);
+//        $output = $this->MTInvoice($this->company_id);
 //        $output = $this->MTStatement($this->company_id);
 //        $output = $this->depreciation($this->company_id,$connection);
 //        $output = $this->create_fiscal_period($this->company_id,'01-07-2018');

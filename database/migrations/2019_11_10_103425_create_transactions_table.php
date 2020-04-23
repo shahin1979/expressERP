@@ -49,6 +49,7 @@ class CreateTransactionsTable extends Migration
             $table->foreign('authorizer_id')->references('id')->on('users');
             $table->boolean('jv_flag')->nullable();
             $table->boolean('export_flag')->nullable();
+            $table->string('old_voucher',15)->nullable();
             $table->boolean('tr_state')->default(0)->comment('0=>valid 1=>reversed');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');

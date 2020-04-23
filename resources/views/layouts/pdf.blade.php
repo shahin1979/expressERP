@@ -34,6 +34,14 @@
             border-right-width:1px;
             border-left-width:1px;
         }
+
+        tr.row-border td {
+            border-bottom-width:1px;
+            border-top-width:1px;
+            border-right-width:1px;
+            border-left-width:1px;
+        }
+
         tr.row-line td {
             border-bottom:none;
             border-bottom-width:1px;

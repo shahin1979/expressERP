@@ -71,4 +71,9 @@ trait AccountTrait
         return $ledger->acc_name;
     }
 
+    public function get_account_ledger($company_id,$acc_no,$from_date,$to_date)
+    {
+
+    }
+
 }

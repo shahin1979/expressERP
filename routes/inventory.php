@@ -301,6 +301,8 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
 
     //Report
     Route::get('printSalesInvoiceIndex','PrintSalesInvoiceCO@index');
+    Route::get('getPrintInvoice','PrintSalesInvoiceCO@getInvoice');
+    Route::get('printInvoice/{id}','PrintSalesInvoiceCO@printInvoice');
 
 //
 

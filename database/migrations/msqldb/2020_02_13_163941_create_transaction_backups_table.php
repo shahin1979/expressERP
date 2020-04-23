@@ -50,6 +50,7 @@ class CreateTransactionBackupsTable extends Migration
             $table->boolean('jv_flag')->nullable();
             $table->boolean('export_flag')->nullable();
             $table->boolean('tr_state')->default(0)->comment('0=>valid 1=>reversed');
+            $table->string('old_voucher',15)->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
