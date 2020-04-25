@@ -18,9 +18,9 @@ class CreatePurchasesTable extends Migration
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
             $table->bigInteger('ref_no',false)->unsigned();
-            $table->string('contra_ref',160)->nullable()->comments('purchase l/c #');
-            $table->string('invoice_no',160)->nullable()->comments('purchase Invoice #');
-            $table->char('purchase_type',2)->comments('LP = Local Purchase, IM = Import BB=b2b l/c LC=Leter of Credit IV=Invoice'); //1 for consumption 2 for purchase
+            $table->string('contra_ref',160)->nullable()->comment('purchase l/c #');
+            $table->string('invoice_no',160)->nullable()->comment('purchase Invoice #');
+            $table->char('purchase_type',2)->comment('LP = Local Purchase, IM = Import BB=b2b l/c LC=Leter of Credit IV=Invoice'); //1 for consumption 2 for purchase
             $table->date('po_date');
             $table->date('invoice_date');
             $table->decimal('invoice_amt',15,2)->default(0.00);
@@ -32,8 +32,8 @@ class CreatePurchasesTable extends Migration
             $table->integer('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
             $table->string('description')->nullable();
-            $table->char('status',2)->unsigned()->default(1)->comments('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
-            $table->char('stock_status',1)->unsigned()->default('A')->comments('A = Available, F=FINISHED');
+            $table->char('status',2)->unsigned()->default(1)->comment('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
+            $table->char('stock_status',1)->unsigned()->default('A')->comment('A = Available, F=FINISHED');
             $table->string('extra_field',150)->nullable();
             $table->string('old_number',12)->nullable();
             $table->integer('user_id')->unsigned();

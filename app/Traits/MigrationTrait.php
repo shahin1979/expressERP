@@ -596,7 +596,7 @@ trait MigrationTrait
                 'purchase_type'=>'LP',
                 'invoice_amt'=>$row->totalAmount,
                 'invoice_date'=>$row->poDate,
-                'status'=>$row->status =='P' ? 'PR' : 'RC',
+                'status'=>$row->status =='P' ? 'PR' : ($row->status =='R' ? 'RJ' : 'RC'),
                 'user_id'=>Auth::id(),
                 'authorized_by'=>Auth::id(),
             ]);
@@ -765,6 +765,129 @@ trait MigrationTrait
 
         foreach ($data as $row)
         {
+            $newLine['company_id'] = $company_id;
+            $newLine['relation_type'] = 'CS';
+            $newLine['name'] = $row->custName;
+            $newLine['fax_number'] = $row->custID;
+            $newLine['address'] = $row->custAddress;
+            $newLine['phone_number'] = $row->phoneNo;
+            $newLine['ledger_acc_no'] = $row->glhead;
+            $newLine['email'] = $row->email;
+            $newLine['user_id'] = Auth::id();
+
+//            Relationship::query()->create($newLine);
+//            $suppliers->push($newLine);
+//            $count ++;
+        }
+// End Relationship
+
+        // Insert Purchase Table Data
+        //
+        $sales = $connection->table('invoice_sales')->get();
+        $product = ProductMO::query()
+            ->where('company_id',$company_id)->get();
+
+//        $requisitions = Requisition::query()->where('company_id',$company_id)
+//            ->where('req_type','P')->get();
+
+        foreach ($sales as $row)
+        {
+            $fiscal = $this->get_fiscal_year_db_date($this->company_id,$row->invoiceDate );
+
+            $tr_code =  TransCode::query()->where('company_id',$company_id)
+                ->where('trans_code','SL')
+                ->where('fiscal_year',$fiscal)->lockForUpdate()->first();
+
+            $invoice_no = $tr_code->last_trans_id;
+            $customer = Relationship::query()->where('fax_number',$row->customerID)->first();
+
+            $inserted = Sale::query()->create([
+                'company_id'=>$company_id,
+                'invoice_no'=>$invoice_no,
+                'customer_id'=> isset($customer->id) ? $customer->id : '',
+                'invoice_type'=>'CI',
+                'invoice_date'=>$row->invoiceDate,
+                'old_invoice_no'=>$row->invoiceNo,
+                'invoice_amt'=>$row->invoiceAmt,
+                'due_amt'=>$row->dueAmt,
+                'status'=>$row->approvalStatus =='A' ? 'AP' : ($row->approvalStatus =='R' ? 'RJ': 'CR'),
+                'delivery_status'=>$row->deliveryStatus == 'D' ? 1 : 0,
+                'user_id'=>Auth::id(),
+                'authorized_by'=>Auth::id(),
+            ]);
+
+            // Insert Invoice Items Table
+
+            $items = $connection->table('invoice_items')
+                ->where('invoiceNo',$row->invoiceNo)
+                ->where(DB::Raw('length(itemCode)'),9)
+                ->get();
+
+            foreach ($items as $item) {
+
+                $prod = $product->where('product_code',$item->itemCode)->first();
+
+
+                if(!empty($prod))
+                {
+                    TransProduct::query()->insert([
+                        'company_id'=>$company_id,
+                        'ref_no'=>$invoice_no,
+                        'ref_id'=>$inserted->id,
+                        'ref_type'=>'S',
+                        'relationship_id'=>isset($customer->id) ? $customer->id : null,
+                        'tr_date'=>$row->invoiceDate,
+                        'product_id'=>$prod->id,
+                        'name'=>$prod->name,
+                        'quantity'=>$item->quantity,
+                        'unit_price'=>$item->rate,
+                        'total_price' =>$item->quantity*$item->rate,
+                        'approved'=>$item->quantity,
+                        'sold'=>$item->quantity,
+                        'delivered'=>$item->deliveredQty,
+                        'remarks'=>'Migrated',
+                    ]);
+                }
+
+            }
+
+            TransCode::query()->where('company_id',$this->company_id)
+                ->where('trans_code','SL')
+                ->where('fiscal_year',$fiscal)
+                ->increment('last_trans_id');
+
+            $count ++ ;
+        }
+
+        return $count;
+    }
+
+    public function MTHistories($company_id)
+    {
+        ini_set('max_execution_time', 600);
+
+        $connection = DB::connection('mcottondb');
+
+//        DB::statement('TRUNCATE TABLE relationships RESTART identity CASCADE;');
+//        DB::statement('TRUNCATE TABLE relationships;');
+        DB::statement('TRUNCATE TABLE stock_item_histories;');
+
+        $data = $connection->table('stock_item_histories')->get();
+
+//        $collection = Collect([]);
+        $newLine = [];
+        $count = 0;
+//        $suppliers = Collect([]);
+
+// Insert Relationship Table for suppliers
+
+        foreach ($data as $row)
+        {
+            switch($row->typeCode)
+            {
+                case 'Opning Stock':
+
+            }
             $newLine['company_id'] = $company_id;
             $newLine['relation_type'] = 'CS';
             $newLine['name'] = $row->custName;

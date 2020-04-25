@@ -226,7 +226,7 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
 Route::group(['prefix' => 'receive', 'namespace' => 'Inventory\Receives', 'middleware' => ['auth']], function () {
 
     Route::get('receivePurchaseIndex','ReceiveAgainstPurchaseCO@index');
-//    Route::get('getCustomerInfo','CreateCustomerCO@getCustomerData');
+    Route::get('receiveItemsData','ReceiveAgainstPurchaseCO@getData');
 //    Route::post('customerInfoIndex','CreateCustomerCO@store');
 //    Route::post('customerUpdateIndex','CreateCustomerCO@update');
 //    Route::post('customerDeleteIndex','CreateCustomerCO@destroy');

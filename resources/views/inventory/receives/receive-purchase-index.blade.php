@@ -102,15 +102,15 @@
                 serverSide: true,
                 autoWidth: false,
                 responsive: true,
-                ajax: 'purchaseItemsData',
+                ajax: 'receiveItemsData',
                 columns: [
-                    { data: 'invoice_no', name: 'sales.invoice_no' },
-                    { data: 'invoice_date', name: 'sales.invoice_date' },
-                    { data: 'customer.name', name: 'customer.name' },
+                    { data: 'ref_no', name: 'purchases.ref_no' },
+                    { data: 'po_date', name: 'purchases.po_date' },
+                    { data: 'supplier', name: 'supplier' },
                     { data: 'product', name: 'product' },
                     { data: 'quantity', name: 'quantity' },
                     { data: 'unit_price', name: 'unit_price' },
-                    { data: 'invoice_amt', name: 'sales.invoice_amt' },
+                    { data: 'invoice_amt', name: 'purchases.invoice_amt' },
                     // { data: 'user.name', name: 'user.name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]

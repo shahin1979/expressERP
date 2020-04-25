@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Inventory\Sales;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\Relationship;
 use App\Models\Inventory\Movement\Sale;
+use App\Traits\AccountTrait;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class PrintSalesInvoiceCO extends Controller
 {
+    use AccountTrait;
+
     public function index()
     {
         $customers = Relationship::query()->where('company_id',$this->company_id)
@@ -59,8 +63,22 @@ class PrintSalesInvoiceCO extends Controller
     public function printInvoice($id)
     {
         $invoice = Sale::query()->where('id',$id)->with('items')->with('customer')->first();
+        $customer = Relationship::query()->where('id',$invoice->customer_id)->first();
 
-        $view = \View::make('inventory.sales.report.pdf-sales-invoice',compact('invoice'));
+
+        $from_date = Transaction::query()
+            ->where('company_id',$this->company_id)
+            ->where('acc_no',$customer->ledger_acc_no)
+            ->where('trans_date','<',$invoice->invoice_date)
+            ->where('tr_code','SL')
+            ->max('trans_date');
+
+        $opening = $this->get_account_opening_balance($customer->ledger_acc_no,$this->company_id,$from_date);
+        $ledgers = $this->get_account_ledger($this->company_id,$customer->ledger_acc_no,$from_date,$invoice->invoice_date);
+        $ledgers  = json_decode($ledgers, true);
+
+
+        $view = \View::make('inventory.sales.report.pdf-sales-invoice',compact('invoice','opening','ledgers'));
         $html = $view->render();
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);

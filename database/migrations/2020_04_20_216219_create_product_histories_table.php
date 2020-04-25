@@ -20,7 +20,7 @@ class CreateProductHistoriesTable extends Migration
             $table->bigInteger('ref_no',false)->unsigned()->comment('Invoice No, Purchase Order No, Requisition No, Challan N');;
             $table->bigInteger('ref_id',false)->unsigned()->comment('Invoice, Purchase, Requisition No, Challan id');;
             $table->date('tr_date');
-            $table->char('ref_type',1)->comment('P = Purchase, S = Sales, I = Import, D = Delivery, E = Export, R=Return'); //1 for consumption 2 for purchase
+            $table->char('ref_type',1)->comment('P = Purchase, S = Sales, I = Import, D = Delivery, E = Export, R=Return, T=Transform O=Opening W=wastage');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
             $table->decimal('quantity_in',15,2)->default(0.00);
@@ -30,10 +30,10 @@ class CreateProductHistoriesTable extends Migration
             $table->json('multi_unit')->nullable();
             $table->bigInteger('relationship_id')->unsigned()->nullable()->comment('For which department/supplier/ buyer etc this was created');
             $table->string('remarks',190)->nullable();
-            $table->tinyInteger('status',false)->unsigned()->default(1)->comment('1 = created, 2= approved, 3= purchased, 4= received, 5=delevered, 6= rejected, 7=closed');
+            $table->boolean('status')->unsigned()->default(1)->comment('0 = valid, 1= reversed');
+            $table->boolean('acc_post')->default(0);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-            $table->boolean('deleted')->default(false);
             $table->softDeletes(); // <-- This will add a deleted_at field
             $table->index('company_id');
             $table->index('ref_no');
