@@ -462,4 +462,81 @@ if (!function_exists('convert_number_to_words')) {
 
         return $string;
     }
+
+
 }
+
+
+if (!function_exists('addMonths')) {
+
+    /**
+     * get company address
+     *
+     * @param int $min
+     * @param int $max
+     *
+     * @param int $bytes
+     *
+     * @return int|number
+     */
+    function addMonths($date, $months)
+    {
+        {
+            $date = new \DateTime($date);
+            $date->modify("+" . $months . " months");
+
+            $date->modify("-1 day");
+
+            return $date->format('Y-m-d');
+        }
+    }
+}
+
+
+if (!function_exists('getNextDay')) {
+
+    /**
+     * get Next day from given date
+     *
+     * @param int $min
+     * @param int $max
+     *
+     * @param int $bytes
+     *
+     * @return int|number
+     */
+    function getNextDay($date_1)
+    {
+
+        $date_2 = date('Y-m-d', strtotime('+1 day', strtotime($date_1)));
+
+        return $date_2;
+    }
+
+}
+
+
+if (!function_exists('dateDifference')) {
+
+    /**
+     * get company address
+     *
+     * @param int $min
+     * @param int $max
+     *
+     * @param int $bytes
+     *
+     * @return int|number
+     */
+    function dateDifference($date_1 , $date_2 , $differenceFormat = '%a' )
+    {
+        $datetime1 = date_create($date_1);
+        $datetime2 = date_create($date_2);
+
+        $interval = date_diff($datetime1, $datetime2);
+
+        return $interval->format($differenceFormat);
+    }
+
+}
+

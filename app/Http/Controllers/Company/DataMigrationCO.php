@@ -44,9 +44,9 @@ class DataMigrationCO extends Controller
 //        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
-        $output = $this->MTPurchase($this->company_id);
+//        $output = $this->MTPurchase($this->company_id);
 //        $output = $this->MTInvoice($this->company_id);
-        $output = $this->MTHistories($this->company_id);
+//        $output = $this->MTHistories($this->company_id);
 //        $output = $this->MTStatement($this->company_id);
 //        $output = $this->depreciation($this->company_id,$connection);
 //        $output = $this->create_fiscal_period($this->company_id,'01-07-2018');
@@ -61,6 +61,75 @@ class DataMigrationCO extends Controller
 //        dd($output);
 
 //        dd('here');
+
+
+        $start_date = '2021-05-13';
+        $end_date = '2026-05-12';
+        $g_date = '2021-05-12';
+        $principal = 2500000;
+        $principal_x = $principal;
+        $first_day_count = 0;
+        $err = 9;
+        $installment = 55646;
+        $profit_size = 3750;
+        $last_day_month = date("Y-m-t", strtotime($g_date));
+        $first_day_month = date("Y-m-1", strtotime($g_date));
+        $second_day_count = dateDifference($last_day_month,$g_date);
+        $factor = 36500;
+        $outstanding = $principal + 225000;
+
+
+//        dd(dateDifference($last_day_month,$g_date));
+
+//        $report=[];
+
+//        $report['tr_date'] = date("Y-m-t", strtotime($g_date));
+
+//        dd($report);
+
+        DB::statement('TRUNCATE TABLE installment;');
+
+        for ($i=0; $i<60; $i++)
+        {
+            $tr_date = date("Y-m-t", strtotime($g_date));
+
+            $rent = floor((($principal_x*$first_day_count*$err)/$factor) + (($principal*$second_day_count*$err)/$factor));
+
+            DB::Table('installment')->insert([
+                'principal_x' => $principal_x,
+                'principal' => $principal,
+                'description'=>'Rent Charge',
+                'first_date'=>$first_day_month,
+                'tr_date' => $tr_date,
+                'first_range'=>$first_day_count,
+                'second_range'=>$second_day_count,
+                'first_amount'=>($principal_x*$first_day_count*$err)/$factor,
+                'second_amt'=>($principal*$second_day_count*$err)/$factor,
+                'installment_amt'=> $rent
+            ]);
+
+            $final = getNextDay(addMonths($g_date,1));
+            $outstanding = $outstanding - $installment + $rent;
+
+                DB::Table('installment')->insert([
+                'description'=>'Recovery Installment',
+                'tr_date' => $final,
+                'formula'=>'=F11',
+                'installment_amt'=> $installment,
+                'balance'=>$outstanding
+            ]);
+
+            $g_date = $final;
+
+            $principal_x = $principal;
+            $principal = $principal - $installment + $rent + $profit_size;
+            $first_day_count = dateDifference($final, date("Y-m-1", strtotime($final)));
+            $second_day_count = dateDifference(date("Y-m-t", strtotime($g_date)),$final) + 1;
+        }
+
+        dd($g_date);
+
+
 
         $connection = DB::connection('mcottondb');
 
