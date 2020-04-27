@@ -12,6 +12,7 @@ use App\Models\Inventory\Product\SubCategory;
 use App\Traits\MigrationTrait;
 use App\Traits\PreviousDataMigrationTrait;
 use App\Traits\TransactionsTrait;
+use App\Traits\TtwentyFourTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -20,7 +21,7 @@ use Illuminate\Support\Str;
 
 class DataMigrationCO extends Controller
 {
-    use MigrationTrait, PreviousDataMigrationTrait;
+    use MigrationTrait, PreviousDataMigrationTrait, TtwentyFourTrait;
 
     public function index()
     {
@@ -63,71 +64,9 @@ class DataMigrationCO extends Controller
 //        dd('here');
 
 
-        $start_date = '2021-05-13';
-        $end_date = '2026-05-12';
-        $g_date = '2021-05-12';
-        $principal = 2500000;
-        $principal_x = $principal;
-        $first_day_count = 0;
-        $err = 9;
-        $installment = 55646;
-        $profit_size = 3750;
-        $last_day_month = date("Y-m-t", strtotime($g_date));
-        $first_day_month = date("Y-m-1", strtotime($g_date));
-        $second_day_count = dateDifference($last_day_month,$g_date);
-        $factor = 36500;
-        $outstanding = $principal + 225000;
+        $output = $this->hpsmTwo();
 
-
-//        dd(dateDifference($last_day_month,$g_date));
-
-//        $report=[];
-
-//        $report['tr_date'] = date("Y-m-t", strtotime($g_date));
-
-//        dd($report);
-
-        DB::statement('TRUNCATE TABLE installment;');
-
-        for ($i=0; $i<60; $i++)
-        {
-            $tr_date = date("Y-m-t", strtotime($g_date));
-
-            $rent = floor((($principal_x*$first_day_count*$err)/$factor) + (($principal*$second_day_count*$err)/$factor));
-
-            DB::Table('installment')->insert([
-                'principal_x' => $principal_x,
-                'principal' => $principal,
-                'description'=>'Rent Charge',
-                'first_date'=>$first_day_month,
-                'tr_date' => $tr_date,
-                'first_range'=>$first_day_count,
-                'second_range'=>$second_day_count,
-                'first_amount'=>($principal_x*$first_day_count*$err)/$factor,
-                'second_amt'=>($principal*$second_day_count*$err)/$factor,
-                'installment_amt'=> $rent
-            ]);
-
-            $final = getNextDay(addMonths($g_date,1));
-            $outstanding = $outstanding - $installment + $rent;
-
-                DB::Table('installment')->insert([
-                'description'=>'Recovery Installment',
-                'tr_date' => $final,
-                'formula'=>'=F11',
-                'installment_amt'=> $installment,
-                'balance'=>$outstanding
-            ]);
-
-            $g_date = $final;
-
-            $principal_x = $principal;
-            $principal = $principal - $installment + $rent + $profit_size;
-            $first_day_count = dateDifference($final, date("Y-m-1", strtotime($final)));
-            $second_day_count = dateDifference(date("Y-m-t", strtotime($g_date)),$final) + 1;
-        }
-
-        dd($g_date);
+        dd($output);
 
 
 
