@@ -44,6 +44,9 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
 
+            $user = Auth::user();
+            $view->with('user',$user);
+
             if (Schema::hasTable('companies')) {
                 $users_company = CompanyProperty::query()->where('company_id', session('comp_id'))->with('company')->first();
                 $view->with('users_company',$users_company);

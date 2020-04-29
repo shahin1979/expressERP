@@ -19,7 +19,7 @@ class CreateReceivesTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
             $table->bigInteger('challan_no',false)->unsigned();
             $table->bigInteger('ref_no',false)->unsigned()->comment('invoice no, PO Number');
-            $table->bigInteger('relationship_id')->unsigned()->comment('ID from the relationship table');
+            $table->bigInteger('supplier_id')->unsigned()->nullable()->comment('ID from the relationship table');
             $table->char('receive_type',2)->comment('LP = Local Purchase, IM= Import SV=Salvage PR=Production'); //
             $table->date('receive_date');
             $table->bigInteger('approve_by')->unsigned()->nullable();

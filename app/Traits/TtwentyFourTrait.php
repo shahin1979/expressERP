@@ -272,6 +272,25 @@ trait TtwentyFourTrait
             ]);
 
 
+            $connection->table('gl_trans')->insert([
+                'serial'=>$sl,
+                'description'=>'Installment Recovery',
+                'tr_date' => $final,
+                'gl_head'=>'HPSM Investment Income',
+                'dr_amt'=> 0,
+                'cr_amt'=>$profit_size
+            ]);
+
+            $connection->table('gl_trans')->insert([
+                'serial'=>$sl,
+                'description'=>'Installment Recovery',
+                'tr_date' => $final,
+                'gl_head'=>'Unearned Income',
+                'dr_amt'=> $profit_size,
+                'cr_amt'=>0
+            ]);
+
+
             $sl ++;
 
             $g_date = $final;
@@ -574,6 +593,24 @@ trait TtwentyFourTrait
                     'tr_date' => $final,
                     'gl_head'=>'Cash/DD/TT/PO',
                     'dr_amt'=> $installment,
+                    'cr_amt'=>0
+                ]);
+
+                $connection->table('gl_trans')->insert([
+                    'serial'=>$sl,
+                    'description'=>'Installment Recovery',
+                    'tr_date' => $final,
+                    'gl_head'=>'HPSM Investment Income',
+                    'dr_amt'=> 0,
+                    'cr_amt'=>$profit_size
+                ]);
+
+                $connection->table('gl_trans')->insert([
+                    'serial'=>$sl,
+                    'description'=>'Installment Recovery',
+                    'tr_date' => $final,
+                    'gl_head'=>'Unearned Income',
+                    'dr_amt'=> $profit_size,
                     'cr_amt'=>0
                 ]);
 

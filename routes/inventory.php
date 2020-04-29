@@ -227,8 +227,8 @@ Route::group(['prefix' => 'receive', 'namespace' => 'Inventory\Receives', 'middl
 
     Route::get('receivePurchaseIndex','ReceiveAgainstPurchaseCO@index');
     Route::get('receiveItemsData','ReceiveAgainstPurchaseCO@getData');
-//    Route::post('customerInfoIndex','CreateCustomerCO@store');
-//    Route::post('customerUpdateIndex','CreateCustomerCO@update');
+    Route::get('view/{id}','ReceiveAgainstPurchaseCO@view');
+    Route::post('receivePurchaseItems','ReceiveAgainstPurchaseCO@store');
 //    Route::post('customerDeleteIndex','CreateCustomerCO@destroy');
 
 //    Route::get('salesRateIndex','SaleItemsRateCO@index');

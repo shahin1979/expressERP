@@ -22,7 +22,7 @@ class Receive extends Model
         'company_id',
         'challan_no',
         'ref_no',
-        'relationship_id',
+        'supplier_id',
         'receive_type',
         'receive_date',
         'approve_by',

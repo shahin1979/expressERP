@@ -22,7 +22,7 @@
                         <tr>
                             <td width="25%"><label for="date_from" class="control-label" >Statement Date</label></td>
                             <td width="50%">{!! Form::text('statement_date', Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'statement_date', 'class' => 'form-control','required','readonly')) !!}</td>
-                            <td><button name="action" type="submit" value="preview" class="btn btn-info btn-date-submit pull-left">Submit</button></td>
+                            <td><button name="action" type="submit" id="prepare-data" value="preview" class="btn btn-info btn-date-submit pull-left">Submit</button></td>
                         </tr>
                     </table>
 
@@ -86,6 +86,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $('#prepare-data').html('Wait..');
         var url = 'prepareStatementIndex';
 
         // confirm then
@@ -103,7 +104,8 @@
             },
 
             success: function (data) {
-               alert(data.success);
+                $('#prepare-data').html('Submit');
+                alert(data.success);
                 $('#date-selection').hide();
                 $('#statement-selection').show();
             }

@@ -41,7 +41,7 @@
             <div class="col-sm-5">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Invoice Info</h5>
+                        <h5 class="card-title">Purchase Info</h5>
                         <table id="invoice-main" class="table table-striped invoice-main">
 
                         </table>
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <input name="invoice" type="hidden" id="invoice" value="">
+            <input name="purchase_order" type="hidden" id="purchase_order" value="">
 
             <div class="col-sm-7" >
                 <div class="card">
@@ -59,8 +59,10 @@
                             <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Unit Price</th>
+                                <th>Supplier</th>
                                 <th style="text-align: right">Quantity</th>
+                                <th style="text-align: right">Receive</th>
+                                <th style="text-align: right">Return</th>
                             </tr>
                             </thead>
 
@@ -70,7 +72,7 @@
 
                             <tfoot>
                             <tr>
-                                <td colspan="3"><button type="submit" id="btn-update-invoice" class="btn btn-primary update-invoice">Update</button></td>
+                                <td colspan="3"><button type="submit" id="btn-receive-items" class="btn btn-primary receive-items">Submit</button></td>
                             </tr>
                             </tfoot>
 
@@ -117,21 +119,20 @@
             });
 
 
-            $(this).on('click', '.btn-edit', function (e) {
+            $(this).on('click', '.btn-receive', function (e) {
                 e.preventDefault();
                 var url = $(this).data('remote');
 
-                $('#invoice').val($(this).data('invoice'));
+                $('#purchase_order').val($(this).data('order'));
 
                 $(".invoice-info").remove();
 
                 var reqHTML = '';
 
                 reqHTML = '<tr class="invoice-info">' +
-                    '<td align="left">Invoice No</td><td align="left">' + $(this).data('invoice') + '</td></tr>' +
+                    '<td align="left">Invoice No</td><td align="left">' + $(this).data('order') + '</td></tr>' +
                     '<tr class="invoice-info"><td align="left">Date</td><td align="left">' + $(this).data('date') + '</td>/tr>' +
-                    '<tr class="invoice-info"><td align="left">Customer</td><td align="left">' + $(this).data('customer') + '</td></tr>' +
-                    '<tr class="invoice-info"><td align="left">Invoice Amount</td><td align="left">' + $(this).data('amount') + '</td>/tr>' ;
+                    '<tr class="invoice-info"><td align="left">Amount</td><td align="left">' + $(this).data('amount') + '</td>/tr>' ;
 
                 $('#invoice-main').append(reqHTML);
 
@@ -151,10 +152,10 @@
 
                             trHTML += '<tr class="invoice_items">' +
                                 '<td align="right">' + item.item.name +'</td>' +
-                                '<td align="right">' + item.unit_price +'</td>' +
-                                '<td align="right"><input name="item[' + i + '][quantity]" class="form-control text-right" type="text" id="quantity" value="'+ item.quantity +'"></td>' +
-                                '<input name="item[' + i +'][tax_id]" type="hidden" id="tax_id" value="'+ item.tax_id +'">' +
-                                '<input name="item[' + i +'][price]" type="hidden" id="price" value="'+ item.unit_price +'">' +
+                                '<td align="right">' + item.supplier.name +'</td>' +
+                                '<td align="right">' + item.quantity +'</td>' +
+                                '<td align="right"><input name="item[' + i + '][receive]" class="form-control inp-receive text-right" type="text" id="receive" value="'+ item.quantity +'"></td>' +
+                                '<td align="right"><input name="item[' + i + '][return]" class="form-control text-right" type="text" id="return" value="'+ 0 +'"></td>' +
                                 '<td><input name="item[' + i +'][id]" type="hidden" id="id" value="'+ item.id +'"></td></tr>';
                         });
 //
@@ -170,7 +171,7 @@
 
                 $('#edit-section').show();
                 $('#top-head').show();
-                $('#invoice-table').parents('div.dataTables_wrapper').first().hide();
+                $('#items-table').parents('div.dataTables_wrapper').first().hide();
 
             });
 
@@ -178,7 +179,7 @@
                 $('#edit-section').hide();
                 $(".invoice-info").remove();
                 $('#top-head').hide();
-                $('#invoice-table').parents('div.dataTables_wrapper').first().show();
+                $('#items-table').parents('div.dataTables_wrapper').first().show();
             });
 
 
@@ -188,12 +189,27 @@
                 // Stop the browser from submitting the form.
                 e.preventDefault();
 
+                // Check Quantity > 0
+                var inps = document.getElementsByClassName ('inp-receive');
+                var qty = 0;
+                for (var i = 0; i <inps.length; i++) {
+                    var inp=inps[i];
+                    qty = qty + parseInt(inp.value)
+                }
+
+                if(qty <=0){
+                    alert('Invalid Quantity : '+ qty);
+                    return false;
+                }
+
+                // End Check
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                var url = 'updateSalesInvoice';
+                var url = 'receivePurchaseItems';
 
                 // confirm then
                 $.ajax({
@@ -201,7 +217,6 @@
                     type: 'POST',
                     dataType: 'json',
                     data: $('form').serialize(),
-
                     error: function (request, status, error) {
                         alert(request.responseText);
                     },
@@ -210,8 +225,8 @@
 
                         alert(data.success);
                         $('#edit-section').hide();
-                        $('#invoice-table').parents('div.dataTables_wrapper').first().show();
-                        $('#invoice-table').DataTable().draw(true);
+                        $('#items-table').parents('div.dataTables_wrapper').first().show();
+                        $('#items-table').DataTable().draw(true);
                     },
                 });
             });
