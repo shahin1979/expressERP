@@ -185,6 +185,17 @@ class CompanyPropertiesCO extends Controller
                     ]
                 );
 
+                TransCode::query()->updateOrCreate(
+                    ['company_id'=>$this->company_id,'trans_code'=>'RT'],
+                    [
+                        'company_id'=>$this->company_id,
+                        'trans_code'=>'IR',
+                        'trans_name'=>'Item Return',
+                        'fiscal_year'=>$fiscal_period,
+                        'last_trans_id'=>$yr.'90000001'
+                    ]
+                );
+
 
 
                 //ADD INITIAL ACCOUNTS OF THE GENERAL LEDGER

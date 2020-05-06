@@ -190,8 +190,8 @@
                 type: 'POST',
                 dataType: 'json',
 
-                data: {method: '_POST', submit: true, TYPE_CODE:$('#type_code').val(),
-                    ACC_NAME:$('#acc_name').val(),
+                data: {method: '_POST', submit: true, type_code:$('#type_code').val(),
+                    acc_name:$('#acc_name').val(),
                 },
 
                 error: function (request, status, error) {

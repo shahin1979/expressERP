@@ -7,6 +7,7 @@ use App\Models\Company\TransCode;
 use App\Models\Inventory\Movement\ProductHistory;
 use App\Models\Inventory\Movement\Purchase;
 use App\Models\Inventory\Movement\Receive;
+use App\Models\Inventory\Movement\ReturnItem;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
 use App\Traits\TransactionsTrait;
@@ -90,11 +91,9 @@ class ReceiveAgainstPurchaseCO extends Controller
             $products = ProductMO::query()->where('company_id',$this->company_id)->where('status',true)->get();
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
-                ->where('trans_code','RC')
+                ->where('trans_code','IR')
                 ->where('fiscal_year',$fiscal_year->fiscal_year)
                 ->lockForUpdate()->first();
-
-//            dd($fiscal_year);
 
             $receive_no = $tr_code->last_trans_id;
 
@@ -136,17 +135,84 @@ class ReceiveAgainstPurchaseCO extends Controller
                         $history['total_price'] = $data->total_price;
 
                         ProductHistory::query()->create($history);
+                        TransProduct::query()->where('id',$data->id)->update(['received'=>$item['receive']]);
                         ProductMO::query()->where('id',$data->product_id)->increment('received_qty',$item['receive']);
-//                        ProductMO::query()->where('id',$data->product_id)->update([''])
                     }
                 }
             }
 
             TransCode::query()->where('company_id',$this->company_id)
-                ->where('trans_code','RC')
+                ->where('trans_code','IR')
                 ->where('fiscal_year',$fiscal_year->fiscal_year)
                 ->increment('last_trans_id');
 
+            Purchase::query()->where('company_id',$this->company_id)
+                ->where('ref_no',$request['purchase_order'])
+                ->update(['status'=>'RC']);
+
+        // End of Receive
+
+            /// Return
+
+            if ($request['is_return'] > 0)
+            {
+                $tr_code =  TransCode::query()->where('company_id',$this->company_id)
+                    ->where('trans_code','RT')
+                    ->where('fiscal_year',$fiscal_year->fiscal_year)
+                    ->lockForUpdate()->first();
+
+                $receive_no = $tr_code->last_trans_id;
+
+                $request['company_id'] = $this->company_id;
+                $request['challan_no'] = $receive_no;
+                $request['ref_no'] = $request['purchase_order'];
+                $request['return_date'] = Carbon::now()->format('Y-m-d');
+                $request['return_type'] = 'LP';
+                $request['user_id'] = $this->user_id;
+                $request['status'] = 'CR'; //Created
+
+                $inserted = ReturnItem::query()->create($request->all()); //Insert Data Into Sales Table
+
+                if ($request['item']) {
+
+                    foreach ($request['item'] as $item) {
+                        if ($item['return'] > 0)
+                        {
+                            $data = TransProduct::query()->where('id',$item['id'])->first();
+
+                            if($data->quantity != $item['receive'] + $item['return'])
+                            {
+                                DB::rollBack();
+                                $error = 'Receive + Return Quantity Mus Be Equal To Purchase Quantity';
+                                return response()->json(['error' => $error], 404);
+                            }
+
+                            $return['company_id'] = $this->company_id;
+                            $return['ref_no'] = $receive_no;
+                            $return['ref_id'] = $inserted->id;
+                            $return['ref_type'] = 'T'; //Return
+                            $return['relationship_id'] = $data->relationship_id;
+                            $return['tr_date']= $request['receive_date'];
+                            $return['product_id'] = $data->product_id;
+                            $return['name'] = $products->where('id',$data->product_id)->first()->name;
+                            $return['quantity'] = $item['return'];
+                            $return['returned'] = $item['return'];
+                            $return['unit_price'] = $data->unit_price;
+                            $return['total_price'] = $data->unit_price*$item['return'];
+
+                            TransProduct::query()->create($return);
+                            TransProduct::query()->where('id',$data->id)->update(['returned'=>$item['return']]);
+                        }
+///
+
+                    }
+                }
+
+                TransCode::query()->where('company_id',$this->company_id)
+                    ->where('trans_code','RT')
+                    ->where('fiscal_year',$fiscal_year->fiscal_year)
+                    ->increment('last_trans_id');
+            } // End of Return
 
         }catch (\Exception $e)
         {
@@ -158,7 +224,6 @@ class ReceiveAgainstPurchaseCO extends Controller
         DB::commit();
 
         return response()->json(['success'=>'Item Received for Approval'],200);
-
 
     }
 }

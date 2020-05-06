@@ -1147,6 +1147,54 @@ class MenuItemsTableSeeder extends Seeder
 
 //
 //
+
+//        MENUITEM::create( [
+//            'id'=>56000,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'5H',
+//            'name'=>'DELIVERY ITEMS',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>56002,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5H',
+//            'name'=>'Delivery By Invoice',
+//            'show'=>'1',
+//            'url'=>'sales/customerInfoIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+//        MENUITEM::create( [
+//            'id'=>56004,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5H',
+//            'name'=>'Delivery By Customer',
+//            'show'=>'1',
+//            'url'=>'sales/customerInfoIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
+
+
 //
 //
 //        MENUITEM::create( [

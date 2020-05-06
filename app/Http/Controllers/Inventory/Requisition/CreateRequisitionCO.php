@@ -23,7 +23,7 @@ class CreateRequisitionCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>54005,'user_id'=>$this->user_id],
+            ['company_id'=>$this->company_id,'menu_id'=>52005,'user_id'=>$this->user_id],
             ['updated_at'=>Carbon::now()
             ]);
 

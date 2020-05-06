@@ -50,6 +50,7 @@
             </div>
 
             <input name="purchase_order" type="hidden" id="purchase_order" value="">
+            <input name="is_return" type="hidden" id="is_return" value="">
 
             <div class="col-sm-7" >
                 <div class="card">
@@ -155,7 +156,7 @@
                                 '<td align="right">' + item.supplier.name +'</td>' +
                                 '<td align="right">' + item.quantity +'</td>' +
                                 '<td align="right"><input name="item[' + i + '][receive]" class="form-control inp-receive text-right" type="text" id="receive" value="'+ item.quantity +'"></td>' +
-                                '<td align="right"><input name="item[' + i + '][return]" class="form-control text-right" type="text" id="return" value="'+ 0 +'"></td>' +
+                                '<td align="right"><input name="item[' + i + '][return]" class="form-control inp-return text-right" type="text" id="return" value="'+ 0 +'"></td>' +
                                 '<td><input name="item[' + i +'][id]" type="hidden" id="id" value="'+ item.id +'"></td></tr>';
                         });
 //
@@ -190,7 +191,7 @@
                 e.preventDefault();
 
                 // Check Quantity > 0
-                var inps = document.getElementsByClassName ('inp-receive');
+                var inps = document.getElementsByClassName('inp-receive');
                 var qty = 0;
                 for (var i = 0; i <inps.length; i++) {
                     var inp=inps[i];
@@ -201,6 +202,19 @@
                     alert('Invalid Quantity : '+ qty);
                     return false;
                 }
+
+                var rtns = document.getElementsByClassName('inp-return');
+                var r_qty = 0;
+
+                for (var j = 0; j <rtns.length; j++) {
+                    var rtn = rtns[j];
+                    r_qty = r_qty + parseInt(rtn.value)
+                }
+
+                if(r_qty > 0){
+                    $('#is_return').val(r_qty)
+                }
+
 
                 // End Check
 

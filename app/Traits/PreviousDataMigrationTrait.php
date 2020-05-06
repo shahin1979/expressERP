@@ -109,6 +109,16 @@ trait PreviousDataMigrationTrait
                 'last_trans_id'=>$yr.'80000001'
             ]
         );
+        TransCode::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'trans_code'=>'RT','fiscal_year'=>$fyear],
+            [
+                'company_id'=>$this->company_id,
+                'trans_code'=>'IR',
+                'trans_name'=>'Item Return',
+//                'fiscal_year'=>'2015-2016',
+                'last_trans_id'=>$yr.'90000001'
+            ]
+        );
 
         return $count;
     }

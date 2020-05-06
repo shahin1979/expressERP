@@ -15,7 +15,7 @@ class ApproveRequisitionCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>54025,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>52025,'user_id'=>$this->user_id
             ]);
 
         return view('inventory.requisition.approve-requisition-index');

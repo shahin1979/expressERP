@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AccountTypeDetail extends Model
 {
 
-    protected $guarded = ['ID','CREATED_AT'];
+    protected $guarded = ['id','created_at'];
 
     public $timestamps = false;
 
@@ -17,8 +17,8 @@ class AccountTypeDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'ACCOUNT_TYPE_ID',
-        'TYPE_CODE',
+        'account_type_id',
+        'type_code',
         'description'
     ];
 

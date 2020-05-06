@@ -19,7 +19,7 @@ MYSQL
 SELECT concat("'",column_name,"',")
 FROM information_schema.columns
 WHERE `TABLE_SCHEMA`='express'
-and table_name='stmt_lists'
+and table_name='returns'
 
 array validation
 
@@ -34,3 +34,6 @@ $this->validate($request, $validation);
 
 
 @php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+php artisan cache:clear
+php artisan config:cache

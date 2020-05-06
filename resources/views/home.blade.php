@@ -9,16 +9,16 @@
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    <div>{!! $activity !!}</div>
+{{--                <div class="card-body">--}}
+{{--                    <div>{!! $activity !!}</div>--}}
 
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+{{--                    @if (session('status'))--}}
+{{--                        <div class="alert alert-success" role="alert">--}}
+{{--                            {{ session('status') }}--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
 
-                </div>
+{{--                </div>--}}
             </div>
         </div>
 

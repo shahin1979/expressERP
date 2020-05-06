@@ -65,26 +65,23 @@ class GLGroupCo extends Controller
 
     public function store(Request $request)
     {
-        $group_type = AccountTypeDetail::query()->where('type_code',$request['TYPE_CODE'])
+        $group_type = AccountTypeDetail::query()->where('type_code',$request['type_code'])
             ->with('parent')->first();
-
-
-//        $type = $group_type->type->description;
 
 //        dd(Str::substr($group_type->parent->description,0,1));
 
-        $request['COMPANY_ID'] = $this->company_id;
-        $request['USER_ID'] = $this->user_id;
+        $request['company_id'] = $this->company_id;
+        $request['user_id'] = $this->user_id;
         $max_ledger = GeneralLedger::query()->where('acc_type',Str::substr($group_type->parent->description,0,1))->max('ledger_code');
         $ledger_code = $max_ledger+1;
         $acc_no = $ledger_code.'12100';
-        $request['ACC_NAME'] = Str::upper($request['ACC_NAME']);
-        $request['ACC_NO'] = $acc_no;
-        $request['ACC_RANGE'] = $ledger_code.'12999';
-        $request['LEDGER_CODE'] = $ledger_code;
-        $request['ACC_TYPE'] = Str::substr($group_type->parent->description,0,1);
+        $request['acc_name'] = Str::upper($request['acc_name']);
+        $request['acc_no'] = $acc_no;
+        $request['acc_range'] = $ledger_code.'12999';
+        $request['ledger_code'] = $ledger_code;
+        $request['acc_type'] = Str::substr($group_type->parent->description,0,1);
 //        $request['TYPE_CODE'] = $request['TYPE_CODE'];
-        $request['IS_GROUP'] = true;
+        $request['is_group'] = true;
 
         DB::begintransaction();
 
