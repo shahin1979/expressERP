@@ -23,6 +23,8 @@ class CreateTransactionsTable extends Migration
             $table->foreign('trans_type_id')->references('id')->on('trans_types')->onDelete('CASCADE');
             $table->unsignedBigInteger('project_id')->nullable();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('CASCADE');
+            $table->unsignedBigInteger('cost_center_id')->nullable();
+            $table->foreign('cost_center_id')->references('id')->on('cost_centers')->onDelete('CASCADE');
             $table->integer('fp_no',false)->default(0);
             $table->string('ref_no',12)->nullable();
             $table->string('cheque_no',20)->nullable();

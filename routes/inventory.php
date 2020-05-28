@@ -269,10 +269,6 @@ Route::group(['prefix' => 'receive', 'namespace' => 'Inventory\Receives', 'middl
 // SALES ROUTES
 
 
-
-// PURCHASE ROUTES
-
-
 Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware' => ['auth']], function () {
 
     Route::get('customerInfoIndex','CreateCustomerCO@index');
@@ -304,18 +300,25 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
     Route::get('getPrintInvoice','PrintSalesInvoiceCO@getInvoice');
     Route::get('printInvoice/{id}','PrintSalesInvoiceCO@printInvoice');
 
-//
-
-////
-
-////
-//    Route::get('print/{id}','PrintRequisitionCO@print');
-//    Route::delete('products/delete/{id}','ProductsCO@destroy');
-
-
 });
 
 
+
+// Delivery ROUTES
+
+
+
+Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'middleware' => ['auth']], function () {
+
+    Route::get('requisitionItemDeliveryIndex','RequisitionItemsDeliveryCO@index');
+    Route::get('getReqItems','RequisitionItemsDeliveryCO@getReqItems');
+    Route::get('viewItems/{id}','RequisitionItemsDeliveryCO@items');
+    Route::post('deliveryRequisition','RequisitionItemsDeliveryCO@store');
+    Route::post('customerDeleteIndex','RequisitionItemsDeliveryCO@destroy');
+
+
+
+});
 
 
 

@@ -93,7 +93,7 @@
 
 
         <div class="col-md-12">
-            {!! Form::submit('SUBMIT',['class'=>'btn btn-primary button-control pull-right']) !!}
+            {!! Form::submit('SUBMIT',['class'=>'btn btn-primary btn-create button-control pull-right']) !!}
         </div>
         {!! Form::close() !!}
 
@@ -190,6 +190,27 @@
                     $('#item-quantity-' + item_id).val('1');
                     $('#item-unit-' + item_id).html(data.unit_name);
                 }
+            });
+        });
+
+        // Check Requisition For Is Selected
+
+        $(document).on('click', '.btn-create', function (e) {
+            if($('#req_type').val() == 0)
+            {
+                alert('Please Select Requisition Type');
+                return false
+            }
+
+            return true;
+        });
+
+        ///
+
+
+        $(function (){
+            $(document).on("focus", "input:text", function() {
+                $(this).select();
             });
         });
 

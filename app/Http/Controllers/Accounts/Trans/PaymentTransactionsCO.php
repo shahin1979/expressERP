@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounts\Trans;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\CompanyProperty;
@@ -53,7 +54,10 @@ class PaymentTransactionsCO extends Controller
         $projects = Project::query()->where('company_id',$this->company_id)
             ->whereNotIn('status',['C'])->pluck('project_name','id');
 
-        return view('accounts.trans.payment-transaction-index',compact('debits','credits','grp_debits','projects'));
+        $centers = CostCenter::query()->where('company_id',$this->company_id)
+            ->where('status',true)->pluck('name','id');
+
+        return view('accounts.trans.payment-transaction-index',compact('debits','credits','grp_debits','projects','centers'));
     }
 
     public function getDebitHead(Request $request)
@@ -73,7 +77,6 @@ class PaymentTransactionsCO extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function getCreditBalance(Request $request)
     {
@@ -123,6 +126,7 @@ class PaymentTransactionsCO extends Controller
                 Transaction::create([
                     'company_id' => $this->company_id,
                     'project_id' => $request['project_code'],
+                    'cost_center_id' => $request['cost_center_id'],
                     'tr_code' => 'PM',
                     'trans_type_id'=>$request['type_id'],
                     'period' => $period,
@@ -195,6 +199,7 @@ class PaymentTransactionsCO extends Controller
             Transaction::create([
                 'company_id' => $this->company_id,
                 'project_id' => $request['project_code'],
+                'cost_center_id' => $request['cost_center_id'],
                 'tr_code' => 'PM',
                 'trans_type_id'=>$request['type_id'],
                 'period' => $period,

@@ -315,6 +315,22 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //        MENUITEM::create( [
+//            'id'=>42002,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4A',
+//            'name'=>'Cost Center',
+//            'show'=>'1',
+//            'url'=>'costcenter/costCenterIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
+
+//        MENUITEM::create( [
 //            'id'=>42005,
 //            'company_id'=>1,
 //            'module_id'=>4,
@@ -1171,13 +1187,13 @@ class MenuItemsTableSeeder extends Seeder
 //            'nav_label'=>5,
 //            'menu_type'=>'SM',
 //            'menu_prefix'=>'5H',
-//            'name'=>'Delivery By Invoice',
+//            'name'=>'Delivery By Sales Invoice',
 //            'show'=>'1',
-//            'url'=>'sales/customerInfoIndex',
+//            'url'=>'delivery/salesInvoiceDeliveryIndex',
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
+//
 //        MENUITEM::create( [
 //            'id'=>56004,
 //            'company_id'=>1,
@@ -1185,9 +1201,24 @@ class MenuItemsTableSeeder extends Seeder
 //            'nav_label'=>5,
 //            'menu_type'=>'SM',
 //            'menu_prefix'=>'5H',
-//            'name'=>'Delivery By Customer',
+//            'name'=>'Delivery By Customer Invoice',
 //            'show'=>'1',
-//            'url'=>'sales/customerInfoIndex',
+//            'url'=>'delivery/customerInvoiceDeliveryIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//
+//        MENUITEM::create( [
+//            'id'=>56008,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5H',
+//            'name'=>'Delivery Requisition Items',
+//            'show'=>'1',
+//            'url'=>'delivery/requisitionItemDeliveryIndex',
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );

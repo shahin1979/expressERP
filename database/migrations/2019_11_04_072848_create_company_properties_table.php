@@ -18,6 +18,7 @@ class CreateCompanyPropertiesTable extends Migration
             $table->bigInteger('company_id')->unsigned()->unique();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->boolean('project')->default(0);
+            $table->boolean('cost_center')->default(0);
             $table->boolean('inventory')->default(0);
             $table->boolean('auto_ledger')->default(0);
             $table->boolean('auto_delivery')->default(0);

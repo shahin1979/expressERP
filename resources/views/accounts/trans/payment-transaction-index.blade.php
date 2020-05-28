@@ -136,8 +136,8 @@
                     <tr>
                         <td>CHK No</td>
                         <td>{!! Form::text('chk_no', null , array('id' => 'chk_no', 'class' => 'form-control')) !!}</td>
-                        <td>Project</td>
-                        <td colspan="2">{!! Form::select('project_id[]',$projects, null, array('id' => 'project_code', 'class' => 'col-sm-12 form-control', 'placeholder'=>'Select Project', $users_company->project == true ? 'enabled' : 'disabled')) !!}</td>
+                        <td colspan="2">{!! Form::select('project_id',$projects, null, array('id' => 'project_code', 'class' => 'col-sm-12 form-control', 'placeholder'=>'Select Project', $users_company->project == true ? 'enabled' : 'disabled')) !!}</td>
+                        <td>{!! Form::select('cost_center_id',$centers, null, array('id' => 'cost_center_id', 'class' => 'col-sm-12 form-control', 'placeholder'=>'Select Cost Center', $users_company->cost_center == true ? 'enabled' : 'disabled')) !!}</td>
                         <td colspan="2">{!! Form::text('trans_desc2', null , array('id' => 'trans_desc2', 'class' => 'form-control','data-mg-required' => '','placeholder'=>'Payment Notes')) !!}</td>
                     </tr>
 

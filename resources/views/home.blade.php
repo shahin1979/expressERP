@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-left">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -26,16 +26,15 @@
             <div class="card">
                 <div class="card-header">Last Used Menu</div>
                 @if(!empty($user_activities))
-                <div class="card-body">
+                <div class="card-body" style="justify-content: center">
                     <table class="table table-striped table-success">
                         <tbody>
                             @foreach($user_activities as $menu)
                             <tr>
-                                <td><a href="{!! url(''.$menu->menus->url.'') !!}" class="btn btn-facebook">{!! $menu->menus->name !!}</a></td>
+                                <td><a href="{!! url(''.$menu->menus->url.'') !!}" class="btn btn-facebook" style="width: 240px">{!! $menu->menus->name !!}</a></td>
                             </tr>
                             @endforeach
                         </tbody>
-
                     </table>
                 @endif
                 </div>

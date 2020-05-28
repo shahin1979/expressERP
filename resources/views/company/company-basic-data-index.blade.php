@@ -135,7 +135,7 @@
 
                                 <tr>
                                     <td width="350px">{!! $row->module_name !!}</td>
-                                    <td width="150px"><input type="checkbox" {!! empty($comp_modules) ? 'unchecked' : ($comp_modules->contains('module_id',$row->id) ? 'checked' : 'unchecked') !!} name="module_id[]" value="{!! $row->id !!}" data-toggle="toggle" data-onstyle="primary">
+                                    <td width="150px"><input type="checkbox" {!! empty($comp_modules) ? 'unchecked' : ($comp_modules->contains('module_id',$row->id) ? 'checked' : 'unchecked') !!} name="module_id[]" value="{!! $row->id !!}" data-toggle="toggle" data-onstyle="primary"></td>
                                 </tr>
                             @endforeach
 

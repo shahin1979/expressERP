@@ -52,6 +52,15 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 
 });
 
+// Cost Center Routes
+
+Route::group(['prefix' => 'costcenter', 'namespace' => 'Accounts\Costcenter', 'middleware' => ['auth']], function () {
+
+    Route::get('costCenterIndex','CostCenterCO@index');
+    Route::get('getCostCenterInfo','CostCenterCO@getdata');
+    Route::post('saveNewCenterIndex','CostCenterCO@store');
+
+});
 
 Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middleware' => ['auth']], function () {
 

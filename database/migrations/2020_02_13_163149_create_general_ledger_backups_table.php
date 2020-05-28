@@ -18,6 +18,8 @@ class CreateGeneralLedgerBackupsTable extends Migration
             $table->string('fiscal_year',9);
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
+            $table->bigInteger('cost_center_id')->unsigned()->nullable();
+            $table->foreign('cost_center_id')->references('id')->on('cost_centers')->onDelete('CASCADE');
             $table->string('ledger_code',3)->nullable();
             $table->string('acc_no',8);
             $table->string('acc_name',50);

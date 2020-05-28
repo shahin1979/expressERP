@@ -30,26 +30,23 @@ class EditRequisitionCO extends Controller
 
 
         return Datatables::eloquent($query)
-            ->addColumn('product', function (Requisition $requisition) {
-                return $requisition->items->map(function($items) {
+            ->addColumn('product', function ($query) {
+                return $query->items->map(function($items) {
                     return $items->item->name;
                 })->implode('<br>');
             })
 
-            ->addColumn('quantity', function (Requisition $requisition) {
-                return $requisition->items->map(function($items) {
+            ->addColumn('quantity', function ($query) {
+                return $query->items->map(function($items) {
                     return $items->quantity;
                 })->implode('<br>');
             })
 
-            ->addColumn('req_for', function (Requisition $requisition) {
-                return $requisition->items->map(function($items) {
-                    return $items->location->name;
+            ->addColumn('req_for', function ($query) {
+                return $query->items->map(function($items) {
+                    return isset($items->relationship_id) ? (isset($items->location->name) ? $items->location->name : 'None') : 'None';
                 })->implode('<br>');
             })
-
-
-
 
 
             ->editColumn('req_type',function ($requisition) { return $requisition->req_type == 'P' ? 'Purchase' : 'Consumption';})

@@ -48,7 +48,7 @@
                     <th>Name</th>
                     <th>Unit</th>
                     <th>Stock</th>
-                    <th>Status</th>
+{{--                    <th>Status</th>--}}
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -187,13 +187,13 @@
                 responsive: true,
                 ajax: 'getProductDBData',
                 columns: [
-                    { data: 'product_code', name: 'product_code' },
+                    { data: 'id', name: 'id' },
                     { data: 'category.name', name: 'category.name' },
                     { data: 'subcategory.name', name: 'subcategory.name' },
                     { data: 'name', name: 'name' },
                     { data: 'unit_name', name: 'unit_name' },
                     { data: 'on_hand', name: 'on_hand' },
-                    { data: 'status', name: 'status' },
+                    // { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
             });

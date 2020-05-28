@@ -28,7 +28,7 @@ class ProductsCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>52055,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>51055,'user_id'=>$this->user_id
             ]);
 
         $categories = Category::query()->where('company_id',$this->company_id)->pluck('name','id');
@@ -75,6 +75,7 @@ class ProductsCO extends Controller
             ->addColumn('action', function ($products) {
 
                 return '<div class="btn-unit btn-group-sm" role="group" aria-label="Action Button">
+                      <div class="row">
                     <button data-remote="view/'.$products->id.'"  type="button" class="btn btn-view btn-sm btn-success"><i class="fa fa-book-open">View</i></button>
                     <button data-remote="edit/' . $products->id . '" data-rowid="'. $products->id . '"
                         data-name="'. $products->name . '"
@@ -95,14 +96,10 @@ class ProductsCO extends Controller
                         data-category="'. $products->category_id . '"
                         data-category="'. $products->category_id . '"
 
-
-
-
-
                         type="button" class="btn btn-sm btn-product-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
                     <button data-remote="unit/delete/'.$products->id.'"  type="button" class="btn btn-unit-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>
-
+                    </div>
                     ';
             })
             ->rawColumns(['action'])

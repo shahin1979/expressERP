@@ -20,6 +20,7 @@ class Transaction extends Model
         'tr_code',
         'trans_type_id',
         'project_id',
+        'cost_center_id',
         'fp_no',
         'ref_no',
         'cheque_no',

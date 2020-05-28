@@ -52,7 +52,8 @@
                     {data: 'quantity', name: 'quantity'},
                     {data: 'user.name', name: 'user.name'},
                     {data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                order: [[ 1, "desc" ]]
             });
 
 
