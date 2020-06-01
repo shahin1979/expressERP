@@ -19,7 +19,7 @@ class CreateDeliveriesTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
             $table->bigInteger('challan_no',false)->unsigned();
             $table->bigInteger('ref_no',false)->unsigned()->comment('invoice no');
-            $table->bigInteger('relationship_id')->unsigned()->comment('ID from the relationship table');
+            $table->bigInteger('relationship_id')->unsigned()->comment('ID from the relationship table')->nullable();
             $table->char('delivery_type',2)->comment('SL = Sales, EX= Export RT=Return'); //1 for consumption 2 for purchase
             $table->date('delivery_date');
             $table->bigInteger('approve_by')->unsigned()->nullable();

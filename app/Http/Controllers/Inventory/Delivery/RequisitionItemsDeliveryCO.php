@@ -87,7 +87,7 @@ class RequisitionItemsDeliveryCO extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all());
+//        dd($request->all());
 
         DB::beginTransaction();
 
@@ -109,37 +109,39 @@ class RequisitionItemsDeliveryCO extends Controller
 
             $data['company_id'] = $this->company_id;
             $data['challan_no'] = $challan_no;
-            $data['ref_no'] = $id;
-            $data['relationship_id'] = $invoice->customer_id;
-            $data['delivery_type'] = 'CN';
+            $data['ref_no'] = $request['req_no'];
+            $data['delivery_type'] = 'CM';
             $data['delivery_date'] = Carbon::now();
             $data['user_id'] = $this->user_id;
-            $data['status'] = 'AP'; //Created
+            $data['status'] = 'CR'; //Created
 
             $inserted = Delivery::query()->create($data); //Insert Data Into Deliveries Table
 
-            foreach ($invoice->items as $item)
-            {
-                $history['company_id'] = $this->company_id;
-                $history['ref_no'] = $challan_no;
-                $history['ref_id'] = $inserted->id;
-                $history['tr_date'] = $inserted->delivery_date;
-                $history['ref_type'] = 'D';
-                $history['product_id'] = $item->product_id;
-                $history['quantity_in'] = 0;
-                $history['quantity_out'] = $item->quantity;
-                $history['unit_price'] = $item->unit_price;
-                $history['total_price'] = $item->quantity * $item->unit_price;
-                $history['relationship_id'] = $invoice->customer_id;
+            if ($request['item']) {
+                foreach ($request['item'] as $item) {
+                    if ($item['quantity'] > 0) {
+                        $delivery['company_id'] = $this->company_id;
+                        $delivery['ref_no'] = $challan_no;
+                        $delivery['ref_id'] = $inserted->id;
+                        $delivery['tr_date'] = $inserted->delivery_date;
+                        $delivery['ref_type'] = 'D';
+                        $delivery['product_id'] = $item['product_id'];
+                        $delivery['quantity_in'] = 0;
+                        $delivery['quantity_out'] = $item['quantity'];
+                        $delivery['unit_price'] = $item['unit_price'];
+                        $delivery['total_price'] = $item['quantity'] * $item['unit_price'];
+                        $delivery['relationship_id'] = $item['relationship_id'];
 
-                ProductHistory::query()->create($history);
-                ProductMO::query()->where('id',$item['product_id'])->increment('sell_qty',$item['quantity']);
-                TransProduct::query()->where('id',$item->id)->update(['delivered'=>$item['quantity']]);
+                        TransProduct::query()->create($delivery);
+                        //                ProductMO::query()->where('id',$item['product_id'])->increment('committed',$item['quantity']);
+                        //                TransProduct::query()->where('id',$item->id)->update(['delivered'=>$item['quantity']]);
+                    }
+                }
             }
 
             TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','DC')
-                ->where('fiscal_year',$fiscal_year->fiscal_year)
+                ->where('fiscal_year',$fiscal->fiscal_year)
                 ->increment('last_trans_id');
 
 
