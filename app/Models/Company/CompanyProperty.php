@@ -17,6 +17,7 @@ class CompanyProperty extends Model
     protected $fillable = [
         'company_id',
         'project',
+        'cost_center',
         'inventory',
         'auto_ledger',
         'auto_delivery',

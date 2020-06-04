@@ -103,7 +103,7 @@
                             @if($row['is_group'] == $params['report_type'])
                             <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
                                 <td>{!! $row['acc_no'] !!}</td>
-                                <td>{!! $row['acc_name'] !!}</td>
+                                <td style="text-align: left"><a href="{!! url('ledger/'.$row['acc_no'].'/'.$params['toDate']) !!}" class="btn btn-primary">{!! $row['acc_name'] !!}</a></td>
                                 <td>{!! $row['acc_type'] !!}</td>
                                 <td style="text-align: right">{!! number_format($row['opening_dr'],2) !!}</td>
                                 <td style="text-align: right">{!! number_format($row['opening_cr'],2) !!}</td>

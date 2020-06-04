@@ -48,6 +48,8 @@ class CompanyPropertiesCO extends Controller
 
         $fiscal_period = $this->create_fiscal_year($request['fp_start']);
 
+//        dd($request->all());
+
         DB::beginTransaction();
 
         $currency = 'BDT';
@@ -61,6 +63,7 @@ class CompanyPropertiesCO extends Controller
                     'project' => $request->has('hProject') ? 1 : 0,
                     'auto_ledger' => $request->has('hAuto_ledger') ? 1 : 0,
                     'auto_delivery' => $request->has('auto_delivery') ? 1 : 0,
+                    'cost_center' => $request->has('cost_center') ? 1 : 0,
                     'fp_start' => Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
                     'trans_min_date'=> Carbon::createFromFormat('d-m-Y',$request['fp_start'])->format('Y-m-d'),
                     'currency' => $currency,

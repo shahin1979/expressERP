@@ -9,6 +9,7 @@ use App\Models\Accounts\Previous\TransactionBackup;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
 use Carbon\Carbon;
+use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -79,12 +80,53 @@ class RepTrialBalanceCO extends Controller
             $params['toDate'] = $toDate;
             $params['report_type'] = $request['report_type'] == 'A' ? false : true;
 
+            switch ($request['action'])
+            {
+                case 'preview':
+                    return view('accounts.report.ledger.rep-trial-balance-index',compact('report','params'));
+                    break;
+
+                case 'print':
+                    $view = \View::make('accounts.report.ledger.pdf.print-trial-balance',compact('report','params'));
+                    $html = $view->render();
+
+                    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+//                    $pdf = new TCPDF('L', PDF_UNIT, array(105,148), true, 'UTF-8', false);
+//                    $pdf::setMargin(0,0,0);
+
+
+                    $pdf::SetMargins(15, 5, 5,10);
+
+                    $pdf::AddPage();
+
+                    $pdf::writeHTML($html, true, false, true, false, '');
+                    $pdf::Output('TrailBalance.pdf');
+
+            }
+
 //            $group = $report->
 
             return view('accounts.report.ledger.rep-trial-balance-index',compact('report','params'));
         }
 
         return view('accounts.report.ledger.rep-trial-balance-index');
+    }
+
+    public function details($id,$date)
+    {
+        $ledger = GeneralLedger::query()->where('company_id',$this->company_id)
+            ->where('acc_no',$id)->first();
+
+        if($ledger->isGroup == true)
+        {
+
+        }
+
+        dd($date);
+
+
+
+
     }
 
 

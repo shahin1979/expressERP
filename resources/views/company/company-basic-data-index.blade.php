@@ -93,6 +93,13 @@
                             </tr>
 
                             <tr>
+                                <td>Cost Center</td>
+                                <td>
+                                    <input type="checkbox" {!! isset($basic->cost_center) ?  $basic->cost_center == 1 ? 'checked' : 'unchecked' : 'unchecked' !!} name="cost_center" data-toggle="toggle" data-onstyle="primary">
+                                </td>
+                            </tr>
+
+                            <tr>
                                 <td>Company Logo</td>
                                 <td>
                                     <div class="imageupload">
