@@ -10,6 +10,8 @@
         </ol>
     </nav>
 
+    @if(!empty($ledgers))
+
     <div class="container spark-screen">
         <div class="row">
             <div class="col-md-9" >
@@ -68,6 +70,7 @@
 
         </div>
     </div>
+    @endif
 
     @if(!empty($report))
 
@@ -86,6 +89,11 @@
                     </tbody>
                 </table>
             </div>
+
+            @php
+                $dr_period = 0;
+                $cr_period = 0;
+            @endphp
 
             <div class="card-body">
                 <table class="table table-striped table-bordered table-hover">
@@ -120,18 +128,23 @@
                             <td style="text-align: right">{!! number_format($row['balance'],2) !!}</td>
 
                         </tr>
+
+                        @php($dr_period = $dr_period + $row['dr_amt'])
+                        @php($cr_period = $cr_period + $row['cr_amt'])
+
                     @endforeach
                     </tbody>
                     <tfoot>
                         <tr style="background-color: #3A92AF">
                             <td colspan="5">Period Total</td>
-                            <td style="text-align: right">{!! number_format($report->sum('dr_amt'),2)  !!}</td>
-                            <td style="text-align: right">{!! number_format($report->sum('cr_amt'),2)  !!}</td>
+                            <td style="text-align: right">{!! number_format($dr_period,2)  !!}</td>
+                            <td style="text-align: right">{!! number_format($cr_period,2)  !!}</td>
+                            <td></td>
                         </tr>
 
                         <tr style="background-color: rgba(10,170,158,0.48)">
                             <td colspan="5">Closing Balance</td>
-                            <td colspan="2" style="text-align: right">{!! number_format(($params['opening_bal'] + $report->sum('dr_amt') - $report->sum('cr_amt')),2) !!}</td>
+                            <td colspan="2" style="text-align: right">{!! number_format(($params['opening_bal'] + $dr_period - $cr_period),2) !!}</td>
                             <td></td>
                         </tr>
                     </tfoot>

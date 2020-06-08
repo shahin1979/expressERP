@@ -11,21 +11,32 @@ use Illuminate\Support\Facades\DB;
 
 trait TrialBalanceTrait
 {
-    public function TrialBalanceData($company_id,$glhead,$todate)
+    public function GroupHeadTrialBalanceData($company_id,$glhead,$todate)
     {
-        $ledgers = GeneralLedger::query()->where('company_id',$company_id)->get();
+
+        $ledger = GeneralLedger::query()->where('company_id',$company_id)
+            ->where('acc_no',$glhead)->first();
+
+        $ledgers = GeneralLedger::query()->where('company_id',$company_id)
+            ->whereBetween('acc_no', [$ledger->acc_no, $ledger->acc_range])
+            ->get();
+
 //        $toDate = Carbon::createFromFormat('d-m-Y', $request['date_to'])->format('Y-m-d');
         $fromdate = Carbon::createFromFormat('Y-m-d', $todate)->format('Y-m-01');
+
 
         $trans = Transaction::query()->where('company_id', $company_id)
             ->where('tr_state', false)
             ->whereBetween('trans_date', [$fromdate, $todate])
+            ->whereBetween('acc_no', [$ledger->acc_no, $ledger->acc_range])
             ->select('acc_no', DB::Raw('sum(dr_amt) dr_amt, sum(cr_amt) cr_amt'))
             ->groupBy('acc_no')
             ->get();
 
 
-        $fp_no = get_fp_from_month_sl(($todate), $company_id);
+        $fp_no = get_fp_from_month_sl(Carbon::createFromFormat('Y-m-d',$todate)->format('m'), $company_id);
+
+//        dd($fp_no);
 
         $report = collect();
         $ln = [];
@@ -61,6 +72,8 @@ trait TrialBalanceTrait
 
             $report->push($ln);
         }
+
+        return $report;
     }
 
 }

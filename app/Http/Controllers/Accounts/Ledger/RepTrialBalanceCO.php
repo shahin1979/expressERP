@@ -8,6 +8,9 @@ use App\Models\Accounts\Previous\GeneralLedgerBackup;
 use App\Models\Accounts\Previous\TransactionBackup;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
+use App\Traits\AccountTrait;
+use App\Traits\GeneralLedgerTrait;
+use App\Traits\TrialBalanceTrait;
 use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
@@ -15,6 +18,8 @@ use Illuminate\Support\Facades\DB;
 
 class RepTrialBalanceCO extends Controller
 {
+    use TrialBalanceTrait, AccountTrait;
+
     public function index(Request $request)
     {
         UserActivity::query()->updateOrCreate(
@@ -117,16 +122,47 @@ class RepTrialBalanceCO extends Controller
         $ledger = GeneralLedger::query()->where('company_id',$this->company_id)
             ->where('acc_no',$id)->first();
 
-        if($ledger->isGroup == true)
+        if($ledger->is_group == true)
         {
+            $report = $this->GroupHeadTrialBalanceData($this->company_id,$id,$date);
+            $params['toDate'] = $date;
+            $params['report_type'] = false;
 
+            return view('accounts.report.ledger.rep-trial-balance-index',compact('report','params'));
         }
 
-        dd($date);
+        $fromdate = Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-01');
+        $opening_bal = $this->get_account_opening_balance($ledger->acc_no,$this->company_id,$fromdate);
+
+//        $report = $this->GeneralLedgerData($this->company_id,$ledger->acc_no,$fromdate,$date,$opening_bal);
+//
+        $params = collect([
+            'acc_no' => $ledger->acc_no,
+            'acc_name' => $ledger->acc_name,
+            'from_date' => $fromdate,
+            'to_date' => $date,
+            'opening_bal' =>$opening_bal,
+            'dr_cr' => $opening_bal > 0 ? 'Debit' : 'Credit',
+        ]);
+
+        $opening = $this->get_account_opening_balance($ledger->acc_no,$this->company_id,$fromdate);
+        $ledgers = $this->get_account_ledger($this->company_id,$ledger->acc_no,$fromdate,$date);
+
+
+        $ledgers  = json_decode($ledgers, true);
 
 
 
+        $report = $ledgers['report'];
+        $contra = $ledgers['contra'];
 
+//        dd($ledgers['report']);
+
+
+
+        return view('accounts.report.ledger.rep-general-ledger-index',compact('report','params','contra'));
+
+//        dd($report);
     }
 
 
