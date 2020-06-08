@@ -126,17 +126,23 @@ class RequisitionItemsDeliveryCO extends Controller
                         $delivery['tr_date'] = $inserted->delivery_date;
                         $delivery['ref_type'] = 'D';
                         $delivery['product_id'] = $item['product_id'];
-                        $delivery['quantity_in'] = 0;
-                        $delivery['quantity_out'] = $item['quantity'];
+                        $delivery['quantity'] = $item['quantity'];
                         $delivery['unit_price'] = $item['unit_price'];
                         $delivery['total_price'] = $item['quantity'] * $item['unit_price'];
                         $delivery['relationship_id'] = $item['relationship_id'];
 
                         TransProduct::query()->create($delivery);
-                        //                ProductMO::query()->where('id',$item['product_id'])->increment('committed',$item['quantity']);
+                        ProductMO::query()->where('id',$item['product_id'])->increment('committed',$item['quantity']);
                         //                TransProduct::query()->where('id',$item->id)->update(['delivered'=>$item['quantity']]);
                     }
                 }
+            }
+
+            if($request->has('full_delivery'))
+            {
+                Requisition::query()->where('company_id',$this->company_id)
+                    ->where('ref_no',$request['req_no'])
+                    ->update(['status'=>3]);
             }
 
             TransCode::query()->where('company_id',$this->company_id)
@@ -154,7 +160,7 @@ class RequisitionItemsDeliveryCO extends Controller
 
         DB::commit();
 
-        return response()->json(['success'=>'Delivery Successfully Completed'],200);
+        return response()->json(['success'=>'Delivery Successfully Completed For Approval'],200);
 
     }
 }

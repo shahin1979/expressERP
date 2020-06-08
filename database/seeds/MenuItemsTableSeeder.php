@@ -1224,6 +1224,21 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+//        MENUITEM::create( [
+//            'id'=>56010,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5H',
+//            'name'=>'Approve Delivery Items',
+//            'show'=>'1',
+//            'url'=>'delivery/approveDeliveryIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
 
 
 //

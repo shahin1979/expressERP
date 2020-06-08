@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Inventory\Sales;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Common\UserActivity;
 use App\Models\Company\Relationship;
 use App\Models\Inventory\Movement\Sale;
 use App\Traits\AccountTrait;
+use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -17,6 +19,11 @@ class PrintSalesInvoiceCO extends Controller
 
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>55030,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
+
         $customers = Relationship::query()->where('company_id',$this->company_id)
             ->where('relation_type','CS')->orderBy('name')->pluck('name','id');
 

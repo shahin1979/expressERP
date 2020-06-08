@@ -17,7 +17,8 @@ class AuthoriseTransactionCO extends Controller
     {
         UserActivity::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'menu_id'=>44035,'user_id'=>$this->user_id
-            ]);
+            ],['updated_at'=>Carbon::now()
+        ]);
 
         return view('accounts.trans.authorise-trans-index');
     }

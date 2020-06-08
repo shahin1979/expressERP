@@ -115,7 +115,7 @@
             html += '  </td>';
 
             html += '  <td>';
-            html += '      <input class="form-control typeahead position-relative" required="required" autocomplete="off" placeholder="{{ trans('general.form.enter', ['field' => trans_choice('invoices.item_name', 1)]) }}" name="item[' + item_row + '][name]" type="text" id="item-name-' + item_row + '">';
+            html += '      <input class="form-control typeahead position-relative" required="required" autocomplete="off" placeholder="{{ trans('Product Name', ['field' => trans_choice('invoices.item_name', 1)]) }}" name="item[' + item_row + '][name]" type="text" id="item-name-' + item_row + '">';
             html += '      <input name="item[' + item_row + '][item_id]" type="hidden" id="item-id-' + item_row + '">';
             html += '  </td>';
 
@@ -123,7 +123,7 @@
 
             html += '  <td>';
             html += '      <select class="form-control select" name="item[' + item_row + '][requisition_for]" id="item-requisition-' + item_row + '">';
-            html += '         <option selected="selected" value="">Please Select</option>';
+            // html += '         <option selected="selected" value="">Please Select</option>';
             @foreach($locations as $for_key => $for_value)
                 html += '         <option value="{{ $for_key }}">{{ $for_value }}</option>';
             @endforeach

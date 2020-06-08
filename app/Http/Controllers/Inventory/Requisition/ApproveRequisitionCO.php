@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
 use App\Models\Inventory\Movement\Requisition;
 use App\Models\Inventory\Movement\TransProduct;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -16,7 +17,8 @@ class ApproveRequisitionCO extends Controller
     {
         UserActivity::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'menu_id'=>52025,'user_id'=>$this->user_id
-            ]);
+            ],['updated_at'=>Carbon::now()
+        ]);
 
         return view('inventory.requisition.approve-requisition-index');
     }

@@ -8,20 +8,20 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
             <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
-            <li class="breadcrumb-item active">Delivery Requisition</li>
+            <li class="breadcrumb-item active">Approve Delivery</li>
         </ol>
     </nav>
 
     <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
-        <table class="table table-bordered table-hover table-responsive" id="requisition-table">
+        <table class="table table-bordered table-hover table-responsive" id="delivery-table">
             <thead style="background-color: #b0b0b0">
             <tr>
-                <th>Req No</th>
-                <th>Req Date</th>
-                <th>Req For</th>
+                <th>Challan No</th>
+                <th>Del Date</th>
+                <th>Del For</th>
                 <th>product</th>
                 <th>Quantity</th>
-                <th>Created By</th>
+                <th>Delivered By</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -72,10 +72,10 @@
                             </tbody>
 
                             <tfoot>
-                                <tr style="background-color: rgba(224,229,229,0.96)">
-                                    <td colspan="3">Full Delivery <input type="checkbox"  name="full_delivery" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="primary"></td>
-                                    <td colspan="2" style="text-align: right"><button type="submit" id="btn-delivery-post" class="btn btn-primary btn-delivery-post">Submit</button></td>
-                                </tr>
+                            <tr style="background-color: rgba(224,229,229,0.96)">
+                                <td colspan="3">Full Delivery <input type="checkbox"  name="full_delivery" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="primary"></td>
+                                <td colspan="2" style="text-align: right"><button type="submit" id="btn-delivery-post" class="btn btn-primary btn-delivery-post">Submit</button></td>
+                            </tr>
                             </tfoot>
 
                         </table>
@@ -101,16 +101,16 @@
 
 
         $(function() {
-            var table= $('#requisition-table').DataTable({
+            var table= $('#delivery-table').DataTable({
                 processing: true,
                 serverSide: true,
                 autoWidth: false,
                 responsive: true,
-                ajax: 'getReqItems',
+                ajax: 'getDeliveryItems',
                 columns: [
-                    { data: 'ref_no', name: 'requisitions.ref_no' },
-                    { data: 'req_date', name: 'requisitions.req_date' },
-                    { data:'req_for', name: 'req_for'},
+                    { data: 'challan_no', name: 'deliveries.challan_no' },
+                    { data: 'delivery_date', name: 'requisitions.delivery_date' },
+                    { data:'del_for', name: 'del_for'},
                     { data: 'product', name: 'product' },
                     { data: 'quantity', name: 'quantity' },
                     { data: 'user.name', name: 'user.name' },
@@ -152,15 +152,15 @@
                         $.each(data, function (i, item) {
 
                             trHTML += '<tr class="req_items">' +
-                                    '<td>' + item.location.name +'</td>' +
-                                    '<td>' + item.item.name +'</td>' +
-                                    '<td align="right">' + item.item.on_hand +'</td>' +
-                                    '<td align="right">' + item.quantity +' ' + item.item.unit_name +'</td>' +
-                                    '<input name="item[' + i +'][id]" type="hidden" id="id" value="'+ item.id +'">' +
-                                    '<input name="item[' + i +'][product_id]" type="hidden" id="product_id" value="'+ item.product_id +'">' +
-                                    '<input name="item[' + i +'][unit_price]" type="hidden" id="unit_price" value="'+ item.unit_price +'">' +
-                                    '<input name="item[' + i +'][relationship_id]" type="hidden" id="relationship_id" value="'+ item.relationship_id +'">' +
-                                    '<td align="right"><input name="item[' + i + '][quantity]" class="form-control text-right" type="text" id="quantity" value="'+ 0 +'"></td>' +
+                                '<td>' + item.location.name +'</td>' +
+                                '<td>' + item.item.name +'</td>' +
+                                '<td align="right">' + item.item.on_hand +'</td>' +
+                                '<td align="right">' + item.quantity +' ' + item.item.unit_name +'</td>' +
+                                '<input name="item[' + i +'][id]" type="hidden" id="id" value="'+ item.id +'">' +
+                                '<input name="item[' + i +'][product_id]" type="hidden" id="product_id" value="'+ item.product_id +'">' +
+                                '<input name="item[' + i +'][unit_price]" type="hidden" id="unit_price" value="'+ item.unit_price +'">' +
+                                '<input name="item[' + i +'][relationship_id]" type="hidden" id="relationship_id" value="'+ item.relationship_id +'">' +
+                                '<td align="right"><input name="item[' + i + '][quantity]" class="form-control text-right" type="text" id="quantity" value="'+ 0 +'"></td>' +
                                 '</tr>';
                         });
 //

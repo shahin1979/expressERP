@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory\Sales;
 
 use App\Http\Controllers\Company\CompanyPropertiesCO;
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use App\Models\Company\CompanyProperty;
 use App\Models\Company\Relationship;
 use App\Models\Company\TransCode;
@@ -19,6 +20,7 @@ use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class SaleInvoiceCO extends Controller
@@ -27,6 +29,11 @@ class SaleInvoiceCO extends Controller
 
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>55008,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
+
         $basic = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
         $customers = Relationship::query()->where('company_id',$this->company_id)
@@ -184,7 +191,10 @@ class SaleInvoiceCO extends Controller
 
     public function editIndex()
     {
-
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>55010,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
         return view('inventory.sales.update-sales-invoice-index');
     }
 
@@ -294,6 +304,11 @@ class SaleInvoiceCO extends Controller
 
     public function approveIndex()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>55012,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
+
         $basic = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 //        if($basic->auto_delivery==true)
 //        {
@@ -338,9 +353,7 @@ class SaleInvoiceCO extends Controller
                         data-customer="' . $sales->customer->name . '"
                         data-amount="' . number_format($sales->invoice_amt,2) . '"
                         data-type="' . $type . '"
-                        id="view-invoice" type="button" class="btn btn-view btn-xs btn-primary pull-left">View</button>
-                    <button data-remote="approve/' . $sales->id . '" type="button" class="btn btn-xs btn-approve btn-info pull-center"  >Approve</button>
-                    <button data-remote="reject/' . $sales->id . '" type="button" class="btn btn-xs btn-reject btn-danger pull-right"  >Reject</button>
+                        id="view-invoice" type="button" class="btn btn-view btn-xs btn-primary pull-left">Details</button>
                     ';
             })
             ->rawColumns(['product','quantity','unit_price','action'])
@@ -370,18 +383,17 @@ class SaleInvoiceCO extends Controller
                                 'direct_delivery'=>$delivery,
                                 'delivery_status'=>$delivery]);
 
+                        $period = $this->get_fiscal_data_from_current_date($this->company_id);
+                        $invoice = Sale::query()->where('company_id',$this->company_id)
+                            ->where('invoice_no',$id)->with('items')->first();
+
+
                         if($basic->auto_delivery == true)
                         {
-                            $fiscal_year = $this->get_fiscal_data_from_current_date($this->company_id);
-                            $invoice = Sale::query()->where('company_id',$this->company_id)
-                                ->where('invoice_no',$id)->with('items')->first();
-
                             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                                 ->where('trans_code','DC')
-                                ->where('fiscal_year',$fiscal_year->fiscal_year)
+                                ->where('fiscal_year',$period->fiscal_year)
                                 ->lockForUpdate()->first();
-
-//                            dd($tr_code);
 
                             $challan_no = $tr_code->last_trans_id;
 
@@ -417,11 +429,56 @@ class SaleInvoiceCO extends Controller
 
                             TransCode::query()->where('company_id',$this->company_id)
                                 ->where('trans_code','DC')
-                                ->where('fiscal_year',$fiscal_year->fiscal_year)
+                                ->where('fiscal_year',$period->fiscal_year)
                                 ->increment('last_trans_id');
-
-
                         }
+
+                        // Accounts Voucher
+
+                        $tr_code =  TransCode::query()->where('company_id',$this->company_id)
+                            ->where('trans_code','SL')
+                            ->where('fiscal_year',$period->fiscal_year)
+                            ->lockForUpdate()->first();
+
+                        $input = [];
+
+                        $customer = Relationship::query()->where('id',$invoice->customer_id)->first();
+
+                        //Debit Transaction
+
+                        $input['company_id'] = $this->company_id;
+                        $input['project_id'] = null;
+                        $input['tr_code'] = 'SL';
+                        $input['fp_no'] = $period->fp_no;
+                        $input['trans_type_id'] = 8; //  Sales
+                        $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
+                        $input['trans_id'] = Carbon::now()->format('Ymdhmis');
+                        $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
+                        $input['trans_date'] = Carbon::now();
+                        $input['voucher_no'] = $tr_code->last_trans_id;
+                        $input['acc_no'] = $customer->ledger_acc_no;
+                        $input['ledger_code'] = Str::substr($customer->ledger_acc_no,0,3);
+                        $input['ref_no'] = $invoice->invoice_no;
+                        $input['contra_acc'] = $basic->auto_delivery == true ? $basic->default_sales : $basic->advance_sales;
+                        $input['dr_amt'] = $invoice->due_amt;
+                        $input['cr_amt'] = 0;
+                        $input['trans_amt'] = $invoice->due_amt;
+                        $input['currency'] = get_currency($this->company_id);
+                        $input['fiscal_year'] = $period->fiscal_year;
+                        $input['trans_desc1'] = 'Local Sales';
+                        $input['trans_desc2'] = $basic->auto_delivery == true ? $challan_no : $invoice->invoice_no;
+                        $input['remote_desc'] = $customer->id;
+                        $input['post_flag'] = false;
+                        $input['user_id'] = $this->user_id;
+
+                        $this->transaction_entry($input);
+
+                        // Credit Transaction
+                        $input['acc_no'] = $basic->auto_delivery == true ? $basic->default_sales : $basic->advance_sales;
+                        $input['ledger_code'] = Str::substr($input['acc_no'],0,3);
+                        $input['dr_amt'] = 0;
+                        $input['cr_amt'] = $invoice->due_amt;
+                        $this->transaction_entry($input);
 
                         break;
 

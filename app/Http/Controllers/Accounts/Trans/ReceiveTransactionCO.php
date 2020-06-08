@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Trans;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Common\UserActivity;
 use App\Models\Company\CompanyProperty;
 use App\Models\Company\TransCode;
 use App\Models\Projects\Project;
@@ -24,6 +25,12 @@ class ReceiveTransactionCO extends Controller
      */
     public function index()
     {
+
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>44010,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
+
         $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
         $debits = GeneralLedger::query()->where('company_id',$this->company_id)
@@ -133,7 +140,7 @@ class ReceiveTransactionCO extends Controller
                     'project_id' => $request['project_code'],
                     'tr_code' => 'RC',
                     'trans_type_id'=>$request['type_id'],
-                    'period' => $period,
+                    'period' => Str::upper($period),
                     'fp_no' => $fp_no,
                     'trans_id' => $trans_id,
                     'trans_group_id' => $trans_id,
@@ -185,7 +192,7 @@ class ReceiveTransactionCO extends Controller
                 'project_id' => $request['project_code'],
                 'tr_code' => 'RC',
                 'trans_type_id'=>$request['type_id'],
-                'period' => $period,
+                'period' => Str::upper($period),
                 'fp_no' => $fp_no,
                 'cheque_no'=>$request['chk_no'],
                 'trans_id' => $trans_id,

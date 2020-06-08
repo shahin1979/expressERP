@@ -104,10 +104,10 @@ class ApprovePurchaseCO extends Controller
                 $input['tr_code'] = 'PR';
                 $input['fp_no'] = $period->fp_no;
                 $input['trans_type_id'] = 9; //  Purchase
-                $input['period'] = Carbon::now()->format('Y-M');
+                $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
                 $input['trans_id'] = Carbon::now()->format('Ymdhmis');
                 $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
-                $input['trans_date'] = $period->end_date;
+                $input['trans_date'] = Carbon::now();
                 $input['voucher_no'] = $row->ref_no;
                 $input['acc_no'] = $supplier->ledger_acc_no;
                 $input['ledger_code'] = Str::substr($supplier->ledger_acc_no,0,3);
@@ -128,6 +128,8 @@ class ApprovePurchaseCO extends Controller
                 $amount = $amount + $input['dr_amt'];
             }
 
+            $input['acc_no'] = $company_properties->default_purchase;
+            $input['ledger_code'] = Str::substr($company_properties->default_purchase,0,3);
             $input['dr_amt'] = 0;
             $input['cr_amt'] = $amount;
             $this->transaction_entry($input);

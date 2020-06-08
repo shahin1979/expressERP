@@ -98,30 +98,32 @@ trait TransactionsTrait
 
     {
 
-        Transaction::query()->create([
-            'company_id' => $input['company_id'],
-            'project_id' => $input['project_id'],
-            'tr_code' => $input['tr_code'],
-            'trans_type_id'=>$input['trans_type_id'],
-            'period' => $input['period'],
-            'fp_no' => $input['fp_no'],
-            'trans_id' => $input['trans_id'],
-            'trans_group_id' => $input['trans_group_id'],
-            'trans_date' => $input['trans_date'],
-            'voucher_no' => $input['voucher_no'],
-            'acc_no' => $input['acc_no'],
-            'contra_acc'=>$input['contra_acc'],
-            'dr_amt' => $input['dr_amt'],
-            'cr_amt' => $input['cr_amt'],
-            'trans_amt' => $input['trans_amt'],
-            'currency' => $input['currency'],
-            'fiscal_year' => $input['fiscal_year'],
-            'trans_desc1' => $input['trans_desc1'],
-            'trans_desc2' => $input['trans_desc2'],
-            'post_flag' => False,
-            'user_id' => $input['user_id']
-        ]);
+//        Transaction::query()->create([
+//            'company_id' => $input['company_id'],
+//            'project_id' => $input['project_id'],
+//            'tr_code' => $input['tr_code'],
+//            'trans_type_id'=>$input['trans_type_id'],
+//            'period' => $input['period'],
+//            'fp_no' => $input['fp_no'],
+//            'trans_id' => $input['trans_id'],
+//            'trans_group_id' => $input['trans_group_id'],
+//            'trans_date' => $input['trans_date'],
+//            'voucher_no' => $input['voucher_no'],
+//            'acc_no' => $input['acc_no'],
+//            'contra_acc'=>$input['contra_acc'],
+//            'dr_amt' => $input['dr_amt'],
+//            'cr_amt' => $input['cr_amt'],
+//            'trans_amt' => $input['trans_amt'],
+//            'currency' => $input['currency'],
+//            'fiscal_year' => $input['fiscal_year'],
+//            'trans_desc1' => $input['trans_desc1'],
+//            'trans_desc2' => $input['trans_desc2'],
+//            'post_flag' => False,
+//            'user_id' => $input['user_id']
+//        ]);
 
+
+        Transaction::query()->create($input);
 
 
         if($input['dr_amt'] > 0)

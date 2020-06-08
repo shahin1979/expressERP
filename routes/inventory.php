@@ -316,6 +316,11 @@ Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'midd
     Route::post('deliveryRequisition','RequisitionItemsDeliveryCO@store');
     Route::post('customerDeleteIndex','RequisitionItemsDeliveryCO@destroy');
 
+// Approve Delivery
+
+
+    Route::get('approveDeliveryIndex','ApproveDeliverCO@index');
+    Route::get('getDeliveryItems','ApproveDeliverCO@getDeliveryItems');
 
 
 });

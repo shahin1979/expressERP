@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Trans;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Common\UserActivity;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,11 @@ class EditGLVoucherCO extends Controller
      */
     public function index(Request $request)
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>44025,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
+
         $data = null;
         $glheads = GeneralLedger::query()->where('company_id',$this->company_id)
             ->where('is_group',false)

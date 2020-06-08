@@ -7,6 +7,7 @@ use App\Models\Common\UserActivity;
 use App\Models\Inventory\Movement\Requisition;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -17,7 +18,8 @@ class EditRequisitionCO extends Controller
     {
         UserActivity::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'menu_id'=>52015,'user_id'=>$this->user_id
-            ]);
+            ],
+        ['updated_at'=>Carbon::now()]);
 
         $products = ProductMO::query()->where('company_id',$this->company_id)->pluck('name','id');
         return view('inventory.requisition.edit-requisition-index',compact('products'));

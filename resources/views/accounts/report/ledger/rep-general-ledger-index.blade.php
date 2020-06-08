@@ -79,7 +79,7 @@
                 <table class="table table-info">
                     <tbody>
                     <tr>
-                        <td>Account Name : {!! $params['acc_no'] !!}</td>
+                        <td>Account Name : {!! $params['acc_no'] !!} : {!! $params['acc_name'] !!}</td>
                         <td style="text-align: right">Opening Balance: {!! number_format($params['opening_bal'],2) !!}</td>
                     </tr>
                     <tr>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Common\UserActivity;
 use App\Models\Company\CompanyProperty;
 use App\Models\Company\FiscalPeriod;
 use App\Models\Company\TransCode;
@@ -29,10 +30,10 @@ class PaymentTransactionsCO extends Controller
     {
 
 
-//        $balance = GeneralLedger::where('company_id',1)
-//            ->where('acc_no','10112101')->value('curr_bal');
-//
-//        dd($balance);
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>44005,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
 
         $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
@@ -129,7 +130,7 @@ class PaymentTransactionsCO extends Controller
                     'cost_center_id' => $request['cost_center_id'],
                     'tr_code' => 'PM',
                     'trans_type_id'=>$request['type_id'],
-                    'period' => $period,
+                    'period' => Str::upper($period),
                     'fp_no' => $fp_no,
                     'trans_id' => $trans_id,
                     'trans_group_id' => $trans_id,
@@ -202,7 +203,7 @@ class PaymentTransactionsCO extends Controller
                 'cost_center_id' => $request['cost_center_id'],
                 'tr_code' => 'PM',
                 'trans_type_id'=>$request['type_id'],
-                'period' => $period,
+                'period' => Str::upper($period),
                 'fp_no' => $fp_no,
                 'cheque_no'=>$request['chk_no'],
                 'trans_id' => $trans_id,
