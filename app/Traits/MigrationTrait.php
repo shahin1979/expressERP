@@ -130,7 +130,7 @@ trait MigrationTrait
 
             $transactions = $connection->table('transactions')
                 ->where('comp_code',12)
-                ->where('trans_date','>','2019-11-30')
+//                ->where('trans_date','>','2019-11-30')
                 ->get();
 
 
@@ -194,7 +194,7 @@ trait MigrationTrait
                             'fiscal_year'=>'2019-2020',
                             'trans_desc1'=>$item->trans_desc1,
                             'trans_desc2'=>$item->trans_desc2,
-                            'old_voucher'=>$item->voucherNo,
+                            'old_voucher'=>$item->voucher_no,
                             'post_flag'=>true,
                             'authorizer_id'=>Auth::id(),
                             'post_date'=>$item->trans_date,
@@ -254,7 +254,7 @@ trait MigrationTrait
                             'trans_desc1'=>$item->trans_desc1,
                             'trans_desc2'=>$item->trans_desc2,
                             'post_flag'=>true,
-                            'old_voucher'=>$item->voucherNo,
+                            'old_voucher'=>$item->voucher_no,
                             'authorizer_id'=>Auth::id(),
                             'post_date'=>$item->trans_date,
                             'user_id'=>Auth::id(),
