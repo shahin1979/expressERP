@@ -28,7 +28,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'PM',
                 'trans_name'=>'Payment',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'10000001'
             ]
         );
@@ -39,7 +38,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'RC',
                 'trans_name'=>'Receive',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'20000001'
             ]
         );
@@ -50,7 +48,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'JV',
                 'trans_name'=>'Journal',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'30000001'
             ]
         );
@@ -61,7 +58,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'RQ',
                 'trans_name'=>'Requisition',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'40000001'
             ]
         );
@@ -72,7 +68,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'SL',
                 'trans_name'=>'Sales Invoice',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'50000001'
             ]
         );
@@ -83,7 +78,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'DC',
                 'trans_name'=>'Delivery Challan',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'60000001'
             ]
         );
@@ -94,7 +88,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'PR',
                 'trans_name'=>'Purchase Invoice',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'70000001'
             ]
         );
@@ -105,7 +98,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'IR',
                 'trans_name'=>'Item Receive',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'80000001'
             ]
         );
@@ -115,7 +107,6 @@ trait PreviousDataMigrationTrait
                 'company_id'=>$this->company_id,
                 'trans_code'=>'IR',
                 'trans_name'=>'Item Return',
-//                'fiscal_year'=>'2015-2016',
                 'last_trans_id'=>$yr.'90000001'
             ]
         );

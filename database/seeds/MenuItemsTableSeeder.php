@@ -398,7 +398,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'show'=>'1',
 //            'url'=>'ledger/rptTrialBalanceIndex',
 //            'status'=>'1',
-//            'content'=>'F'
+//            'content'=>'R'
 //        ] );
 //
 //
@@ -413,9 +413,25 @@ class MenuItemsTableSeeder extends Seeder
 //            'show'=>'1',
 //            'url'=>'ledger/rptGeneralLedgerIndex',
 //            'status'=>'1',
-//            'content'=>'F'
+//            'content'=>'R'
 //        ] );
 //
+//
+//        MENUITEM::create( [
+//            'id'=>42065,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4A',
+//            'name'=>'Cost Center Summary',
+//            'show'=>'1',
+//            'url'=>'costcenter/rptCostCenterSummary',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+
+
 //
 //        MENUITEM::create( [
 //        'id'=>43000,

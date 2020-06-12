@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Accounts\Costcenter;
 
+use App\Http\Controllers\Company\FiscalPeriodCO;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
 use App\Models\Company\FiscalPeriod;
 use App\Traits\TransactionsTrait;
@@ -108,5 +110,32 @@ class CostCenterCO extends Controller
 
         return redirect()->action('Accounts\Costcenter\CostCenterCO@index')->with('success','Cost Center Created');
 
+    }
+
+    public function summary(Request $request)
+    {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>42065,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
+            ]);
+
+
+
+        if(!empty($request['action']))
+        {
+            $fiscal = $this->get_fiscal_data_from_current_date($this->company_id);
+            $report = CostCenter::query()->where('fiscal_year',$fiscal->fiscal_year)->get();
+
+            $amount = Transaction::query()->whereNotNull('cost_center_id')->get();
+
+            $params = collect();
+//            $params['to_date'] = $request['date_to'];
+
+//            dd($fiscal);
+
+            return view('accounts.costcenter.index.summary-report-index',compact('report','fiscal','amount'));
+        }
+
+        return view('accounts.costcenter.index.summary-report-index');
     }
 }

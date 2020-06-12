@@ -62,6 +62,8 @@ Route::group(['prefix' => 'costcenter', 'namespace' => 'Accounts\Costcenter', 'm
     Route::get('getCostCenterInfo','CostCenterCO@getdata');
     Route::post('saveNewCenterIndex','CostCenterCO@store');
 
+    Route::get('rptCostCenterSummary','CostCenterCO@summary');
+
 });
 
 Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middleware' => ['auth']], function () {
