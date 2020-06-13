@@ -209,7 +209,7 @@
                                 <td style="text-align: right" id="monthly-budget-{!! $i !!}"></td>
                                 <td style="text-align: right" id="monthly-expense-{!! $i !!}"></td>
                                 <td style="text-align: right" id="balance-{!! $i !!}"></td>
-                                <td style="text-align: right" id="details-"></td>
+                                <td style="text-align: right" id="details-{!! $i !!}"></td>
                             </tr>
                         @endfor
                     </tbody>
@@ -287,17 +287,42 @@
                 var i;
                 var row_budget = 3;
                 var row_expense = 4;
+                var url = 'costcenter/transactions/'+ currentRow.find("td:eq(" + row_budget + ")").text();
+                var display = 'Show Vouchers';
 
-                for(i=0; i<=12; i++) {
-
-
+                for(i=1; i<=12; i++)
+                {
                     $('#monthly-budget-' + i).html(currentRow.find("td:eq(" + row_budget + ")").text());
                     $('#monthly-expense-' + i).html(currentRow.find("td:eq(" + row_expense + ")").text());
                     $('#balance-' + i).html(parseFloat(currentRow.find("td:eq(" + row_budget + ")").text().replace(/,/g, "")) - parseFloat(currentRow.find("td:eq(" + row_expense + ")").text().replace(/,/g, "")));
-
+                    $('#details-' + i).html("<a href=" + '"' + url + '"'+ "target=" +'"' + "_blank" + '"' + ">" + display + "</a>");
                     row_budget = row_budget + 2;
                     row_expense = row_expense + 2;
+
+
+
+                    // var htmlStr = "" +
+                    //     "<tr>" +
+                    //     "<td>" +
+                    //     "<img src=" + '"' + 0 + '"' + ">" +
+                    //     "</td>" +
+                    //     "<td>" +
+                    //     "<a href=" + '"' + 0 + '"'+ "target=" +'"' + "_blank" + '"' + ">" + 0 + "</a>" +
+                    //     "</td>" +
+                    //     "</tr>"
+                    // $("#summary-table").append(htmlStr);
+
+
+
+
+                    // html = '<td>View</td>';
+                    // $("#summary-table tr:gt(0)").append("<td>Col</td>");
                 }
+
+                // $(this).find('tr').each(function(){
+                //     $(this).find('td').eq(3).after('<td>new cell added</td>');
+                // });
+
 
                     $('#summary').hide();
                     $('#details-cost').show();
