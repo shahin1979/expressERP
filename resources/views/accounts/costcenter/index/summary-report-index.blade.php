@@ -72,14 +72,14 @@
 
     @if(!empty($report))
 
-        <div class="card">
+        <div class="card" id="summary">
             <div class="card-header">
                 Cost Center Summary Report
             </div>
             <div class="card-body">
 {{--                <div class="table-responsive">--}}
 
-                    <table class="table table-striped table-bordered table-hover table-responsive">
+                    <table class="table table-striped table-bordered table-hover table-responsive" id="summary-table">
                         <thead>
                         <tr class="table-primary">
                             <th rowspan="2" style="text-align: center">SL</th>
@@ -131,8 +131,9 @@
                         <tbody>
                         @foreach($report as $i=>$row)
                                 <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
-                                    <td>View</td>
                                     <td style="width: 20%;">{!! $i+1 !!}</td>
+                                    <td style="text-align: left"><a href="#" class="btn btn-success btn-details"><i class="fa fa-eye"></i></a></td>
+{{--                                    <td><i class="fa fa-eye"></i></td>--}}
                                     <td style="width: 20%;">{!! $row->name !!}</td>
                                     <td style="text-align: right">{!! number_format($row->budget_01,2) !!}</td>
                                     <td style="text-align: right">{!! number_format($amount->where('fp_no',1)->where('cost_center_id',$row->id)->sum('dr_amt'),2) !!}</td>
@@ -180,10 +181,10 @@
             </div>
         </div>
 
+        <div class="col-sm-6 mb-4 justify-content-center" id="details-cost">
+        <div class="card justify-content-center" >
+            <div class="card-header" id="cost-center-name">
 
-        <div class="card">
-            <div class="card-header">
-                Cost Center Summary Report
             </div>
             <div class="card-body">
                 {{--                <div class="table-responsive">--}}
@@ -192,38 +193,70 @@
                     <thead>
                     <tr class="table-primary">
                         {{--                            <th rowspan="2" style="text-align: center">SL</th>--}}
-                        <th rowspan="2" width="25%">Month Name</th>
-
-
+                        <th>Month Name</th>
+                        <th>Budget</th>
+                        <th>Expense</th>
+                        <th>Balance</th>
+                        <th>Action</th>
                     </tr>
 
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>{!! $fiscal->where('fp_no',1)->first()->month_name !!}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-
+                        @for($i=1; $i<=12; $i++)
+                            <tr>
+{{--                                <td style="text-align: left"><a href="{!! url('ledger/'.$row['acc_no'].'/'.$params['toDate']) !!}" class="btn btn-primary">{!! $row['acc_name'] !!}</a></td>--}}
+                                <td>{!! $fiscal->where('fp_no',$i)->first()->month_name !!}</td>
+                                <td style="text-align: right" id="monthly-budget-{!! $i !!}"></td>
+                                <td style="text-align: right" id="monthly-expense-{!! $i !!}"></td>
+                                <td style="text-align: right" id="balance-{!! $i !!}"></td>
+                                <td style="text-align: right" id="details-"></td>
+                            </tr>
+                        @endfor
                     </tbody>
                     <tfoot>
-                    {{--                        <tr style="background-color: #3A92AF">--}}
-                    {{--                            <td colspan="3">Grand Total</td>--}}
-                    {{--                            <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('opening_dr'),2)  !!}</td>--}}
-                    {{--                            <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('opening_cr'),2)  !!}</td>--}}
-                    {{--                            <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('dr_tr'),2)  !!}</td>--}}
-                    {{--                            <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('cr_tr'),2)  !!}</td>--}}
-                    {{--                            <td style="text-align: right">{!! number_format($report->where('is_group',false)->sum('balance'),2)  !!}</td>--}}
 
-                    {{--                        </tr>--}}
                     </tfoot>
 
                 </table>
+            </div>
+        </div>
+        </div>
 
-                {{--                </div>--}}
+        <div class="col-sm-6 mb-4 justify-content-center" id="transactions">
+            <div class="card justify-content-center" >
+                <div class="card-header" id="cost-center-name">
 
+                </div>
+                <div class="card-body">
+                    {{--                <div class="table-responsive">--}}
+
+                    <table class="table table-striped table-bordered table-hover table-responsive">
+                        <thead>
+                        <tr class="table-primary">
+                            {{--                            <th rowspan="2" style="text-align: center">SL</th>--}}
+                            <th rowspan="2" width="25%">Transaction Date</th>
+                            <th rowspan="2" width="25%">Voucher No</th>
+                            <th rowspan="2" width="25%">Debit</th>
+                            <th rowspan="2" width="25%">Credit</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+{{--                        @for($i=1; $i<=12; $i++)--}}
+{{--                            <tr>--}}
+{{--                                <td></td>--}}
+{{--                                <td style="text-align: right" id="monthly-budget-{!! $i !!}"></td>--}}
+{{--                                <td style="text-align: right" id="monthly-expense-{!! $i !!}"></td>--}}
+{{--                                <td style="text-align: right" id="balance-{!! $i !!}"></td>--}}
+{{--                            </tr>--}}
+{{--                        @endfor--}}
+                        </tbody>
+                        <tfoot>
+
+                        </tfoot>
+
+                    </table>
+                </div>
             </div>
         </div>
     @endif
@@ -235,6 +268,9 @@
     <script>
         $(document).ready(function(){
 
+            $('#details-cost').hide();
+            $('#transactions').hide();
+
             $( "#date_to" ).datetimepicker({
                 format:'d-m-Y',
                 timepicker: false,
@@ -243,13 +279,31 @@
                 inline:false
             });
 
-            $( "#p_date_to" ).datetimepicker({
-                format:'d-m-Y',
-                timepicker: false,
-                closeOnDateSelect: true,
-                scrollInput : false,
-                inline:false
-            });
+            $('#summary-table').on( 'click', '.btn-details', function () {
+                // alert('oo')
+                var currentRow = $(this).closest("tr");
+                $('#cost-center-name').html('Cost Center : '+ currentRow.find("td:eq(2)").text());
+
+                var i;
+                var row_budget = 3;
+                var row_expense = 4;
+
+                for(i=0; i<=12; i++) {
+
+
+                    $('#monthly-budget-' + i).html(currentRow.find("td:eq(" + row_budget + ")").text());
+                    $('#monthly-expense-' + i).html(currentRow.find("td:eq(" + row_expense + ")").text());
+                    $('#balance-' + i).html(parseFloat(currentRow.find("td:eq(" + row_budget + ")").text().replace(/,/g, "")) - parseFloat(currentRow.find("td:eq(" + row_expense + ")").text().replace(/,/g, "")));
+
+                    row_budget = row_budget + 2;
+                    row_expense = row_expense + 2;
+                }
+
+                    $('#summary').hide();
+                    $('#details-cost').show();
+
+            } );
+
         });
     </script>
 
