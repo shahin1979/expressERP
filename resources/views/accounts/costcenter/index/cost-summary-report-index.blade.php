@@ -10,7 +10,7 @@
         </ol>
     </nav>
 
-    <div class="container spark-screen">
+    <div class="container spark-screen" id="entry-point">
         <div class="row" id="current">
             <div class="col-md-8 col-md-offset-1" >
                 <br/>
@@ -83,6 +83,8 @@
                         <thead>
                         <tr class="table-primary">
                             <th rowspan="2" style="text-align: center">SL</th>
+
+
                             <th rowspan="2" width="25%">Action</th>
                             <th rowspan="2" width="25%">Name</th>
                             <th colspan="2" style="text-align: center">{!! $fiscal->where('fp_no',1)->first()->month_name !!}</th>
@@ -97,8 +99,8 @@
                             <th colspan="2" style="text-align: center">{!! $fiscal->where('fp_no',10)->first()->month_name !!}</th>
                             <th colspan="2" style="text-align: center">{!! $fiscal->where('fp_no',11)->first()->month_name !!}</th>
                             <th colspan="2" style="text-align: center">{!! $fiscal->where('fp_no',12)->first()->month_name !!}</th>
-
-
+                            <th rowspan="2" style="display:none;">ID</th>
+{{--                            <th rowspan="2">ID</th>--}}
                         </tr>
                         <tr>
                             <td>Budget</td>
@@ -132,6 +134,7 @@
                         @foreach($report as $i=>$row)
                                 <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
                                     <td style="width: 20%;">{!! $i+1 !!}</td>
+
                                     <td style="text-align: left"><a href="#" class="btn btn-success btn-details"><i class="fa fa-eye"></i></a></td>
 {{--                                    <td><i class="fa fa-eye"></i></td>--}}
                                     <td style="width: 20%;">{!! $row->name !!}</td>
@@ -159,6 +162,8 @@
                                     <td style="text-align: right">{!! number_format($amount->where('fp_no',11)->where('cost_center_id',$row->id)->sum('dr_amt'),2) !!}</td>
                                     <td style="text-align: right">{!! number_format($row->budget_12,2) !!}</td>
                                     <td style="text-align: right">{!! number_format($amount->where('fp_no',12)->where('cost_center_id',$row->id)->sum('dr_amt'),2) !!}</td>
+{{--                                    <td>1</td>--}}
+                                    <td style="display:none;">{!! $row->id !!}</td>
                                 </tr>
                         @endforeach
                         </tbody>
@@ -181,15 +186,16 @@
             </div>
         </div>
 
-        <div class="col-sm-6 mb-4 justify-content-center" id="details-cost">
+        <div class="col-sm-6 mb-4 justify-content-center" id="details-section">
         <div class="card justify-content-center" >
             <div class="card-header" id="cost-center-name">
 
             </div>
+            <input type="hidden" name="cost-center-id" id="cost-center-id" />
             <div class="card-body">
                 {{--                <div class="table-responsive">--}}
 
-                <table class="table table-striped table-bordered table-hover table-responsive">
+                <table class="table table-striped table-bordered table-hover table-responsive" id="details-table">
                     <thead>
                     <tr class="table-primary">
                         {{--                            <th rowspan="2" style="text-align: center">SL</th>--}}
@@ -210,6 +216,7 @@
                                 <td style="text-align: right" id="monthly-expense-{!! $i !!}"></td>
                                 <td style="text-align: right" id="balance-{!! $i !!}"></td>
                                 <td style="text-align: right" id="details-{!! $i !!}"></td>
+{{--                                <input type="hidden" id="fp-no-{!! $i !!}" name="fp_no" value="{!! $i !!}" />--}}
                             </tr>
                         @endfor
                     </tbody>
@@ -222,7 +229,7 @@
         </div>
         </div>
 
-        <div class="col-sm-6 mb-4 justify-content-center" id="transactions">
+        <div class="col-sm-10 mb-1 justify-content-center" id="transactions-section">
             <div class="card justify-content-center" >
                 <div class="card-header" id="cost-center-name">
 
@@ -230,26 +237,20 @@
                 <div class="card-body">
                     {{--                <div class="table-responsive">--}}
 
-                    <table class="table table-striped table-bordered table-hover table-responsive">
+                    <table class="table table-striped table-bordered table-hover table-responsive" id="trans-table">
                         <thead>
                         <tr class="table-primary">
                             {{--                            <th rowspan="2" style="text-align: center">SL</th>--}}
                             <th rowspan="2" width="25%">Transaction Date</th>
                             <th rowspan="2" width="25%">Voucher No</th>
+                            <th rowspan="2" width="25%">Account</th>
                             <th rowspan="2" width="25%">Debit</th>
                             <th rowspan="2" width="25%">Credit</th>
                         </tr>
 
                         </thead>
                         <tbody>
-{{--                        @for($i=1; $i<=12; $i++)--}}
-{{--                            <tr>--}}
-{{--                                <td></td>--}}
-{{--                                <td style="text-align: right" id="monthly-budget-{!! $i !!}"></td>--}}
-{{--                                <td style="text-align: right" id="monthly-expense-{!! $i !!}"></td>--}}
-{{--                                <td style="text-align: right" id="balance-{!! $i !!}"></td>--}}
-{{--                            </tr>--}}
-{{--                        @endfor--}}
+
                         </tbody>
                         <tfoot>
 
@@ -268,8 +269,8 @@
     <script>
         $(document).ready(function(){
 
-            $('#details-cost').hide();
-            $('#transactions').hide();
+            $('#details-section').hide();
+            $('#transactions-section').hide();
 
             $( "#date_to" ).datetimepicker({
                 format:'d-m-Y',
@@ -284,6 +285,10 @@
                 var currentRow = $(this).closest("tr");
                 $('#cost-center-name').html('Cost Center : '+ currentRow.find("td:eq(2)").text());
 
+                $('#cost-center-id').val(currentRow.find("td:eq(27)").text())
+
+                // alert($('#cost-center-id').val())
+
                 var i;
                 var row_budget = 3;
                 var row_expense = 4;
@@ -295,39 +300,82 @@
                     $('#monthly-budget-' + i).html(currentRow.find("td:eq(" + row_budget + ")").text());
                     $('#monthly-expense-' + i).html(currentRow.find("td:eq(" + row_expense + ")").text());
                     $('#balance-' + i).html(parseFloat(currentRow.find("td:eq(" + row_budget + ")").text().replace(/,/g, "")) - parseFloat(currentRow.find("td:eq(" + row_expense + ")").text().replace(/,/g, "")));
-                    $('#details-' + i).html("<a href=" + '"' + url + '"'+ "target=" +'"' + "_blank" + '"' + ">" + display + "</a>");
+                    $('#details-' + i).html("<a class=\"btn btn-success btn-transactions\" href=#" + "target=" +'"' + "_blank" + '"' + ">" + display + "</a>");
                     row_budget = row_budget + 2;
                     row_expense = row_expense + 2;
-
-
-
-                    // var htmlStr = "" +
-                    //     "<tr>" +
-                    //     "<td>" +
-                    //     "<img src=" + '"' + 0 + '"' + ">" +
-                    //     "</td>" +
-                    //     "<td>" +
-                    //     "<a href=" + '"' + 0 + '"'+ "target=" +'"' + "_blank" + '"' + ">" + 0 + "</a>" +
-                    //     "</td>" +
-                    //     "</tr>"
-                    // $("#summary-table").append(htmlStr);
-
-
-
-
-                    // html = '<td>View</td>';
-                    // $("#summary-table tr:gt(0)").append("<td>Col</td>");
                 }
 
-                // $(this).find('tr').each(function(){
-                //     $(this).find('td').eq(3).after('<td>new cell added</td>');
-                // });
-
-
                     $('#summary').hide();
-                    $('#details-cost').show();
+                    $('#entry-point').hide();
+                    $('#details-section').show();
 
             } );
+
+
+            // $('#details-table').on( 'click', '.btn-transactions', function () {
+            //     alert('clicked')
+            // });
+
+            $('#details-table').on('click', '.btn-transactions', function (e) {
+                e.preventDefault();
+
+                // alert($('#cost-center-id').val());
+
+                // $('#req_no').val($(this).data('requisition'));
+                var rowDATA = $(this).closest("tr");
+                var month = rowDATA.find("td:eq(0)").text()
+
+                var url = 'transactions/' + $('#cost-center-id').val() + '/' + month;
+
+                // $(".req-info").remove();
+                //
+                // var reqHTML = '';
+                //
+                // reqHTML = '<tr class="req-info">' +
+                //     '<td align="left">Req No</td><td align="left">' + $(this).data('requisition') + '</td></tr>' +
+                //     '<tr class="req-info"><td align="left">Req Date</td><td align="left">' + $(this).data('date') + '</td>/tr>' +
+                //     '<tr class="req-info"><td align="left">Req Type</td><td align="left">' + $(this).data('type') + '</td></tr>';
+                //
+                // $('#requisition-main').append(reqHTML);
+
+
+                //Ajax Load data from ajax
+                $.ajax({
+                    url : url,
+                    type: "GET",
+                    dataType: "JSON",
+
+                    success: function(data)
+                    {
+
+                        $(".vouchers").remove();
+//
+                        var trHTML = '';
+                        $.each(data, function (i, item) {
+
+                            trHTML += '<tr class="vouchers">' +
+                                '<td>' + item.trans_date +'</td>' +
+                                '<td>' + item.voucher_no +'</td>' +
+                                '<td>' + item.account.acc_name +'</td>' +
+                                '<td align="right">' + item.dr_amt +'</td>' +
+                                '<td align="right">' + item.cr_amt +'</td>' +
+                                '</tr>';
+                        });
+//
+                        $('#trans-table').append(trHTML);
+
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Error get data from ajax');
+                    }
+                });
+
+                $('#transactions-section').show();
+
+            });
+
 
         });
     </script>

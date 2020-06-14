@@ -63,6 +63,7 @@ Route::group(['prefix' => 'costcenter', 'namespace' => 'Accounts\Costcenter', 'm
     Route::post('saveNewCenterIndex','CostCenterCO@store');
 
     Route::get('rptCostCenterSummary','CostCenterCO@summary');
+    Route::get('transactions/{id}/{month}','CostCenterCO@transactions');
 
 });
 

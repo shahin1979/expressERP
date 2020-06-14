@@ -133,9 +133,21 @@ class CostCenterCO extends Controller
 
 //            dd($fiscal);
 
-            return view('accounts.costcenter.index.summary-report-index',compact('report','fiscal','amount'));
+            return view('accounts.costcenter.index.cost-summary-report-index',compact('report','fiscal','amount'));
         }
 
-        return view('accounts.costcenter.index.summary-report-index');
+        return view('accounts.costcenter.index.cost-summary-report-index');
+    }
+
+    public function transactions(Request $request, $id, $month)
+    {
+        $fiscal = $this->get_fiscal_data_from_current_date($this->company_id);
+        $fp_no = $fiscal->where('month_name',$month)->first()->fp_no;
+
+        $transactions = Transaction::query()->where('company_id',$this->company_id)
+            ->where('cost_center_id',$id)->where('fp_no',$fp_no)
+            ->with('account')->get();
+
+        return response()->json($transactions);
     }
 }
