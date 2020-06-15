@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Ledger;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
+use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -177,5 +178,40 @@ class GLAccountHeadCo extends Controller
         DB::commit();
 
         return response()->json(['success' => 'GL Head Deleted '], 200);
+    }
+
+    public function print(Request $request)
+    {
+
+//        ini_set('max_execution_time', 900);
+//        ini_set('memory_limit', '1024M');
+//        ini_set("output_buffering", 10240);
+//        ini_set('max_input_time',300);
+//        ini_set('default_socket_timeout',300);
+//        ini_set('pdo_mysql.cache_size',4000);
+        ini_set('pcre.backtrack_limit', 5000000);
+
+        $report = GeneralLedger::query()->where('company_id',$this->company_id)
+            ->where('is_group',false)->get();
+
+
+        $groups = GeneralLedger::query()->where('company_id',$this->company_id)
+            ->where('is_group',true)->get();
+
+        $view = \View::make('accounts.report.ledger.pdf.print-chart-of-accounts',compact('report','groups'));
+
+        $html = $view->render();
+
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+
+        $pdf::SetMargins(15, 5, 10,10);
+
+        $pdf::AddPage();
+
+        $pdf::writeHTML($html, true, false, true, false, '');
+        $pdf::Output('ChartAccount.pdf');
+
+
+        return;
     }
 }

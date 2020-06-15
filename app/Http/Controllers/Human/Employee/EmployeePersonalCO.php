@@ -188,4 +188,17 @@ class EmployeePersonalCO extends Controller
 
         return redirect()->action('Human\Employee\EmployeePersonalCO@index')->with('success','Image Successfully Updated');
     }
+
+    public function employees(Request $request)
+    {
+        $term = $request['query'];
+
+        $items = EmpPersonal::select('employee_id','name','email')
+            ->where('company_id',$this->company_id)
+            ->where('name', 'LIKE', '%'.$term.'%')
+            ->orWhere('employee_id','LIKE', '%'.$term.'%')
+            ->get();
+
+        return response()->json($items);
+    }
 }

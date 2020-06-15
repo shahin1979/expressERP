@@ -2,8 +2,10 @@
 
 @section('content')
     <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
-    <link href="{!! asset('assets/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css') !!}" rel="stylesheet">
-    <script src="{!! asset('assets/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('assets/js/bootstrap3-typeahead.js') !!}"></script>
+{{--    <link href="{!! asset('assets/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css') !!}" rel="stylesheet">--}}
+{{--    <script src="{!! asset('assets/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js') !!}"></script>--}}
+
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
@@ -42,7 +44,7 @@
                             <label for="employee_id" class="col-md-4 col-form-label text-md-right">Employee ID</label>
 
                             <div class="col-md-6">
-                                <input id="employee_id" type="text" class="form-control" name="employee_id" value="" autocomplete="off" autofocus>
+                                <input id="employee_id" type="text" class="form-control typeahead position-relative" name="employee_id" autocomplete="off" value="" autofocus>
 
                             </div>
                         </div>
@@ -132,3 +134,40 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+
+    <script type="text/javascript">
+
+        var autocomplete_path = "{{ url('autocomplete/employees') }}";
+
+        $(document).on('click', '.form-control.typeahead', function() {
+
+            $(this).typeahead({
+                minLength: 1,
+                displayText:function (data) {
+                    return data.employee_id + " : "+ data.name;
+                },
+
+                source: function (query, process) {
+                    $.ajax({
+                        url: autocomplete_path,
+                        type: 'GET',
+                        dataType: 'JSON',
+                        data: 'query=' + query ,
+                        success: function(data) {
+                            return process(data);
+                        }
+                    });
+                },
+                afterSelect: function (data) {
+
+                    document.getElementById('employee_id').value = data.employee_id;
+                    document.getElementById('full_name').value = data.name;
+                    document.getElementById('email').value = data.email;
+                }
+            });
+        });
+    </script>
+
+@endpush

@@ -46,7 +46,8 @@ Route::group(['prefix' => 'security', 'namespace' => 'Security', 'middleware' =>
 
     Route::get('updateUserIndex','UpdateUserCO@index');
 
-    Route::get('changePasswordIndex','UpdateUserCO@index');
+    Route::get('changePasswordIndex','ChangePasswordCO@index');
+    Route::post('changePassword','ChangePasswordCO@update');
 
     Route::get('resetPasswordIndex','ChangePasswordCO@index');
 

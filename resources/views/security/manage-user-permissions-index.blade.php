@@ -108,13 +108,16 @@
             </div>
         </div>
         @endforeach
+
+        <input type="hidden" name="user_id" id="user_id"/>
+
+        <div class="col-md-6">
+            {!! Form::submit('SUBMIT',['class'=>'btn btn-primary button-control']) !!}
+        </div>
+
     </div>
 
-    <input type="hidden" name="user_id" id="user_id"/>
 
-    <div class="col-md-6">
-        {!! Form::submit('SUBMIT',['class'=>'btn btn-primary button-control']) !!}
-    </div>
 
     {!! Form::close() !!}
 
@@ -124,9 +127,10 @@
 
     <script>
 
-        $(document).ready(function(){
-            $('#accordion').hide();
-        });
+        $('#accordion').hide();
+        // $(document).ready(function(){
+        //     $('#accordion').hide();
+        // });
 
         $(function() {
             var table= $('#users-table').DataTable({
@@ -150,6 +154,8 @@
             document.getElementById('user-name').innerHTML =$(this).data('name');
             document.getElementById('user-email').innerHTML =$(this).data('email');
             document.getElementById('user_id').value = $(this).data('id') ;
+
+            $(this).parents('div.dataTables_wrapper').first().hide();
 
             // alert($(this).data('id'));
 
@@ -176,9 +182,6 @@
                 success: function (data) {
 
 
-
-                    $('#users-table').parents('div.dataTables_wrapper').first().hide();
-
                     $.each(data, function (i, item) {
 
                         item.view == true ? $('#view-chk-' + item.menu_id).bootstrapToggle('on') : '';
@@ -195,8 +198,6 @@
                         item.delete == true ? $("#delete-chk-" + item.menu_id).prop("checked", true) : '';
 
                     });
-
-
 
                     $('#accordion').show();
                 }

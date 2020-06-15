@@ -1,5 +1,10 @@
 <?php
 
+
+
+
+Route::get('autocomplete/employees','Human\Employee\EmployeePersonalCO@employees');
+
 Route::group(['prefix' => 'employee', 'namespace' => 'Human\Employee', 'middleware' => ['auth']], function () {
 
     Route::get('empPersonalIndex','EmployeePersonalCO@index');

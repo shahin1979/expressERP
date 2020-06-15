@@ -17,6 +17,8 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
     Route::post('update/{id}','GLAccountHeadCo@update');
     Route::delete('head/delete/{id}','GLAccountHeadCo@destroy');
 
+    Route::get('account/print','GLAccountHeadCo@print');
+
     Route::get('rptTrialBalanceIndex','RepTrialBalanceCO@index');
 
     Route::get('/{id}/{date}','RepTrialBalanceCO@details');

@@ -15,12 +15,12 @@
     <div class="row" id="top-head">
         <div class="col-md-6">
             <div class="pull-left">
-                <button type="button" class="btn btn-department btn-success" data-toggle="modal" data-target="#modal-new-gh-head"><i class="fa fa-plus"></i>New Head</button>
+                <button type="button" class="btn btn-gl btn-success" data-toggle="modal" data-target="#modal-new-gh-head"><i class="fa fa-plus"></i>New Head</button>
             </div>
         </div>
         <div class="col-md-6">
             <div class="pull-right">
-                <button type="button" class="btn btn-department btn-success" data-toggle="modal" data-target="#modal-new-department"><i class="fa fa-print"></i>Print</button>
+                <button type="button" class="btn btn-print-gl btn-success"><i class="fa fa-print"></i>Print</button>
             </div>
         </div>
     </div>
@@ -210,6 +210,12 @@
                 }
 
             });
+        });
+
+        //Print Chart of Account
+
+        $(document).on('click', '.btn-print-gl', function (e) {
+            window.location = 'account/print'
         });
 
 
