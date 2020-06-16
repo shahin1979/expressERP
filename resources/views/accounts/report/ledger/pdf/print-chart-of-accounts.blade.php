@@ -61,16 +61,6 @@
 
                 </tbody>
 
-{{--                <tfoot>--}}
-{{--                <tr style="line-height: 300%">--}}
-{{--                    <td colspan="3" style="border-bottom-width:1px; font-size:8pt; font-weight: bold;">Grand Total</td>--}}
-{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format(($report->where('is_group',false)->sum('opening_dr') - $report->where('is_group',false)->sum('opening_cr')),2)  !!}</td>--}}
-{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('dr_tr'),2)  !!}</td>--}}
-{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('cr_tr'),2)  !!}</td>--}}
-{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('balance'),2)  !!}</td>--}}
-
-{{--                </tr>--}}
-{{--                </tfoot>--}}
             </table>
             @endforeach
         </div>

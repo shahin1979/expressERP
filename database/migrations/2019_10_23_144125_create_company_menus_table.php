@@ -23,17 +23,12 @@ class CreateCompanyMenusTable extends Migration
             $table->foreign('menu_id')->references('id')->on('menu_items')->onDelete('CASCADE');;
             $table->boolean('status')->default(true);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('menu_id');
             $table->index('module_id');
         });
 
-        DB::unprepared('
-        CREATE OR REPLACE TRIGGER tr_company_menus_updated_at BEFORE INSERT OR UPDATE ON company_menus FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

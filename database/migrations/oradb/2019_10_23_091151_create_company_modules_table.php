@@ -20,8 +20,17 @@ class CreateCompanyModulesTable extends Migration
             $table->bigInteger('module_id')->unsigned();
             $table->foreign('module_id')->references('id')->on('app_modules')->onDelete('CASCADE');;
             $table->boolean('status')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->unique(array('company_id', 'module_id'));
         });
+
+        DB::unprepared('
+            CREATE OR REPLACE TRIGGER tr_company_modules_updated_at BEFORE INSERT OR UPDATE ON company_modules FOR EACH ROW
+            BEGIN
+                :NEW.updated_at := SYSDATE;
+            END;
+        ');
     }
 
     /**

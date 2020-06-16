@@ -14,14 +14,14 @@
     <div class="blank-space"></div>
     <div class="blank-space"></div>
 
-    <table class="table table-responsive">
-        <tbody>
-        <tr>
-            <td style="text-align: center">Trial Balance From Date {!! \Carbon\Carbon::parse($params['toDate'])->format('01-M-Y') !!} To {!! \Carbon\Carbon::parse($params['toDate'])->format('d-M-Y') !!}</td>
-        </tr>
-        </tbody>
+{{--    <table class="table table-responsive">--}}
+{{--        <tbody>--}}
+{{--        <tr>--}}
+{{--            <td style="text-align: center">Trial Balance From Date {!! \Carbon\Carbon::parse($params['toDate'])->format('01-M-Y') !!} To {!! \Carbon\Carbon::parse($params['toDate'])->format('d-M-Y') !!}</td>--}}
+{{--        </tr>--}}
+{{--        </tbody>--}}
 
-    </table>
+{{--    </table>--}}
 
 
     {{--    <div class="blank-space"></div>--}}
@@ -32,12 +32,12 @@
             <table class="table">
                 <tbody>
                 <tr>
-                    <td>Account Name : {!! $params['acc_no'] !!} : {!! $params['acc_name'] !!}</td>
-                    <td style="text-align: right">Opening Balance: {!! number_format($params['opening_bal'],2) !!}</td>
+                    <td style="font-size:10pt">Account Name : {!! $params['acc_no'] !!} : {!! $params['acc_name'] !!}</td>
+                    <td style="font-size:10pt; text-align: right">Opening Balance: {!! number_format($params['opening_bal'],2) !!}</td>
                 </tr>
                 <tr>
-                    <td>Date From : {!! $params['from_date'] !!} To {!! $params['to_date'] !!}</td>
-                    <td style="text-align: right">Balance Type: {!! $params['dr_cr'] !!}</td>
+                    <td style="font-size:10pt">General Ledger Date From : {!! $params['from_date'] !!} To {!! $params['to_date'] !!}</td>
+                    <td style="font-size:10pt; text-align: right">Balance Type: {!! $params['dr_cr'] !!}</td>
                 </tr>
                 </tbody>
             </table>
@@ -51,37 +51,37 @@
         <div class="row">
             <table class="table">
                 <thead>
-                <tr class="row-line" style="border-bottom: solid; line-height: 200%;">
-                    <th width="8%" style="font-size:10pt">Date</th>
-                    <th width="27%" style="font-size:10pt">Voucher No</th>
-                    <th width="5%" style="font-size:10pt; text-align: center">Type</th>
-                    <th width="15%" style="font-size:10pt; text-align: right">Contra</th>
-                    {{--                    <th width="11%" style="font-size:10pt; text-align: right">Opening Credit</th>--}}
-                    <th width="15%" style="font-size:10pt; text-align: right">Debit</th>
-                    <th width="15%" style="font-size:10pt; text-align: right">Credit</th>
-                    <th width="15%" style="font-size:10pt; text-align: right">Balance</th>
+                    <tr class="row-line" style="border-bottom: solid; line-height: 200%;">
+                        <th width="10%" style="font-size:8pt; font-weight: bold">Date</th>
+                        <th width="12%" style="font-size:8pt; font-weight: bold">Voucher No</th>
+                        <th width="5%" style="font-size:8pt; font-weight: bold; text-align: center">TP</th>
+                        <th width="28%" style="font-size:8pt; font-weight: bold; text-align: right">Contra</th>
+    {{--                    <th width="15%" style="font-size:8pt; font-weight: bold;">Particulars</th>--}}
+                        <th width="15%" style="font-size:8pt; font-weight: bold; text-align: right">Debit</th>
+                        <th width="15%" style="font-size:8pt; font-weight: bold; text-align: right">Credit</th>
+                        <th width="15%" style="font-size:8pt; font-weight: bold; text-align: right">Balance</th>
 
-                </tr>
+                    </tr>
 
                 </thead>
 
                 <tbody>
                 @foreach($report as $i=>$row)
-                    <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
-                        <td>{!! $row['tr_date'] !!}</td>
-                        <td>{!! $row['voucher_no'] !!}</td>
-                        <td>{!! $row['tr_code'] !!}</td>
-                        <td>
+                    <tr style="line-height: 200%">
+                        <td width="10%" style="border-bottom-width:1px; font-size:8pt;">{!! $row['tr_date'] !!}</td>
+                        <td width="12%" style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row['voucher_no'] !!}</td>
+                        <td width="5%" style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row['tr_code'] !!}</td>
+                        <td width="28%" style="border-bottom-width:1px; font-size:6pt; text-align: left">
                             @foreach($contra as $contraLine)
                                 @if($contraLine['voucher_no'] == $row['voucher_no'])
-                                    {!! $contraLine['acc_name'] !!}<br/>
+                                   {!! $contraLine['acc_name'] !!}{!! count($contra->where('voucher_no',$row['voucher_no'])) > 1 ? '<br/>' : null !!}
                                 @endif
                             @endforeach
                         </td>
-                        <td>{!! $row['description'] !!}</td>
-                        <td style="text-align: right">{!! number_format($row['dr_amt'],2) !!}</td>
-                        <td style="text-align: right">{!! number_format($row['cr_amt'],2) !!}</td>
-                        <td style="text-align: right">{!! number_format($row['balance'],2) !!}</td>
+{{--                        <td width="15%" style="font-size:8pt; text-align: left">{!! $row['description'] !!}</td>--}}
+                        <td width="15%" style="border-bottom-width:1px; font-size:8pt; text-align: right">{!! number_format($row['dr_amt'],2) !!}</td>
+                        <td width="15%" style="border-bottom-width:1px; font-size:8pt; text-align: right">{!! number_format($row['cr_amt'],2) !!}</td>
+                        <td width="15%" style="border-bottom-width:1px; font-size:8pt; text-align: right">{!! number_format($row['balance'],2) !!}</td>
 
                     </tr>
 
@@ -93,14 +93,14 @@
 
 
                 <tfoot>
-                <tr style="line-height: 300%">
-                    <td colspan="3" style="border-bottom-width:1px; font-size:8pt; font-weight: bold;">Grand Total</td>
-                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format(($report->where('is_group',false)->sum('opening_dr') - $report->where('is_group',false)->sum('opening_cr')),2)  !!}</td>
-                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('dr_tr'),2)  !!}</td>
-                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('cr_tr'),2)  !!}</td>
-                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('balance'),2)  !!}</td>
+{{--                <tr style="line-height: 300%">--}}
+{{--                    <td colspan="3" style="border-bottom-width:1px; font-size:8pt; font-weight: bold;">Grand Total</td>--}}
+{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format(($report->where('is_group',false)->sum('opening_dr') - $report->where('is_group',false)->sum('opening_cr')),2)  !!}</td>--}}
+{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('dr_tr'),2)  !!}</td>--}}
+{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('cr_tr'),2)  !!}</td>--}}
+{{--                    <td style="border-bottom-width:1px; font-size:8pt; font-weight: bold; text-align: right">{!! number_format($report->where('is_group',false)->sum('balance'),2)  !!}</td>--}}
 
-                </tr>
+{{--                </tr>--}}
                 </tfoot>
 
 

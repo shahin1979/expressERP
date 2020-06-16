@@ -22,18 +22,12 @@ class CreateUserActivitiesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('company_id');
             $table->index('menu_id');
             $table->index('user_id');
         });
 
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_user_activities_updated_at BEFORE INSERT OR UPDATE ON user_activities FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
     }
 
     /**

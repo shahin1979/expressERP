@@ -39,22 +39,24 @@ class DataMigrationCO extends Controller
     public function migrate()
     {
 
+//        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
+//        $output = $this->trCode($this->company_id);
 
-//        $connection = DB::connection('mcottondb');
+
 
 //        $output = $this->mumanuDB($this->company_id);
-//        $output = $this->matinDB($this->company_id);
+        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
 //        $output = $this->MTPurchase($this->company_id);
 //        $output = $this->MTInvoice($this->company_id);
 //        $output = $this->MTHistories($this->company_id);
 //        $output = $this->MTStatement($this->company_id);
 //        $output = $this->depreciation($this->company_id,$connection);
-//        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
+
 
         // Previous data Migration
 
-//        $output = $this->trCode($this->company_id);
+
 //        $output = $this->previousData($this->company_id,'2018-2019');
 
         // End

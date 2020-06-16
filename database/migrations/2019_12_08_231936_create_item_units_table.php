@@ -15,7 +15,7 @@ class CreateItemUnitsTable extends Migration
     {
         Schema::create('item_units', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',10);
             $table->string('formal_name',60)->nullable();
@@ -25,10 +25,11 @@ class CreateItemUnitsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->index('name');
             $table->unique(array('company_id', 'name'));
             $table->index('company_id');
-            $table->index('name');
+
         });
     }
 

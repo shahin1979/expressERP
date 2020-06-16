@@ -18,9 +18,9 @@ trait PreviousDataMigrationTrait
 {
     public function trCode($company_id)
     {
-        $yr = '2019';
+        $yr = 2019;
         $count = $yr;
-        $fyear = '2019-2020';
+        $fyear = $yr.'-'.($yr + 1); // '2015-2016';
 
         TransCode::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'trans_code'=>'PM','fiscal_year'=>$fyear],

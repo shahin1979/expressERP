@@ -128,17 +128,20 @@ trait MigrationTrait
 
             // Migrate Transactions Table
 
-            $transactions = $connection->table('transactions')
-                ->where('comp_code',12)
+//            $transactions = $connection->table('transactions')
+//                ->where('comp_code',12)
 //                ->where('trans_date','>','2019-11-30')
-                ->get();
+//                ->get();
 
 
             $data = $connection->table('transactions')
                 ->select(DB::Raw('distinct voucher_no, j_code'))
-                ->where('comp_code',12)
+                ->where('comp_code',12)//->where('voucher_no',5100271)
                 ->get();
 
+            $inserted_voucher_no = null;
+            $inserted_acc_cr = null;
+            $inserted_acc_dr = null;
 
             foreach ($data as $trans)
             {
@@ -162,7 +165,10 @@ trait MigrationTrait
                 $trans_all = $connection->table('transactions')
                     ->where('comp_code',12)
                     ->where('voucher_no',$trans->voucher_no)
+                    ->orderBy('acc_cr')
                     ->get();
+
+//                dd($trans_all);
 
                 foreach ($trans_all as $item)
                 {
@@ -172,34 +178,67 @@ trait MigrationTrait
 
                     if($item->acc_cr != 'JV')
                     {
-                        Transaction::query()->insert([
-                            'company_id'=>$company_id,
-                            'period'=>$item->period,
-                            'tr_code'=>$jcode,
-                            'trans_type_id'=>8,
-                            'fp_no'=>$fp_no,
-                            'ref_no'=>$item->ref_no,
-                            'cheque_no'=>$item->cheque_no,
-                            'cost_center'=>$item->cost_center,
-                            'trans_id'=>$item->trans_id ,
-                            'trans_group_id'=>$item->trans_grp_id ,
-                            'trans_date'=>$item->trans_date,
-                            'voucher_no'=>$voucher_no,
-                            'acc_no'=>$item->acc_cr,
-                            'dr_amt'=>0,
-                            'cr_amt'=>$item->trans_amt,
-                            'trans_amt'=>$item->trans_amt,
-                            'contra_acc'=>$item->acc_dr == 'JV' ? '' : $item->acc_dr,
-                            'currency'=>'BDT',
-                            'fiscal_year'=>'2019-2020',
-                            'trans_desc1'=>$item->trans_desc1,
-                            'trans_desc2'=>$item->trans_desc2,
-                            'old_voucher'=>$item->voucher_no,
-                            'post_flag'=>true,
-                            'authorizer_id'=>Auth::id(),
-                            'post_date'=>$item->trans_date,
-                            'user_id'=>Auth::id(),
-                        ]);
+                        if($item->acc_cr == $inserted_acc_cr and $item->voucher_no == $inserted_voucher_no)
+                        {
+                            Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$inserted_acc_cr)
+                                ->increment('cr_amt',$item->trans_amt);
+
+                            Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$inserted_acc_cr)
+                                ->increment('trans_amt',$item->trans_amt);
+
+                            $desc = Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$inserted_acc_cr)->first();
+
+                            $new_desc = isset($desc->trans_desc1) ? $desc->trans_desc1 : ''.','.isset($item->trans_desc1) ? $item->trans_desc1 : '' ;
+
+                            Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$inserted_acc_cr)
+                                ->update(['trans_desc1'=>$new_desc]);
+
+
+//                            DB::update("update transactions set trans_desc1 = CONCAT(trans_desc1,':','$item->trans_desc1') where voucher_no = '$voucher_no'and company_id='$company_id' and acc_no = '$inserted_acc_cr'");
+
+                        }else{
+                            Transaction::query()->insert([
+                                'company_id'=>$company_id,
+                                'period'=>$item->period,
+                                'tr_code'=>$jcode,
+                                'trans_type_id'=>8,
+                                'fp_no'=>$fp_no,
+                                'ref_no'=>$item->ref_no,
+                                'cheque_no'=>$item->cheque_no,
+                                'cost_center'=>$item->cost_center,
+                                'trans_id'=>$item->trans_id ,
+                                'trans_group_id'=>$item->trans_grp_id ,
+                                'trans_date'=>$item->trans_date,
+                                'voucher_no'=>$voucher_no,
+                                'acc_no'=>$item->acc_cr,
+                                'dr_amt'=>0,
+                                'cr_amt'=>$item->trans_amt,
+                                'trans_amt'=>$item->trans_amt,
+                                'contra_acc'=>$item->acc_dr == 'JV' ? '' : $item->acc_dr,
+                                'currency'=>'BDT',
+                                'fiscal_year'=>'2019-2020',
+                                'trans_desc1'=>$item->trans_desc1,
+                                'trans_desc2'=>$item->trans_desc2,
+                                'old_voucher'=>$item->voucher_no,
+                                'post_flag'=>true,
+                                'authorizer_id'=>Auth::id(),
+                                'post_date'=>$item->trans_date,
+                                'user_id'=>Auth::id(),
+                            ]);
+
+                            $inserted_voucher_no = $item->voucher_no;
+                            $inserted_acc_cr = $item->acc_cr;
+                        }
+
+
 
                         GeneralLedger::query()->where('company_id',$company_id)
                             ->where('acc_no',$item->acc_cr)
@@ -231,34 +270,68 @@ trait MigrationTrait
 
                     if($item->acc_dr != 'JV')
                     {
-                        Transaction::query()->insert([
-                            'company_id'=>$company_id,
-                            'period'=>$item->period,
-                            'tr_code'=>$jcode,
-                            'trans_type_id'=>8,
-                            'fp_no'=>$fp_no,
-                            'ref_no'=>$item->ref_no,
-                            'cheque_no'=>$item->cheque_no,
-                            'cost_center'=>$item->cost_center,
-                            'trans_id'=>$item->trans_id ,
-                            'trans_group_id'=>$item->trans_grp_id ,
-                            'trans_date'=>$item->trans_date,
-                            'voucher_no'=>$voucher_no,
-                            'acc_no' => $item->acc_dr,
-                            'dr_amt'=>$item->trans_amt,
-                            'cr_amt'=>0,
-                            'trans_amt'=>$item->trans_amt,
-                            'contra_acc'=>$item->acc_cr == 'JV' ? '' : $item->acc_cr,
-                            'currency'=>'BDT',
-                            'fiscal_year'=>'2019-2020',
-                            'trans_desc1'=>$item->trans_desc1,
-                            'trans_desc2'=>$item->trans_desc2,
-                            'post_flag'=>true,
-                            'old_voucher'=>$item->voucher_no,
-                            'authorizer_id'=>Auth::id(),
-                            'post_date'=>$item->trans_date,
-                            'user_id'=>Auth::id(),
-                        ]);
+                        if($item->acc_dr == $inserted_acc_dr and $item->voucher_no == $inserted_voucher_no)
+                        {
+                            Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$item->acc_dr)
+                                ->increment('dr_amt',$item->trans_amt);
+
+                            Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$item->acc_dr)
+                                ->increment('trans_amt',$item->trans_amt);
+
+                            $desc = Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$item->acc_dr)->first();
+
+                            $new_desc = isset($desc->trans_desc1) ? $desc->trans_desc1 : ''.','.isset($item->trans_desc1) ? $item->trans_desc1 : '' ;
+
+                            Transaction::query()->where('company_id',$company_id)
+                                ->where('voucher_no',$voucher_no)
+                                ->where('acc_no',$item->acc_dr)
+                                ->update(['trans_desc1'=>$new_desc]);
+
+
+//                            DB::update("update transactions set trans_desc1 = CONCAT(trans_desc1,'$item->trans_desc1')
+//                                where voucher_no = '$voucher_no'and company_id='$company_id'
+//                                and acc_no = '$item->acc_dr'");
+
+                        }else{
+                            Transaction::query()->insert([
+                                'company_id'=>$company_id,
+                                'period'=>$item->period,
+                                'tr_code'=>$jcode,
+                                'trans_type_id'=>8,
+                                'fp_no'=>$fp_no,
+                                'ref_no'=>$item->ref_no,
+                                'cheque_no'=>$item->cheque_no,
+                                'cost_center'=>$item->cost_center,
+                                'trans_id'=>$item->trans_id ,
+                                'trans_group_id'=>$item->trans_grp_id ,
+                                'trans_date'=>$item->trans_date,
+                                'voucher_no'=>$voucher_no,
+                                'acc_no' => $item->acc_dr,
+                                'dr_amt'=>$item->trans_amt,
+                                'cr_amt'=>0,
+                                'trans_amt'=>$item->trans_amt,
+                                'contra_acc'=>$item->acc_cr == 'JV' ? '' : $item->acc_cr,
+                                'currency'=>'BDT',
+                                'fiscal_year'=>'2019-2020',
+                                'trans_desc1'=>$item->trans_desc1,
+                                'trans_desc2'=>$item->trans_desc2,
+                                'post_flag'=>true,
+                                'old_voucher'=>$item->voucher_no,
+                                'authorizer_id'=>Auth::id(),
+                                'post_date'=>$item->trans_date,
+                                'user_id'=>Auth::id(),
+                            ]);
+
+                            $inserted_voucher_no = $item->voucher_no;
+                            $inserted_acc_dr = $item->acc_dr;
+                        }
+
 
                         GeneralLedger::query()->where('company_id',$company_id)
                             ->where('acc_no',$item->acc_dr)

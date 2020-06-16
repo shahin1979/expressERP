@@ -15,7 +15,7 @@ class CreateGodownsTable extends Migration
     {
         Schema::create('godowns', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',60);
             $table->string('address',200)->nullable();
@@ -25,15 +25,13 @@ class CreateGodownsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->index('name');
+            $table->unique(array('company_id', 'name'));
+            $table->index('company_id');
         });
 
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_godowns_updated_at BEFORE INSERT OR UPDATE ON godowns FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

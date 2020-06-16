@@ -32,14 +32,10 @@ class CreateFiscalPeriodsTable extends Migration
             $table->index('fp_no');
             $table->index('status');
             $table->index('company_id');
+
         });
 
-        DB::unprepared('
-        CREATE OR REPLACE TRIGGER tr_fiscal_periods_updated_at BEFORE INSERT OR UPDATE ON fiscal_periods FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**
@@ -50,5 +46,6 @@ class CreateFiscalPeriodsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('fiscal_periods');
+//        DB::unprepared('DROP TRIGGER tr_fiscal_periods_updated_at');
     }
 }

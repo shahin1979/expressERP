@@ -86,7 +86,7 @@
                                 <td>{!! $row->voucher_no !!}</td>
                                 <td>{!! $row->tr_code !!}</td>
                                 <td>{!! $row->acc_no !!}</td>
-                                <td>{!! $row->account->acc_name !!}</td>
+                                <td>{!! isset($row->account->acc_name) ? $row->account->acc_name : null  !!}</td>
                                 <td>{!! $row->trans_desc1 !!}</td>
                                 <td style="text-align: right">{!! number_format($row->dr_amt,2) !!}</td>
                                 <td style="text-align: right">{!! number_format($row->cr_amt,2) !!}</td>

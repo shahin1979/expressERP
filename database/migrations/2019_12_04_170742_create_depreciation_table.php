@@ -19,6 +19,7 @@ class CreateDepreciationTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('acc_no',8);
             $table->integer('fp_no',false);
+            $table->char('fiscal_year',9);
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('open_bal',15,2)->default(0);
@@ -35,18 +36,13 @@ class CreateDepreciationTable extends Migration
             $table->bigInteger('authorizer_id')->unsigned()->nullable();
             $table->foreign('authorizer_id')->references('id')->on('users');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('fp_no');
             $table->index('start_date');
             $table->index('end_date');
         });
 
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_depreciation_updated_at BEFORE INSERT OR UPDATE ON depreciation FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

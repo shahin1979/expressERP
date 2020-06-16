@@ -10,6 +10,7 @@ use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
 use App\Traits\AccountTrait;
 use Carbon\Carbon;
+use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -40,7 +41,7 @@ class RepGeneralLedgerCO extends Controller
             $opening_bal = $this->get_account_opening_balance($request['acc_no'],$this->company_id,$fromDate);
 
             $data = Transaction::query()->where('company_id',$this->company_id)
-                ->where('tr_state',false)
+                ->where('tr_state',false)//->where('voucher_no',201920000618)
                 ->whereIn('voucher_no',function ($query) use($acc_no,$fromDate,$toDate) {
                     $query->select('voucher_no')
                         ->from('transactions')
@@ -90,13 +91,22 @@ class RepGeneralLedgerCO extends Controller
                     $contraData = $data->where('voucher_no',$row->voucher_no)
                         ->where('cr_amt','>',0);
 
+//                    $contraData = $contraData->unique('acc_no');
+
                     foreach ($contraData as $line)
                     {
+                        $contraLine['id'] = $line->id;
                         $contraLine['acc_no'] = $line->acc_no;
                         $contraLine['acc_name'] = count($contraData) > 1 ? $line->account->acc_name.' : '.$line->cr_amt : $line->account->acc_name;
                         $contraLine['voucher_no'] = $line->voucher_no;
                         $contraLine['trans_amt'] = $line->cr_amt;
-                        $contra->push($contraLine);
+                        $exist = $contra->where('voucher_no',$line->voucher_no)->where('acc_no',$line->acc_no);
+//                        dd($exist);
+                        if(!count($exist) > 0)
+                        {
+                            $contra->push($contraLine);
+                        }
+
                     }
                 }
 
@@ -109,20 +119,52 @@ class RepGeneralLedgerCO extends Controller
 
                     foreach ($contraData as $line)
                     {
+                        $contraLine['id'] = $line->id;
                         $contraLine['acc_no'] = $line->acc_no;
                         $contraLine['acc_name'] = count($contraData) > 1 ? $line->account->acc_name.' : '.$line->dr_amt : $line->account->acc_name;
                         $contraLine['voucher_no'] = $line->voucher_no;
                         $contraLine['trans_amt'] = $line->dr_amt;
-                        $contra->push($contraLine);
+                        $exist = $contra->where('voucher_no',$line->voucher_no)->where('acc_no',$line->acc_no);
+                        if(!count($exist) > 0)
+                        {
+                            $contra->push($contraLine);
+                        }
+//                        $contra->push($contraLine);
                     }
                 }
-
-
                 $report->push($newLine);
 
             }
 
-            return view('accounts.report.ledger.rep-general-ledger-index',compact('ledgers','report','params','contra'));
+            foreach ($report as $multy)
+            {
+                $v_contra = $contra->where('voucher_no',$multy['voucher_no']);
+                
+            }
+
+            switch ($request['action'])
+            {
+                case 'preview':
+                    return view('accounts.report.ledger.rep-general-ledger-index',compact('ledgers','report','params','contra'));
+                    break;
+
+                case 'print':
+                    $view = \View::make('accounts.report.ledger.pdf.print-general-ledger',compact('ledgers','report','params','contra'));
+                    $html = $view->render();
+
+                    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+
+                    $pdf::SetMargins(15, 5, 10,10);
+
+                    $pdf::AddPage();
+
+                    $pdf::writeHTML($html, true, false, true, false, '');
+                    $pdf::Output('GeneralLedger.pdf');
+            }
+
+
+
+
 
         }
 

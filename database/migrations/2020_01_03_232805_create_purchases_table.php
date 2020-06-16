@@ -14,8 +14,8 @@ class CreatePurchasesTable extends Migration
     public function up()
     {
         Schema::create('purchases', function (Blueprint $table) {
-            $table->id();
-            $table->integer('company_id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
             $table->bigInteger('ref_no',false)->unsigned();
             $table->string('contra_ref',160)->nullable()->comment('purchase l/c #');
@@ -29,14 +29,14 @@ class CreatePurchasesTable extends Migration
             $table->decimal('discount',15,2)->default(0.00);
             $table->decimal('discount_amt',15,2)->default(0.00);
             $table->decimal('due_amt',15,2)->default(0.00);
-            $table->integer('authorized_by')->unsigned()->nullable();
+            $table->bigInteger('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
             $table->string('description')->nullable();
-            $table->char('status',2)->unsigned()->default(1)->comment('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
-            $table->char('stock_status',1)->unsigned()->default('A')->comment('A = Available, F=FINISHED');
-            $table->string('extra_field',150)->nullable();
+            $table->char('status',2)->default('CR')->comment('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
             $table->string('old_number',12)->nullable();
-            $table->integer('user_id')->unsigned();
+            $table->string('extra_field',150)->nullable();
+            $table->char('stock_status',1)->default('A')->comment('A = Available, F=FINISHED');
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

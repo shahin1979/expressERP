@@ -37,15 +37,10 @@ class CreateCompanyPropertiesTable extends Migration
             $table->string('company_logo2',150)->nullable();
             $table->boolean('posted')->default(false);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
-        DB::unprepared('
-        CREATE OR REPLACE TRIGGER tr_company_properties_updated_at BEFORE INSERT OR UPDATE ON company_properties FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

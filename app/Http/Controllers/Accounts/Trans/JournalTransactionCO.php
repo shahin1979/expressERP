@@ -21,7 +21,6 @@ class JournalTransactionCO extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -32,17 +31,12 @@ class JournalTransactionCO extends Controller
 
         $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
-
-
-
-
         return view('accounts.trans.journal-transaction-index');
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -85,7 +79,7 @@ class JournalTransactionCO extends Controller
 
                     Transaction::query()->create([
                         'company_id' => $this->company_id,
-                        'project_id' => $request['project_code'][$i],
+                        'project_id' => $request['project_code'],
                         'tr_code' => 'JV',
                         'trans_type_id'=>$request['type_id'],
                         'period' => Str::upper($period),
@@ -189,8 +183,6 @@ class JournalTransactionCO extends Controller
             DB::rollBack();
             $error = $e->getMessage();
             return redirect()->back()->with('error',$voucher_no.' '.$error);
-//            $request->session('error', $error.' '.$voucher_no.' Not Saved');
-//            return redirect()->back();
         }
 
         DB::commit();

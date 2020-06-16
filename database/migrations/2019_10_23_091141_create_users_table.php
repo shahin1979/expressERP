@@ -38,20 +38,14 @@ class CreateUsersTable extends Migration
             $table->boolean('status')->default(1);
             $table->bigInteger('user_created')->default(1);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->unique(['company_id','name']);
-            $table->index('company_id');
             $table->index('name');
             $table->index('role_id');
 //            $table->rememberToken();
         });
 
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_users_updated_at BEFORE INSERT OR UPDATE ON users FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

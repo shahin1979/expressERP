@@ -15,7 +15,7 @@ class CreateItemTaxesTable extends Migration
     {
         Schema::create('item_taxes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',120);
             $table->char('applicable_on',1)->default('S')->comment('P=Purchase ; S= Sales B=Both ;');
@@ -28,18 +28,14 @@ class CreateItemTaxesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('name');
             $table->index('company_id');
             $table->index('acc_no');
+            $table->unique(array('company_id', 'name'));
         });
 
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_item_taxes_updated_at BEFORE INSERT OR UPDATE ON item_taxes FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

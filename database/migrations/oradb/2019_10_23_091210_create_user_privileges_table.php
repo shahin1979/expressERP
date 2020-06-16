@@ -16,7 +16,9 @@ class CreateUserPrivilegesTable extends Migration
         Schema::create('user_privileges', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('RESTRICT');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
+            $table->bigInteger('module_id')->unsigned()->default(1);
+            $table->foreign('module_id')->references('id')->on('app_modules')->onDelete('CASCADE');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->bigInteger('menu_id')->unsigned();
@@ -27,10 +29,20 @@ class CreateUserPrivilegesTable extends Migration
             $table->boolean('delete')->default(0);
             $table->string('privilege',8)->nullable();
             $table->bigInteger('approver_id')->unsigned();
-            $table->foreign('approver_id')->references('id')->on('users')->onDelete('RESTRICT');
+            $table->foreign('approver_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->index('user_id');
+            $table->index('company_id');
+            $table->index('menu_id');
         });
+
+        DB::unprepared('
+        CREATE OR REPLACE TRIGGER tr_user_privileges_updated_at BEFORE INSERT OR UPDATE ON user_privileges FOR EACH ROW
+            BEGIN
+                :NEW.updated_at := SYSDATE;
+            END;
+        ');
     }
 
     /**

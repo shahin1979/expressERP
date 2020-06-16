@@ -17,8 +17,6 @@ class CreateGeneralLedgersTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
-            $table->bigInteger('cost_center_id')->unsigned()->nullable();
-            $table->foreign('cost_center_id')->references('id')->on('cost_centers')->onDelete('CASCADE');
             $table->string('ledger_code',3)->nullable();
             $table->string('acc_no',8);
             $table->string('acc_name',50);
@@ -87,8 +85,10 @@ class CreateGeneralLedgersTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->unique(array('company_id', 'acc_no'));
+            $table->unique(array('company_id', 'acc_name'));
+            $table->index('company_id');
             $table->index('acc_no');
             $table->index('acc_name');
             $table->index('ledger_code');
@@ -96,12 +96,7 @@ class CreateGeneralLedgersTable extends Migration
 
         });
 
-        DB::unprepared('
-        CREATE OR REPLACE TRIGGER tr_general_ledgers_updated_at BEFORE INSERT OR UPDATE ON general_ledgers FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

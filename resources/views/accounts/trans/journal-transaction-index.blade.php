@@ -75,7 +75,7 @@
 
             $('select[name="grpDebit[]"]').eq(counter).change(function () {
 
-                $.get("{!! url('bp.debit.head')  !!}", {option: $('select[name="grpDebit[]"]').eq(counter).val()},
+                $.get("{!! url('transaction/debit/head')  !!}", {option: $('select[name="grpDebit[]"]').eq(counter).val()},
                     function (data) {
                         var accDr = $('select[name="accDr[]"]').eq(counter);
                         accDr.empty();
@@ -93,7 +93,7 @@
 
             $('select[name="grpCredit[]"]').eq(counter).change(function () {
 
-                $.get("{!! url('br.credit.head')  !!}", {option: $('select[name="grpCredit[]"]').eq(counter).val()},
+                $.get("{!! url('transaction/credit/head')  !!}", {option: $('select[name="grpCredit[]"]').eq(counter).val()},
                     function (data) {
                         var accCr = $('select[name="accCr[]"]').eq(counter);
                         accCr.empty();

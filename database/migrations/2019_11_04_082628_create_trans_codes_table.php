@@ -23,16 +23,12 @@ class CreateTransCodesTable extends Migration
             $table->bigInteger('last_trans_id',false);
             $table->boolean('status')->default(1);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('trans_code');
+            $table->index('company_id');
         });
 
-        DB::unprepared('
-        CREATE OR REPLACE TRIGGER tr_trans_codes_updated_at BEFORE INSERT OR UPDATE ON trans_codes FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

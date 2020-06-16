@@ -15,25 +15,23 @@ class CreateRacksTable extends Migration
     {
         Schema::create('racks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('company_id')->unsigned();
+            $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',60);
-            $table->integer('godown_id')->unsigned()->nullable();
+            $table->bigInteger('godown_id')->unsigned()->nullable();
             $table->foreign('godown_id')->references('id')->on('godowns')->onDelete('CASCADE');
             $table->boolean('status')->default(True);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->index('name');
+            $table->unique(array('company_id', 'name'));
+            $table->index('company_id');
         });
 
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_racks_updated_at BEFORE INSERT OR UPDATE ON racks FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

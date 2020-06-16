@@ -49,13 +49,6 @@ class CreateTransProductsTable extends Migration
             $table->index('product_id');
             $table->index('tr_date');
         });
-
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_trans_products_updated_at BEFORE INSERT OR UPDATE ON trans_products FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
     }
 
     /**

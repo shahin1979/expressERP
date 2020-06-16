@@ -61,17 +61,13 @@ class CreateEmpPersonalsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('name');
             $table->index('employee_id');
+            $table->index('company_id');
         });
 
-        DB::unprepared('
-        CREATE OR REPLACE TRIGGER TR_EMPLOYEE_PERSONALS_UPDATED_AT BEFORE INSERT OR UPDATE ON emp_personals FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**

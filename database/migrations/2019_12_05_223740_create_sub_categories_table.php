@@ -27,18 +27,14 @@ class CreateSubCategoriesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP '));
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->softDeletes();
             $table->index('name');
             $table->index('company_id');
+            $table->unique(array('company_id', 'name'));
         });
 
-        DB::unprepared('
-            CREATE OR REPLACE TRIGGER tr_sub_categories_updated_at BEFORE INSERT OR UPDATE ON sub_categories FOR EACH ROW
-            BEGIN
-                :NEW.updated_at := SYSDATE;
-            END;
-        ');
+
     }
 
     /**
