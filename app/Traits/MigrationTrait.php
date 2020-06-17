@@ -137,11 +137,10 @@ trait MigrationTrait
             $data = $connection->table('transactions')
                 ->select(DB::Raw('distinct voucher_no, j_code'))
                 ->where('comp_code',12)//->where('voucher_no',5100271)
+//                    ->where('trans_date','=','2019-07-02')
                 ->get();
 
-            $inserted_voucher_no = null;
-            $inserted_acc_cr = null;
-            $inserted_acc_dr = null;
+
 
             foreach ($data as $trans)
             {
@@ -155,10 +154,16 @@ trait MigrationTrait
                                             ($trans->j_code == 'ST' ? 'DC' :''
                     )))))));
 
+
+                $inserted_voucher_no = null;
+                $inserted_acc_cr = null;
+                $inserted_acc_dr = null;
+
                 $tr_code =  TransCode::query()->where('company_id',$company_id)
                     ->where('trans_code',$jcode)
                     ->where('fiscal_year','2019-2020')
                     ->lockForUpdate()->first();
+
 
                 $voucher_no = $tr_code->last_trans_id;
 
@@ -167,6 +172,7 @@ trait MigrationTrait
                     ->where('voucher_no',$trans->voucher_no)
                     ->orderBy('acc_cr')
                     ->get();
+
 
 //                dd($trans_all);
 
@@ -391,6 +397,7 @@ trait MigrationTrait
             $error = $e->getMessage();
             return redirect()->back()->with('error','Not Saved '.$error);
         }
+
         DB::commit();
 
         return $count;

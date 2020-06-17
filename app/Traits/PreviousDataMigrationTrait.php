@@ -105,7 +105,7 @@ trait PreviousDataMigrationTrait
             ['company_id'=>$this->company_id,'trans_code'=>'RT','fiscal_year'=>$fyear],
             [
                 'company_id'=>$this->company_id,
-                'trans_code'=>'IR',
+                'trans_code'=>'RT',
                 'trans_name'=>'Item Return',
                 'last_trans_id'=>$yr.'90000001'
             ]

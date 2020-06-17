@@ -192,7 +192,7 @@ class CompanyPropertiesCO extends Controller
 //                    ['company_id'=>$this->company_id,'trans_code'=>'RT'],
 //                    [
 //                        'company_id'=>$this->company_id,
-//                        'trans_code'=>'IR',
+//                        'trans_code'=>'RT',
 //                        'trans_name'=>'Item Return',
 //                        'fiscal_year'=>$fiscal_period,
 //                        'last_trans_id'=>$yr.'90000001'

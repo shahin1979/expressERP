@@ -40,7 +40,7 @@ class DataMigrationCO extends Controller
     {
 
 //        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
-//        $output = $this->trCode($this->company_id);
+        $output = $this->trCode($this->company_id);
 
 
 
