@@ -5,6 +5,8 @@
       <w>costcenter</w>
       <w>fromdate</w>
       <w>glhead</w>
+      <w>godown</w>
+      <w>godowns</w>
       <w>todate</w>
       <w>ymdhmis</w>
     </words>

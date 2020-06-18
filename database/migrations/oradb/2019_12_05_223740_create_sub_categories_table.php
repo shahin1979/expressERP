@@ -21,6 +21,7 @@ class CreateSubCategoriesTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
             $table->string('name', 100);
             $table->string('alias', 50)->nullable();
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
             $table->string('acc_no',8)->nullable();//GL Head for stock debit credit
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');

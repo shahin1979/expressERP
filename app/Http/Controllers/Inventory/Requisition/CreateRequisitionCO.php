@@ -49,6 +49,8 @@ class CreateRequisitionCO extends Controller
     {
         DB::beginTransaction();
 
+        $product = ProductMO::query()->where('company_id',$this->company_id)->get();
+
         try{
 
             $fiscal_year = $this->get_fiscal_year($request['req_date'],$this->company_id);
@@ -79,6 +81,7 @@ class CreateRequisitionCO extends Controller
                     $requisition_item['relationship_id'] = $item['requisition_for'];
                     $requisition_item['tr_date']= $request['req_date'];
                     $requisition_item['product_id'] = $item['item_id'];
+                    $requisition_item['name'] = $product->where('id',$item['item_id'])->first()->name;
                     $requisition_item['quantity'] = $item['quantity'];
                     $requisition_item['remarks'] = $item['remarks'];
 

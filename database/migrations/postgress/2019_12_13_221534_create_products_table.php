@@ -19,32 +19,29 @@ class CreateProductsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',160);
             $table->unsignedBigInteger('product_code');
-            $table->unique(array('company_id', 'product_code'));
-//            $table->integer('relationship_id')->unsigned()->nullable()->index('FK_products_relationships');
-//            $table->foreign('relationship_id')->references('id')->on('relationships')->onDelete('CASCADE');
-            $table->integer('brand_id')->unsigned()->nullable();
+            $table->bigInteger('brand_id')->unsigned()->default(1);
             $table->foreign('brand_id')->references('id')->on('item_brands')->onDelete('CASCADE');
-            $table->integer('category_id')->unsigned();
+            $table->bigInteger('category_id')->unsigned()->default(1);
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
-            $table->integer('subcategory_id')->unsigned()->nullable();
+            $table->bigInteger('subcategory_id')->unsigned()->default(1);
             $table->foreign('subcategory_id')->references('id')->on('sub_categories')->onDelete('CASCADE');
             $table->boolean('multi_unit')->default(0);
             $table->string('unit_name',10);
             $table->string('second_unit',10)->nullable();
             $table->string('third_unit',10)->nullable();
             $table->boolean('variants')->default(0);
-            $table->integer('size_id')->unsigned()->nullable();
+            $table->bigInteger('size_id')->unsigned()->default(1);
             $table->foreign('size_id')->references('id')->on('item_sizes')->onDelete('CASCADE');
-            $table->integer('color_id')->unsigned()->nullable();
+            $table->bigInteger('color_id')->unsigned()->default(1);
             $table->foreign('color_id')->references('id')->on('item_colors')->onDelete('CASCADE');
-            $table->string('sku', 50)->nullable();
-            $table->integer('model_id')->unsigned()->nullable();
+            $table->string('sku', 50);
+            $table->bigInteger('model_id')->unsigned()->default(1);
             $table->foreign('model_id')->references('id')->on('item_models')->onDelete('CASCADE');
-            $table->integer('tax_id')->unsigned()->nullable();
+            $table->bigInteger('tax_id')->unsigned()->default(1);
             $table->foreign('tax_id')->references('id')->on('item_taxes')->onDelete('CASCADE');
-            $table->integer('godown_id')->unsigned()->nullable();
+            $table->bigInteger('godown_id')->unsigned()->default(1);
             $table->foreign('godown_id')->references('id')->on('godowns')->onDelete('CASCADE');
-            $table->integer('rack_id')->unsigned()->nullable();
+            $table->bigInteger('rack_id')->unsigned()->default(1);
             $table->foreign('rack_id')->references('id')->on('racks')->onDelete('CASCADE');
             $table->decimal('initial_price',15,2)->default(0.00);
             $table->decimal('buy_price',15,2)->default(0.00);
@@ -61,7 +58,7 @@ class CreateProductsTable extends Migration
             $table->decimal('on_hand_unit_three',15,2)->default(0);
             $table->date('expiry_date')->nullable();
             $table->decimal('committed',15,2)->default(0);
-            $table->decimal('in_comming',15,2)->default(0);
+            $table->decimal('in_coming',15,2)->default(0);
             $table->decimal('max_online_stock',15,2)->default(0);
             $table->decimal('min_online_order',15,2)->default(0);
             $table->decimal('purchase_qty',15,2)->default(0);
@@ -94,7 +91,7 @@ class CreateProductsTable extends Migration
             $table->boolean('taxable')->unsigned()->default(1);
             $table->boolean('status')->unsigned()->default(1);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
@@ -106,6 +103,7 @@ class CreateProductsTable extends Migration
             $table->index('unit_name');
             $table->unique(array('company_id', 'name'));
             $table->unique(array('company_id','sku'));
+            $table->unique(array('company_id', 'product_code'));
         });
 
 

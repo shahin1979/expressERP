@@ -21,7 +21,9 @@ class CreateItemBrandsTable extends Migration
             $table->string('manufacturer',120)->nullable();
             $table->string('image_path')->nullable();
             $table->boolean('status')->default(true);
-            $table->string('locale',20)->default('en-US')->comments('English, Bangla');
+            $table->char('origin',1)->default('L')->comments('L=>Local, F=>Foreign B=>Both');
+            $table->string('origin',20)->default('en-Local')->comments('Local, Foreign');
+            $table->longText('description')->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

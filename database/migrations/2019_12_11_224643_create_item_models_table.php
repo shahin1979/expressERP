@@ -18,7 +18,7 @@ class CreateItemModelsTable extends Migration
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',50);
-            $table->string('description',50);
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->bigInteger('user_id')->unsigned();

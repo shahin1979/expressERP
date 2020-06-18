@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Inventory\Product\Category;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +16,10 @@ class CategoryCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>52005,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>51005,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
             ]);
+
         return view('inventory.product.product-category-index');
     }
 

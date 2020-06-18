@@ -68,9 +68,10 @@ class ApprovePurchaseCO extends Controller
             ->addColumn('action', function (Purchase $purchase) {
 
 
-                return '
-                    <button  data-remote="approve/' . $purchase->id . '" type="button" class="btn btn-approve btn-xs btn-info"></i> Approve</button><br/>
-                    <button data-remote="reject/' . $purchase->id . '" type="button" class="btn btn-sm btn-delete btn-danger pull-right">Reject  ?</button>
+                return '<div class="btn-unit btn-group-sm" role="group" aria-label="Action Button">
+                    <button  data-remote="approve/' . $purchase->id . '" type="button" class="btn btn-sm btn-approve btn-primary pull-center"><i>Approve</i></button>
+                    <button data-remote="reject/' . $purchase->id . '" type="button" class="btn btn-sm btn-delete btn-danger pull-right"><i>Reject</i></button>
+                    </div>
                     ';
             })
             ->rawColumns(['product','quantity','price','supplier','action'])
@@ -83,7 +84,27 @@ class ApprovePurchaseCO extends Controller
         $period = $this->get_fiscal_data_from_current_date($this->company_id);
         $company_properties = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
-        $p_data = TransProduct::query()->where('ref_id',$id)->where('ref_type','P')->get();
+        $data = TransProduct::query()->where('ref_id',$id)->where('ref_type','P')->get();
+
+        $trans = $data->groupBy('relationship_id')->map(function ($row)  {
+
+            $grouped = Collect();
+
+            $row->amount = $row->sum('total_price');
+            $row->tax = $row->sum('tax_total');
+//            $row->opda = $row->sum('opd_amount');
+
+            $grouped->push($row);
+
+            return $grouped;
+
+        });
+
+
+//        $suppliers = TransProduct::query()->where('ref_id',$id)->where('ref_type','P')
+//            ->select('')
+//
+//        dd($p_data->groupBy('relationship_id'));
 
         // If Accounting Module Then
 
@@ -109,7 +130,7 @@ class ApprovePurchaseCO extends Controller
                 $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
                 $input['trans_date'] = Carbon::now();
                 $input['voucher_no'] = $row->ref_no;
-                $input['acc_no'] = $supplier->ledger_acc_no;
+                $input['acc_no'] = $supplier->count() ?  $supplier->ledger_acc_no : '10112102';
                 $input['ledger_code'] = Str::substr($supplier->ledger_acc_no,0,3);
                 $input['contra_acc'] = $company_properties->default_purchase;
                 $input['dr_amt'] = $row->quantity * $row->unit_price;
@@ -121,7 +142,6 @@ class ApprovePurchaseCO extends Controller
                 $input['trans_desc2'] = $row->ref_id;
                 $input['post_flag'] = false;
                 $input['user_id'] = $this->user_id;
-//                $input['relationship_id'] = $supplier->id;
 
                 $this->transaction_entry($input);
 

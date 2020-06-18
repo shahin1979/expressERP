@@ -2,12 +2,21 @@
 
 namespace App\Models\Inventory\Product;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class ProductMO extends Model
 {
+    use LogsActivity;
+
     protected $table = 'products';
     protected $guarded = ['id', 'created_at','updated_at','deleted_at'];
+
+    protected static $logAttributes = ['*'];
+    protected static $recordEvents = ['updated','deleted'];
+    protected static $logOnlyDirty = true;
+
 
     protected $fillable = [
         'company_id',
@@ -92,6 +101,11 @@ class ProductMO extends Model
     public function rate()
     {
         return $this->hasMany(SalesRateHistory::class,'product_id','id');
+    }
+
+    public function getExpiryDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d-m-Y');
     }
 
 }

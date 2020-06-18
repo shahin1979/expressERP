@@ -20,7 +20,9 @@ class CreateItemBrandsTable extends Migration
             $table->string('name', 50);
             $table->string('manufacturer',120)->nullable();
             $table->string('image_path')->nullable();
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
+            $table->char('origin',1)->default('L')->comments('L=>Local, F=>Foreign B=>Both');
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');

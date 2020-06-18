@@ -134,6 +134,7 @@ class ItemTaxesCO extends Controller
         $itemTax->rate = $request['rate'];
         $itemTax->calculating_mode = $request['calculating_mode'];
         $itemTax->description = $request['description'];
+        $itemTax->acc_no = $request['acc_no'];
 
         DB::begintransaction();
 

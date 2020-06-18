@@ -20,6 +20,7 @@ class CreateRacksTable extends Migration
             $table->string('name',60);
             $table->bigInteger('godown_id')->unsigned()->nullable();
             $table->foreign('godown_id')->references('id')->on('godowns')->onDelete('CASCADE');
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(True);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->bigInteger('user_id')->unsigned();

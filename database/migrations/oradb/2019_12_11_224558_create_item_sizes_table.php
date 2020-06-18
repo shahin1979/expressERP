@@ -18,7 +18,7 @@ class CreateItemSizesTable extends Migration
             $table->integer('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('size',80);
-            $table->string('description',120)->nullable();
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->bigInteger('user_id')->unsigned();

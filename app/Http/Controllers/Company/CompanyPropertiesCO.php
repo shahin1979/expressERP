@@ -203,6 +203,7 @@ class CompanyPropertiesCO extends Controller
 
                 //ADD INITIAL ACCOUNTS OF THE GENERAL LEDGER
 
+
 //                GeneralLedger::query()->updateOrCreate(
 //                    ['company_id'=>$this->company_id,'acc_no'=>'10112100'],
 //                    [

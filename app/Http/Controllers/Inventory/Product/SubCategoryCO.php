@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
 use App\Models\Inventory\Product\Category;
 use App\Models\Inventory\Product\SubCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -19,8 +20,9 @@ class SubCategoryCO extends Controller
             ->where('status',true)->pluck('name','id');
 
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>52010,'user_id'=>$this->user_id
-        ]);
+            ['company_id'=>$this->company_id,'menu_id'=>51010,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
+            ]);
 
         return view('inventory.product.sub-category-index',compact('categories',$categories));
     }

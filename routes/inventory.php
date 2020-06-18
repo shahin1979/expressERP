@@ -47,7 +47,7 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
     Route::get('getBrandDBData','ItemBrandCO@getBrandDBData');
 
     Route::post('itemBrand/update/{id}','ItemBrandCO@update');
-    Route::delete('itemBrand/delete/{id}','ItemBrandCO@destroy');
+    Route::delete('brand/delete/{id}','ItemBrandCO@destroy');
 
 });
 
@@ -108,7 +108,7 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
     Route::get('itemRackIndex','ItemRackCO@index');
     Route::post('itemRackIndex','ItemRackCO@store');
 
-    Route::get('getRackDBData','ItemRackCO@getGodownDBData');
+    Route::get('getRackDBData','ItemRackCO@getRackDBData');
 
     Route::post('itemRack/update/{id}','ItemRackCO@update');
     Route::delete('itemRack/delete/{id}','ItemRackCO@destroy');
@@ -134,12 +134,14 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
     Route::get('productIndex','ProductsCO@index');
     Route::post('productIndex','ProductsCO@store');
 
+    Route::get('category/sub','ProductsCO@getSub');
+
     Route::get('itemSKU','ProductsCO@getSKU');
 
     Route::get('getProductDBData','ProductsCO@getProductsDBData');
 
-    Route::post('products/update/{id}','ProductsCO@update');
-    Route::delete('products/delete/{id}','ProductsCO@destroy');
+    Route::post('item/update/{id}','ProductsCO@update');
+    Route::delete('item/delete/{id}','ProductsCO@destroy');
 
     Route::get('rptProductLedgerIndex','Report\ProductLedgerCO@index');
     Route::get('productList','Report\ProductLedgerCO@autocomplete');
@@ -188,8 +190,12 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
     Route::get('getSupplierInfo','SupplierInfoCO@getSupplierData');
     Route::post('supplierInfoIndex','SupplierInfoCO@store');
 
-    Route::get('purchaseProductIndex','PurchaseProductCO@index');
-    Route::post('purchaseProductIndex','PurchaseProductCO@store');
+    Route::get('purchaseProductIndex','PurchaseProductCO@index'); //Direct Purchase
+    Route::post('direct/save','PurchaseProductCO@store');
+
+    Route::get('productList','PurchaseProductCO@autocomplete');
+
+// Purchase Against Requisition
 
     Route::get('purchaseRequisitionIndex','RequisitionPurchaseCO@index');
 //

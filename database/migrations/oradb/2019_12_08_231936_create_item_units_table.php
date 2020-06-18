@@ -20,6 +20,7 @@ class CreateItemUnitsTable extends Migration
             $table->string('name',10);
             $table->string('formal_name',60)->nullable();
             $table->integer('no_of_decimal_places',false)->default(2);
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->bigInteger('user_id')->unsigned();

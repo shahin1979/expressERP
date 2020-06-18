@@ -172,5 +172,26 @@ class GenericCodeTableSeeder extends Seeder
             'description' => 'Closed',
         ]);
 
+        DB::table('generic_codes')->insert([
+            'table_name' => 'purchases',
+            'field_name' => 'purchase_type',
+            'generic_code' => 'CP',
+            'description' => 'Cash Purchase',
+        ]);
+
+        DB::table('generic_codes')->insert([
+            'table_name' => 'purchases',
+            'field_name' => 'purchase_type',
+            'generic_code' => 'CP',
+            'description' => 'Cash Purchase',
+        ]);
+
+        DB::table('generic_codes')->insert([
+            'table_name' => 'purchases',
+            'field_name' => 'purchase_type',
+            'generic_code' => 'LP',
+            'description' => 'Local Credit Purchase',
+        ]);
+
     }
 }

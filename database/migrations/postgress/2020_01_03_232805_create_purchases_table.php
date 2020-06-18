@@ -31,7 +31,7 @@ class CreatePurchasesTable extends Migration
             $table->decimal('due_amt',15,2)->default(0.00);
             $table->integer('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->char('status',2)->unsigned()->default(1)->comments('CR = created, AP= approved, RC= received, PR= purchased,  DL=delivered, RJ= rejected, RT=>Returned CL=closed');
             $table->char('stock_status',1)->unsigned()->default('A')->comments('A = Available, F=FINISHED');
             $table->integer('user_id')->unsigned();

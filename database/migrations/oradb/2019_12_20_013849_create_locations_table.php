@@ -19,7 +19,7 @@ class CreateLocationsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->char('location_type',10)->nullable()->comment('F=>Factory D=>Employee Duty');
             $table->string('name',200);
-            $table->string('description',240)->nullable();
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(1);
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');

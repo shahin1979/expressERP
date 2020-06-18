@@ -129,6 +129,31 @@
 
     <script>
 
+
+        // Dynamically Select Sub Category
+
+
+        jQuery(document).ready(function ($) {
+            var $select = $('[name="category_id"]');
+
+            $('select[name="category_id"]').change(function () {
+
+//                alert("You have selected the - "+ $(this));
+
+                $.get("{!! url('product/category/sub')  !!}", {option: $('select[name="category_id"]').val()},
+                    function (data) {
+                        var sub = $('select[name="subcategory_id"]');
+                        sub.empty();
+                        $.each(data, function (key, value) {
+                            sub.append($("<option></option>")
+                                .attr("value", key)
+                                .text(value));
+                        });
+                    });
+            });
+        });
+
+
 //Generate Auto sku
         $(function() {
             $('#auto_sku').change(function(e) {
@@ -195,15 +220,42 @@
                     { data: 'on_hand', name: 'on_hand' },
                     // { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
             $(this).on('click', '.btn-product-edit', function (e) {
 
-                // $('#name-for-edit').val($(this).data('name'));
-                // $('#formal-name-for-edit').val($(this).data('formal'));
-                // $('#decimal-for-edit').val($(this).data('decimal'));
-                // $('#id-for-update').val($(this).data('rowid'));
+                $('#name-for-edit').val($(this).data('name'));
+                $('#brand-id-for-update').val($(this).data('brand'));
+                $('#unit-name-for-update').val($(this).data('unit_name'));
+
+                $('#size-id-for-update').val($(this).data('size'));
+                $('#color-id-for-update').val($(this).data('color'));
+                $('#model-id-for-update').val($(this).data('model'));
+                $('#godown-id-for-update').val($(this).data('store'));
+                $('#rack-for-update').val($(this).data('rack'));
+                $('#tax-id-for-update').val($(this).data('tax'));
+                $('#reorder-point-for-update').val($(this).data('reorder'));
+                $('#expiry-date-for-update').val($(this).data('expiry'));
+                $('#description_short-for-update').val($(this).data('description_short'));
+                $('#description_long-for-update').val($(this).data('description_long'));
+                $('#opening-qty-for-update').val($(this).data('opening_qty'));
+                $('#opening-value-for-update').val($(this).data('opening_value'));
+                $('#wholesale_price').val($(this).data('wholesale_price'));
+                $('#retail_price').val($(this).data('retail_price'));
+
+                $('#id-for-update').val($(this).data('rowid'));
+
+                $(this).data('opening_qty') > 0 ? $('.opening-info').remove() : null;
 
                 $('#edit-product').show();
                 $('#products-table').parents('div.dataTables_wrapper').first().hide();
@@ -251,43 +303,41 @@
             $('#top-head').hide();
         });
 
+        $(document).on('click', '.btn-back', function (e) {
+            $('#new-product').hide();
+            $('#products-table').parents('div.dataTables_wrapper').first().show();
+            $('#top-head').show();
+        });
 
 
-        $(document).on('click', '.btn-unit-update', function (e) {
-            e.preventDefault();
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            var url = 'itemUnit/update/' + $('#id-for-update').val();
 
-            // confirm then
-            $.ajax({
-                url: url,
-                type: 'POST',
-                dataType: 'json',
 
-                data: {method: '_POST', submit: true, name:$('#name-for-edit').val(),
-                    formal_name:$('#formal-name-for-edit').val(),
-                    no_of_decimal_places:$('#decimal-for-edit').val(),
-                },
+        $( "#expiry_date" ).datetimepicker({
+            format:'d-m-Y',
+            timepicker: false,
+            closeOnDateSelect: true,
+            scrollInput : false,
+            inline:false,
+        });
 
-                error: function (request, status, error) {
-                    alert(request.responseText);
-                },
+        $( "#expiry-date-for-update" ).datetimepicker({
+            format:'d-m-Y',
+            timepicker: false,
+            closeOnDateSelect: true,
+            scrollInput : false,
+            inline:false,
+        });
 
-                success: function (data) {
-                    $('#edit-unit').hide();
-                    $('#products-table').DataTable().draw(false);
-                    $('#top-head').show();
-                    $('#products-table').parents('div.dataTables_wrapper').first().show();
 
-                }
 
+
+        $(function (){
+            $(document).on("focus", "input:text", function() {
+                $(this).select();
             });
         });
+
 
     </script>
 

@@ -796,7 +796,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'nav_label'=>5,
 //            'menu_type'=>'SM',
 //            'menu_prefix'=>'5A',
-//            'name'=>'Manage Godowns',
+//            'name'=>'Manage Stores',
 //            'show'=>'1',
 //            'url'=>'product/itemGodownIndex',
 //            'status'=>'1',

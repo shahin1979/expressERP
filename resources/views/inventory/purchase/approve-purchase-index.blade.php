@@ -9,25 +9,26 @@
             <li class="breadcrumb-item active">Approve Purchase</li>
         </ol>
     </nav>
+    <div class="container-fluid">
 
     <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
-        <table class="table table-bordered table-hover table-responsive table-striped-formatted" id="purchase-table">
-            <thead style="background-color: #b8d1f3">
-            <tr>
-                <th>PR No</th>
-                <th>PR Date</th>
-                <th>Supplier</th>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Unit Price</th>
-                <th>Created By</th>
-                <th>Action</th>
-            </tr>
+        <table class="table table-bordered table-hover table-responsive" id="purchase-table">
+            <thead style="background-color: #b0b0b0">
+                <tr>
+                    <th>PR No</th>
+                    <th>PR Date</th>
+                    <th>Supplier</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Created By</th>
+                    <th>Action</th>
+                </tr>
             </thead>
         </table>
     </div>
 
-
+    </div>
 
 
 @endsection
@@ -52,7 +53,17 @@
                     {data: 'price', name: 'price'},
                     {data: 'user.name', name: 'user.name'},
                     {data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                orderBy: ['1'],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
 

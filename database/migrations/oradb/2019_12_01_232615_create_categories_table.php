@@ -22,6 +22,7 @@ class CreateCategoriesTable extends Migration
             $table->string('alias', 100)->nullable();
             $table->boolean('has_sub')->default(1);
             $table->string('acc_no',8)->nullable();//GL Head for stock debit credit
+            $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->decimal('inventory_amt',15,2)->default(0)->comment('Current balance * avg unit price'); //Amount calculated by current balance*avg unit proce
