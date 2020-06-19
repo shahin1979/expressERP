@@ -91,7 +91,7 @@
                                     @if($row->tr_code=== 'PR' and $row->cr_amt > 0)
                                         <td>
                                             @foreach($row->purchase->items as $desc)
-                                                @if( (isset($desc->supplier->ledger_acc_no) ? $desc->supplier->ledger_acc_no : $users_company->default_cash)  === $row->acc_no)
+                                                @if($desc->supplier->ledger_acc_no  === $row->acc_no)
                                                 Purchase : {!! $desc->item->name !!} Qty: {!! $desc->quantity !!}@ {!! $desc->unit_price !!}<br/>
                                                 @endif
                                             @endforeach

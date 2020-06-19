@@ -30,7 +30,7 @@
     <div class="row" id="top-head">
         <div class="col-md-4">
             <div class="pull-left">
-                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-print"></i>Back</button>
+                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-backward"></i>Back</button>
             </div>
         </div>
     </div>
@@ -150,10 +150,10 @@
 //
                         var trHTML = '';
                         $.each(data, function (i, item) {
-
+                            var $supplier = item.relationship_id == 0 ? 'Cash Purchase' : item.supplier.name;
                             trHTML += '<tr class="invoice_items">' +
                                 '<td align="right">' + item.item.name +'</td>' +
-                                '<td align="right">' + item.supplier.name +'</td>' +
+                                '<td align="right">' + $supplier +'</td>' +
                                 '<td align="right">' + item.quantity +'</td>' +
                                 '<td align="right"><input name="item[' + i + '][receive]" class="form-control inp-receive text-right" type="text" id="receive" value="'+ item.quantity +'"></td>' +
                                 '<td align="right"><input name="item[' + i + '][return]" class="form-control inp-return text-right" type="text" id="return" value="'+ 0 +'"></td>' +

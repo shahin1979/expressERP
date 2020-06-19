@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory\Receives;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use App\Models\Company\TransCode;
 use App\Models\Inventory\Movement\ProductHistory;
 use App\Models\Inventory\Movement\Purchase;
@@ -22,13 +23,20 @@ class ReceiveAgainstPurchaseCO extends Controller
 
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>54002,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
+            ]);
+
         return view('inventory.receives.receive-purchase-index');
     }
 
     public function getData()
     {
         $query = Purchase::query()->where('company_id',$this->company_id)
-            ->where('status','PR')->with('items')->with('user')->select('purchases.*');
+            ->where('status','AP')
+            ->with('items')
+            ->with('user')->select('purchases.*');
 
 
         return DataTables::eloquent($query)
@@ -40,7 +48,7 @@ class ReceiveAgainstPurchaseCO extends Controller
 
             ->addColumn('supplier', function ($query) {
                 return $query->items->map(function($items) {
-                    return $items->supplier->name;
+                    return $items->relationship_id ==0 ? 'Cash Purchase' : $items->supplier->name;
                 })->implode('<br>');
             })
 

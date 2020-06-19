@@ -31,8 +31,9 @@ class PurchaseProductCO extends Controller
         $suppliers = Relationship::query()->where('company_id',$this->company_id)
             ->where('relation_type','LS')
             ->orderBy('name')
-            ->pluck('name','id')
-            ->prepend('Cash Purchase', '0');
+            ->pluck('name','id');
+
+
 
         $taxes = ItemTax::query()->where('company_id',$this->company_id)
             ->orderBy('name')

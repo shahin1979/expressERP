@@ -71,8 +71,8 @@ class ApprovePurchaseCO extends Controller
 
 
                 return '<div class="btn-unit btn-group-sm" role="group" aria-label="Action Button">
-                    <button  data-remote="approve/' . $purchase->id . '" type="button" class="btn btn-sm btn-approve btn-primary pull-center"><i>Approve</i></button>
-                    <button data-remote="reject/' . $purchase->id . '" type="button" class="btn btn-sm btn-delete btn-danger pull-right"><i>Reject</i></button>
+                    <button  data-remote="approve/' . $purchase->id . '" type="button" class="btn btn-sm btn-approve btn-primary"><i>Approve</i></button>
+                    <button data-remote="reject/' . $purchase->id . '" type="button" class="btn btn-sm btn-delete btn-danger"><i>Reject</i></button>
                     </div>
                     ';
             })

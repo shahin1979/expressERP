@@ -25,18 +25,19 @@
             </div>
         </div>
 
-
-        <div class="row dataTables_wrapper" style="overflow-x:auto;">
-            <table class="table table-bordered table-hover table-striped" id="suppliers-table">
+{{--        <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">--}}
+{{--            <table class="table table-bordered table-hover table-responsive" id="units-table">--}}
+        <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
+            <table class="table table-bordered table-hover" id="suppliers-table">
                 <thead style="background-color: #b0b0b0">
-                <tr class="table-success">
+                <tr>
                     <th>Name</th>
                     <th>GL Account</th>
                     <th>Address </th>
                     <th>City</th>
                     <th>Phone No</th>
                     <th>Status</th>
-                    <th style="width: 12%">Action</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
             </table>
@@ -156,7 +157,7 @@
                     { data: 'address', name: 'address' },
                     { data: 'city', name: 'city' },
                     { data: 'phone_number', name: 'phone_number' },
-                    { data: 'status', name: 'status', orderable: false, searchable: false, printable: false},
+                    { data: 'status', name: 'status'},
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
             });
