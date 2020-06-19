@@ -34,7 +34,9 @@ class PurchaseProductCO extends Controller
             ->pluck('name','id')
             ->prepend('Cash Purchase', '0');
 
-        $taxes = ItemTax::query()->where('company_id',$this->company_id)->pluck('name','id');
+        $taxes = ItemTax::query()->where('company_id',$this->company_id)
+            ->orderBy('name')
+            ->pluck('name','id');
 
         return view('inventory.purchase.purchase-product-index',compact('suppliers','taxes'));
     }
@@ -53,14 +55,10 @@ class PurchaseProductCO extends Controller
     public function store(Request $request)
     {
 
-//        dd($request->all());
         DB::beginTransaction();
 
         try{
-
             $fiscal_year = $this->get_fiscal_year($request['invoice_date'],$this->company_id);
-
-//            dd($fiscal_year);
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','PR')
@@ -71,7 +69,6 @@ class PurchaseProductCO extends Controller
 
             $request['company_id'] = $this->company_id;
             $request['ref_no'] = $pur_no;
-//            $request['contra_ref'] = $request['contra_ref'];
             $request['invoice_date'] = Carbon::createFromFormat('d-m-Y', $request['invoice_date'])->format('Y-m-d');
             $request['due_amt'] = $request['invoice_amt'] - $request['paid_amt'] - $request['discount'];
             $request['discount_amt'] = $request['discount'];
@@ -101,7 +98,6 @@ class PurchaseProductCO extends Controller
                         $purchase_item['total_price'] = $item['quantity']*$item['price'] + $item['tax_amt'];
 
                         TransProduct::query()->create($purchase_item);
-
                     }
                 }
             }

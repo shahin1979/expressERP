@@ -122,58 +122,57 @@ trait TransactionsTrait
 //            'user_id' => $input['user_id']
 //        ]);
 
+        $id = null;
 
-        Transaction::query()->create($input);
+            if($input['trans_amt'] > 0)
+            {
+                $id = Transaction::query()->create($input);
+
+                if($input['dr_amt'] > 0)
+                {
+                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                        ->where('company_id',$this->company_id)
+                        ->increment('dr_00', $input['dr_amt']);
+
+                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                        ->where('company_id',$this->company_id)
+                        ->increment('curr_bal', $input['dr_amt']);
+
+                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                        ->where('company_id',$this->company_id)
+                        ->where('is_group',true)
+                        ->increment('dr_00', $input['dr_amt']);
 
 
-        if($input['dr_amt'] > 0)
-        {
-            GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                ->where('company_id',$this->company_id)
-                ->increment('dr_00', $input['dr_amt']);
-
-            GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                ->where('company_id',$this->company_id)
-                ->increment('curr_bal', $input['dr_amt']);
-
-
-            GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                ->where('company_id',$this->company_id)
-                ->where('is_group',true)
-                ->increment('dr_00', $input['dr_amt']);
-
-
-            GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                ->where('company_id',$this->company_id)
-                ->where('is_group',true)
-                ->increment('curr_bal', $input['dr_amt']);
-        }
+                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                        ->where('company_id',$this->company_id)
+                        ->where('is_group',true)
+                        ->increment('curr_bal', $input['dr_amt']);
+                }
 //
-        if($input['cr_amt'] > 0)
-        {
-            GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                ->where('company_id',$this->company_id)
-                ->increment('cr_00', $input['cr_amt']);
+                if($input['cr_amt'] > 0)
+                {
+                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                        ->where('company_id',$this->company_id)
+                        ->increment('cr_00', $input['cr_amt']);
 
-            GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                ->where('company_id',$this->company_id)
-                ->decrement('curr_bal', $input['cr_amt']);
+                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                        ->where('company_id',$this->company_id)
+                        ->decrement('curr_bal', $input['cr_amt']);
 
+                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                        ->where('company_id',$this->company_id)
+                        ->where('is_group',true)
+                        ->increment('cr_00', $input['cr_amt']);
 
-            GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                ->where('company_id',$this->company_id)
-                ->where('is_group',true)
-                ->increment('cr_00', $input['cr_amt']);
+                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                        ->where('company_id',$this->company_id)
+                        ->where('is_group',true)
+                        ->decrement('curr_bal', $input['cr_amt']);
 
-
-            GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                ->where('company_id',$this->company_id)
-                ->where('is_group',true)
-                ->decrement('curr_bal', $input['cr_amt']);
-
-        }
-
-    return $input;
+                }
+            }
+    return $id;
 
     }
 

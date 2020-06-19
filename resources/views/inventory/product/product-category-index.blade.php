@@ -24,7 +24,7 @@
 
             <div class="col-md-4">
                 <div class="pull-left">
-                    <button type="button" class="btn btn-category-add btn-primary"><i class="fa fa-plus"></i>New Group</button>
+                    <button type="button" class="btn btn-category-add btn-primary"><i class="fa fa-plus"></i>New Category</button>
                 </div>
             </div>
             <div class="col-md-4">
@@ -40,8 +40,8 @@
                 <thead style="background-color: #b0b0b0">
                     <tr>
                         <th>Name</th>
-                        <th>Ledger Code </th>
-                        <th>Ledger Value</th>
+{{--                        <th>Ledger Code </th>--}}
+                        <th>Stock Value</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -49,8 +49,17 @@
             </table>
         </div>
 
+        <div class="col-md-5" id="back-section">
+            <div class="pull-left">
+                <button type="button" id="btn-back" class="btn btn-primary btn-back"><i class="fa fa-backward"></i>Back</button>
+            </div>
+        </div>
+
         {!! Form::open(['url'=>'product/categoryIndex','method'=>'POST']) !!}
         <div id="new-category" class="col-md-8">
+
+
+
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
                 <tr>
@@ -59,14 +68,23 @@
                 </tr>
                 <tr>
                     <td><label for="group_name">Has Sub Category ?</label></td>
-                    <td><input type="checkbox" name="sub_category" data-toggle="toggle" data-onstyle="primary"></td>
+                    <td><input id="has_sub" type="checkbox" name="sub_category" data-toggle="toggle" data-onstyle="primary" data-on="Yes" data-off="No" checked></td>
                 </tr>
-                @if($comp_modules->contains('module_id',4))
-                <tr>
-                    <td><label for="group_name">GL Account No</label></td>
-                    <td><input id="acc_no" type="text" class="form-control" name="acc_no" value=""></td>
-                </tr>
-                @endif
+
+{{--                @if($comp_modules->contains('module_id',4))--}}
+                    <div id="account">
+                        <tr class="acc_in">
+                            <td><label for="acc_in_stock">Stock In Account No</label></td>
+                            <td><input id="acc_in_stock" type="text" class="form-control" name="acc_in_stock" value=""></td>
+                        </tr>
+
+                        <tr class="acc_out">
+                            <td><label for="acc_out_stock">Stock Out Account</label></td>
+                            <td><input id="acc_out_stock" type="text" class="form-control" name="acc_out_stock" value=""></td>
+                        </tr>
+                    </div>
+{{--                @endif--}}
+
                 </tbody>
 
                 <tfoot>
@@ -83,20 +101,11 @@
         <div id="edit-category" class="col-md-8">
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
-                <tr>
-                    <td><label for="name" class="control-label">Category Name</label></td>
-                    <td><input id="name_for_edit" type="text" class="form-control" name="name_for_edit" value="" required autofocus></td>
-                </tr>
-                <tr>
-                    <td><label for="group_name">Has Sub Category ?</label></td>
-                    <td><input type="checkbox" id="sub_category_for_edit" name="sub_category_for_edit" data-toggle="toggle" data-onstyle="primary"></td>
-                </tr>
-                @if($comp_modules->contains('module_id',4))
                     <tr>
-                        <td><label for="group_name">GL Account No</label></td>
-                        <td><input id="acc_no_for_edit" type="text" class="form-control" name="acc_no_for_edit" value=""></td>
+                        <td><label for="name_for_edit" class="control-label">Category Name</label></td>
+                        <td><input id="name_for_edit" type="text" class="form-control" name="name_for_edit" value="" required autofocus></td>
                     </tr>
-                @endif
+
                 </tbody>
                 <input id="id_for_update" type="hidden" name="id_for_update"/>
                 <tfoot>
@@ -117,11 +126,29 @@
 
     <script>
 
+        $('.acc_in').hide();
+        $('.acc_out').hide();
+
+
+        $(function() {
+            $('#has_sub').change(function() {
+                if ($('#has_sub').is(":checked"))
+                {
+                    $('.acc_in').hide();
+                    $('.acc_out').hide();
+                }else{
+                    $('.acc_in').show();
+                    $('.acc_out').show();
+                }
+            })
+        })
+
+
         $(document).ready(function(){
 
             $('#new-category').hide();
             $('#edit-category').hide();
-
+            // $('#back-section').hide();
         });
 
         $(function() {
@@ -133,7 +160,8 @@
                 ajax: 'getCategoryData',
                 columns: [
                     { data: 'name', name: 'name' },
-                    { data: 'acc_no', name: 'acc_no' },
+                    // { data: 'stock_in_acc', name: 'stock_in_acc' },
+                    // { data: 'stock_out_acc', name: 'stock_out_acc' },
                     { data: 'acc_balance', name: 'acc_balance' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
@@ -143,13 +171,14 @@
             $(this).on('click', '.btn-category-edit', function (e) {
 
                 $('#name_for_edit').val($(this).data('name'));
-                $('#acc_no_for_edit').val($(this).data('acc-no'));
+                // $('#acc_no_for_edit').val($(this).data('acc-no'));
                 $('#id_for_update').val($(this).data('rowid'));
 
-                $(this).data('sub') == true ? $('#sub_category_for_edit').bootstrapToggle('on') : '';
-                $(this).data('sub') == true ? $("#sub_category_for_edit").prop("checked", true) : '';
+                // $(this).data('sub') == true ? $('#sub_category_for_edit').bootstrapToggle('on') : '';
+                // $(this).data('sub') == true ? $("#sub_category_for_edit").prop("checked", true) : '';
 
                 $('#edit-category').show();
+                $('#back-section').show();
                 $('#categories-table').parents('div.dataTables_wrapper').first().hide();
                 $('#top-head').hide();
             });
@@ -176,7 +205,8 @@
                     data: {method: '_DELETE', submit: true},
 
                     error: function (request, status, error) {
-                        alert(request.responseText);
+                        var myObj = JSON.parse(request.responseText);
+                        alert(myObj.error);
                     },
 
                 }).always(function (data) {
@@ -191,9 +221,18 @@
 
         $(document).on('click', '.btn-category-add', function (e) {
             $('#new-category').show();
+            // $('#back-section').show();
             $('#categories-table').parents('div.dataTables_wrapper').first().hide();
             $('#top-head').hide();
         });
+
+        $(document).on('click', '.btn-back', function (e) {
+            $('#new-category').hide();
+            $('#back-section').hide();
+            $('#categories-table').parents('div.dataTables_wrapper').first().show();
+            $('#top-head').show();
+        });
+
 
         $(document).on('click', '.btn-category-update', function (e) {
             e.preventDefault();
@@ -207,10 +246,10 @@
             var url = 'category/update/' + $('#id_for_update').val();
             var chk = 0;
 
-            if ($('#sub_category_for_edit').is(":checked"))
-            {
-                chk = 1;
-            }
+            // if ($('#sub_category_for_edit').is(":checked"))
+            // {
+            //     chk = 1;
+            // }
 
             // confirm then
             $.ajax({
@@ -218,12 +257,13 @@
                 type: 'POST',
                 dataType: 'json',
 
-                data: {method: '_POST', submit: true, ACC_NO:$('#acc_no_for_edit').val(),
-                    NAME:$('#name_for_edit').val(), HAS_SUB:chk,
+                data: {method: '_POST', submit: true,
+                    name:$('#name_for_edit').val(),
                 },
 
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    var myObj = JSON.parse(request.responseText);
+                    alert(myObj.error);
                 },
 
                 success: function (data) {

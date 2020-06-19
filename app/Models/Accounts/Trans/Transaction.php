@@ -4,7 +4,9 @@ namespace App\Models\Accounts\Trans;
 
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\TransType;
+use App\Models\Company\Relationship;
 use App\Models\Company\TransCode;
+use App\Models\Inventory\Movement\Purchase;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -74,5 +76,15 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class,'voucher_no','ref_no');
+    }
+
+//    public function supplier()
+//    {
+//        return $this->belongsTo(Relationship::class,'acc_no','ledger_acc_no');
+//    }
 
 }

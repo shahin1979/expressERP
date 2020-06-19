@@ -36,12 +36,13 @@ class SubCategoryCO extends Controller
 
                 return '<div class="btn-category btn-group-sm" role="group" aria-label="Action Button">
                     <button data-remote="view/'.$sbcs->id.'"  type="button" class="btn btn-view btn-sm btn-success"><i class="fa fa-book-open">View</i></button>
-                    <button data-remote="edit/' . $sbcs->id . '" data-rowid="'. $sbcs->id . '"
+                    <button data-rowid="'. $sbcs->id . '"
                         data-category="'. $sbcs->category_id . '"
                         data-name="'. $sbcs->name . '"
-                        data-ledger="'. $sbcs->acc_no . '"
-                        type="button" class="btn btn-sm btn-category-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
-                    <button data-remote="subcategory/delete/'.$sbcs->id.'"  type="button" class="btn btn-category-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                        data-receive="'. $sbcs->acc_in_stock . '"
+                        data-delivery="'. $sbcs->acc_out_stock . '"
+                        type="button" class="btn btn-sm btn-sub-category-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
+                    <button data-remote="subcategory/delete/'.$sbcs->id.'"  type="button" class="btn btn-sub-category-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>
 
                     ';
@@ -60,9 +61,10 @@ class SubCategoryCO extends Controller
             $ids = SubCategory::query()->create([
                 'company_id' => $this->company_id,
                 'category_id'=>$request['category_id'],
-                'name' => Str::upper($request['name']),
+                'name' => $request['name'],
                 'status' => true,
-                'acc_no' =>$request->filled('acc_no') ? $request['acc_no'] : null,
+                'acc_in_stock' =>$request->filled('acc_in_stock') ? $request['acc_in_stock'] : null,
+                'acc_out_stock' =>$request->filled('acc_out_stock') ? $request['acc_out_stock'] : null,
                 'user_id' => $this->user_id
             ]);
 
@@ -80,16 +82,19 @@ class SubCategoryCO extends Controller
 
     public function update(Request $request, $id)
     {
-//        $updateCategory = Category::query()->find($id);
-//        $updateCategory->name = $request['name'];
-//        $updateCategory->has_sub = $request['HAS_SUB'] == 1 ? true : false;
-//        $updateCategory->acc_no = $request['ACC_NO'];
+        $category = SubCategory::query()->find($id);
+
+        $category->name = $request['name'];
+        $category->acc_in_stock = $request['acc_in_stock'];
+        $category->acc_out_stock = $request['acc_out_stock'];
+
+//        dd($request->all());
 
         DB::begintransaction();
 
         try {
 
-//            $updateCategory->save();
+            $category->save();
 
         }catch (\Exception $e)
         {
@@ -100,26 +105,19 @@ class SubCategoryCO extends Controller
 
         DB::commit();
 
-        return response()->json(['success'=>'Category Updated Successfully'],200);
+        return response()->json(['success'=>'Sub Category Updated Successfully'],200);
 
     }
 
 
     public function destroy($id)
     {
-//        $updateCategory = Category::query()->find($id);
-
-//        $ledger_code = Category::query()->where('id',$id)->first();
-//        if (Category::query()->where('ledger_code',$ledger_code->ledger_code)->where('is_group',false)->exists())
-//        {
-//            return response()->json(['error' => 'Child Record Exist. Not Possible To Delete'], 404);
-//        }
-
+//
         DB::begintransaction();
 
         try {
 
-            Category::query()->find($id)->delete();
+            SubCategory::query()->find($id)->delete();
 
         }catch (\Exception $e)
         {

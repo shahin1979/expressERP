@@ -73,9 +73,13 @@ class RequisitionPurchaseCO extends Controller
         $suppliers = Relationship::query()->where('company_id',$this->company_id)
             ->where('relation_type','LS')
             ->orderBy('name')
+            ->pluck('name','id')
+            ->prepend('Cash Purchase', '0');
+
+        $taxes = ItemTax::query()->where('company_id',$this->company_id)
+            ->orderBy('name')
             ->pluck('name','id');
 
-        $taxes = ItemTax::query()->where('company_id',$this->company_id)->pluck('name','id');
 
         $requisitions = Requisition::query()->where('id',$id)->with('items')->first();
 
@@ -194,6 +198,7 @@ class RequisitionPurchaseCO extends Controller
                     $purchase_item['quantity'] = $item['quantity'];
                     $purchase_item['purchased'] = $item['quantity'];
                     $purchase_item['unit_price'] = $item['price'];
+                    $purchase_item['tax_id'] = $item['tax'];
                     $purchase_item['tax_total'] = $item['tax_amt'];
                     $purchase_item['total_price'] = $item['quantity']*$item['price'] + $item['tax_amt'];
 

@@ -30,7 +30,7 @@
     <div class="row" id="top-head">
         <div class="col-md-4">
             <div class="pull-left">
-                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-print"></i>Back</button>
+                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-backward"></i>Back</button>
             </div>
         </div>
     </div>

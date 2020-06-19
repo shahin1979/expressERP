@@ -62,11 +62,18 @@ class DailyTransactionReportCO extends Controller
                     {
                     $date_from = Carbon::createFromFormat('d-m-Y',$request['date_from'])->format('Y-m-d');
                     $date_to = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-d');
+//                    $company_id = $this->company_id;
                     $trans = Transaction::query()->where('company_id',$this->company_id)
                         ->whereBetween('trans_date',[$date_from,$date_to])
+                        ->with(['purchase'=>function($q)  {
+                            // Query the name field in status table
+                            $q->where('company_id', $this->company_id);
+                        }])
                         ->orderBy('trans_date')
                         ->orderBy('voucher_no','ASC')
                         ->get();
+
+//                    dd($trans);
 
                     $dates = $trans->unique('trans_date');
                     $params = collect();

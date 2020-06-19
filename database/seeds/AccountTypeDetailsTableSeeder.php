@@ -65,6 +65,13 @@ class AccountTypeDetailsTableSeeder extends Seeder
             'description'=>'Accounts Payable'
         ] );
 
+        AccountTypeDetail::create( [
+            'id'=>6,
+            'account_type_id'=>2,
+            'type_code'=>24,
+            'description'=>'Inventory Purchase'
+        ] );
+
 
 
         AccountTypeDetail::create( [

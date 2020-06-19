@@ -263,11 +263,11 @@ class CompanyPropertiesCO extends Controller
 //                GeneralLedger::query()->updateOrCreate(
 //                    ['company_id'=>$this->company_id,'acc_no'=>'40112100'],
 //                    [
-//                        'ledger_code'=>'401',
+//                        'ledger_code'=>'201',
 //                        'acc_name'=>'PURCHASE ACCOUNT',
-//                        'acc_type'=>'E',
-//                        'type_code'=>41,
-//                        'acc_range'=>'40112999',
+//                        'acc_type'=>'L',
+//                        'type_code'=>24,
+//                        'acc_range'=>'20112999',
 //                        'is_group'=>true,
 //                        'currency'=>$currency,
 //                        'user_id'=>$this->user_id

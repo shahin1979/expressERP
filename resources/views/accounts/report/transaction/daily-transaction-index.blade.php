@@ -87,7 +87,18 @@
                                 <td>{!! $row->tr_code !!}</td>
                                 <td>{!! $row->acc_no !!}</td>
                                 <td>{!! isset($row->account->acc_name) ? $row->account->acc_name : null  !!}</td>
-                                <td>{!! $row->trans_desc1 !!}</td>
+
+                                    @if($row->tr_code=== 'PR' and $row->cr_amt > 0)
+                                        <td>
+                                            @foreach($row->purchase->items as $desc)
+                                                @if( (isset($desc->supplier->ledger_acc_no) ? $desc->supplier->ledger_acc_no : $users_company->default_cash)  === $row->acc_no)
+                                                Purchase : {!! $desc->item->name !!} Qty: {!! $desc->quantity !!}@ {!! $desc->unit_price !!}<br/>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                    @else
+                                        <td>{!! $row->trans_desc1 !!}</td>
+                                    @endif
                                 <td style="text-align: right">{!! number_format($row->dr_amt,2) !!}</td>
                                 <td style="text-align: right">{!! number_format($row->cr_amt,2) !!}</td>
                                 <td>{!! $row->user->name !!}</td>

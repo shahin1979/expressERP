@@ -70,7 +70,7 @@
                         </td>
 
                         <td>
-                            {!! Form::select('item[' . $item_row . '][supplier_id]',$suppliers , null, ['id'=> 'item-supplier-id-'. $item_row, 'class' => 'form-control', 'placeholder' => 'Please Select']) !!}
+                            {!! Form::select('item[' . $item_row . '][supplier_id]',$suppliers , null, ['id'=> 'item-supplier-id-'. $item_row, 'class' => 'form-control']) !!}
                         </td>
 
                         <td>
@@ -80,7 +80,7 @@
                             <input class="form-control text-right" required="required" name="item[{{ $item_row }}][price]" type="text" id="item-price-{{ $item_row }}" value="0">
                         </td>
                         <td>
-                            {!! Form::select('item[' . $item_row . '][tax]',$taxes , null, ['id'=> 'item-tax-'. $item_row, 'class' => 'form-control', 'placeholder' => 'Please Select']) !!}
+                            {!! Form::select('item[' . $item_row . '][tax]',$taxes , null, ['id'=> 'item-tax-'. $item_row, 'class' => 'form-control']) !!}
                             <input name="item[{{ $item_row }}][tax_amt]" type="hidden" id="tax-amt-{{ $item_row }}" value="">
                         </td>
                         <td class="text-right" style="vertical-align: middle;">

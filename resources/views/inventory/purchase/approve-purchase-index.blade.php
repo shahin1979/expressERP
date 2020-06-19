@@ -87,11 +87,13 @@
                     data: {method: '_POST', submit: true},
 
                     error: function (request, status, error) {
-                        alert(request.responseText);
+                        // alert(request.responseText);
+                        var myObj = JSON.parse(request.responseText);
+                        alert(myObj.message + ' ' + myObj.error);
                     },
 
                 }).always(function (data) {
-                    alert(data.success);
+                    // alert(data.success);
                     $('#purchase-table').DataTable().draw(true);
                 })
 

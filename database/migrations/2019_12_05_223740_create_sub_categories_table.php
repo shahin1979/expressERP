@@ -23,7 +23,8 @@ class CreateSubCategoriesTable extends Migration
             $table->string('alias', 50)->nullable();
             $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
-            $table->string('acc_no',8)->nullable();//GL Head for stock debit credit
+            $table->string('acc_in_stock',8)->nullable();//GL Head for stock purchase
+            $table->string('acc_out_stock',8)->nullable();//GL Head for stock out as consumption/sale
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');

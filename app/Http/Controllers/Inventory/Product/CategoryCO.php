@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Inventory\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
+use App\Models\Inventory\Product\ProductMO;
+use App\Models\Inventory\Product\SubCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Inventory\Product\Category;
@@ -57,10 +59,23 @@ class CategoryCO extends Controller
                 'company_id' => $this->company_id,
                 'name' => Str::upper($request['name']),
                 'status' => true,
-                'has_sub' => $request->has('sub_category') ? true : false,
-                'acc_no' =>$request['acc_no'],
+                'has_sub' => $request->has('sub_category'),
+//                'acc_no' =>$request['acc_no'],
                 'user_id' => $this->user_id
             ]);
+
+            if(!$request->has('sub_category'))
+            {
+                SubCategory::query()->create([
+                    'company_id' => $this->company_id,
+                    'category_id'=>$ids->id,
+                    'name' => $request['name'],
+                    'status' => true,
+                    'acc_in_stock' =>$request->filled('acc_in_stock') ? $request['acc_in_stock'] : null,
+                    'acc_out_stock' =>$request->filled('acc_out_stock') ? $request['acc_out_stock'] : null,
+                    'user_id' => $this->user_id
+                ]);
+            }
 
         }catch (\Exception $e)
         {
@@ -78,8 +93,6 @@ class CategoryCO extends Controller
     {
         $updateCategory = Category::query()->find($id);
         $updateCategory->name = $request['name'];
-        $updateCategory->has_sub = $request['has_sub'] == 1 ? true : false;
-        $updateCategory->acc_no = $request['acc_no'];
 
         DB::begintransaction();
 
@@ -105,11 +118,11 @@ class CategoryCO extends Controller
     {
 //        $updateCategory = Category::query()->find($id);
 
-//        $ledger_code = Category::query()->where('id',$id)->first();
-//        if (Category::query()->where('ledger_code',$ledger_code->ledger_code)->where('is_group',false)->exists())
-//        {
-//            return response()->json(['error' => 'Child Record Exist. Not Possible To Delete'], 404);
-//        }
+        $category = Category::query()->where('id',$id)->first();
+        if (ProductMO::query()->where('company_id',$this->company_id)->where('category_id',$id)->exists())
+        {
+            return response()->json(['error' => 'Child Record Exist. Not Possible To Delete'], 404);
+        }
 
         DB::begintransaction();
 

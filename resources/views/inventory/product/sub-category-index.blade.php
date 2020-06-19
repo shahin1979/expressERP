@@ -41,7 +41,8 @@
                 <tr>
                     <th>Category</th>
                     <th>Name</th>
-                    <th>Ledger Code </th>
+                    <th>Stock In Account</th>
+                    <th>Stock Out Account</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -63,10 +64,23 @@
                 </tr>
 
                 @if($comp_modules->contains('module_id',4))
-                    <tr>
-                        <td><label for="group_name">GL Account No</label></td>
-                        <td><input id="acc_no" type="text" class="form-control" name="acc_no" value=""></td>
-                    </tr>
+
+                    <div id="account">
+                        <tr class="acc_in">
+                            <td><label for="acc_in_stock">Stock In Account No</label></td>
+                            <td><input id="acc_in_stock" type="text" class="form-control" name="acc_in_stock" value=""></td>
+                        </tr>
+
+                        <tr class="acc_out">
+                            <td><label for="acc_out_stock">Stock Out Account</label></td>
+                            <td><input id="acc_out_stock" type="text" class="form-control" name="acc_out_stock" value=""></td>
+                        </tr>
+                    </div>
+
+{{--                    <tr>--}}
+{{--                        <td><label for="group_name">GL Account No</label></td>--}}
+{{--                        <td><input id="acc_no" type="text" class="form-control" name="acc_no" value=""></td>--}}
+{{--                    </tr>--}}
                 @endif
                 </tbody>
 
@@ -84,20 +98,28 @@
         <div id="edit-sub-category" class="col-md-8">
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
-                <tr>
-                    <td><label for="category_id" class="control-label">Category Name</label></td>
-                    <td>{!! Form::select('category_id',$categories,null,array('id'=>'category-id-for-edit','class'=>'form-control','autofocus','required')) !!}</td>
-                </tr>
+{{--                <tr>--}}
+{{--                    <td><label for="category_id" class="control-label">Category Name</label></td>--}}
+{{--                    <td>{!! Form::select('category_id',$categories,null,array('id'=>'category-id-for-edit','class'=>'form-control','autofocus','required')) !!}</td>--}}
+{{--                </tr>--}}
                 <tr>
                     <td><label for="name" class="control-label">Name</label></td>
                     <td><input id="name-for-edit" type="text" class="form-control" name="name" value="" required autofocus></td>
                 </tr>
 
                 @if($comp_modules->contains('module_id',4))
-                    <tr>
-                        <td><label for="group_name">GL Account No</label></td>
-                        <td><input id="acc-no-for-edit" type="text" class="form-control" name="acc_no" value=""></td>
-                    </tr>
+
+                    <div id="account">
+                        <tr class="acc_in">
+                            <td><label for="acc-in-stock-edit">Stock In Account No</label></td>
+                            <td><input id="acc-in-stock-edit" type="text" class="form-control" name="acc-in-stock-edit" value=""></td>
+                        </tr>
+
+                        <tr class="acc_out">
+                            <td><label for="acc-out-stock-edit">Stock Out Account</label></td>
+                            <td><input id="acc-out-stock-edit" type="text" class="form-control" name="acc-out-stock-edit" value=""></td>
+                        </tr>
+                    </div>
                 @endif
                 </tbody>
                 <input id="id-for-update" type="hidden" name="id-for-update"/>
@@ -136,7 +158,8 @@
                 columns: [
                     { data: 'group.name', name: 'group.name' },
                     { data: 'name', name: 'name' },
-                    { data: 'acc_no', name: 'acc_no' },
+                    { data: 'acc_in_stock', name: 'acc_in_stock' },
+                    { data: 'acc_out_stock', name: 'acc_out_stock' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
@@ -147,10 +170,11 @@
 
                 $('#category-id-for-edit').val($(this).data('category'));
                 $('#name-for-edit').val($(this).data('name'));
-                $('#acc-no-for-edit').val($(this).data('ledger'));
+                $('#acc-in-stock-edit').val($(this).data('receive'));
+                $('#acc-out-stock-edit').val($(this).data('delivery'));
                 $('#id-for-update').val($(this).data('rowid'));
 
-                $('#edit-category').show();
+                $('#edit-sub-category').show();
                 $('#sub-categories-table').parents('div.dataTables_wrapper').first().hide();
                 $('#top-head').hide();
             });
@@ -200,22 +224,15 @@
 
 
 
-        $(document).on('click', '.btn-category-update', function (e) {
+        $(document).on('click', '.btn-sub-category-update', function (e) {
             e.preventDefault();
-            alert($('#id_for_update').val());
 
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            var url = 'category/update/' + $('#id_for_update').val();
-            var chk = 0;
-
-            if ($('#sub_category_for_edit').is(":checked"))
-            {
-                chk = 1;
-            }
+            var url = 'subCategory/update/' + $('#id-for-update').val();
 
             // confirm then
             $.ajax({
@@ -223,12 +240,15 @@
                 type: 'POST',
                 dataType: 'json',
 
-                data: {method: '_POST', submit: true, ACC_NO:$('#acc_no_for_edit').val(),
-                    NAME:$('#name_for_edit').val(), HAS_SUB:chk,
+                data: {method: '_POST', submit: true,
+                    acc_out_stock:$('#acc-out-stock-edit').val(),
+                    acc_in_stock:$('#acc-in-stock-edit').val(),
+                    name:$('#name-for-edit').val(),
                 },
 
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    var myObj = JSON.parse(request.responseText);
+                    alert(myObj.error);
                 },
 
                 success: function (data) {
