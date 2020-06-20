@@ -1059,6 +1059,35 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+//        MENUITEM::create( [
+//            'id'=>54010,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5F',
+//            'name'=>'Approve Receive',
+//            'show'=>'1',
+//            'url'=>'receive/receiveApproveIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>54015,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5F',
+//            'name'=>'Return After Receive',
+//            'show'=>'1',
+//            'url'=>'receive/returnAfterReceiveIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
 //
 //
 //        MENUITEM::create( [

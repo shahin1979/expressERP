@@ -235,11 +235,17 @@ Route::group(['prefix' => 'receive', 'namespace' => 'Inventory\Receives', 'middl
     Route::get('receiveItemsData','ReceiveAgainstPurchaseCO@getData');
     Route::get('view/{id}','ReceiveAgainstPurchaseCO@view');
     Route::post('receivePurchaseItems','ReceiveAgainstPurchaseCO@store');
-//    Route::post('customerDeleteIndex','CreateCustomerCO@destroy');
 
-//    Route::get('salesRateIndex','SaleItemsRateCO@index');
-//    Route::post('updateProductRate','SaleItemsRateCO@update');
-//    Route::get('approveSalesRateIndex','SaleItemsRateCO@approveSalesRateIndex');
+
+    // Approve Receive
+
+
+    Route::get('receiveApproveIndex','ApproveReceiveCO@index');
+    Route::get('receiveDBData','ApproveReceiveCO@getRData');
+
+    Route::get('viewItems/{id}','ApproveReceiveCO@ajaxData');
+    Route::post('approveItems','ApproveReceiveCO@approve');
+
 //    Route::post('approveProductRate','SaleItemsRateCO@approve');
 //    Route::post('rejectProductRate','SaleItemsRateCO@reject');
 //

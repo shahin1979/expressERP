@@ -16,16 +16,16 @@ use Illuminate\Support\Facades\DB;
 
 trait PreviousDataMigrationTrait
 {
-    public function trCode($company_id)
+    public function trCode($company_id, $year)
     {
-        $yr = 2019;
+        $yr = $year;
         $count = $yr;
         $fyear = $yr.'-'.($yr + 1); // '2015-2016';
 
         TransCode::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'trans_code'=>'PM','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+                'company_id'=>$company_id,
                 'trans_code'=>'PM',
                 'trans_name'=>'Payment',
                 'last_trans_id'=>$yr.'10000001'
@@ -33,9 +33,9 @@ trait PreviousDataMigrationTrait
         );
 
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'RC','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'RC','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'RC',
                 'trans_name'=>'Receive',
                 'last_trans_id'=>$yr.'20000001'
@@ -43,9 +43,9 @@ trait PreviousDataMigrationTrait
         );
 
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'JV','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'JV','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'JV',
                 'trans_name'=>'Journal',
                 'last_trans_id'=>$yr.'30000001'
@@ -53,9 +53,9 @@ trait PreviousDataMigrationTrait
         );
 
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'RQ','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'RQ','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'RQ',
                 'trans_name'=>'Requisition',
                 'last_trans_id'=>$yr.'40000001'
@@ -63,9 +63,9 @@ trait PreviousDataMigrationTrait
         );
 
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'SL','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'SL','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'SL',
                 'trans_name'=>'Sales Invoice',
                 'last_trans_id'=>$yr.'50000001'
@@ -73,9 +73,9 @@ trait PreviousDataMigrationTrait
         );
 
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'DC','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'DC','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'DC',
                 'trans_name'=>'Delivery Challan',
                 'last_trans_id'=>$yr.'60000001'
@@ -83,9 +83,9 @@ trait PreviousDataMigrationTrait
         );
 
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'PR','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'PR','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'PR',
                 'trans_name'=>'Purchase Invoice',
                 'last_trans_id'=>$yr.'70000001'
@@ -93,18 +93,18 @@ trait PreviousDataMigrationTrait
         );
 
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'IR','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'IR','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'IR',
                 'trans_name'=>'Item Receive',
                 'last_trans_id'=>$yr.'80000001'
             ]
         );
         TransCode::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'trans_code'=>'RT','fiscal_year'=>$fyear],
+            ['company_id'=>$company_id,'trans_code'=>'RT','fiscal_year'=>$fyear],
             [
-                'company_id'=>$this->company_id,
+//                'company_id'=>$this->company_id,
                 'trans_code'=>'RT',
                 'trans_name'=>'Item Return',
                 'last_trans_id'=>$yr.'90000001'

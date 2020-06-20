@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Inventory\Purchase;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use App\Models\Company\Relationship;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -12,6 +14,10 @@ class SupplierInfoCO extends Controller
 {
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>53002,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
 
         return view('inventory.purchase.supplier-info-index');
     }

@@ -54,7 +54,19 @@
                                 <td width="25px" style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->tr_code !!}</td>
                                 <td width="45px" style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->acc_no !!}</td>
                                 <td width="90px"style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->account->acc_name !!}</td>
-                                <td width="90px" style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->trans_desc1 !!}</td>
+
+                                @if($row->tr_code=== 'PR' and $row->cr_amt > 0 and is_null($row->old_voucher))
+                                    <td width="90px" style="border-bottom-width:1px; font-size:68pt; text-align: left">
+                                        @foreach($row->purchase->items as $desc)
+                                            @if($desc->supplier->ledger_acc_no  === $row->acc_no)
+                                                Purchase : {!! $desc->item->name !!} Qty: {!! $desc->quantity !!}@ {!! $desc->unit_price !!}<br/>
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                @else
+                                    <td width="90px" style="border-bottom-width:1px; font-size:6pt; text-align: left">{!! $row->trans_desc1 !!}</td>
+                                @endif
+
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: right">{!! number_format($row->dr_amt,2) !!}</td>
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: right">{!! number_format($row->cr_amt,2) !!}</td>
                                 <td style="border-bottom-width:1px; font-size:8pt; text-align: left">{!! $row->user->name !!}</td>

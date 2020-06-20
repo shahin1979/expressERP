@@ -56,7 +56,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Product Info</h5>
-                        <table id="invoice-items" class="table table-striped table-info table-bordered invoice-items">
+                        <table id="invoice-items" class="table table-striped table-info table-bordered">
                             <thead>
                             <tr>
                                 <th>Product</th>
@@ -150,10 +150,10 @@
 //
                         var trHTML = '';
                         $.each(data, function (i, item) {
-                            var $supplier = item.relationship_id == 0 ? 'Cash Purchase' : item.supplier.name;
+
                             trHTML += '<tr class="invoice_items">' +
                                 '<td align="right">' + item.item.name +'</td>' +
-                                '<td align="right">' + $supplier +'</td>' +
+                                '<td align="right">' + item.supplier.name +'</td>' +
                                 '<td align="right">' + item.quantity +'</td>' +
                                 '<td align="right"><input name="item[' + i + '][receive]" class="form-control inp-receive text-right" type="text" id="receive" value="'+ item.quantity +'"></td>' +
                                 '<td align="right"><input name="item[' + i + '][return]" class="form-control inp-return text-right" type="text" id="return" value="'+ 0 +'"></td>' +

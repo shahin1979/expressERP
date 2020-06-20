@@ -37,6 +37,21 @@ class AppModuleTableSeeder extends Seeder
         ]);
 
         DB::table('app_modules')->insert([
+            'module_name' => 'Production Module',
+            'description' => 'Production Related Activities'
+        ]);
+
+        DB::table('app_modules')->insert([
+            'module_name' => 'Import Module',
+            'description' => 'Import Related Activities'
+        ]);
+
+        DB::table('app_modules')->insert([
+            'module_name' => 'Export Module',
+            'description' => 'Export Related Activities'
+        ]);
+
+        DB::table('app_modules')->insert([
             'id'=>9,
             'module_name' => 'Project Module',
             'description' => 'Project Related Activities'

@@ -25,6 +25,7 @@ class ProductHistory extends Model
         'ref_id',
         'tr_date',
         'ref_type',
+        'contra_ref',
         'product_id',
         'quantity_in',
         'quantity_out',

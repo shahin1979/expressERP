@@ -41,7 +41,14 @@ class Receive extends Model
 
     public function items()
     {
-        return $this->hasMany(TransProduct::class,'ref_no','invoice_no');
+        return $this->hasMany(TransProduct::class,'ref_no','challan_no');
+    }
+
+    public function returninfo()
+    {
+        return $this->belongsTo(ReturnItem::class,'ref_no','ref_no');
+
+//        return $this->hasMany(ReturnItem::class,'ref_no','ref_no');
     }
 
     public function user()

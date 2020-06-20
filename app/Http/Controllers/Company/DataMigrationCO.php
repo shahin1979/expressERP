@@ -40,7 +40,7 @@ class DataMigrationCO extends Controller
     {
 
 //        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
-//        $output = $this->trCode($this->company_id);
+//        $output = $this->trCode($this->company_id,'2019');
 
 
 
@@ -68,7 +68,7 @@ class DataMigrationCO extends Controller
 
 //        $output = $this->hpsmTwo();
 
-//        dd($output);
+        dd($output);
 
 
 
@@ -169,6 +169,13 @@ class DataMigrationCO extends Controller
                                 'company_id' => $this->company_id,
                                 'category_id' => $inserted->id,
                                 'subcategory_id' => $sid->id,
+                                'brand_id'=>1,
+                                'size_id'=>1,
+                                'color_id'=>1,
+                                'model_id'=>1,
+                                'tax_id'=>1,
+                                'godown_id'=>1,
+                                'rack_id'=>1,
                                 'name' => $line->itemName,
                                 'unit_name'=> $line->itemUnit == trim('Squire Feet') ? 'SFT' : strtoupper($line->itemUnit),
                                 'product_code'=> $line->itemCode,

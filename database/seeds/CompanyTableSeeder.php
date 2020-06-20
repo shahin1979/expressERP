@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Company\CompanyModule;
 
 class CompanyTableSeeder extends Seeder
 {
@@ -49,5 +50,36 @@ class CompanyTableSeeder extends Seeder
             'currency' =>'BDT',
             'website' => 'https://mumanupsf.com/'
         ]);
+
+
+
+        CompanyModule::create( [
+            'company_id'=>2,
+            'module_id'=>1
+        ] );
+
+
+
+        CompanyModule::create( [
+            'company_id'=>2,
+            'module_id'=>2
+        ] );
+
+
+
+        CompanyModule::create( [
+            'company_id'=>2,
+            'module_id'=>3
+        ] );
+
+        CompanyModule::create( [
+            'company_id'=>2,
+            'module_id'=>4
+        ] );
+
+        CompanyModule::create( [
+            'company_id'=>2,
+            'module_id'=>5
+        ] );
     }
 }

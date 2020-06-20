@@ -25,86 +25,86 @@ class ItemPropertiesSeeder extends Seeder
     {
 
         Category::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'name' => 'Default Category',
             'alias'=>'Default Category',
             'has_sub'=>1,
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         SubCategory::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'category_id'=>1,
             'name' => 'Default Sub Category',
             'alias'=>'Default Sub Category',
-            'has_sub'=>1,
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         ItemBrand::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'name' => 'Default Brand',
             'manufacturer'=>'Default Manufacturer',
-            'status' => 1
-        ]);
-
-
-        ItemBrand::query()->insert([
-            'company_id'=>Auth::id(),
-            'name' => 'Default Brand',
-            'manufacturer'=>'Default Manufacturer',
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         ItemModel::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'name' => 'Default Model',
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         ItemColor::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'name' => 'Default Color',
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         ItemSize::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'size' => 'Default Size',
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         Godown::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'name' => 'Default Store',
-            'address','Main Store',
-            'status' => 1
+            'address'=>'Main Store',
+            'status' => 1,
+            'user_id' => 1
         ]);
 
 
         Rack::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'name' => 'Default Rack',
             'godown_id'=>1,
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         ItemTax::query()->insert([
-            'company_id'=>Auth::id(),
+            'company_id'=>2,
             'name' => 'No Tax',
             'applicable_on'=>'B',
             'rate'=>0,
             'calculating_mode'=>'F',
             'description'=>'Default Tax',
-            'status' => 1
+            'status' => 1,
+            'user_id' => 1
         ]);
 
         Relationship::query()->insert([
-            'company_id'=>Auth::user()->company_id,
+            'company_id'=>2,
             'name' => 'Cash Account',
             'relation_type'=>'SP',
-            'ledger_acc_no'=> CompanyProperty::query()->where('company_id',Auth::user()->company_id)->first()->default_cash,
-            'user_id' => Auth::id()
+            'ledger_acc_no'=> '10112102',
+            'user_id' => 1
         ]);
     }
 }

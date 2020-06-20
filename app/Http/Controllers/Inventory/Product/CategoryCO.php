@@ -92,7 +92,7 @@ class CategoryCO extends Controller
     public function update(Request $request, $id)
     {
         $updateCategory = Category::query()->find($id);
-        $updateCategory->name = $request['name'];
+        $updateCategory->name = Str::upper($request['name']);
 
         DB::begintransaction();
 

@@ -88,7 +88,7 @@
                                 <td>{!! $row->acc_no !!}</td>
                                 <td>{!! isset($row->account->acc_name) ? $row->account->acc_name : null  !!}</td>
 
-                                    @if($row->tr_code=== 'PR' and $row->cr_amt > 0)
+                                    @if($row->tr_code=== 'PR' and $row->cr_amt > 0 and is_null($row->old_voucher))
                                         <td>
                                             @foreach($row->purchase->items as $desc)
                                                 @if($desc->supplier->ledger_acc_no  === $row->acc_no)

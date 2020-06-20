@@ -236,8 +236,6 @@
 
         $(document).on('click', '.btn-category-update', function (e) {
             e.preventDefault();
-            alert($('#id_for_update').val());
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

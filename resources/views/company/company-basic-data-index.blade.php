@@ -48,30 +48,47 @@
                             <input type="hidden" id="posted" name="posted" value="{!! isset($basic->posted) !!}" class="form-control" />
 
                             <tr>
-                                <td>Cash Account</td>
-                                <td>{!! Form::text('cash',isset($basic->cash) ? $basic->cash : '101',['id'=>'cash','class'=>'form-control'])  !!}</td>
+                                <td>Default Cash Account</td>
+                                <td>{!! Form::text('default_cash',isset($basic->default_cash) ? $basic->default_cash : '10112102',['id'=>'default_cash','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
-                                <td>Cash Account</td>
-                                <td>{!! Form::text('bank',isset($basic->bank) ? $basic->bank : '102',['id'=>'bank','class'=>'form-control'])  !!}</td>
+                                <td>Default Purchase Account</td>
+                                <td>{!! Form::text('default_purchase',isset($basic->default_purchase) ? $basic->default_purchase : '20112276',['id'=>'default_purchase','class'=>'form-control'])  !!}</td>
 
                             </tr>
 
                             <tr>
-                                <td>Cash Account</td>
-                                <td>{!! Form::text('sales',isset($basic->sales) ? $basic->sales : '301',['id'=>'sales','class'=>'form-control'])  !!}</td>
+                                <td>Default Sales Account</td>
+                                <td>{!! Form::text('default_sales',isset($basic->default_sales) ? $basic->default_sales : '30312102',['id'=>'default_sales','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
-                                <td>Cash Account</td>
-                                <td>{!! Form::text('purchase',isset($basic->purchase) ? $basic->purchase : '401',['id'=>'purchase','class'=>'form-control'])  !!}</td>
+                                <td>Advance Sales Account</td>
+                                <td>{!! Form::text('advance_sales',isset($basic->advance_sales) ? $basic->advance_sales : '21312108',['id'=>'advance_sales','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
-                                <td>Cash Account</td>
-                                <td>{!! Form::text('capital',isset($basic->capital) ? $basic->capital : '501',['id'=>'capital','class'=>'form-control'])  !!}</td>
+                                <td>Default Sales Tax</td>
+                                <td>{!! Form::text('default_sales_tax',isset($basic->default_sales_tax) ? $basic->default_sales_tax : '20112102',['id'=>'default_sales_tax','class'=>'form-control'])  !!}</td>
                             </tr>
+
+                            <tr>
+                                <td>Default Purchase Tax</td>
+                                <td>{!! Form::text('default_purchase_tax',isset($basic->default_purchase_tax) ? $basic->default_purchase_tax : '41712108',['id'=>'default_purchase_tax','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Discount Purchase</td>
+                                <td>{!! Form::text('discount_purchase',isset($basic->discount_purchase) ? $basic->discount_purchase : '30112116',['id'=>'discount_purchase','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Discount Sales</td>
+                                <td>{!! Form::text('discount_sales',isset($basic->discount_sales) ? $basic->discount_sales : '40712124',['id'=>'discount_sales','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+
 
                             <tr>
                                 <td>FP Start</td>

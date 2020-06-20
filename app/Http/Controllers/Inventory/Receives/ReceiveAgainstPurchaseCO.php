@@ -35,7 +35,9 @@ class ReceiveAgainstPurchaseCO extends Controller
     {
         $query = Purchase::query()->where('company_id',$this->company_id)
             ->where('status','AP')
-            ->with('items')
+            ->with(['items'=>function($q){
+                $q->where('company_id',$this->company_id);
+            }])
             ->with('user')->select('purchases.*');
 
 
@@ -48,7 +50,7 @@ class ReceiveAgainstPurchaseCO extends Controller
 
             ->addColumn('supplier', function ($query) {
                 return $query->items->map(function($items) {
-                    return $items->relationship_id ==0 ? 'Cash Purchase' : $items->supplier->name;
+                    return $items->supplier->name;
                 })->implode('<br>');
             })
 
@@ -63,16 +65,19 @@ class ReceiveAgainstPurchaseCO extends Controller
                     return $items->unit_price;
                 })->implode('<br>');
             })
+
+
             ->addColumn('action', function ($query) {
 
-
                 return '
+                    <div class="btn-unit btn-group-sm" role="group" aria-label="Action Button">
                     <button  data-remote="view/' . $query->id . '"
                         data-order="' . $query->ref_no . '"
                         data-date="' . $query->po_date . '"
                         data-amount="' . number_format($query->invoice_amt,2) . '"
-                        id="receive-invoice" type="button" class="btn btn-receive btn-xs btn-primary"><i class="fa fa-edit">Receive</i></button>
-                    <button data-remote="return/' . $query->id . '" type="button" class="btn btn-xs btn-return btn-danger pull-right"  ><i class="fa fa-remove">Return</i></button>
+                        id="receive-invoice" type="button" class="btn btn-receive btn-sm btn-primary"><i>Receive</i></button>
+                    <button data-remote="return/' . $query->id . '" type="button" class="btn btn-sm btn-return btn-danger pull-right"  ><i>Return</i></button>
+                    </div>
                     ';
             })
             ->rawColumns(['product','quantity','unit_price','action','supplier'])
@@ -129,20 +134,21 @@ class ReceiveAgainstPurchaseCO extends Controller
                             return response()->json(['error' => $error], 404);
                         }
 
-                        $history['company_id'] = $this->company_id;
-                        $history['ref_no'] = $receive_no;
-                        $history['ref_id'] = $inserted->id;
-                        $history['ref_type'] = 'R'; //Sales
-                        $history['relationship_id'] = $data->relationship_id;
-                        $history['tr_date']= $request['receive_date'];
-                        $history['product_id'] = $data->product_id;
-                        $history['name'] = $products->where('id',$data->product_id)->first()->name;
-                        $history['quantity_in'] = $item['receive'];
-                        $history['received'] = $item['receive'];
-                        $history['unit_price'] = $data->unit_price;
-                        $history['total_price'] = $data->total_price;
+                        $move['company_id'] = $this->company_id;
+                        $move['ref_no'] = $receive_no;
+                        $move['ref_id'] = $inserted->id;
+                        $move['ref_type'] = 'C'; //Receive
+                        $move['relationship_id'] = $data->relationship_id;
+                        $move['tr_date']= $request['receive_date'];
+                        $move['product_id'] = $data->product_id;
+                        $move['name'] = $products->where('id',$data->product_id)->first()->name;
+                        $move['quantity'] = $item['receive'];
+                        $move['received'] = $item['receive'];
+                        $move['unit_price'] = $data->unit_price;
+                        $move['total_price'] = $data->total_price;
 
-                        ProductHistory::query()->create($history);
+                        TransProduct::query()->create($move);
+
                         TransProduct::query()->where('id',$data->id)->update(['received'=>$item['receive']]);
                         ProductMO::query()->where('id',$data->product_id)->increment('received_qty',$item['receive']);
                     }
@@ -211,8 +217,6 @@ class ReceiveAgainstPurchaseCO extends Controller
                             TransProduct::query()->create($return);
                             TransProduct::query()->where('id',$data->id)->update(['returned'=>$item['return']]);
                         }
-///
-
                     }
                 }
 

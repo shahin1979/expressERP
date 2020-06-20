@@ -30,8 +30,11 @@ class CreateCompanyPropertiesTable extends Migration
             $table->string('default_cash',8)->default('10112102');
             $table->string('default_purchase',8)->default('20112276');
             $table->string('default_sales',8)->default('30312102');
-            $table->string('advance_sales',8)->default('21312108');
-            $table->string('default_tax',8)->default('41712108');
+            $table->string('advance_sales',8)->nullable()->default('21312108');
+            $table->string('default_sales_tax',8)->default('20112102')->coment('Liability');
+            $table->string('default_purchase_tax',8)->default('41712108')->comment('Expenditure during purchase');
+            $table->string('discount_purchase',8)->default('30112116');
+            $table->string('discount_sales',8)->default('40712124');
             $table->char('currency',3)->nullable();
             $table->date('fp_start');
             $table->date('trans_min_date');

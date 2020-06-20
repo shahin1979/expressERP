@@ -59,6 +59,15 @@ class CompanyPropertiesCO extends Controller
             CompanyProperty::query()->updateOrCreate(
                 ['company_id' => $this->company_id],
                 [
+                    'default_cash'=>$request['default_cash'],
+
+                    'default_purchase'=>$request['default_purchase'],
+                    'default_sales'=>$request['default_sales'],
+                    'advance_sales'=>$request['advance_sales'],
+                    'default_sales_tax'=>$request['default_sales_tax'],
+                    'default_purchase_tax'=>$request['default_purchase_tax'],
+                    'discount_sales'=>$request['discount_sales'],
+                    'discount_purchase'=>$request['discount_purchase'],
                     'inventory' => $request->has('hInventory') ? 1 : 0,
                     'project' => $request->has('hProject') ? 1 : 0,
                     'auto_ledger' => $request->has('hAuto_ledger') ? 1 : 0,

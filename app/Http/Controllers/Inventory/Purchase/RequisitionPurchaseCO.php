@@ -34,7 +34,11 @@ class RequisitionPurchaseCO extends Controller
     public function getReqPurchaseData()
     {
         $query = Requisition::query()->where('company_id',$this->company_id)
-            ->where('status',2)->with('items')->with('user')->select('requisitions.*');
+            ->where('status',2)
+            ->with(['items'=>function($q){
+                $q->where('company_id',$this->company_id);
+            }])
+            ->with('user')->select('requisitions.*');
 
         return Datatables::eloquent($query)
             ->addColumn('product', function (Requisition $requisition) {

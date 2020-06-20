@@ -54,6 +54,16 @@ class TransProduct extends Model
         return $this->belongsTo(Requisition::class,'ref_id','id');
     }
 
+    public function receive()
+    {
+        return $this->belongsTo(Receive::class,'ref_id','id');
+    }
+
+    public function returnItem()
+    {
+        return $this->belongsTo(ReturnItem::class,'ref_id','id');
+    }
+
     public function invoice()
     {
         return $this->belongsTo(Sale::class,'ref_id','id');

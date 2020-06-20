@@ -38,7 +38,7 @@ class ReturnItem extends Model
 
     public function items()
     {
-        return $this->hasMany(TransProduct::class,'ref_no','invoice_no');
+        return $this->hasMany(TransProduct::class,'ref_no','challan_no');
     }
 
     public function user()

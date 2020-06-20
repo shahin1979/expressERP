@@ -40,7 +40,12 @@ class ApprovePurchaseCO extends Controller
     public function getPurchaseData()
     {
         $query = Purchase::query()->where('company_id',$this->company_id)
-            ->where('status','CR')->with('items')->with('user')->select('purchases.*');
+            ->where('status','CR')
+            ->with(['items'=>function($q){
+                $q->where('company_id',$this->company_id);
+            }])
+            ->with('user')
+            ->select('purchases.*');
 
         return DataTables::eloquent($query)
             ->addColumn('product', function (Purchase $purchase) {

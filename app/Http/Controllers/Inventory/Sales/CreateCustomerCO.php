@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Inventory\Sales;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use App\Models\Company\Relationship;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -12,6 +14,10 @@ class CreateCustomerCO extends Controller
 {
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>55002,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
 
         return view('inventory.sales.customer-info-index');
     }
@@ -19,7 +25,7 @@ class CreateCustomerCO extends Controller
     public function getCustomerData()
     {
         $customers = Relationship::query()->where('company_id',$this->company_id)
-            ->where('relation_type','CS')->get();
+            ->whereIn('relation_type',['CS','SP'])->get();
 
         return DataTables::of($customers)
             ->addColumn('action', function ($customers) {
