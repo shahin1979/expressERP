@@ -165,7 +165,16 @@
                     { data: 'acc_balance', name: 'acc_balance' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
             $(this).on('click', '.btn-category-edit', function (e) {

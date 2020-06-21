@@ -56,13 +56,13 @@ class EditRequisitionCO extends Controller
 
                 $type = $requisition->req_type == 'P' ? 'Purchase' : 'Consumption';
 
-                return '
+                return '<div class="btn-req btn-group-sm" role="group" aria-label="Action Button">
                     <button  data-remote="edit/' . $requisition->id . '"
                         data-requisition="' . $requisition->ref_no . '"
                         data-date="' . $requisition->req_date . '"
                         data-type="' . $type . '"
-                        id="edit-requisition" type="button" class="btn btn-edit btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</button>
-                    <button data-remote="delete/' . $requisition->id . '" type="button" class="btn btn-xs btn-delete btn-danger pull-right"  ><i class="glyphicon glyphicon-remove"></i>Delete</button>
+                        id="edit-requisition" type="button" class="btn btn-edit btn-xs btn-primary pull-center"><i>Edit</i></button>
+                    <button data-remote="delete/' . $requisition->id . '" type="button" class="btn btn-xs btn-delete btn-danger" ><i>Delete</i></button>
                     ';
             })
             ->rawColumns(['product','quantity','req_type','req_for','action'])

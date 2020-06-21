@@ -327,9 +327,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
-
+//
+//
+//
 //        MENUITEM::create( [
 //            'id'=>42005,
 //            'company_id'=>1,
@@ -430,8 +430,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'R'
 //        ] );
-
-
+//
+//
 //
 //        MENUITEM::create( [
 //        'id'=>43000,
@@ -861,9 +861,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'R'
 //        ] );
 //
-
-
-
+//
+//
+//
 //        MENUITEM::create( [
 //            'id'=>51065,
 //            'company_id'=>1,
@@ -877,9 +877,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'R'
 //        ] );
-
-
-
+//
+//
+//
 //
 //        MENUITEM::create( [
 //            'id'=>52000,
@@ -1046,7 +1046,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'F'
 //        ] );
 //
-
+//
 //        MENUITEM::create( [
 //            'id'=>54000,
 //            'company_id'=>1,
@@ -1076,8 +1076,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
+//
+//
 //        MENUITEM::create( [
 //            'id'=>54010,
 //            'company_id'=>1,
@@ -1105,8 +1105,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
+//
+//
 //
 //
 //        MENUITEM::create( [
@@ -1224,10 +1224,10 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'R'
 //        ] );
-
 //
 //
-
+//
+//
 //        MENUITEM::create( [
 //            'id'=>56000,
 //            'company_id'=>1,
@@ -1286,8 +1286,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
+//
+//
 //        MENUITEM::create( [
 //            'id'=>56010,
 //            'company_id'=>1,
@@ -1301,10 +1301,10 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
-
-
+//
+//
+//
+//
 //
 //
 //        MENUITEM::create( [

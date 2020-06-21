@@ -154,7 +154,16 @@
                     { data: 'quantity', name: 'quantity' },
                     // { data: 'user.name', name: 'user.name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
 
@@ -190,74 +199,33 @@
 
                 $('#return-main').append(retHTML);
 
-
-
                 //Ajax Load data from ajax
                 $.ajax({
                     url : url,
                     type: "GET",
                     dataType: "JSON",
-
                     success: function(data)
                     {
-
-
                         $(".receive-items").remove();
-//
                         var trHTML = '';
-                        $.each(data, function (i, item) {
-                                $.each(item.items, function (i, tt) {
-                                    trHTML += '<tr class="receive-items">' +
-                                        '<td>' + tt.item.name +'</td>' +
-                                        '<td>' + tt.supplier.name +'</td>' +
-                                        '<td align="right">' + tt.quantity +'</td>' +
-                                        '</tr>';
-                                });
-
-
+                        $.each(data.receives, function (i, item) {
+                            trHTML += '<tr class="receive-items">' +
+                                '<td>' + item.item.name +'</td>' +
+                                '<td>' + item.supplier.name +'</td>' +
+                                '<td align="right">' + item.quantity +'</td>' +
+                                '</tr>';
                         });
-
                         $('#receive-items').append(trHTML);
 
-
                         $(".return-items").remove();
-
-
-//                         $(".receive-items").remove();
-// //
-//                         var trHTML = '';
-//                         $.each(data, function (i, item) {
-//
-//
-//                             trHTML += '<tr class="receive-items">' +
-//                                 '<td>' + item.item.name +'</td>' +
-//                                 '<td>' + item.supplier.name +'</td>' +
-//                                 '<td align="right">' + item.quantity +'</td>' +
-//                                 '</tr>';
-//                         });
-//
-//                         $('#receive-items').append(trHTML);
-//
-//
-                        $(".return-items").remove();
-
                         var returnHTML = '';
-                        $.each(data, function (i, item) {
-
-                            // alert(item.receive.returninfo.user.name);
-
-                                $.each(item.returninfo.items, function (i, tItem) {
-
-                                    // alert(tItem.item.name);
-
-                                    returnHTML += '<tr class="return-items">' +
-                                        '<td>' + tItem.item.name + '</td>' +
-                                        '<td>' + tItem.supplier.name + '</td>' +
-                                        '<td align="right">' + tItem.quantity + '</td>' +
-                                        '</tr>';
-                                });
+                        $.each(data.returns, function (i, item) {
+                            returnHTML += '<tr class="return-items">' +
+                                '<td>' + item.item.name + '</td>' +
+                                '<td>' + item.supplier.name + '</td>' +
+                                '<td align="right">' + item.quantity + '</td>' +
+                                '</tr>';
                         });
-
                         $('#return-items').append(returnHTML);
 
                     },

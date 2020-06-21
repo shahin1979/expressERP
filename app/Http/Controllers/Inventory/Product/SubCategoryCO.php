@@ -32,22 +32,31 @@ class SubCategoryCO extends Controller
         $sbcs = SubCategory::query()->where('company_id',$this->company_id)->with('group')->get();
 
         return DataTables::of($sbcs)
+
+            ->addColumn('acc_in',function ($sbcs) {
+                return isset($sbcs->acc_in_stock) ? $sbcs->acc_in_stock.'<br/>'.$sbcs->acc_in->acc_name:null;
+            })
+
+            ->addColumn('acc_out',function ($sbcs) {
+                return isset($sbcs->acc_out_stock) ? $sbcs->acc_out_stock.'<br/>'.$sbcs->acc_out->acc_name:null;
+            })
+
+
             ->addColumn('action', function ($sbcs) {
 
                 return '<div class="btn-category btn-group-sm" role="group" aria-label="Action Button">
-                    <button data-remote="view/'.$sbcs->id.'"  type="button" class="btn btn-view btn-sm btn-success"><i class="fa fa-book-open">View</i></button>
                     <button data-rowid="'. $sbcs->id . '"
                         data-category="'. $sbcs->category_id . '"
                         data-name="'. $sbcs->name . '"
                         data-receive="'. $sbcs->acc_in_stock . '"
                         data-delivery="'. $sbcs->acc_out_stock . '"
-                        type="button" class="btn btn-sm btn-sub-category-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
-                    <button data-remote="subcategory/delete/'.$sbcs->id.'"  type="button" class="btn btn-sub-category-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                        type="button" class="btn btn-sm btn-sub-category-edit btn-primary"><i>Edit</i></button>
+                    <button data-remote="subcategory/delete/'.$sbcs->id.'"  type="button" class="btn btn-sub-category-delete btn-sm btn-danger"><i>Delete</i></button>
                     </div>
 
                     ';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','acc_in','acc_out'])
             ->make(true);
     }
 

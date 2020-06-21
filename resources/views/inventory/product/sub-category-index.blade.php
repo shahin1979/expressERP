@@ -158,11 +158,20 @@
                 columns: [
                     { data: 'group.name', name: 'group.name' },
                     { data: 'name', name: 'name' },
-                    { data: 'acc_in_stock', name: 'acc_in_stock' },
-                    { data: 'acc_out_stock', name: 'acc_out_stock' },
+                    { data: 'acc_in', name: 'acc_in' },
+                    { data: 'acc_out', name: 'acc_out' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
             $(this).on('click', '.btn-sub-category-edit', function (e) {

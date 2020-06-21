@@ -248,31 +248,7 @@ Route::group(['prefix' => 'receive', 'namespace' => 'Inventory\Receives', 'middl
     Route::get('viewItems/{id}','ApproveReceiveCO@ajaxData');
     Route::post('approveItems','ApproveReceiveCO@approve');
 
-//    Route::post('approveProductRate','SaleItemsRateCO@approve');
-//    Route::post('rejectProductRate','SaleItemsRateCO@reject');
-//
-//    Route::get('createSalesInvoiceIndex','SaleInvoiceCO@index');
-//    Route::post('SalesInvoicePost','SaleInvoiceCO@store');
-//    Route::get('salesProducts','SaleInvoiceCO@autocomplete');
-//    Route::post('totalItem','SaleInvoiceCO@totalItem');
-//    Route::get('EditSalesInvoiceIndex','SaleInvoiceCO@editIndex');
-//    Route::get('salesInvoiceData','SaleInvoiceCO@InvoiceData');
-//    Route::get('edit/{id}','SaleInvoiceCO@edit');
-//    Route::post('updateSalesInvoice','SaleInvoiceCO@update');
-//    Route::get('ApproveSalesInvoiceIndex','SaleInvoiceCO@approveIndex');
-//    Route::get('getApproveInvoice','SaleInvoiceCO@InvoiceApproveData');
-//    Route::post('approveSalesInvoice/{id}','SaleInvoiceCO@approve');
-//
-//    //Report
-//    Route::get('printSalesInvoiceIndex','PrintSalesInvoiceCO@index');
 
-//
-
-////
-
-////
-//    Route::get('print/{id}','PrintRequisitionCO@print');
-//    Route::delete('products/delete/{id}','ProductsCO@destroy');
 
 
 });
@@ -301,13 +277,15 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
     Route::post('SalesInvoicePost','SaleInvoiceCO@store');
     Route::get('salesProducts','SaleInvoiceCO@autocomplete');
     Route::post('totalItem','SaleInvoiceCO@totalItem');
-    Route::get('EditSalesInvoiceIndex','SaleInvoiceCO@editIndex');
-    Route::get('salesInvoiceData','SaleInvoiceCO@InvoiceData');
-    Route::get('edit/{id}','SaleInvoiceCO@edit');
-    Route::post('updateSalesInvoice','SaleInvoiceCO@update');
-    Route::get('ApproveSalesInvoiceIndex','SaleInvoiceCO@approveIndex');
-    Route::get('getApproveInvoice','SaleInvoiceCO@InvoiceApproveData');
-    Route::post('approveSalesInvoice/{id}','SaleInvoiceCO@approve');
+
+    Route::get('EditSalesInvoiceIndex','EditSalesInvoiceCO@index');
+    Route::get('salesInvoiceData','EditSalesInvoiceCO@InvoiceData');
+    Route::get('edit/{id}','EditSalesInvoiceCO@edit');
+    Route::post('updateSalesInvoice','EditSalesInvoiceCO@update');
+
+    Route::get('ApproveSalesInvoiceIndex','ApproveSalesInvoiceCO@index');
+    Route::get('getApproveInvoice','ApproveSalesInvoiceCO@InvoiceApproveData');
+    Route::post('approveSalesInvoice/{id}','ApproveSalesInvoiceCO@approve');
 
     //Report
     Route::get('printSalesInvoiceIndex','PrintSalesInvoiceCO@index');

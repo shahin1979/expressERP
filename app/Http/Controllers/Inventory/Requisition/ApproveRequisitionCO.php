@@ -52,9 +52,9 @@ class ApproveRequisitionCO extends Controller
 
                 $type = $requisition->req_type == 'P' ? 'Purchase' : 'Consumption';
 
-                return '
+                return '<div class="btn-req btn-group-sm" role="group" aria-label="Action Button">
                     <button  data-remote="approve/' . $requisition->id . '" type="button" class="btn btn-approve btn-xs btn-primary"></i> Approve</button>
-                    <button data-remote="reject/' . $requisition->id . '" type="button" class="btn btn-xs btn-delete btn-danger pull-right">Reject</button>
+                    <button data-remote="reject/' . $requisition->id . '" type="button" class="btn btn-xs btn-delete btn-danger">Reject</button>
                     ';
             })
             ->rawColumns(['product','quantity','req_type','req_for','action'])

@@ -145,7 +145,16 @@
                     { data: 'invoice_amt', name: 'sales.invoice_amt' },
                     // { data: 'user.name', name: 'user.name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
 

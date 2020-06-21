@@ -108,29 +108,32 @@ class ApproveReceiveCO extends Controller
 
     public function ajaxData($id)
     {
-//        $receives = TransProduct::query()->where('company_id',$this->company_id)
-//            ->where('ref_id',$id)->where('ref_type','C')
-//            ->with('supplier')
-//            ->with('item')->with('receive.returninfo.items') ->get();
+        $invoice = Receive::query()->where('id',$id)->first();
+
+        $receives = TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_id',$id)->where('ref_type','C')
+            ->with('supplier')
+            ->with('item')->with('receive') ->get();
+
+        $return = ReturnItem::query()->where('company_id',$this->company_id)
+            ->where('ref_no',$invoice->ref_no)->first();
+
+        $returns = TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_id',$return->id)->where('ref_type','T')
+            ->with('supplier')
+            ->with('item')->with('returnItem') ->get();
 
 
-        $receives = Receive::query()->where('company_id',$this->company_id)
-            ->where('id',$id)
-            ->with(['items.item'=>function($q){
-                $q->where('company_id',$this->company_id);
-            }])
-            ->with(['items.supplier'=>function($q){
-                $q->where('company_id',$this->company_id);
-            }])
-            ->with('returninfo.items.item')
-            ->with('returninfo.items.supplier')
-            ->get();
 
-//        dd($receives);
+        $response = [
+            'receives' => $receives,
+            'returns' => $returns
+        ];
 
-        return response()->json($receives);
+        return response()->json($response);
 
     }
+
 
     public function approve(Request $request)
     {
