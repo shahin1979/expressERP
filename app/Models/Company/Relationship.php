@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use App\Models\Accounts\Ledger\GeneralLedger;
 use Illuminate\Database\Eloquent\Model;
 
 class Relationship extends Model
@@ -34,4 +35,9 @@ class Relationship extends Model
         'locale',
         'user_id',
     ];
+
+    public function acc_name()
+    {
+        return $this->belongsTo(GeneralLedger::class,'ledger_acc_no','acc_no');
+    }
 }

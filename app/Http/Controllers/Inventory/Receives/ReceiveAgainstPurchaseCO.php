@@ -145,7 +145,7 @@ class ReceiveAgainstPurchaseCO extends Controller
                         $move['quantity'] = $item['receive'];
                         $move['received'] = $item['receive'];
                         $move['unit_price'] = $data->unit_price;
-                        $move['total_price'] = $data->total_price;
+                        $move['total_price'] = $data->unit_price * $item['receive'];
 
                         TransProduct::query()->create($move);
 

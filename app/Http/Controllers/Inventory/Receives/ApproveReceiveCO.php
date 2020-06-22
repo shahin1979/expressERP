@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Inventory\Receives;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\UserActivity;
+use App\Models\Company\CompanyProperty;
 use App\Models\Inventory\Movement\Delivery;
 use App\Models\Inventory\Movement\ProductHistory;
 use App\Models\Inventory\Movement\Purchase;
@@ -11,40 +13,24 @@ use App\Models\Inventory\Movement\Receive;
 use App\Models\Inventory\Movement\ReturnItem;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class ApproveReceiveCO extends Controller
 {
+    use TransactionsTrait;
+
     public function index()
     {
         UserActivity::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'menu_id'=>54010,'user_id'=>$this->user_id],
             ['updated_at'=>Carbon::now()
             ]);
-
-//        $id = 2;
-//
-//        $receives = TransProduct::query()->where('company_id',$this->company_id)
-//            ->where('ref_id',$id)->where('ref_type','C')
-//            ->with('supplier')
-//            ->with('item')->with('receive') ->get();
-//
-//        foreach ($receives as $row)
-//        {
-//            foreach ($row->receive->returninfo->items as $item)
-//            {
-//                dd($item->product_id);
-//            }
-//
-//        }
-//
-//        dd('here');
-//        dd($receives);
-
-
 
         return view('inventory.receives.approve-receive-index');
     }
@@ -83,7 +69,11 @@ class ApproveReceiveCO extends Controller
 
                 $return = ReturnItem::query()->where('company_id',$this->company_id)->where('ref_no',$query->ref_no)->first();
                 $type = $query->receive_type == 'LP' ? 'Local Purchase' : ($query->receive_type == 'PR' ? 'Production' : 'Import ');
-                $rt_type = $return->return_type == 'LP' ? 'Purchase Return' : ($return->return_typee == 'PR' ? 'Return To Production' : 'Return Imported Items');
+                if(!empty($return))
+                {
+                    $rt_type = isset($return->return_type) == 'LP' ? 'Purchase Return' : ($return->return_type == 'PR' ? 'Return To Production' : 'Return Imported Items');
+                }
+
 
                 return '
                     <button  data-remote="viewItems/' . $query->id . '"
@@ -93,11 +83,10 @@ class ApproveReceiveCO extends Controller
                         data-type="' . $type . '"
                         data-ref_no="' . $query->ref_no . '"
 
-                        data-rt_challan="' . $return->challan_no . '"
-                        data-rt_date="' . $return->return_date . '"
-                        data-rt_type="' . $rt_type . '"
-                        data-rt_ref="' . $return->ref_no . '"
-
+                        data-rt_challan="' . isset($return->challan_no) . '"
+                        data-rt_date="' . isset($return->return_date) . '"
+                        data-rt_type="' . isset($rt_type) . '"
+                        data-rt_ref="' . isset($return->ref_no) . '"
                         id="details-receive" type="button" class="btn btn-receive-details btn-xs btn-primary">Details</button>
                     ';
 
@@ -109,29 +98,136 @@ class ApproveReceiveCO extends Controller
     public function ajaxData($id)
     {
         $invoice = Receive::query()->where('id',$id)->first();
-
-        $receives = TransProduct::query()->where('company_id',$this->company_id)
-            ->where('ref_id',$id)->where('ref_type','C')
-            ->with('supplier')
-            ->with('item')->with('receive') ->get();
-
         $return = ReturnItem::query()->where('company_id',$this->company_id)
             ->where('ref_no',$invoice->ref_no)->first();
 
-        $returns = TransProduct::query()->where('company_id',$this->company_id)
-            ->where('ref_id',$return->id)->where('ref_type','T')
-            ->with('supplier')
-            ->with('item')->with('returnItem') ->get();
+        $receives = $this->receive_items($id);
+        $tr_receive = $this->transactions($id,1);
 
+        $returns=null;
+        $tr_return = null;
+
+
+        if(is_null($return)) {
+            $returns = null;
+            $tr_return = null;
+        }else{
+            $returns = $this->return_items($return->id);
+            $tr_return = $this->transactions($return->id,2);
+        }
 
 
         $response = [
             'receives' => $receives,
-            'returns' => $returns
+            'returns' => $returns,
+            'tr_receive' =>$tr_receive,
+            'tr_return' =>$tr_return
         ];
 
         return response()->json($response);
 
+    }
+
+    public function receive_items($id)
+    {
+        return TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_id',$id)->where('ref_type','C')
+            ->with('supplier')
+            ->with('item')->with('receive') ->get();
+    }
+
+    public function transactions($id, $type)
+    {
+        //Type 1=Receive. 2=Return;
+
+        $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
+        $accounts = GeneralLedger::query()->where('company_id',$this->company_id)->get();
+
+        if($type == 1)
+        {
+            $receives = $this->receive_items($id);
+
+            $trans = Collect();;
+
+            // Voucher For Receive Data
+            foreach ($receives as $row)
+            {
+                $line=[];
+                $line['gl_head'] = $row->item->subcategory->acc_in_stock.' : '.$row->item->subcategory->acc_in->acc_name;
+                $line['dr_amt'] = $row->unit_price * $row->quantity;
+                $line['cr_amt'] = 0;
+
+                $trans->push($line);
+
+                $line=[];
+                $line['gl_head'] = $company->default_purchase.' : '.$accounts->where('acc_no',$company->default_purchase)->first()->acc_name;
+                $line['dr_amt'] = 0;
+                $line['cr_amt'] = $row->unit_price * $row->quantity;
+
+                $trans->push($line);
+            }
+        }
+
+
+
+        // Voucher For Return Data
+
+        if($type == 2)
+        {
+            $returns = $this->return_items($id);
+
+            $trans = Collect();;
+
+            if($returns)
+            {
+                foreach ($returns as $row)
+                {
+                    $line=[];
+                    $line['gl_head'] = $row->supplier->ledger_acc_no.' : '.$row->supplier->acc_name->acc_name.'(Return)';
+                    $line['dr_amt'] = $row->unit_price * $row->quantity;
+                    $line['cr_amt'] = 0;
+
+                    $trans->push($line);
+
+                    $line=[];
+                    $line['gl_head'] = $company->default_purchase.' : '.$accounts->where('acc_no',$company->default_purchase)->first()->acc_name;
+                    $line['dr_amt'] = 0;
+                    $line['cr_amt'] = $row->unit_price * $row->quantity;
+
+                    $trans->push($line);
+                }
+            }
+        }
+
+
+        $result = $trans->groupBy('gl_head')->map(function ($row)  {
+            $grouped = Collect();
+            $grouped->debit = $row->sum('dr_amt');
+            $grouped->credit = $row->sum('cr_amt');
+            return $grouped;
+        });
+
+        $final = collect();
+
+        foreach ($result as $head=>$row)
+        {
+            $tran['head'] = $head;
+            $tran['debit'] = $row->debit;
+            $tran['credit'] = $row->credit;
+
+            $final->push($tran);
+        }
+
+        return $final;
+    }
+
+    public function return_items($id)
+    {
+
+        return TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_id',$id)->where('ref_type','T')
+            ->with('supplier')
+            ->with('item')->with('returnItem') ->get();
     }
 
 
@@ -144,8 +240,6 @@ class ApproveReceiveCO extends Controller
                 $q->where('company_id',$this->company_id);
             }])
             ->first();
-
-//        dd($request->all());
 
         $purchase = Purchase::query()->where('company_id',$this->company_id)
             ->where('ref_no',$receive->ref_no)->first();
@@ -186,25 +280,108 @@ class ApproveReceiveCO extends Controller
                 $product->purchase_qty = $products->where('id',$item->product_id)->first()->purchase_qty + $item->quantity;
                 $product->save();
 
-                // Update Purchase Table
-
-                Purchase::query()->where('id',$purchase->id)->update(['status'=>'RC']);
 
                 // Update Trans Product Table
-
                 TransProduct::query()->where('id',$item->id)->update(['received'=>$item->received]);
 
             }
+
+            // Update Purchase Table
+            Purchase::query()->where('id',$purchase->id)->update(['status'=>'RC']);
+
+            // Create Account Voucher for Receive Items
+
+            $transactions = $this->transactions($receive->id, 1);
+            $input=[];
+            $period = $this->get_fiscal_data_from_current_date($this->company_id);
+//            dd($transactions);
+            foreach ($transactions as $row)
+            {
+                $input=[];
+                $input['company_id'] = $this->company_id;
+                $input['project_id'] = null;
+                $input['tr_code'] = 'IR';
+                $input['fp_no'] = $period->fp_no;
+                $input['trans_type_id'] = 9; //  Purchase
+                $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
+                $input['trans_id'] = Carbon::now()->format('Ymdhmis');
+                $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
+                $input['trans_date'] = Carbon::now();
+                $input['voucher_no'] = $receive->challan_no;
+                $input['acc_no'] = Str::substr($row['head'],0,8);
+                $input['ledger_code'] = Str::substr($input['acc_no'], 0, 3);
+//                $input['contra_acc'] = $company_properties->default_purchase;
+                $input['dr_amt'] = $row['debit'] ;
+                $input['cr_amt'] = $row['credit'] ;
+                $input['trans_amt'] = $row['debit'] + $row['credit'];
+                $input['currency'] = get_currency($this->company_id);
+                $input['fiscal_year'] = $period->fiscal_year;
+                $input['trans_desc1'] = 'Receive Purchase Items';
+                $input['trans_desc2'] = $receive->ref_ref;
+                $input['post_flag'] = false;
+                $input['user_id'] = $this->user_id;
+
+                $output = $this->transaction_entry($input);
+            }
+
+            $transactions = $this->transactions($return->id, 2);
+//            dd($transactions);
+
+            foreach ($transactions as $row)
+            {
+                $input=[];
+
+                $input['company_id'] = $this->company_id;
+                $input['project_id'] = null;
+                $input['tr_code'] = 'IR';
+                $input['fp_no'] = $period->fp_no;
+                $input['trans_type_id'] = 9; //  Purchase
+                $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
+                $input['trans_id'] = Carbon::now()->format('Ymdhmis');
+                $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
+                $input['trans_date'] = Carbon::now();
+                $input['voucher_no'] = $return->challan_no;
+                $input['acc_no'] = Str::substr($row['head'],0,8);
+                $input['ledger_code'] = Str::substr($input['acc_no'], 0, 3);
+//                $input['contra_acc'] = $company_properties->default_purchase;
+                $input['dr_amt'] = $row['debit'];
+                $input['cr_amt'] = $row['credit'];
+                $input['trans_amt'] = $row['debit'] + $row['credit'];
+                $input['currency'] = get_currency($this->company_id);
+                $input['fiscal_year'] = $period->fiscal_year;
+                $input['trans_desc1'] = 'Return Purchase Items';
+                $input['trans_desc2'] = $return->ref_ref;
+                $input['post_flag'] = false;
+                $input['user_id'] = $this->user_id;
+
+                $output = $this->transaction_entry($input);
+
+            }
+            //update Return Table
+            ReturnItem::query()->find($return->id)->update(['status'=>'RT','account_post'=>true,'account_voucher'=>$return->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+            Receive::query()->find($receive->id)->update(['status'=>'RC','account_post'=>true,'account_voucher'=>$return->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+
         }catch (\Exception $e)
         {
             DB::rollBack();
             $error = $e->getMessage();
-            return redirect()->back()->with('error','Approval Failed '.$error);
+            return response()->json(['error'=>$error],404);
         }
 
         DB::commit();
 
         return response()->json(['success'=>'Approved Successfully'],200);
+    }
 
+    public function reject(Request $request)
+    {
+        $receive = Receive::query()->where('company_id',$this->company_id)
+            ->where('challan_no',$request['challan'])->first();
+        $receive->update(['status'=>'RJ','approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+
+        $return = ReturnItem::query()->where('company_id',$this->company_id)
+            ->where('ref_no',$receive->ref_no)->first();
+
+        $return->update(['status'=>'RJ','approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
     }
 }

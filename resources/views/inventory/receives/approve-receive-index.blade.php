@@ -35,8 +35,8 @@
 
     <div id="view-section">
 {{--        <form id="ajax-items">--}}
-            <div class="row" id="edit-section">
-                <div class="col-sm-5">
+            <div class="row">
+                <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Receive Info</h5>
@@ -50,7 +50,7 @@
                 <input name="challan_no" type="hidden" id="challan_no" value="">
 {{--                <input name="is_return" type="hidden" id="is_return" value="">--}}
 
-                <div class="col-sm-7" >
+                <div class="col-sm-8" >
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Received Product Info</h5>
@@ -79,17 +79,36 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-4"></div>
+
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Stock Inventory Voucher</h5>
+                            <table id="receive-trans" class="table table-striped table-info table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>GL Head</th>
+                                    <th style="text-align: right">Debit Amount {!! $users_company->currency !!}</th>
+                                    <th style="text-align: right">Credit Amount {!! $users_company->currency !!}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
 {{--        </form>--}}
 
-
-
-
-
-
         <div class="return-section" id="return-section">
             <div class="row" id="edit-section">
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Return Info</h5>
@@ -100,7 +119,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-7" >
+                <div class="col-sm-8" >
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Returned Product Info</h5>
@@ -119,6 +138,29 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-4"></div>
+
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Stock Return Voucher</h5>
+                            <table id="return-trans" class="table table-striped table-info table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>GL Head</th>
+                                    <th style="text-align: right">Debit Amount {!! $users_company->currency !!}</th>
+                                    <th style="text-align: right">Credit Amount {!! $users_company->currency !!}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -171,6 +213,7 @@
                 e.preventDefault();
 
                 var url = $(this).data('remote');
+                $('#return-section').show();
 
                 $('#challan_no').val($(this).data('challan'));
 
@@ -186,6 +229,12 @@
 
                 $('#challan-main').append(reqHTML);
 
+                // alert($(this).data('rt_challan'));
+
+                if($(this).data('rt_challan') === '')
+                {
+                    $('#return-section').hide();
+                }
 
                 $(".return-info").remove();
 
@@ -206,6 +255,7 @@
                     dataType: "JSON",
                     success: function(data)
                     {
+                        // Show Receives
                         $(".receive-items").remove();
                         var trHTML = '';
                         $.each(data.receives, function (i, item) {
@@ -217,6 +267,24 @@
                         });
                         $('#receive-items').append(trHTML);
 
+                        // Show Receive Voucher
+
+
+                        $(".receive-trans").remove();
+                        var trHTML = '';
+                        $.each(data.tr_receive, function (head, item) {
+                            trHTML += '<tr class="receive-items">' +
+                                '<td>' + item.head + '</td>' +
+                                '<td align="right">' + item.debit + '</td>' +
+                                '<td align="right">' + item.credit + '</td>' +
+                                '</tr>';
+                        });
+
+                        $('#receive-trans').append(trHTML);
+
+
+                        // Show Returns
+
                         $(".return-items").remove();
                         var returnHTML = '';
                         $.each(data.returns, function (i, item) {
@@ -227,6 +295,20 @@
                                 '</tr>';
                         });
                         $('#return-items').append(returnHTML);
+
+                        // Show retuen Voucher
+
+                        $(".return-trans").remove();
+                        var trHTML = '';
+                        $.each(data.tr_return, function (head, item) {
+                            trHTML += '<tr class="return-trans">' +
+                                '<td>' + item.head + '</td>' +
+                                '<td align="right">' + item.debit + '</td>' +
+                                '<td align="right">' + item.credit + '</td>' +
+                                '</tr>';
+                        });
+
+                        $('#return-trans').append(trHTML);
 
                     },
                     error: function (jqXHR, textStatus, errorThrown)
