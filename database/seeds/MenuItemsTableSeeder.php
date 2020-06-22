@@ -861,6 +861,25 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'R'
 //        ] );
 //
+
+
+
+//        MENUITEM::create( [
+//            'id'=>51065,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5A',
+//            'name'=>'Stock Position',
+//            'show'=>'1',
+//            'url'=>'product/rptStockPositionIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+
+
+
 //
 //        MENUITEM::create( [
 //            'id'=>52000,

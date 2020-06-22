@@ -136,11 +136,13 @@ class ApproveReceiveCO extends Controller
     {
 //
         $receive = Receive::query()->where('company_id',$this->company_id)
-            ->where('challan_no',$request['challan_no'])
+            ->where('challan_no',$request['challan'])
             ->with(['items'=>function($q){
                 $q->where('company_id',$this->company_id);
             }])
             ->first();
+
+//        dd($request->all());
 
         $purchase = Purchase::query()->where('company_id',$this->company_id)
             ->where('ref_no',$receive->ref_no)->first();
@@ -187,7 +189,7 @@ class ApproveReceiveCO extends Controller
 
                 // Update Trans Product Table
 
-                TransProduct::query()->where('id',$item->id)->update(['receives'=>$item->received]);
+                TransProduct::query()->where('id',$item->id)->update(['received'=>$item->received]);
 
             }
         }catch (\Exception $e)

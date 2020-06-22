@@ -49,73 +49,71 @@
         </div>
     </div>
 
-    @if(!empty($report))
+    @if(!empty($product))
 
         <div class="card">
             <div class="card-header">
                 <table class="table table-info">
                     <tbody>
                     <tr>
-                        <td>Account Name : {!! $params['acc_no'] !!}</td>
-                        <td style="text-align: right">Opening Balance: {!! number_format($params['opening_bal'],2) !!}</td>
+                        <td>Product Name : {!! $product->name !!}</td>
+                        <td style="text-align: right">Opening Balance: {!! number_format($product->opening_qty,2) !!}</td>
                     </tr>
                     <tr>
-                        <td>Date From : {!! $params['from_date'] !!} To {!! $params['to_date'] !!}</td>
-                        <td style="text-align: right">Balance Type: {!! $params['dr_cr'] !!}</td>
+                        <td>Date From : {!! $param['from_date'] !!} To {!! $param['to_date'] !!}</td>
+                        <td style="text-align: right">Balance: {!! $product->on_hand !!} </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="card-body">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                    <tr class="table-success">
-                        <th>Transaction date</th>
-                        <th>Voucher No</th>
-                        <th>Type</th>
-                        <th>Contra</th>
+
+                <table class="table table-responsive table-hover table-bordered" width="80%">
+                    <thead style="background-color: #8eb4cb">
+{{--                        <tr>--}}
+{{--                            <th colspan="5" style="background-color: transparent">{!! $product->name !!} : From {!! $param['from_date'] !!} To {!! $param['to_date'] !!}</th>--}}
+{{--                        </tr>--}}
+
+                    <tr>
+                        <th>Date</th>
+                        <th>Ref No</th>
                         <th>Description</th>
-                        <th style="text-align: right">Debit</th>
-                        <th style="text-align: right">Credit</th>
-                        <th style="text-align: right">Balance</th>
+                        <th style="text-align: right">In</th>
+                        <th style="text-align: right">Out</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($report as $i=>$row)
-                        <tr style="background-color: {!! $i % 2 == 0 ? '#ffffff': '#afffff' !!}">
-                            <td>{!! $row['tr_date'] !!}</td>
-                            <td>{!! $row['voucher_no'] !!}</td>
-                            <td>{!! $row['tr_code'] !!}</td>
-                            <td>
-                                @foreach($contra as $contraLine)
-                                    @if($contraLine['voucher_no'] == $row['voucher_no'])
-                                        {!! $contraLine['acc_name'] !!}<br/>
-                                    @endif
-                                @endforeach
-                            </td>
-                            <td>{!! $row['description'] !!}</td>
-                            <td style="text-align: right">{!! number_format($row['dr_amt'],2) !!}</td>
-                            <td style="text-align: right">{!! number_format($row['cr_amt'],2) !!}</td>
-                            <td style="text-align: right">{!! number_format($row['balance'],2) !!}</td>
+                    <tr>
+                        <td colspan="3" style="font-weight: bold">Opening Balance</td>
+                        <td align="right" style="font-weight: bold">{!! number_format($product->opening_qty,2) !!}</td>
+                        <td style="font-weight: bold">{!! $product->unit_name !!}</td>
+                    </tr>
 
-                        </tr>
-                    @endforeach
+{{--                    @foreach($data as $row)--}}
+{{--                        <tr>--}}
+{{--                            <td>{!! \Carbon\Carbon::parse($row->tr_date)->format('d/m/Y') !!}</td>--}}
+{{--                            <td>{!! $row->refno !!}</td>--}}
+{{--                            <td>{!! $row->reftype !!}</td>--}}
+{{--                            <td align="right">{!! number_format(($row->received + $row->returned),2) !!}</td>--}}
+{{--                            <td align="right">{!! number_format($row->delevered,2) !!}</td>--}}
+{{--                        </tr>--}}
+{{--                    @endforeach--}}
                     </tbody>
-                    <tfoot>
-                    <tr style="background-color: #3A92AF">
-                        <td colspan="5">Period Total</td>
-                        <td style="text-align: right">{!! number_format($report->sum('dr_amt'),2)  !!}</td>
-                        <td style="text-align: right">{!! number_format($report->sum('cr_amt'),2)  !!}</td>
-                    </tr>
+{{--                    <tfoot>--}}
+{{--                    <tr>--}}
+{{--                        <td colspan="3" style="font-weight: bold">Periodic Total</td>--}}
+{{--                        <td align="right" style="font-weight: bold">{!! number_format(($periodsum->received + $periodsum->returned),2) !!}</td>--}}
+{{--                        <td align="right" style="font-weight: bold">{!! number_format($periodsum->delevered,2) !!}</td>--}}
+{{--                    </tr>--}}
+{{--                    <tr>--}}
+{{--                        <td colspan="4" style="font-weight: bold">Current Balance</td>--}}
+{{--                        <td align="right" style="font-weight: bold">{!! number_format($balance,2) !!}{!! $item->unit_name !!}</td>--}}
+{{--                    </tr>--}}
+{{--                    </tfoot>--}}
 
-                    <tr style="background-color: rgba(10,170,158,0.48)">
-                        <td colspan="5">Closing Balance</td>
-                        <td colspan="2" style="text-align: right">{!! number_format(($params['opening_bal'] + $report->sum('dr_amt') - $report->sum('cr_amt')),2) !!}</td>
-                        <td></td>
-                    </tr>
-                    </tfoot>
                 </table>
+
             </div>
         </div>
     @endif

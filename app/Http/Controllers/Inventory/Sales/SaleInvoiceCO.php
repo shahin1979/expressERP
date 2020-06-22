@@ -52,7 +52,7 @@ class SaleInvoiceCO extends Controller
 
         $items = ProductMO::query()->select('id as item_id', 'name','unit_price','unit_name')
             ->where('company_id',$this->company_id)
-            ->where('category_id',3)
+//            ->where('category_id',3)
             ->where('name', 'LIKE', '%'.$term.'%')->get();
 
         return response()->json($items);
@@ -415,6 +415,7 @@ class SaleInvoiceCO extends Controller
                                 $history['ref_id'] = $inserted->id;
                                 $history['tr_date'] = $inserted->delivery_date;
                                 $history['ref_type'] = 'D';
+                                $history['contra_ref'] = $invoice->invoice_no;
                                 $history['product_id'] = $item->product_id;
                                 $history['quantity_in'] = 0;
                                 $history['quantity_out'] = $item->quantity;

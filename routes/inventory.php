@@ -146,6 +146,8 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
     Route::get('rptProductLedgerIndex','Report\ProductLedgerCO@index');
     Route::get('productList','Report\ProductLedgerCO@autocomplete');
 
+    Route::get('rptStockPositionIndex','Report\StockPositionCO@index');
+
 
 });
 

@@ -29,7 +29,7 @@ class PurchaseProductCO extends Controller
             ]);
 
         $suppliers = Relationship::query()->where('company_id',$this->company_id)
-            ->where('relation_type','LS')
+            ->whereIn('relation_type',['LS','SP'])
             ->orderBy('name')
             ->pluck('name','id');
 

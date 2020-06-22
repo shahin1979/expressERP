@@ -19,6 +19,8 @@ class ProductHistory extends Model
     protected static $recordEvents = ['updated','deleted'];
     protected static $logOnlyDirty = true;
 
+    protected $appends = ['balance'];
+
     protected $fillable = [
         'company_id',
         'ref_no',
@@ -60,5 +62,10 @@ class ProductHistory extends Model
     public function supplier()
     {
         return $this->belongsTo(Relationship::class,'relationship_id','id');
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->quantity_in - $this->quantity_out;
     }
 }
