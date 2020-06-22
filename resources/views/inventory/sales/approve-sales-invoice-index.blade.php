@@ -47,35 +47,6 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title" style="background-color: #8ac1ef">GL Transaction</h5>
-                        <table id="invoice-ledger" class="table table-striped invoice-ledger">
-                            <thead>
-                            <tr style="background-color: rgba(58,135,173,0.8)">
-                                <th>Gl Head</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>{!! $basic->auto_delivery == true ? get_account_name_from_number($basic->company_id, $basic->default_sales) : get_account_name_from_number($basic->company_id, $basic->advance_sales) !!}</td>
-                                <td align="right">0.00</td>
-                                <td align="right" id="cr_amt">0.00</td>
-                            </tr>
-                            <tr style="background-color: #8ac1ef">
-                                <td id="customer_id"></td>
-                                <td align="right" id="dr_amt">0.00</td>
-                                <td align="right">0.00</td>
-                            </tr>
-                            </tbody>
-
-                        </table>
-                    </div>
-                </div>
-
             </div>
 
             <input name="invoice" type="hidden" id="invoice" value="">
@@ -112,6 +83,52 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="col-sm-8" >
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="background-color: #8ac1ef">GL Transaction</h5>
+                    <table id="invoice-ledger" class="table table-striped table-bordered">
+                        <thead>
+                        <tr style="background-color: rgba(58,135,173,0.8)">
+                            <th>Gl Head</th>
+                            <th style="text-align: right">Debit</th>
+                            <th style="text-align: right">Credit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            </div>
+
+
+
+            <div class="col-sm-8" >
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="background-color: #8ac1ef">Inventory Out Transaction</h5>
+                        <table id="delivery-ledger" class="table table-striped table-bordered">
+                            <thead>
+                            <tr style="background-color: rgba(58,135,173,0.8)">
+                                <th>Gl Head</th>
+                                <th style="text-align: right">Debit</th>
+                                <th style="text-align: right">Credit</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
 {{--    </form>--}}
 @endsection
@@ -192,7 +209,7 @@
                         $(".invoice_items").remove();
 //
                         var trHTML = '';
-                        $.each(data, function (i, item) {
+                        $.each(data.sales, function (i, item) {
 
                             trHTML += '<tr class="invoice_items">' +
                                 '<td align="right">' + item.item.name +'</td>' +
@@ -203,6 +220,31 @@
                         });
 //
                         $('#invoice-items').append(trHTML);
+
+                        // Show Sales Voucher
+                        $(".invoice_trans").remove();
+//
+                        var trnHTML = '';
+                        $.each(data.transactions, function (i, item) {
+
+                            trnHTML += '<tr class="invoice_trans">' +
+                                '<td>' + item.acc_name +'</td>' +
+                                '<td align="right">' + item.debit_amt +'</td>' +
+                                '<td align="right">' + item.credit_amt +'</td></tr>';
+                        });
+                        $('#invoice-ledger').append(trnHTML);
+
+                        //Show Stock Out Voucher
+                        $(".delivery_trans").remove();
+                        var trdHTML = '';
+                        $.each(data.deliveries, function (i, item) {
+
+                            trnHTML += '<tr class="delivery_trans">' +
+                                '<td>' + item.acc_name +'</td>' +
+                                '<td align="right">' + item.debit_amt +'</td>' +
+                                '<td align="right">' + item.credit_amt +'</td></tr>';
+                        });
+                        $('#delivery-ledger').append(trdHTML);
 
 
                     },
@@ -249,7 +291,8 @@
                     },
 
                     error: function (request, status, error) {
-                        alert(request.responseText);
+                        var myObj = JSON.parse(request.responseText);
+                        alert(myObj.message + ' ' + myObj.error);
                     },
 
                     success: function (data) {

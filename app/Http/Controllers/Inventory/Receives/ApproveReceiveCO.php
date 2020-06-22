@@ -68,10 +68,19 @@ class ApproveReceiveCO extends Controller
             ->addColumn('action', function ($query) {
 
                 $return = ReturnItem::query()->where('company_id',$this->company_id)->where('ref_no',$query->ref_no)->first();
+
                 $type = $query->receive_type == 'LP' ? 'Local Purchase' : ($query->receive_type == 'PR' ? 'Production' : 'Import ');
+                $rt_challan = null;
+                $rt_ref = null;
+                $rt_date = null;
+                $rt_type = null;
+
                 if(!empty($return))
                 {
                     $rt_type = isset($return->return_type) == 'LP' ? 'Purchase Return' : ($return->return_type == 'PR' ? 'Return To Production' : 'Return Imported Items');
+                    $rt_challan = $return->challan_no;
+                    $rt_ref = $return->ref_no;
+                    $rt_date = $return->return_date;
                 }
 
 
@@ -83,10 +92,10 @@ class ApproveReceiveCO extends Controller
                         data-type="' . $type . '"
                         data-ref_no="' . $query->ref_no . '"
 
-                        data-rt_challan="' . isset($return->challan_no) . '"
-                        data-rt_date="' . isset($return->return_date) . '"
-                        data-rt_type="' . isset($rt_type) . '"
-                        data-rt_ref="' . isset($return->ref_no) . '"
+                        data-rt_challan="' . $rt_challan . '"
+                        data-rt_date="' . $rt_date . '"
+                        data-rt_type="' . $rt_type . '"
+                        data-rt_ref="' . $rt_ref . '"
                         id="details-receive" type="button" class="btn btn-receive-details btn-xs btn-primary">Details</button>
                     ';
 
@@ -292,12 +301,12 @@ class ApproveReceiveCO extends Controller
             // Create Account Voucher for Receive Items
 
             $transactions = $this->transactions($receive->id, 1);
-            $input=[];
             $period = $this->get_fiscal_data_from_current_date($this->company_id);
 //            dd($transactions);
             foreach ($transactions as $row)
             {
                 $input=[];
+
                 $input['company_id'] = $this->company_id;
                 $input['project_id'] = null;
                 $input['tr_code'] = 'IR';
@@ -324,42 +333,45 @@ class ApproveReceiveCO extends Controller
                 $output = $this->transaction_entry($input);
             }
 
-            $transactions = $this->transactions($return->id, 2);
-//            dd($transactions);
-
-            foreach ($transactions as $row)
+            if(!is_null($return))
             {
-                $input=[];
+                $transactions = $this->transactions($return->id, 2);
 
-                $input['company_id'] = $this->company_id;
-                $input['project_id'] = null;
-                $input['tr_code'] = 'IR';
-                $input['fp_no'] = $period->fp_no;
-                $input['trans_type_id'] = 9; //  Purchase
-                $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
-                $input['trans_id'] = Carbon::now()->format('Ymdhmis');
-                $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
-                $input['trans_date'] = Carbon::now();
-                $input['voucher_no'] = $return->challan_no;
-                $input['acc_no'] = Str::substr($row['head'],0,8);
-                $input['ledger_code'] = Str::substr($input['acc_no'], 0, 3);
+                foreach ($transactions as $row)
+                {
+                    $input=[];
+
+                    $input['company_id'] = $this->company_id;
+                    $input['project_id'] = null;
+                    $input['tr_code'] = 'IR';
+                    $input['fp_no'] = $period->fp_no;
+                    $input['trans_type_id'] = 9; //  Purchase
+                    $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
+                    $input['trans_id'] = Carbon::now()->format('Ymdhmis');
+                    $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
+                    $input['trans_date'] = Carbon::now();
+                    $input['voucher_no'] = $return->challan_no;
+                    $input['acc_no'] = Str::substr($row['head'],0,8);
+                    $input['ledger_code'] = Str::substr($input['acc_no'], 0, 3);
 //                $input['contra_acc'] = $company_properties->default_purchase;
-                $input['dr_amt'] = $row['debit'];
-                $input['cr_amt'] = $row['credit'];
-                $input['trans_amt'] = $row['debit'] + $row['credit'];
-                $input['currency'] = get_currency($this->company_id);
-                $input['fiscal_year'] = $period->fiscal_year;
-                $input['trans_desc1'] = 'Return Purchase Items';
-                $input['trans_desc2'] = $return->ref_ref;
-                $input['post_flag'] = false;
-                $input['user_id'] = $this->user_id;
+                    $input['dr_amt'] = $row['debit'];
+                    $input['cr_amt'] = $row['credit'];
+                    $input['trans_amt'] = $row['debit'] + $row['credit'];
+                    $input['currency'] = get_currency($this->company_id);
+                    $input['fiscal_year'] = $period->fiscal_year;
+                    $input['trans_desc1'] = 'Return Purchase Items';
+                    $input['trans_desc2'] = $return->ref_ref;
+                    $input['post_flag'] = false;
+                    $input['user_id'] = $this->user_id;
 
-                $output = $this->transaction_entry($input);
-
+                    $output = $this->transaction_entry($input);
+                }
+                //update Return Table
+                ReturnItem::query()->find($return->id)->update(['status'=>'RT','account_post'=>true,'account_voucher'=>$return->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
             }
-            //update Return Table
-            ReturnItem::query()->find($return->id)->update(['status'=>'RT','account_post'=>true,'account_voucher'=>$return->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
-            Receive::query()->find($receive->id)->update(['status'=>'RC','account_post'=>true,'account_voucher'=>$return->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+
+
+            Receive::query()->find($receive->id)->update(['status'=>'RC','account_post'=>true,'account_voucher'=>$receive->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
 
         }catch (\Exception $e)
         {

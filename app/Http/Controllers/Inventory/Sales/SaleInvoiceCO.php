@@ -37,7 +37,7 @@ class SaleInvoiceCO extends Controller
         $basic = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
         $customers = Relationship::query()->where('company_id',$this->company_id)
-            ->where('relation_type','CS')
+            ->whereIn('relation_type',['CS','SP'])
             ->orderBy('name')
             ->pluck('name','id');
 
@@ -52,7 +52,7 @@ class SaleInvoiceCO extends Controller
 
         $items = ProductMO::query()->select('id as item_id', 'name','unit_price','unit_name')
             ->where('company_id',$this->company_id)
-//            ->where('category_id',3)
+            ->where('category_id',3)
             ->where('name', 'LIKE', '%'.$term.'%')->get();
 
         return response()->json($items);

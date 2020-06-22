@@ -285,6 +285,7 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
 
     Route::get('ApproveSalesInvoiceIndex','ApproveSalesInvoiceCO@index');
     Route::get('getApproveInvoice','ApproveSalesInvoiceCO@InvoiceApproveData');
+    Route::get('view/{id}','ApproveSalesInvoiceCO@ajax_call');
     Route::post('approveSalesInvoice/{id}','ApproveSalesInvoiceCO@approve');
 
     //Report

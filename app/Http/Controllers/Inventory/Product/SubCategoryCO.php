@@ -70,7 +70,7 @@ class SubCategoryCO extends Controller
             $ids = SubCategory::query()->create([
                 'company_id' => $this->company_id,
                 'category_id'=>$request['category_id'],
-                'name' => $request['name'],
+                'name' => Str::ucfirst($request['name']),
                 'status' => true,
                 'acc_in_stock' =>$request->filled('acc_in_stock') ? $request['acc_in_stock'] : null,
                 'acc_out_stock' =>$request->filled('acc_out_stock') ? $request['acc_out_stock'] : null,
@@ -93,7 +93,7 @@ class SubCategoryCO extends Controller
     {
         $category = SubCategory::query()->find($id);
 
-        $category->name = $request['name'];
+        $category->name = Str::ucfirst($request['name']);
         $category->acc_in_stock = $request['acc_in_stock'];
         $category->acc_out_stock = $request['acc_out_stock'];
 

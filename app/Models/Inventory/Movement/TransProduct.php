@@ -4,6 +4,7 @@ namespace App\Models\Inventory\Movement;
 
 use App\Models\Company\Relationship;
 use App\Models\Human\Admin\Location;
+use App\Models\Inventory\Product\ItemTax;
 use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -49,6 +50,12 @@ class TransProduct extends Model
         return $this->belongsTo(ProductMO::class,'product_id','id');
     }
 
+    public function tax()
+    {
+        return $this->belongsTo(ItemTax::class,'tax_id','id');
+    }
+
+
     public function requisition()
     {
         return $this->belongsTo(Requisition::class,'ref_id','id');
@@ -82,5 +89,10 @@ class TransProduct extends Model
     public function supplier()
     {
         return $this->belongsTo(Relationship::class,'relationship_id','id');
+    }
+
+    public function getItemTotalAttribute($value)
+    {
+        return $this->quantity * $this->unit_price;
     }
 }

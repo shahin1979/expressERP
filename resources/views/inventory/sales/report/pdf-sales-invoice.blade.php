@@ -72,7 +72,7 @@
                     <td width="40%" style="border-bottom-width:1px; font-size:10pt; text-align: left">{!! $item->item->name !!}</td>
                     <td width="20%" style="border-bottom-width:1px; font-size:10pt; text-align: right">{!! number_format($item->quantity,2) !!} {!! $item->item->unit_name !!}</td>
                     <td width="15%" style="border-bottom-width:1px; font-size:10pt; text-align: right">{!! number_format($item->unit_price,2) !!}</td>
-                    <td width="20%" style="border-bottom-width:1px; font-size:10pt; text-align: right">{!! number_format($item->total_price,2) !!}</td>
+                    <td width="20%" style="border-bottom-width:1px; font-size:10pt; text-align: right">{!! number_format($item->item_total,2) !!}</td>
                 </tr>
 
             @endforeach
@@ -87,8 +87,13 @@
                 <tr>
                     <td rowspan="4" colspan="3" style="font-size:8pt;text-align: left;">{!! convert_number_to_words_bd_format($invoice->due_amt) !!}</td>
                     <td style="font-size:8pt;">Sub Total</td>
-                    <td style="font-size:8pt;text-align: right">{!! number_format($invoice->items->sum('total_price'),2) !!}</td>
+                    <td style="font-size:8pt;text-align: right">{!! number_format($invoice->items->sum('item_total'),2) !!}</td>
                 </tr>
+                <tr>
+                    <td style="font-size:8pt;">Sales Tax</td>
+                    <td style="font-size:8pt;text-align: right">{!! number_format($invoice->items->sum('tax_total'),2) !!}</td>
+                </tr>
+
                 <tr>
                     <td style="font-size:8pt;">Discount Amount</td>
                     <td style="font-size:8pt;text-align: right">{!! number_format($invoice->discount_amt,2) !!}</td>
@@ -98,7 +103,7 @@
                     <td style="font-size:8pt;text-align: right">{!! number_format($invoice->paid_amt,2) !!}</td>
                 </tr>
                 <tr>
-                    <td style="font-size:8pt;font-weight: bold">Due Amount</td>
+                    <td colspan="4"  style="font-size:8pt;font-weight: bold">Due Amount</td>
                     <td style="font-size:8pt;text-align: right; font-weight: bold">{!! number_format($invoice->due_amt,2) !!}</td>
                 </tr>
 

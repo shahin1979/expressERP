@@ -30,7 +30,6 @@ class Delivery extends Model
         'description',
         'status',
         'stock_status',
-        'direct_delivery',
         'account_post',
         'account_voucher',
         'user_id',

@@ -25,7 +25,7 @@
 {{--                <td><label for="invoice_type" class="control-label">Invoice Type</label></td>--}}
 {{--                <td>{!! Form::select('invoice_type', ['CI'=>'Credit Sale','MI'=>'Cash Sale'] , null , array('id' => 'invoice_type', 'class' => 'form-control')) !!}</td>--}}
                 <td><label for="customer_id" class="control-label">Customer</label></td>
-                <td>{!! Form::select('customer_id', $customers , null , array('id' => 'customer_id', 'class' => 'form-control','placeholder' => 'Select Customer')) !!}</td>
+                <td>{!! Form::select('customer_id', $customers , null , array('id' => 'customer_id', 'class' => 'form-control')) !!}</td>
                 <td><button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#modal-unit"><i class="fa fa-plus"></i></button></td>
                 <td><label for="invoice_date" class="control-label">Date</label></td>
                 <td>{!! Form::text('invoice_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'invoice_date', 'class' => 'form-control','required','readonly')) !!}</td>
@@ -88,7 +88,7 @@
                             <input class="form-control text-right" required="required" name="item[{{ $item_row }}][price]" type="text" id="item-price-{{ $item_row }}">
                         </td>
                         <td>
-                            {!! Form::select('item[' . $item_row . '][tax]',$taxes , null, ['id'=> 'item-tax-'. $item_row, 'class' => 'form-control', 'placeholder' =>'Select Tax']) !!}
+                            {!! Form::select('item[' . $item_row . '][tax]',$taxes , null, ['id'=> 'item-tax-'. $item_row, 'class' => 'form-control']) !!}
                             <input name="item[{{ $item_row }}][tax_amt]" type="hidden" id="item-tax-amt-{{ $item_row }}">
                         </td>
                         <td class="text-right" style="vertical-align: middle;">
@@ -109,7 +109,7 @@
                         <td class="text-right"><span id="tax-total">0</span></td>
                     </tr>
                     <tr>
-                        <td class="text-right" colspan="5"><strong>{{ trans('purchase.total') }}</strong></td>
+                        <td class="text-right" colspan="5"><strong>Sales Total</strong></td>
                         <td class="text-right"><span id="grand-total">0</span></td>
                     </tr>
                     <input name="invoice_amt" type="hidden" id="sales-amt" value="">
@@ -155,7 +155,6 @@
 
             html += '  <td>';
             html += '      <select class="form-control select" name="item[' + item_row + '][tax]" id="item-tax-' + item_row + '">';
-            html += '         <option selected="selected" value="">Select Tax</option>';
             @foreach($taxes as $tax_key => $tax_value)
                 html += '         <option value="{{ $tax_key }}">{{ $tax_value }}</option>';
             @endforeach
