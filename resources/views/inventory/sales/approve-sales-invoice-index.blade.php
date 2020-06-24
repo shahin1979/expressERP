@@ -239,7 +239,7 @@
                         var trdHTML = '';
                         $.each(data.deliveries, function (i, item) {
 
-                            trnHTML += '<tr class="delivery_trans">' +
+                            trdHTML += '<tr class="delivery_trans">' +
                                 '<td>' + item.acc_name +'</td>' +
                                 '<td align="right">' + item.debit_amt +'</td>' +
                                 '<td align="right">' + item.credit_amt +'</td></tr>';

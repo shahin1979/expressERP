@@ -49,10 +49,12 @@ class AuthoriseTransactionCO extends Controller
             ->addColumn('ledger', function ($vouchers) {
 
                 $accounts = Transaction::query()->where('company_id',$this->company_id)
-                    ->where('voucher_no',$vouchers->voucher_no)->with('account')->get();
+                    ->where('voucher_no',$vouchers->voucher_no)
+                    ->where('post_flag',false)
+                    ->with('account')->get();
 
                 return $accounts->map(function($items)  {
-                    return $items->account->acc_name;
+                    return isset($items->acc_no) ? $items->account->acc_name : 'No Name';
                 })->implode('<br>');
             })
 

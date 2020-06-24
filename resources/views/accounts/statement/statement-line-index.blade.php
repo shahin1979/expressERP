@@ -292,7 +292,16 @@
                     { data: 'ac22', name: 'ac22' },
                     { data: 'variable', name: 'variable' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
             $(this).on('click', '.btn-statement-edit', function (e) {
