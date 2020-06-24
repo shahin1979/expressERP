@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\UserActivity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
 
 class HomeController extends Controller
@@ -27,6 +29,11 @@ class HomeController extends Controller
     {
         $activity = Activity::all()->last();
 
+        $accounts = GeneralLedger::query()
+            ->where('is_group',true)
+            ->where('company_id',Auth::user()->company_id)->get();
+
+
 //        $user_menus = UserMenu::query()->where('user_id',$this->user_id)->get();
 
 //        dd($user_menus);
@@ -35,6 +42,6 @@ class HomeController extends Controller
 //        echo($activity->description); //returns 'deleted'
 //        echo($activity->changes);
 
-        return view('home',compact('activity'));
+        return view('home',compact('activity','accounts'));
     }
 }
