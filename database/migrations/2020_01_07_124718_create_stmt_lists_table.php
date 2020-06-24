@@ -20,8 +20,8 @@ class CreateStmtListsTable extends Migration
             $table->string('file_no',4);
             $table->string('file_desc',40);
             $table->string('import_file',4)->nullable();
-            $table->integer('import_line',false)->nullable()->default(0);
-            $table->integer('into_line',false)->nullable()->default(0);
+            $table->integer('import_line',false)->default(0);
+            $table->integer('into_line',false)->default(0);
             $table->string('base_formula',9)->nullable();
             $table->decimal('import_value',15,2)->nullable()->default(0);
             $table->integer('order_sequence')->nullable();

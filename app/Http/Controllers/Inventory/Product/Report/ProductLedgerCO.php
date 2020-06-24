@@ -21,25 +21,40 @@ class ProductLedgerCO extends Controller
 
         if($request['product_id'])
         {
-            $param['from_date'] = $request['from_date'];
-            $param['to_date'] = $request['to_date'];
+            $param['from_date'] = $request['date_from'];
+            $param['to_date'] = $request['date_to'];
+
+//            dd($request->all());
+
+            $from_date = Carbon::createFromFormat('d-m-Y',$request['date_from'])->format('Y-m-d');
+            $to_date = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-d');
 
             $product = ProductMO::query()->where('company_id',$this->company_id)
                 ->where('id',$request['product_id'])->first();
 
+            $opening = ProductHistory::query()->where('company_id',$this->company_id)
+                ->where('id',$request['product_id'])
+                ->whereDate('tr_date','<',$from_date)->get();
+
+            $opening = $opening->sum('balance');
+
             $report = ProductHistory::query()->where('company_id',$this->company_id)
-                ->where('product_id',$request['product_id'])->get();
+                ->where('product_id',$request['product_id'])
+                ->whereBetween('tr_date',[$from_date,$to_date])
+                ->get();
+
+//            dd($report);
 
 //            $stats = ProductHistory::query()->where('product_id',$request['product_id'])
 //                ->sum(function ($row) {
 //                return $row->quantity_in - $row->quantity_out;
 //            });
 
-            dd($report->sum('balance'));
+//            dd($report->sum('balance'));
 
 
 
-            return view('inventory.product.report.product-ledger-index',compact('product','param'));
+            return view('inventory.product.report.product-ledger-index',compact('product','param','opening','report'));
         }
 
 

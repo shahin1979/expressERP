@@ -61,7 +61,7 @@
                             <tr>
                                 <th>Requisition <br/> For</th>
                                 <th>Item</th>
-                                <th style="text-align: right">In<br/>Stock</th>
+                                <th style="text-align: right">Stock In<br/>Hand</th>
                                 <th style="text-align: right">Requisition<br/>Qty</th>
                                 <th style="text-align: right">Delivery</th>
                             </tr>

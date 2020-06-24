@@ -37,6 +37,8 @@ class ProductHistory extends Model
         'relationship_id',
         'remarks',
         'status',
+        'acc_post',
+        'stock_out'
     ];
 
     public function item()
@@ -60,6 +62,11 @@ class ProductHistory extends Model
     }
 
     public function supplier()
+    {
+        return $this->belongsTo(Relationship::class,'relationship_id','id');
+    }
+
+    public function customer()
     {
         return $this->belongsTo(Relationship::class,'relationship_id','id');
     }

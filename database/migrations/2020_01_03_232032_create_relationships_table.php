@@ -40,6 +40,7 @@ class CreateRelationshipsTable extends Migration
             $table->decimal('min_order_value',15,2)->default(0);
             $table->boolean('status')->default(true);
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
+            $table->string('old_id',8)->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

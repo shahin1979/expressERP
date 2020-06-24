@@ -73,7 +73,7 @@
 
                             <tfoot>
                                 <tr style="background-color: rgba(224,229,229,0.96)">
-                                    <td colspan="3">Full Delivery <input type="checkbox"  name="full_delivery" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="primary"></td>
+                                    <td colspan="3">Full Delivery <input type="checkbox" checked disabled name="full_delivery" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="primary"></td>
                                     <td colspan="2" style="text-align: right"><button type="submit" id="btn-delivery-post" class="btn btn-primary btn-delivery-post">Submit</button></td>
                                 </tr>
                             </tfoot>
@@ -116,7 +116,17 @@
                     { data: 'user.name', name: 'user.name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ],
-                order: [[ 2, "desc" ]]
+                order: [[ 2, "desc" ]],
+
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
 
@@ -187,6 +197,18 @@
             });
 
 
+            $(document).ready(function() {
+
+                $(document).on('keyup', '#requisition-items tbody .form-control', function(){
+                    var currentRow = $(this).closest("tr");
+                    var stock = parseInt(currentRow.find("td:eq(2)").text());
+                    var req = parseInt(currentRow.find("td:eq(3)").text());
+                    var enter = $(this).val();
+
+                    if(enter > stock) { alert('Value Greater Than Stock In Hand'); $(this).val(0)}
+                    if(enter > req) { alert('Value Greater Than Requisition Qty'); $(this).val(0)}
+                });
+            });
 
 
             $('#ajax-items').submit(function(e) {

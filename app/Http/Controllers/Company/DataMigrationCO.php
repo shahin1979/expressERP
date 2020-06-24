@@ -39,10 +39,12 @@ class DataMigrationCO extends Controller
     public function migrate()
     {
 
+
 //        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
 //        $output = $this->trCode($this->company_id,'2019');
 
 
+//        $connection = DB::connection('mcottondb');
 
 //        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
@@ -61,9 +63,8 @@ class DataMigrationCO extends Controller
 
         // End
 
-//        dd($output);
+        dd($output);
 
-//        dd('here');
 
 
 //        $output = $this->hpsmTwo();
@@ -98,8 +99,8 @@ class DataMigrationCO extends Controller
                 DB::statement('TRUNCATE TABLE sub_categories;');
                 DB::statement('TRUNCATE TABLE products;');
                 DB::statement('TRUNCATE TABLE locations;');
-                DB::statement('TRUNCATE TABLE requisitions;');
-                DB::statement('TRUNCATE TABLE trans_products;');
+//                DB::statement('TRUNCATE TABLE requisitions;');
+//                DB::statement('TRUNCATE TABLE trans_products;');
 
                 DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
             }
@@ -280,27 +281,27 @@ class DataMigrationCO extends Controller
 
             //MIGRATION DEPARTMENTS TABLE
 
-            $departments = $connection->table('item_departments')->get();
-
-            $location = Collect([]);
-            $newLine = [];
-
-
-            foreach ($departments as $row)
-            {
-
-                $newLine['company_id'] = $this->company_id;
-                $newLine['location_type'] = 'F';
-                $newLine['name'] = $row->deptName;
-                $newLine['dept_code'] = $row->deptCode;
-                $newLine['user_id'] = $this->user_id;
-
-                $inserted = Location::query()->create($newLine);
-
-                $newLine['id'] = $inserted->id;
-                $location->push($newLine);
-
-            }
+//            $departments = $connection->table('item_departments')->get();
+//
+//            $location = Collect([]);
+//            $newLine = [];
+//
+//
+//            foreach ($departments as $row)
+//            {
+//
+//                $newLine['company_id'] = $this->company_id;
+//                $newLine['location_type'] = 'F';
+//                $newLine['name'] = $row->deptName;
+//                $newLine['dept_code'] = $row->deptCode;
+//                $newLine['user_id'] = $this->user_id;
+//
+//                $inserted = Location::query()->create($newLine);
+//
+//                $newLine['id'] = $inserted->id;
+//                $location->push($newLine);
+//
+//            }
 
 
             //REQUISITION TABLE MIGRATION

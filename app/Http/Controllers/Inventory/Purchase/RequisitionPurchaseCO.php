@@ -36,6 +36,7 @@ class RequisitionPurchaseCO extends Controller
         $query = Requisition::query()->where('company_id',$this->company_id)
             ->where('status',2)
             ->where('req_type','P')
+            ->where('req_date','>','2020-06-01')
             ->with(['items'=>function($q){
                 $q->where('company_id',$this->company_id);
             }])

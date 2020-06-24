@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
 use App\Models\Inventory\Movement\Sale;
 use App\Models\Inventory\Movement\TransProduct;
+use App\Traits\CompanyTrait;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +15,9 @@ use Yajra\DataTables\Facades\DataTables;
 
 class EditSalesInvoiceCO extends Controller
 {
-    public function editIndex()
+    use TransactionsTrait, CompanyTrait;
+
+    public function index()
     {
         UserActivity::query()->updateOrCreate(
             ['company_id'=>$this->company_id,'menu_id'=>55010,'user_id'=>$this->user_id

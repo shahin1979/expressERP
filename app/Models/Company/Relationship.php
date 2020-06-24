@@ -33,6 +33,7 @@ class Relationship extends Model
         'min_order_value',
         'status',
         'locale',
+        'old_id',
         'user_id',
     ];
 

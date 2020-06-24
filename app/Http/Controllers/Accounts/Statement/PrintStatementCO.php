@@ -48,7 +48,7 @@ class PrintStatementCO extends Controller
 
         $filesWithoutImport = StmtList::query()->where('company_id',$this->company_id)
 //            ->where('file_no','MA01')
-            ->where('import_line',null)->get();
+            ->where('import_line',0)->get();
 
 //        dd($filesWithoutImport);
 

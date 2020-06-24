@@ -74,7 +74,7 @@ class ProductsCO extends Controller
 
     public function getProductsDBData()
     {
-        $products = ProductMO::query()->where('company_id',$this->company_id)->with('category','subcategory')->get();
+        $products = ProductMO::query()->where('company_id',$this->company_id)->with('category','subcategory');
 
         return DataTables::of($products)
             ->addColumn('action', function ($products) {

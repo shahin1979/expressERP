@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounts\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Common\UserActivity;
 use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,6 +14,12 @@ class PrintVoucherControllerCO extends Controller
 {
     public function index(Request $request)
     {
+
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>47015,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
+
 
         $trans = null;
         $dates = null;

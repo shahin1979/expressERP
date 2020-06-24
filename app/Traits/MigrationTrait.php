@@ -12,7 +12,10 @@ use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\Relationship;
 use App\Models\Company\TransCode;
 use App\Models\Human\Admin\Location;
+use App\Models\Inventory\Movement\Delivery;
+use App\Models\Inventory\Movement\ProductHistory;
 use App\Models\Inventory\Movement\Purchase;
+use App\Models\Inventory\Movement\Receive;
 use App\Models\Inventory\Movement\Requisition;
 use App\Models\Inventory\Movement\Sale;
 use App\Models\Inventory\Movement\TransProduct;
@@ -483,22 +486,20 @@ trait MigrationTrait
 
     public function MTRequisition($company_id)
     {
-        ini_set('max_execution_time', 600);
+        ini_set('max_execution_time', 1800);
 
         $connection = DB::connection('mcottondb');
 
         DB::statement('TRUNCATE TABLE locations;');
-        DB::statement('TRUNCATE TABLE requisitions;');
-        DB::statement('TRUNCATE TABLE trans_products;');
-
-//        DB::statement('ALTER TABLE requisitions ADD extra_field VARCHAR(150);');
+//        DB::statement('TRUNCATE TABLE requisitions;');
+//        DB::statement('TRUNCATE TABLE trans_products;');
 
 
         // Test Area
 
         $departments = $connection->table('item_departments')->get();
-
-
+//
+//
         $location = Collect([]);
         $newLine = [];
 
@@ -506,11 +507,11 @@ trait MigrationTrait
 
         foreach ($departments as $row)
         {
-
             $newLine['company_id'] = $company_id;
             $newLine['location_type'] = 'F';
             $newLine['name'] = $row->deptName;
-            $newLine['dept_code'] = $row->deptCode;
+            $newLine['in_charge'] = $row->inCharge;
+            $newLine['old_id'] = $row->deptCode;
             $newLine['user_id'] = Auth::id();
 
             $new_location = Location::query()->create($newLine);
@@ -521,9 +522,12 @@ trait MigrationTrait
             $count ++;
         }
 
+//dd($count);
 
+        $count = 0;
         $requisitions = $connection->table('item_requisitions')->get();
         $collection = $requisitions->unique('reqRefNo');
+//        $location = Location::query()->get();
 
 //        $req_sl = 40000001;
 
@@ -537,7 +541,6 @@ trait MigrationTrait
                 ->lockForUpdate()->first();
 
             $req_no = $tr_code->last_trans_id;
-
 
             $inserted = Requisition::query()->create([
                 'company_id'=>$company_id,
@@ -555,12 +558,12 @@ trait MigrationTrait
                 ->where(DB::Raw('length(itemCode)'),9)
                 ->get();
 
+//            $products = ProductMO::query()->get();
+
             foreach ($reqs as $req) {
 
                 $req_for = $location->where('dept_code',$req->reqFor)->first();
-                $product = ProductMO::query()
-                    ->where('product_code',$req->itemCode)
-                    ->where('company_id',$company_id)
+                $product = ProductMO::query()->where('product_code',$req->itemCode)
                     ->first();
 
                 if(!empty($product))
@@ -582,26 +585,13 @@ trait MigrationTrait
                         'status'=>$req->status
                     ]);
                 }
-
             }
 
             TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','RQ')
                     ->where('fiscal_year',$fiscal)
                 ->increment('last_trans_id');
-
-//            if($row->reqDate < '2019-07-01')
-//            {
-//                $req_sl ++;
-//
-//            }else
-//            {
-//                TransCode::query()->where('company_id',$this->company_id)
-//                    ->where('trans_code','RQ')
-////                    ->where('fiscal_year','2029-2020')
-//                    ->increment('last_trans_id');
-//            }
-
+            $count++;
         }
 
         return $count;
@@ -620,7 +610,8 @@ trait MigrationTrait
         DB::statement('TRUNCATE TABLE purchases;');
 
         $data = $connection->table('customers')
-            ->where('customerType','E')
+//            ->where('customerType','E')
+            ->where('custID','<>','6004') // Exclude Cash Account
             ->get();
 
 //        $collection = Collect([]);
@@ -630,16 +621,28 @@ trait MigrationTrait
 
 // Insert Relationship Table for suppliers
 
+        // Cash Account
+        $newLine['company_id'] = $company_id;
+        $newLine['relation_type'] = 'SP';
+        $newLine['name'] = 'Cash Sale/Purchase';
+        $newLine['address'] = 'Own Cash';
+        $newLine['ledger_acc_no'] = '10112102';
+        $newLine['old_id'] = '6004';
+        $newLine['user_id'] = Auth::id();
+        Relationship::query()->create($newLine);
+
+
         foreach ($data as $row)
         {
             $newLine['company_id'] = $company_id;
-            $newLine['relation_type'] = 'LS';
+            $newLine['relation_type'] = $row->customerType == 'E' ? 'LS' : 'CS';
             $newLine['name'] = $row->custName;
-            $newLine['fax_number'] = $row->custID;
+//            $newLine['fax_number'] = $row->custID;
             $newLine['address'] = $row->custAddress;
             $newLine['phone_number'] = $row->phoneNo;
             $newLine['ledger_acc_no'] = $row->glhead;
             $newLine['email'] = $row->email;
+            $newLine['old_id'] = $row->custID;
             $newLine['user_id'] = Auth::id();
 
             Relationship::query()->create($newLine);
@@ -651,8 +654,6 @@ trait MigrationTrait
  // Insert Purchase Table Data
         //
         $purchase = $connection->table('purchase_header')->get();
-        $product = ProductMO::query()
-            ->where('company_id',$company_id)->get();
 
         $requisitions = Requisition::query()->where('company_id',$company_id)
             ->where('req_type','P')->get();
@@ -665,12 +666,17 @@ trait MigrationTrait
                 ->where('trans_code','PR')
                 ->where('fiscal_year',$fiscal)->lockForUpdate()->first();
 
+            $requisition = Requisition::query()->where('company_id',$company_id)
+                ->where('req_type','P')
+                ->where('extra_field',$row->RefNo)
+                ->first();
+
             $pi_no = $tr_code->last_trans_id;
 
             $inserted = Purchase::query()->create([
                 'company_id'=>$company_id,
                 'ref_no'=>$pi_no,
-                'contra_ref'=> $requisitions->where('extra_field',$row->RefNo)->first()->ref_no,
+                'contra_ref'=> $requisition->ref_no,
                 'po_date'=>$row->poDate,
                 'old_number'=>$row->purchaseOrderNo,
                 'purchase_type'=>'LP',
@@ -690,8 +696,9 @@ trait MigrationTrait
 
             foreach ($items as $item) {
 
-                $prod = $product->where('product_code',$item->itemCode)->first();
-                $supplier = Relationship::query()->where('fax_number',$item->suplierId)->first();
+                $prod = ProductMO::query()
+                    ->where('company_id',$company_id)->where('product_code',$item->itemCode)->first();
+                $supplier = Relationship::query()->where('old_id',$item->suplierId)->first();
 
                 if(!empty($prod))
                 {
@@ -832,9 +839,9 @@ trait MigrationTrait
 //        DB::statement('TRUNCATE TABLE relationships;');
         DB::statement('TRUNCATE TABLE sales;');
 
-        $data = $connection->table('customers')
-            ->where('customerType','B')
-            ->get();
+//        $data = $connection->table('customers')
+//            ->where('customerType','B')
+//            ->get();
 
 //        $collection = Collect([]);
         $newLine = [];
@@ -843,22 +850,22 @@ trait MigrationTrait
 
 // Insert Relationship Table for suppliers
 
-        foreach ($data as $row)
-        {
-            $newLine['company_id'] = $company_id;
-            $newLine['relation_type'] = 'CS';
-            $newLine['name'] = $row->custName;
-            $newLine['fax_number'] = $row->custID;
-            $newLine['address'] = $row->custAddress;
-            $newLine['phone_number'] = $row->phoneNo;
-            $newLine['ledger_acc_no'] = $row->glhead;
-            $newLine['email'] = $row->email;
-            $newLine['user_id'] = Auth::id();
-
-//            Relationship::query()->create($newLine);
-//            $suppliers->push($newLine);
-//            $count ++;
-        }
+//        foreach ($data as $row)
+//        {
+//            $newLine['company_id'] = $company_id;
+//            $newLine['relation_type'] = 'CS';
+//            $newLine['name'] = $row->custName;
+//            $newLine['fax_number'] = $row->custID;
+//            $newLine['address'] = $row->custAddress;
+//            $newLine['phone_number'] = $row->phoneNo;
+//            $newLine['ledger_acc_no'] = $row->glhead;
+//            $newLine['email'] = $row->email;
+//            $newLine['user_id'] = Auth::id();
+//
+////            Relationship::query()->create($newLine);
+////            $suppliers->push($newLine);
+////            $count ++;
+//        }
 // End Relationship
 
         // Insert Purchase Table Data
@@ -944,125 +951,212 @@ trait MigrationTrait
 
     public function MTHistories($company_id)
     {
-        ini_set('max_execution_time', 600);
+        ini_set('max_execution_time', 1200);
 
         $connection = DB::connection('mcottondb');
 
-//        DB::statement('TRUNCATE TABLE relationships RESTART identity CASCADE;');
-//        DB::statement('TRUNCATE TABLE relationships;');
-        DB::statement('TRUNCATE TABLE stock_item_histories;');
 
-        $data = $connection->table('stock_item_histories')->get();
 
-//        $collection = Collect([]);
-        $newLine = [];
-        $count = 0;
-//        $suppliers = Collect([]);
 
-// Insert Relationship Table for suppliers
 
-        foreach ($data as $row)
-        {
-            switch($row->typeCode)
-            {
-                case 'Opning Stock':
 
-            }
-            $newLine['company_id'] = $company_id;
-            $newLine['relation_type'] = 'CS';
-            $newLine['name'] = $row->custName;
-            $newLine['fax_number'] = $row->custID;
-            $newLine['address'] = $row->custAddress;
-            $newLine['phone_number'] = $row->phoneNo;
-            $newLine['ledger_acc_no'] = $row->glhead;
-            $newLine['email'] = $row->email;
-            $newLine['user_id'] = Auth::id();
+        // Purchase Received
 
-//            Relationship::query()->create($newLine);
-//            $suppliers->push($newLine);
-//            $count ++;
-        }
-// End Relationship
 
-        // Insert Purchase Table Data
-        //
-        $sales = $connection->table('invoice_sales')->get();
-        $product = ProductMO::query()
-            ->where('company_id',$company_id)->get();
+//        DB::statement('TRUNCATE TABLE receives;');
+//        DB::statement('TRUNCATE TABLE product_histories;');
+//
+//        $data = $connection->table('stock_items_history')
+//            ->where('typeCode', 'Purchase')->get();
+//
+//
+//        $receives = $data->unique('refNo');
+//
+//        $count = 0;
+//
+//        foreach ($receives as $row) {
+//
+//            $fiscal = $this->get_fiscal_year_db_date($company_id, $row->transDate);
+//
+//            $tr_code = TransCode::query()->where('company_id', $company_id)
+//                ->where('trans_code', 'IR')
+//                ->where('fiscal_year', $fiscal)
+//                ->lockForUpdate()->first();
+//
+//            $receive_no = $tr_code->last_trans_id;
+//            $receive = [];
+//
+//            $receive['company_id'] = $this->company_id;
+//            $receive['challan_no'] = $receive_no;
+//            $receive['ref_no'] = $row->refNo;
+//            $receive['receive_date'] = $row->transDate;
+//            $receive['receive_type'] = 'LP';
+//            $receive['description'] = 'Migrated';
+//            $receive['old_challan'] = isset($row->challanNo) ? $row->challanNo : null;
+//            $receive['user_id'] = $this->user_id;
+//            $receive['status'] = 'RC'; //Received
+//
+//            $inserted = Receive::query()->create($receive);
+//
+//            $items = $connection->table('stock_items_history')
+//                ->where('refNo', $row->refNo)
+//                ->where('typeCode', 'Purchase')
+//                ->where(DB::Raw('length(itemCode)'), 9)
+//                ->get();
+//
+//            $purchase = Purchase::query()->where('company_id', $company_id)
+//                ->where('old_number', $row->refNo)->first();
+//
+//            foreach ($items as $item) {
+//
+//                $prod = ProductMO::query()
+//                    ->where('company_id', $company_id)->where('product_code', $item->itemCode)->first();
+//                $supplier = Relationship::query()->where('old_id', $item->contraRef)->first();
+//
+//
+//                if (!empty($prod)) {
+//                    $history['company_id'] = $company_id;
+//                    $history['ref_no'] = $receive_no;
+//                    $history['ref_id'] = $inserted->id;
+//                    $history['ref_type'] = 'P'; //Receive Against Purchase
+//                    $history['contra_ref'] = $purchase->ref_no;
+//                    $history['relationship_id'] = isset($supplier->id) ? isset($supplier->id) : null;
+//                    $history['tr_date'] = $item->transDate;
+//                    $history['product_id'] = $prod->id;
+//                    $history['name'] = $prod->name;
+//                    $history['quantity_in'] = $item->qtyIn;
+//                    $history['received'] = $item->qtyIn;
+//                    $history['unit_price'] = $item->unitPrice;
+//                    $history['total_price'] = $item->qtyIn * $item->unitPrice;
+//                    $history['remarks'] = 'migrated product :' . $item->itemCode;
+//                    $history['acc_post'] = $item->accPost;
+//
+//                    $ids = ProductHistory::query()->create($history);
+//
+//                    //Update Product Table
+//
+//                    ProductMO::query()->find($prod->id)->increment('on_hand', $item->qtyIn);
+//                    ProductMO::query()->find($prod->id)->increment('received_qty', $item->qtyIn);
+//                }
+//
+//            }
+//
+//            TransCode::query()->where('company_id', $company_id)
+//                ->where('trans_code', 'IR')
+//                ->where('fiscal_year', $fiscal)
+//                ->increment('last_trans_id');
+//
+//            $count++;
+//        }
 
-//        $requisitions = Requisition::query()->where('company_id',$company_id)
-//            ->where('req_type','P')->get();
+        // END PURCHASE RECEIVED
 
-        foreach ($sales as $row)
-        {
-            $fiscal = $this->get_fiscal_year_db_date($this->company_id,$row->invoiceDate );
 
-            $tr_code =  TransCode::query()->where('company_id',$company_id)
-                ->where('trans_code','SL')
-                ->where('fiscal_year',$fiscal)->lockForUpdate()->first();
+        // REQUISITION CONSUMPTION
 
-            $invoice_no = $tr_code->last_trans_id;
-            $customer = Relationship::query()->where('fax_number',$row->customerID)->first();
+        // history table last id 10132  increment 10133
 
-            $inserted = Sale::query()->create([
-                'company_id'=>$company_id,
-                'invoice_no'=>$invoice_no,
-                'customer_id'=> isset($customer->id) ? $customer->id : '',
-                'invoice_type'=>'CI',
-                'invoice_date'=>$row->invoiceDate,
-                'old_invoice_no'=>$row->invoiceNo,
-                'invoice_amt'=>$row->invoiceAmt,
-                'due_amt'=>$row->dueAmt,
-                'status'=>$row->approvalStatus =='A' ? 'AP' : ($row->approvalStatus =='R' ? 'RJ': 'CR'),
-                'delivery_status'=>$row->deliveryStatus == 'D' ? 1 : 0,
-                'user_id'=>Auth::id(),
-                'authorized_by'=>Auth::id(),
-            ]);
+        DB::statement('TRUNCATE TABLE deliveries;');
+        DB::statement('ALTER TABLE product_histories auto_increment = 10133;');
+        ProductHistory::query()->where('id','>',10132)->delete();
 
-            // Insert Invoice Items Table
-
-            $items = $connection->table('invoice_items')
-                ->where('invoiceNo',$row->invoiceNo)
-                ->where(DB::Raw('length(itemCode)'),9)
+            $data = $connection->table('stock_items_history')
+                ->where('typeCode','Consumption')
+                ->where(DB::Raw('substr(itemCode, 1, 3)'),'!=','301')
                 ->get();
 
-            foreach ($items as $item) {
+//            dd($data);
 
-                $prod = $product->where('product_code',$item->itemCode)->first();
+            $receives = $data->unique('refNo');
+
+            $count = 0;
+
+            foreach ($receives as $row) {
+
+                $fiscal = $this->get_fiscal_year_db_date($company_id, $row->transDate);
+
+                $tr_code = TransCode::query()->where('company_id', $company_id)
+                    ->where('trans_code', 'DC') // Delivery Challan
+                    ->where('fiscal_year', $fiscal)
+                    ->lockForUpdate()->first();
+
+                $requisition = Requisition::query()->where('company_id', $company_id)
+                    ->where('extra_field', $row->refNo)->first();
+
+                $delivery_no = $tr_code->last_trans_id;
+                $delivery = [];
+
+                $delivery['company_id'] = $this->company_id;
+                $delivery['challan_no'] = $delivery_no;
+                $delivery['ref_no'] = isset($requisition->ref_no) ? $requisition->ref_no : $row->refNo;
+                $delivery['delivery_date'] = $row->transDate;
+                $delivery['delivery_type'] = 'CM';
+                $delivery['description'] = 'Migrated';
+                $delivery['old_challan'] = isset($row->challanNo) ? $row->challanNo : null;
+                $delivery['user_id'] = $this->user_id;
+                $delivery['status'] = 'DL'; //Received
+                $delivery['approve_date'] = $row->transDate;
 
 
-                if(!empty($prod))
-                {
-                    TransProduct::query()->insert([
-                        'company_id'=>$company_id,
-                        'ref_no'=>$invoice_no,
-                        'ref_id'=>$inserted->id,
-                        'ref_type'=>'S',
-                        'relationship_id'=>isset($customer->id) ? $customer->id : null,
-                        'tr_date'=>$row->invoiceDate,
-                        'product_id'=>$prod->id,
-                        'name'=>$prod->name,
-                        'quantity'=>$item->quantity,
-                        'unit_price'=>$item->rate,
-                        'total_price' =>$item->quantity*$item->rate,
-                        'approved'=>$item->quantity,
-                        'sold'=>$item->quantity,
-                        'delivered'=>$item->deliveredQty,
-                        'remarks'=>'Migrated',
-                    ]);
+                $inserted = Delivery::query()->create($delivery);
+
+                $items = $connection->table('stock_items_history')
+                    ->where('refNo', $row->refNo)
+                    ->where('typeCode', 'Consumption')
+                    ->where(DB::Raw('length(itemCode)'), 9)
+                    ->get();
+
+
+
+                foreach ($items as $item) {
+
+                    $prod = ProductMO::query()
+                        ->where('company_id', $company_id)->where('product_code', $item->itemCode)->first();
+                    $location = Location::query()->where('old_id', $item->contraRef)->first();
+
+
+
+                    if (!empty($prod)) {
+                        $history['company_id'] = $company_id;
+                        $history['ref_no'] = $delivery_no;
+                        $history['ref_id'] = $inserted->id;
+                        $history['ref_type'] = 'D'; //Delivery for Consumption
+                        $history['contra_ref'] = isset($requisition->ref_no) ? $requisition->ref_no : $row->refNo;
+                        $history['relationship_id'] = isset($location->id) ? isset($location->id) : null;
+                        $history['tr_date'] = $item->transDate;
+                        $history['product_id'] = $prod->id;
+                        $history['name'] = $prod->name;
+                        $history['quantity_out'] = $item->qtyOut;
+                        $history['received'] = $item->qtyOut;
+                        $history['unit_price'] = $item->unitPrice;
+                        $history['total_price'] = $item->qtyOut * $item->unitPrice;
+                        $history['remarks'] = $item->description;
+                        $history['acc_post'] = $item->accPost;
+
+                        $ids = ProductHistory::query()->create($history);
+
+                        //Update Product Table
+
+                        ProductMO::query()->find($prod->id)->decrement('on_hand', $item->qtyIn);
+                        ProductMO::query()->find($prod->id)->increment('sell_qty', $item->qtyIn);
+                    }
+
                 }
 
+                TransCode::query()->where('company_id', $company_id)
+                    ->where('trans_code', 'DC')
+                    ->where('fiscal_year', $fiscal)
+                    ->increment('last_trans_id');
+
+                $count++;
+
+
             }
+        // END CONSUMPTION
 
-            TransCode::query()->where('company_id',$this->company_id)
-                ->where('trans_code','SL')
-                ->where('fiscal_year',$fiscal)
-                ->increment('last_trans_id');
-
-            $count ++ ;
-        }
 
         return $count;
-    }
 
+
+    }
 }

@@ -39,7 +39,8 @@ class SaleInvoiceCO extends Controller
         $customers = Relationship::query()->where('company_id',$this->company_id)
             ->whereIn('relation_type',['CS','SP'])
             ->orderBy('name')
-            ->pluck('name','id');
+            ->pluck('name','id')
+            ->prepend('Cash Sale','1',);
 
         $taxes = ItemTax::query()->where('company_id',$this->company_id)->pluck('name','id');
 
@@ -50,9 +51,9 @@ class SaleInvoiceCO extends Controller
     {
         $term = $request['term'];
 
-        $items = ProductMO::query()->select('id as item_id', 'name','unit_price','unit_name')
+        $items = ProductMO::query()->select('id as item_id', 'name','unit_price','unit_name','tax_id')
             ->where('company_id',$this->company_id)
-            ->where('category_id',3)
+//            ->where('category_id',3)
             ->where('name', 'LIKE', '%'.$term.'%')->get();
 
         return response()->json($items);

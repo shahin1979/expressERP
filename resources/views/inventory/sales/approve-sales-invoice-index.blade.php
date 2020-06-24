@@ -107,7 +107,7 @@
             </div>
 
 
-
+            @if($users_company->auto_delivery === true)
             <div class="col-sm-8" >
                 <div class="card">
                     <div class="card-body">
@@ -128,6 +128,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 
         </div>
 {{--    </form>--}}
@@ -180,10 +181,10 @@
                 var url = $(this).data('remote');
 
                 $('#invoice').val($(this).data('invoice'));
-                $('#grand-total').html($(this).data('amount'));
-                $('#customer_id').html($(this).data('customer'));
-                $('#dr_amt').html($(this).data('amount'));
-                $('#cr_amt').html($(this).data('amount'));
+                // $('#grand-total').html($(this).data('amount'));
+                // $('#customer_id').html($(this).data('customer'));
+                // $('#dr_amt').html($(this).data('amount'));
+                // $('#cr_amt').html($(this).data('amount'));
 
                 $(".invoice-info").remove();
 
@@ -193,7 +194,11 @@
                     '<td align="left">Invoice No</td><td align="left">' + $(this).data('invoice') + '</td></tr>' +
                     '<tr class="invoice-info"><td align="left">Date</td><td align="left">' + $(this).data('date') + '</td>/tr>' +
                     '<tr class="invoice-info"><td align="left">Customer</td><td align="left">' + $(this).data('customer') + '</td></tr>' +
-                    '<tr class="invoice-info"><td align="left">Invoice Amount</td><td align="left">' + $(this).data('amount') + '</td>/tr>' ;
+                    '<tr class="invoice-info"><td align="left">Invoice Amount</td><td align="left">' + $(this).data('amount') + '</td>' +
+                    '<tr class="invoice-info"><td align="left">Discount Amount</td><td align="left">' + $(this).data('discount') + '</td>' +
+                    '<tr class="invoice-info"><td align="left">Paid Amount</td><td align="left">' + $(this).data('paid') + '</td>' +
+                    '<tr class="invoice-info"><td align="left" style="font-weight: bold; color:darkred ">Due Amount</td><td align="left" style="font-weight: bold">' + $(this).data('due') + '</td>' +
+                    '</tr>' ;
 
                 $('#invoice-main').append(reqHTML);
 

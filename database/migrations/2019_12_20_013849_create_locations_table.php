@@ -19,8 +19,10 @@ class CreateLocationsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->char('location_type',10)->nullable()->comment('F=>Factory D=>Employee Duty');
             $table->string('name',200);
+            $table->string('in_charge',240);
             $table->longText('description')->nullable();
             $table->boolean('status')->default(1);
+            $table->string('old_id',4);
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

@@ -51,13 +51,13 @@
 
     @if(!empty($product))
 
-        <div class="card">
+        <div class="col-md-10 card">
             <div class="card-header">
                 <table class="table table-info">
                     <tbody>
                     <tr>
-                        <td>Product Name : {!! $product->name !!}</td>
-                        <td style="text-align: right">Opening Balance: {!! number_format($product->opening_qty,2) !!}</td>
+                        <td>Product Name : {!! $product->sku !!} : {!! $product->name !!}</td>
+                        <td style="text-align: right">Opening Balance: {!! number_format(($product->opening_qty + $opening),2) !!}</td>
                     </tr>
                     <tr>
                         <td>Date From : {!! $param['from_date'] !!} To {!! $param['to_date'] !!}</td>
@@ -76,29 +76,29 @@
 {{--                        </tr>--}}
 
                     <tr>
-                        <th>Date</th>
-                        <th>Ref No</th>
-                        <th>Description</th>
-                        <th style="text-align: right">In</th>
-                        <th style="text-align: right">Out</th>
+                        <th width="15%">Date</th>
+                        <th width="15%">Ref No</th>
+                        <th width="40%">Description</th>
+                        <th width="15%" style="text-align: right">Received</th>
+                        <th width="15%" style="text-align: right">Delivered</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td colspan="3" style="font-weight: bold">Opening Balance</td>
-                        <td align="right" style="font-weight: bold">{!! number_format($product->opening_qty,2) !!}</td>
-                        <td style="font-weight: bold">{!! $product->unit_name !!}</td>
-                    </tr>
+{{--                    <tr>--}}
+{{--                        <td colspan="3" style="font-weight: bold">Opening Balance</td>--}}
+{{--                        <td align="right" style="font-weight: bold">{!! number_format(($product->opening_qty + $opening),2) !!}</td>--}}
+{{--                        <td style="font-weight: bold">{!! $product->unit_name !!}</td>--}}
+{{--                    </tr>--}}
 
-{{--                    @foreach($data as $row)--}}
-{{--                        <tr>--}}
-{{--                            <td>{!! \Carbon\Carbon::parse($row->tr_date)->format('d/m/Y') !!}</td>--}}
-{{--                            <td>{!! $row->refno !!}</td>--}}
-{{--                            <td>{!! $row->reftype !!}</td>--}}
-{{--                            <td align="right">{!! number_format(($row->received + $row->returned),2) !!}</td>--}}
-{{--                            <td align="right">{!! number_format($row->delevered,2) !!}</td>--}}
-{{--                        </tr>--}}
-{{--                    @endforeach--}}
+                    @foreach($report as $row)
+                        <tr>
+                            <td width="15%">{!! \Carbon\Carbon::parse($row->tr_date)->format('d-M-Y') !!}</td>
+                            <td width="15%">{!! $row->ref_no !!}</td>
+                            <td width="40%">{!! $row->ref_type === 'D' ? 'Delivered to: '.$row->location->name  : ($row->ref_type === 'P'? 'Purchased from: '.$row->supplier->name : 'Sales To: '.$row->customer->name) !!}</td>
+                            <td width="15%" align="right">{!! number_format(($row->quantity_in),2) !!}</td>
+                            <td width="15%" align="right">{!! number_format($row->quantity_out,2) !!}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
 {{--                    <tfoot>--}}
 {{--                    <tr>--}}

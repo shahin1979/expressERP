@@ -72,17 +72,23 @@ class PrintSalesInvoiceCO extends Controller
         $invoice = Sale::query()->where('id',$id)->with('items')->with('customer')->first();
         $customer = Relationship::query()->where('id',$invoice->customer_id)->first();
 
+        $opening = null;
+        $ledgers = null;
 
-        $from_date = Transaction::query()
-            ->where('company_id',$this->company_id)
-            ->where('acc_no',$customer->ledger_acc_no)
-            ->where('trans_date','<',$invoice->invoice_date)
-            ->where('tr_code','SL')
-            ->max('trans_date');
+        if($invoice->invoice_type == 'CR')
+        {
+            $from_date = Transaction::query()
+                ->where('company_id',$this->company_id)
+                ->where('acc_no',$customer->ledger_acc_no)
+                ->where('trans_date','<',$invoice->invoice_date)
+                ->where('tr_code','SL')
+                ->max('trans_date');
 
-        $opening = $this->get_account_opening_balance($customer->ledger_acc_no,$this->company_id,$from_date);
-        $ledgers = $this->get_account_ledger($this->company_id,$customer->ledger_acc_no,$from_date,$invoice->invoice_date);
-        $ledgers  = json_decode($ledgers, true);
+            $opening = $this->get_account_opening_balance($customer->ledger_acc_no,$this->company_id,$from_date);
+            $ledgers = $this->get_account_ledger($this->company_id,$customer->ledger_acc_no,$from_date,$invoice->invoice_date);
+            $ledgers  = json_decode($ledgers, true);
+        }
+
 
 
         $view = \View::make('inventory.sales.report.pdf-sales-invoice',compact('invoice','opening','ledgers'));

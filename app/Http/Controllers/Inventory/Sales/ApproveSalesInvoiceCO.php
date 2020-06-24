@@ -14,6 +14,7 @@ use App\Models\Inventory\Movement\Sale;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ItemTax;
 use App\Models\Inventory\Product\ProductMO;
+use App\Traits\ProductTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ use function MongoDB\BSON\toJSON;
 
 class ApproveSalesInvoiceCO extends Controller
 {
-    use TransactionsTrait;
+    use TransactionsTrait, ProductTrait;
 
     public function index()
     {
@@ -72,6 +73,9 @@ class ApproveSalesInvoiceCO extends Controller
                         data-invoice="' . $sales->invoice_no . '"
                         data-date="' . $sales->invoice_date . '"
                         data-customer="' . $sales->customer->name . '"
+                        data-discount="' . $sales->discount_amt . '"
+                        data-paid="' . $sales->paid_amt . '"
+                        data-due="' . $sales->due_amt . '"
                         data-amount="' . number_format($sales->invoice_amt,2) . '"
                         data-type="' . $type . '"
                         id="view-invoice" type="button" class="btn btn-view btn-xs btn-primary pull-left">Details</button>
@@ -101,16 +105,48 @@ class ApproveSalesInvoiceCO extends Controller
             [
                 'gl_head' => $invoice->customer->ledger_acc_no,
                 'acc_name'=>$invoice->customer->ledger_acc_no.' : '.$accounts->where('acc_no',$invoice->customer->ledger_acc_no)->first()->acc_name,
-                'debit_amt' => $sales->sum('total_price'),
+                'debit_amt' => $sales->sum('total_price') - $invoice->discount_amt - $invoice->paid_amt,
                 'credit_amt' => 0
-            ],
-            [
-                'gl_head' => $sales_acc,
-                'acc_name'=> $sales_acc.' : '.$accounts->where('acc_no',$sales_acc)->first()->acc_name,
-                'debit_amt' => 0,
-                'credit_amt' => $sales->sum('item_total')
-            ],
+            ]
+//            [
+//                'gl_head' => $sales_acc,
+//                'acc_name'=> $sales_acc.' : '.$accounts->where('acc_no',$sales_acc)->first()->acc_name,
+//                'debit_amt' => 0,
+//                'credit_amt' => $sales->sum('item_total')
+//            ],
         ]);
+
+        if($invoice->discount_amt > 0)
+        {
+            $discount = [];
+            $discount['gl_head'] = $company->discount_sales;
+            $discount['acc_name'] = $discount['gl_head'].' : '.$accounts->where('acc_no',$discount['gl_head'])->first()->acc_name;
+            $discount['debit_amt'] = $invoice->discount_amt;
+            $discount['credit_amt'] = 0;
+            $transactions->push($discount);
+        }
+
+        if($invoice->paid_amt > 0)
+        {
+            $paid = [];
+            $paid['gl_head'] = $company->default_cash;
+            $paid['acc_name'] = $paid['gl_head'].' : '.$accounts->where('acc_no',$paid['gl_head'])->first()->acc_name;
+            $paid['debit_amt'] = $invoice->paid_amt;
+            $paid['credit_amt'] = 0;
+            $transactions->push($paid);
+        }
+
+        // Debit Transaction Sales / Tax
+
+        if($sales->sum('item_total') > 0)
+            {
+                $credit = [];
+                $credit['gl_head'] = $sales_acc;
+                $credit['acc_name'] = $sales_acc.' : '.$accounts->where('acc_no',$sales_acc)->first()->acc_name;
+                $credit['debit_amt'] = 0;
+                $credit['credit_amt'] = $sales->sum('item_total');
+                $transactions->push($credit);
+            }
 
 //        Transaction Code for Taxes
 
@@ -148,7 +184,7 @@ class ApproveSalesInvoiceCO extends Controller
                 $input = [];
                 $input['acc_cr'] = $acc_cr;
                 $input['acc_dr'] = $acc_dr;
-                $input['amount'] = $amount;
+                $input['amount'] = $this->get_average_price($product->product_id,$this->company_id) * $product->quantity;
                 $temp->push($input);
             }
         }
@@ -210,20 +246,22 @@ class ApproveSalesInvoiceCO extends Controller
 
             if($request->has('action'))
             {
+
+                $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
+                $delivery = $company->auto_delivery == true ? 1 : 0;
+//                $accounts = GeneralLedger::query()->where('company_id',$this->company_id)->get();
+                $sales_acc = $company->auto_delivery == true ? $company->default_sales : $company->advance_sales;
+
+                $period = $this->get_fiscal_data_from_current_date($this->company_id);
+                $invoice = Sale::query()->where('company_id',$this->company_id)
+                    ->where('invoice_no',$id)->with('items')->first();
+
+                $customer = Relationship::query()->where('id',$invoice->customer_id)->first();
+
+
                 switch ($request['action'])
                 {
                     case 'approve':
-
-                        $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
-                        $delivery = $company->auto_delivery == true ? 1 : 0;
-                        $accounts = GeneralLedger::query()->where('company_id',$this->company_id)->get();
-                        $sales_acc = $company->auto_delivery == true ? $company->default_sales : $company->advance_sales;
-
-                        $period = $this->get_fiscal_data_from_current_date($this->company_id);
-                        $invoice = Sale::query()->where('company_id',$this->company_id)
-                            ->where('invoice_no',$id)->with('items')->first();
-
-                        $customer = Relationship::query()->where('id',$invoice->customer_id)->first();
 
                         Sale::query()->where('company_id',$this->company_id)
                             ->where('invoice_no',$id)->update([
@@ -260,7 +298,7 @@ class ApproveSalesInvoiceCO extends Controller
                                 $history['ref_no'] = $challan_no;
                                 $history['ref_id'] = $inserted->id;
                                 $history['tr_date'] = $inserted->delivery_date;
-                                $history['ref_type'] = 'D';
+                                $history['ref_type'] = 'S'; // Sales Delivery
                                 $history['contra_ref'] = $invoice->invoice_no;
                                 $history['product_id'] = $item->product_id;
                                 $history['quantity_in'] = 0;
@@ -282,59 +320,46 @@ class ApproveSalesInvoiceCO extends Controller
                         }
 
 
+                        // Account Transaction for Sales Invoice
                         $t_data = $this->ajax_call($invoice->id);
                         $trans= json_decode($t_data,true);
 
-//                        dd($trans);
+                        $voucher_no = $invoice->invoice_no;
+                        $tr_code = 'SL';
+                        $desc2 = $invoice->customer->name;
 
                         foreach ($trans['transactions'] as $row)
                         {
-
-                            $input = [];
-
-                            $input['company_id'] = $this->company_id;
-                            $input['project_id'] = null;
-                            $input['tr_code'] = 'SL';
-                            $input['fp_no'] = $period->fp_no;
-                            $input['trans_type_id'] = 8; //  Sales
-                            $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
-                            $input['trans_id'] = Carbon::now()->format('Ymdhmis');
-                            $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
-                            $input['trans_date'] = Carbon::now();
-                            $input['voucher_no'] = $invoice->invoice_no;
-                            $input['acc_no'] = $row['gl_head'];
-                            $input['ledger_code'] = Str::substr($input['acc_no'],0,3);
-                            $input['ref_no'] = $invoice->invoice_no;
-                            $input['contra_acc'] = $sales_acc;
-                            $input['dr_amt'] = $row['debit_amt'];
-                            $input['cr_amt'] = $row['credit_amt'];
-                            $input['trans_amt'] = $row['debit_amt'] + $row['credit_amt'];
-                            $input['currency'] = get_currency($this->company_id);
-                            $input['fiscal_year'] = $period->fiscal_year;
-                            $input['trans_desc1'] = 'Local Sales';
-                            $input['trans_desc2'] = $company->auto_delivery == true ? $challan_no : $invoice->invoice_no;
-                            $input['remote_desc'] = $customer->id;
-                            $input['post_flag'] = false;
-                            $input['user_id'] = $this->user_id;
-
+                            $input = $this->inputs($row,$period,$invoice,$voucher_no,$tr_code,$customer,$sales_acc,$desc2);
                             $this->transaction_entry($input);
                         }
+
+                        // Account transaction for Delivery items
+
+                    if($company->auto_delivery == true)
+                    {
+                        $desc2 = 'Direct Delivery During Invoice Approve';
+                        $voucher_no = $challan_no;
+                        $tr_code = 'DC';
+
+                        foreach ($trans['deliveries'] as $row)
+                        {
+                            $entries = $this->inputs($row,$period,$invoice,$voucher_no,$tr_code, $customer,$sales_acc,$desc2);
+//                            $input =
+                            $this->transaction_entry($entries);
+                        }
+                    }
 
                         break;
 
                     case 'reject':
-
-                        $basic = CompanyProperty::query()->where('company_id',$this->company_id)->first();
-
-                        $delivery = $basic->auto_delivery == true ? 1 : 0;
 
                         Sale::query()->where('company_id',$this->company_id)
                             ->where('invoice_no',$id)->update([
                                 'status'=>'RJ',
                                 'authorized_by'=>$this->user_id,
                                 'authorized_date'=>Carbon::now(),
-                                'direct_delivery'=>$delivery,
-                                'delivery_status'=>$delivery]);
+                                ]);
 
                         break;
                 }
@@ -350,5 +375,39 @@ class ApproveSalesInvoiceCO extends Controller
         DB::commit();
 
         return response()->json(['success'=>'Invoice Approved'],200);
+    }
+
+    public function inputs($row, $period,$invoice, $voucher_no,$tr_code, $customer, $sales_acc,$desc2)
+    {
+        $input = [];
+
+        $input['company_id'] = $this->company_id;
+        $input['project_id'] = null;
+        $input['tr_code'] = $tr_code;
+        $input['fp_no'] = $period->fp_no;
+        $input['trans_type_id'] = 10; //  Sales
+        $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
+        $input['trans_id'] = Carbon::now()->format('Ymdhmis');
+        $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
+        $input['trans_date'] = Carbon::now();
+        $input['voucher_no'] = $voucher_no;
+        $input['acc_no'] = $row['gl_head'];
+        $input['ledger_code'] = Str::substr($input['acc_no'],0,3);
+        $input['ref_no'] = $invoice->invoice_no;
+        $input['contra_acc'] = $sales_acc;
+        $input['dr_amt'] = $row['debit_amt'];
+        $input['cr_amt'] = $row['credit_amt'];
+        $input['trans_amt'] = $row['debit_amt'] + $row['credit_amt'];
+        $input['currency'] = get_currency($this->company_id);
+        $input['fiscal_year'] = $period->fiscal_year;
+        $input['trans_desc1'] = 'Local Sales';
+        $input['trans_desc2'] = $desc2;
+        $input['remote_desc'] = $customer->id;
+        $input['post_flag'] = false;
+        $input['user_id'] = $this->user_id;
+
+        return $input;
+
+
     }
 }

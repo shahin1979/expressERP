@@ -245,7 +245,7 @@
                         $('#grand-total').html(data.grand_total);
                         $('#purchase-amt').val(data.grand_total);
 
-                        if($('#supplier_id').val() == 0)
+                        if($('#supplier_id').val() === 1)
                         {
                             // document.getElementById("paid_amt").readOnly = true;
                             var payment = data.grand_total - $('#discount').val();

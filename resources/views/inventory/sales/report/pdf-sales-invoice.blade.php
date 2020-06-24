@@ -116,7 +116,7 @@
 
         <div class="blank-space"></div>
 
-{{--        @if(!empty($ledgers))--}}
+        @if(!empty($ledgers))
 
         <table class="table order-bank" width="95%" cellpadding="2">
 
@@ -173,7 +173,7 @@
 
         </table>
 
-{{--        @endif--}}
+        @endif
 
 {{--        <hr style="height: 1px">--}}
 

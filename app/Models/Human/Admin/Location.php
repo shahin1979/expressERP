@@ -17,7 +17,9 @@ class Location extends Model
         'company_id',
         'location_type',
         'name',
+        'in_charge',
         'description',
+        'old_id',
         'status',
         'user_id',
     ];

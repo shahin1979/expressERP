@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Inventory\Delivery;
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
 use App\Models\Inventory\Movement\Delivery;
+use App\Models\Inventory\Movement\ProductHistory;
+use App\Models\Inventory\Product\ProductMO;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -67,4 +69,8 @@ class ApproveDeliverCO extends Controller
             ->rawColumns(['product','quantity','del_type','del_for','action'])
             ->make(true);
     }
+
+
+
+
 }
