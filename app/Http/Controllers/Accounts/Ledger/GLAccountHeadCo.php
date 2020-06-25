@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
+use App\Models\Security\UserPrivilege;
 use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
@@ -26,13 +27,16 @@ class GLAccountHeadCo extends Controller
             ['updated_at'=>Carbon::now()
             ]);
 
+        $permission = UserPrivilege::query()->where('user_id',$this->user_id)
+            ->where('menu_id',42010)->first();
+
         $groups = GeneralLedger::query()->where('is_group',true)
             ->where('company_id',$this->company_id)
             ->select(DB::Raw("concat(concat(acc_name,' : '), acc_type) as acc_name"),'ledger_code')
             ->orderBy('acc_name')
             ->pluck('acc_name','ledger_code');
 
-        return view('accounts.ledger.glhead-index',compact('groups'));
+        return view('accounts.ledger.glhead-index',compact('groups','permission'));
     }
 
     public function getGLAccountHeadData()
@@ -40,22 +44,27 @@ class GLAccountHeadCo extends Controller
         $ledgers = GeneralLedger::query()->where('is_group',false)
             ->where('company_id',$this->company_id)->with('details')->with('parent');
 
+
+
         return DataTables::of($ledgers)
 
             ->addColumn('opening', function ($ledgers){
                 return $ledgers->opn_post == true ? ($ledgers->start_dr - $ledgers->start_cr) : ($ledgers->opn_dr - $ledgers->opn_cr);
             })
             ->addColumn('action', function ($ledgers) {
-
+                $permission = UserPrivilege::query()->where('user_id',$this->user_id)
+                    ->where('menu_id',42010)->first();
                 return '<div class="btn-group btn-group-sm" role="group" aria-label="Action Button">
                     <button data-remote="view/'.$ledgers->id.'"  type="button" class="btn btn-view btn-sm btn-secondary"><i class="fa fa-open">View</i></button>
                     <button data-remote="edit/' . $ledgers->id . '" data-rowid="'. $ledgers->id . '"
                         data-name="'. $ledgers->acc_name . '"
                         data-opendr="'. $ledgers->opn_dr . '"
                         data-opencr="'. $ledgers->opn_cr . '"
-                        type="button" class="btn btn-sm btn-ledger-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
-                        <button data-remote="head/delete/'.$ledgers->id.'"  type="button" class="btn btn-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                        data-permission="'. $permission->edit . '"
+                        type="button" class="btn btn-sm btn-ledger-edit btn-primary pull-center" ><i class="fa fa-edit" >Edit</i></button>
+                        <button data-permission="'. $permission->delete . '" data-remote="head/delete/'.$ledgers->id.'"  type="button" class="btn btn-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>
+
                     ';
             })
             ->rawColumns(['action','status','opening'])

@@ -2,6 +2,8 @@
 
 @section('content')
     <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
+    <link href="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.css') !!}" rel="stylesheet" type="text/css" />
+    <script src="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.js') !!}"></script>
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
@@ -15,12 +17,12 @@
     <div class="row" id="top-head">
         <div class="col-md-6">
             <div class="pull-left">
-                <button type="button" class="btn btn-gl btn-success" data-toggle="modal" data-target="#modal-new-gh-head"><i class="fa fa-plus"></i>New Head</button>
+                <button type="button" class="btn btn-gl btn-success" {!! $permission->add == false ? 'disabled' : null !!}  data-toggle="modal" data-target="#modal-new-gh-head"><i class="fa fa-plus"></i>New Head</button>
             </div>
         </div>
         <div class="col-md-6">
             <div class="pull-right">
-                <button type="button" class="btn btn-print-gl btn-success"><i class="fa fa-print"></i>Print</button>
+                <button type="button" class="btn btn-print-gl btn-success" {!! $permission->print == false ? 'disabled' : null !!}><i class="fa fa-print"></i>Print</button>
             </div>
         </div>
     </div>
@@ -124,6 +126,13 @@
             $(this).on('click', '.btn-ledger-edit', function (e) {
                 e.preventDefault();
 
+
+
+                if($(this).data('permission') == false) { $.alert({
+                    title: 'Alert!',
+                    content: 'You do not have permission!',
+                });  return false }
+
                 $('#acc_name_for_edit').val($(this).data('name'));
                 $('#opn_cr_for_edit').val($(this).data('opencr'));
                 $('#opn_dr_for_edit').val($(this).data('opendr'));
@@ -137,6 +146,8 @@
 
             $(this).on('click', '.btn-delete', function (e) {
                 e.preventDefault();
+
+                if($(this).data('permission') == false) { alert('You do not have permission'); return false}
 
                 $.ajaxSetup({
                     headers: {

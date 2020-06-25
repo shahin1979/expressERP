@@ -24,6 +24,7 @@ class UserPrivilege extends Model
         'add',
         'edit',
         'delete',
+        'print',
         'privilege',
         'approver_id',
     ];

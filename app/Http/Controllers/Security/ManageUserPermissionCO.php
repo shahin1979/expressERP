@@ -62,7 +62,7 @@ class ManageUserPermissionCO extends Controller
 
             UserPrivilege::query()->where('user_id', $request['user_id'])
                 ->where('company_id',$this->company_id)
-                ->update(['view' => false,'add' => false, 'edit' => false, 'delete' =>false]);
+                ->update(['view' => false,'add' => false, 'edit' => false, 'delete' =>false,'print'=>false]);
 
 
             if($request->has('view'))
@@ -128,6 +128,20 @@ class ManageUserPermissionCO extends Controller
             }
 
 
+            if($request->has('print'))
+            {
+                foreach ($request['print'] as $print)
+                {
+                    $module_id = MenuItem::query()->where('id',$print)->value('module_id');
+
+                    UserPrivilege::query()->updateOrCreate(
+                        ['company_id'=>$this->company_id,'user_id'=>$request['user_id'],'menu_id'=>$print],
+                        [
+                            'module_id'=>$module_id,
+                            'print'=>true,
+                            'approver_id'=>$this->user_id]);
+                }
+            }
 
 
         }catch (\Exception $e)

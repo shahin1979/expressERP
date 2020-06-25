@@ -74,6 +74,7 @@
                                     <th>Add</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
+                                    <th>Print</th>
                                 </tr>
 
                             </thead>
@@ -85,15 +86,17 @@
                                             <td>{!! $row->name !!}</td>
 
                                             @if($row->menu_type == 'SM')
-                                             <td><input type="checkbox" name="view[]" value="{!! $row->id !!}" class="view-chk-{!! $row->id !!}"  id="view-chk-{!! $row->id !!}" data-toggle="toggle" data-onstyle="primary"></td>
-                                            <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="add-chk-{!! $row->id !!}" name="add[]" data-toggle="toggle" data-onstyle="primary"></td>
-                                            <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="edit-chk-{!! $row->id !!}" name="edit[]" data-toggle="toggle" data-onstyle="primary"></td>
-                                            <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="delete-chk-{!! $row->id !!}" name="delete[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                                <td><input type="checkbox" name="view[]" value="{!! $row->id !!}" class="view-chk-{!! $row->id !!}"  id="view-chk-{!! $row->id !!}" data-toggle="toggle" data-onstyle="primary"></td>
+                                                <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="add-chk-{!! $row->id !!}" name="add[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                                <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="edit-chk-{!! $row->id !!}" name="edit[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                                <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="delete-chk-{!! $row->id !!}" name="delete[]" data-toggle="toggle" data-onstyle="primary"></td>
+                                                <td width="150px"><input type="checkbox" value="{!! $row->id !!}" id="print-chk-{!! $row->id !!}" name="print[]" data-toggle="toggle" data-onstyle="primary"></td>
                                             @else
-                                             <td>View</td>
-                                             <td>Add</td>
-                                             <td>Edit</td>
-                                             <td>Delete</td>
+                                                 <td>View</td>
+                                                 <td>Add</td>
+                                                 <td>Edit</td>
+                                                 <td>Delete</td>
+                                                <td>Print</td>
                                              @endif
 
                                         </tr>

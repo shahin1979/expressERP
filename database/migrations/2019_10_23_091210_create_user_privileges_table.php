@@ -27,6 +27,7 @@ class CreateUserPrivilegesTable extends Migration
             $table->boolean('add')->default(0);
             $table->boolean('edit')->default(0);
             $table->boolean('delete')->default(0);
+            $table->boolean('print')->default(0);
             $table->string('privilege',8)->nullable();
             $table->bigInteger('approver_id')->unsigned();
             $table->foreign('approver_id')->references('id')->on('users')->onDelete('CASCADE');
