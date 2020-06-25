@@ -16,22 +16,45 @@
         </ol>
     </nav>
 
-    <div class="row">
-        <div style="overflow-x:auto;">
-            <table class="table table-bordered table-hover table-responsive" id="fiscal-table">
-                <thead style="background-color: #b0b0b0">
-                <tr>
-                    <th>FP No</th>
-                    <th>FP Year</th>
-                    <th>Month</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Depreciation</th>
-                </tr>
-                </thead>
-            </table>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-7">
+                <div style="overflow-x:auto;">
+                    <table class="table table-bordered table-hover table-responsive" id="fiscal-table">
+                        <thead style="background-color: #b0b0b0">
+                        <tr>
+                            <th>FP No</th>
+                            <th>FP Year</th>
+                            <th>Month</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Depreciation</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md 4">
+                <div style="overflow-x:auto;">
+                    <table class="table table-bordered table-hover table-responsive" id="codes-table">
+                        <thead style="background-color: #b0b0b0">
+                        <tr>
+                            <th>Trans Code</th>
+                            <th>Trans Name</th>
+                            <th>Last Id</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
+
+
+
 
 @endsection
 
@@ -39,6 +62,7 @@
 
     <script>
         $(function() {
+
             var table= $('#fiscal-table').DataTable({
                 processing: true,
                 serverSide: true,
@@ -52,8 +76,42 @@
                     { data: 'start_date', name: 'start_date' },
                     { data: 'end_date', name: 'end_date'},
                     { data: 'depreciation', name: 'depreciation', orderable: false, searchable: false, printable: false}
-                ]
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
+
+
+
+            var table= $('#codes-table').DataTable({
+                processing: true,
+                serverSide: true,
+                autoWidth: false,
+                responsive: true,
+                ajax: 'trCodeData',
+                columns: [
+                    { data: 'trans_code', name: 'trans_code' },
+                    { data: 'trans_name', name: 'trans_name' },
+                    { data: 'last_trans_id', name: 'last_trans_id' },
+                ],
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
+            });
+
         });
 
     </script>

@@ -22,7 +22,7 @@
 
                 <div class="div">
                     <br/>
-                    {!! Form::open(['url'=>'product/rptStockPositionIndex', 'method' => 'GET']) !!}
+                    {!! Form::open(['url'=>'inventory/report/rptStockPositionIndex', 'method' => 'GET']) !!}
 
                     <table width="90%" class="table table-responsive table-hover" >
 

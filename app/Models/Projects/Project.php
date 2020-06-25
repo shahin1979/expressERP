@@ -10,19 +10,20 @@ class Project extends Model
     protected $guarded = ['ID', 'CREATED_AT','UPDATED_AT'];
 
     protected $fillable = [
-        'COMPANY_ID',
-        'PROJECT_CODE',
-        'PROJECT_TYPE',
-        'PROJECT_NAME',
-        'PROJECT_DESC',
-        'PROJECT_REF',
-        'START_DATE',
-        'END_DATE',
-        'STATUS',
-        'BUDGET',
-        'EXPENSE',
-        'INCOME',
-        'USER_ID',
+        'company_id',
+        'project_code',
+        'project_type',
+        'project_name',
+        'project_desc',
+        'project_ref',
+        'start_date',
+        'end_date',
+        'closing_date',
+        'status',
+        'budget',
+        'expense',
+        'income',
+        'user_id',
         ];
 
     public function getEndDateAttribute($value)

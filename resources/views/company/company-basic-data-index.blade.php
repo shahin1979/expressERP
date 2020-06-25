@@ -54,40 +54,74 @@
 
                             <tr>
                                 <td>Default Purchase Account</td>
-                                <td>{!! Form::text('default_purchase',isset($basic->default_purchase) ? $basic->default_purchase : '20112276',['id'=>'default_purchase','class'=>'form-control'])  !!}</td>
+                                <td>{!! Form::text('default_purchase',isset($basic->default_purchase) ? $basic->default_purchase : '20112002',['id'=>'default_purchase','class'=>'form-control'])  !!}</td>
 
                             </tr>
 
                             <tr>
                                 <td>Default Sales Account</td>
-                                <td>{!! Form::text('default_sales',isset($basic->default_sales) ? $basic->default_sales : '30312102',['id'=>'default_sales','class'=>'form-control'])  !!}</td>
+                                <td>{!! Form::text('default_sales',isset($basic->default_sales) ? $basic->default_sales : '30112102',['id'=>'default_sales','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
                                 <td>Advance Sales Account</td>
-                                <td>{!! Form::text('advance_sales',isset($basic->advance_sales) ? $basic->advance_sales : '21312108',['id'=>'advance_sales','class'=>'form-control'])  !!}</td>
+                                <td>{!! Form::text('advance_sales',isset($basic->advance_sales) ? $basic->advance_sales : '20312102',['id'=>'advance_sales','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
                                 <td>Default Sales Tax</td>
-                                <td>{!! Form::text('default_sales_tax',isset($basic->default_sales_tax) ? $basic->default_sales_tax : '20112102',['id'=>'default_sales_tax','class'=>'form-control'])  !!}</td>
+                                <td>{!! Form::text('default_sales_tax',isset($basic->default_sales_tax) ? $basic->default_sales_tax : '20212102',['id'=>'default_sales_tax','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
                                 <td>Default Purchase Tax</td>
-                                <td>{!! Form::text('default_purchase_tax',isset($basic->default_purchase_tax) ? $basic->default_purchase_tax : '41712108',['id'=>'default_purchase_tax','class'=>'form-control'])  !!}</td>
+                                <td>{!! Form::text('default_purchase_tax',isset($basic->default_purchase_tax) ? $basic->default_purchase_tax : '40212102',['id'=>'default_purchase_tax','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
                                 <td>Discount Purchase</td>
-                                <td>{!! Form::text('discount_purchase',isset($basic->discount_purchase) ? $basic->discount_purchase : '30112116',['id'=>'discount_purchase','class'=>'form-control'])  !!}</td>
+                                <td>{!! Form::text('discount_purchase',isset($basic->discount_purchase) ? $basic->discount_purchase : '30212102',['id'=>'discount_purchase','class'=>'form-control'])  !!}</td>
                             </tr>
 
                             <tr>
                                 <td>Discount Sales</td>
-                                <td>{!! Form::text('discount_sales',isset($basic->discount_sales) ? $basic->discount_sales : '40712124',['id'=>'discount_sales','class'=>'form-control'])  !!}</td>
+                                <td>{!! Form::text('discount_sales',isset($basic->discount_sales) ? $basic->discount_sales : '40112110',['id'=>'discount_sales','class'=>'form-control'])  !!}</td>
                             </tr>
 
+                            <tr>
+                                <td>Consumable On Hand</td>
+                                <td>{!! Form::text('consumable_on_hand',isset($basic->consumable_on_hand) ? $basic->consumable_on_hand : '10412102',['id'=>'consumable_on_hand','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Consumable Expense</td>
+                                <td>{!! Form::text('consumable_expense',isset($basic->consumable_expense) ? $basic->consumable_expense : '40112102',['id'=>'consumable_expense','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Raw Materials On Hand</td>
+                                <td>{!! Form::text('rm_in_hand',isset($basic->rm_in_hand) ? $basic->rm_in_hand : '10412104',['id'=>'rm_in_hand','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Work In Progress</td>
+                                <td>{!! Form::text('work_in_progress',isset($basic->work_in_progress) ? $basic->work_in_progress : '10412106',['id'=>'work_in_progress','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Finished Goods</td>
+                                <td>{!! Form::text('finished_goods',isset($basic->finished_goods) ? $basic->finished_goods : '10412110',['id'=>'finished_goods','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Depreciation Account</td>
+                                <td>{!! Form::text('depreciation_account',isset($basic->depreciation_account) ? $basic->depreciation_account : '40312102',['id'=>'depreciation_account','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Depreciation Frequency</td>
+                                <td>{!! Form::select('depreciation_frequency',['Y'=>'Yearly','H'=>'Half Yearly','M'=>'Monthly'],'Y',['id'=>'depreciation_frequency','class'=>'form-control'])  !!}</td>
+                            </tr>
 
 
                             <tr>
@@ -101,6 +135,8 @@
                                     <input type="checkbox" {!! isset($basic->auto_ledger) ?  $basic->auto_ledger == 1 ? 'checked' : 'unchecked' : 'unchecked' !!} name="hAuto_ledger" data-toggle="toggle" data-onstyle="primary">
                                 </td>
                             </tr>
+
+
 
                             <tr>
                                 <td>Auto Delivery</td>

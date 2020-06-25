@@ -53,22 +53,27 @@ trait ProductTrait
             ->orderBy('tr_date','DESC')
             ->get();
 
+//        dd($history);
+
         $on_hand = $product->on_hand;
         $p_qty = 0;
         $unit_price = 0;
         $find = false;
         $p_value = 0;
 
-        foreach ($history as $row)
+        if(!is_null($history))
         {
-            $p_qty = $p_qty + $row->quantity_in;
-            $p_value = $p_value + $row->quantity_in * $row->unit_price;
+            foreach ($history as $row)
+            {
+                $p_qty = $p_qty + $row->quantity_in;
+                $p_value = $p_value + $row->quantity_in * $row->unit_price;
 
-            if ($p_qty >= $on_hand) {
+                if ($p_qty >= $on_hand) {
 
-                $unit_price = round($p_value/$p_qty);
-                $find = true;
-                break;
+                    $unit_price = round($p_value/$p_qty);
+                    $find = true;
+                    break;
+                }
             }
         }
 

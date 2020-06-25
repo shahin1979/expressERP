@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Inventory\Product\Report;
+namespace App\Http\Controllers\Inventory\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
@@ -14,7 +14,7 @@ class StockPositionCO extends Controller
     public function index(Request $request)
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>51065,'user_id'=>$this->user_id],
+            ['company_id'=>$this->company_id,'menu_id'=>58015,'user_id'=>$this->user_id],
             ['updated_at'=>Carbon::now()
             ]);
 
@@ -29,7 +29,7 @@ class StockPositionCO extends Controller
             {
                 case 'preview':
 
-                    return view('inventory.product.report.stock-position-index',compact('report'));
+                    return view('inventory.report.stock-position-index',compact('report'));
                     break;
 
                 case 'print':
@@ -42,7 +42,7 @@ class StockPositionCO extends Controller
 //                    ini_set('pdo_mysql.cache_size',4000);
                     ini_set('pcre.backtrack_limit', 5000000);
 
-                    $view = \View::make('inventory.product.report.pdf.pdf-stock-position-report',compact('report'));
+                    $view = \View::make('inventory.report.pdf.pdf-stock-position-report',compact('report'));
                     $html = $view->render();
 
                     $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
@@ -71,6 +71,6 @@ class StockPositionCO extends Controller
             }
 
         }
-        return view('inventory.product.report.stock-position-index',compact('report'));
+        return view('inventory.report.stock-position-index',compact('report'));
     }
 }

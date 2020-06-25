@@ -25,6 +25,7 @@ Route::group(['prefix' => 'company', 'namespace' => 'Company', 'middleware' => [
 
     Route::get('fiscalPeriodIndex','FiscalPeriodCO@index');
     Route::get('fiscalData','FiscalPeriodCO@getFiscalData');
+    Route::get('trCodeData','FiscalPeriodCO@getTRCodeData');
 
     Route::get('basicIndex','CompanyPropertiesCO@index');
     Route::post('propertiesSave','CompanyPropertiesCO@store');
@@ -59,11 +60,11 @@ Route::group(['prefix' => 'security', 'namespace' => 'Security', 'middleware' =>
     Route::post('permission/store','ManageUserPermissionCO@store');
 });
 
-Route::group(['prefix' => 'projects', 'namespace' => 'Projects\Basic', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'projects/basic', 'namespace' => 'Projects\Basic', 'middleware' => ['auth']], function () {
 
-    Route::get('basic/newProjectIndex','NewProjectsCO@index');
-    Route::get('basic/projectData','NewProjectsCO@getProjectData');
-    Route::post('basic/newProjectSave','NewProjectsCO@store');
+    Route::get('newProjectIndex','NewProjectsCO@index');
+    Route::get('projectData','NewProjectsCO@getProjectData');
+    Route::post('newProjectSave','NewProjectsCO@store');
 
 //    Route::get('account.group.data','AccountController@getGroupData');
 //    Route::post('account.group.add','AccountController@addGroupData');

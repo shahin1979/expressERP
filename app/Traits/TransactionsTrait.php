@@ -9,6 +9,7 @@ use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\FiscalPeriod;
 use App\Models\Inventory\Product\ItemTax;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -200,4 +201,62 @@ trait TransactionsTrait
 
         return $item_tax_total;
     }
+
+    public function get_delivery_transactions_array(Collection $items, $company_id)
+    {
+        $temp = collect();
+
+        foreach ($items as $product)
+        {
+            $acc_cr = $product->item->subcategory->acc_in_stock;
+            $acc_dr = $product->item->subcategory->acc_out_stock;
+            $input = [];
+            $input['acc_cr'] = $acc_cr;
+            $input['acc_dr'] = $acc_dr;
+            $input['amount'] = $this->get_average_price($product->product_id,$company_id) * $product->quantity;
+            $temp->push($input);
+        }
+
+        $temp1 = $temp->groupBy('acc_cr')->map(function ($row)  {
+            $grouped = Collect();
+            $grouped->tr_amount = $row->sum('amount');
+            $grouped->push($row);
+            return $grouped;
+        });
+
+        $temp2 = $temp->groupBy('acc_dr')->map(function ($row)  {
+            $grouped = Collect();
+            $grouped->tr_amount = $row->sum('amount');
+            $grouped->push($row);
+            return $grouped;
+        });
+
+        $deliveries = collect();
+
+        foreach ($temp1 as $head=>$id)
+        {
+            $acc_name = GeneralLedger::query()->where('company_id',$company_id)->where('acc_no',$head)->first();
+            $line = [];
+            $line['gl_head'] = $head;
+            $line['acc_name'] = $line['gl_head'].' : '.$acc_name->acc_name;
+            $line['debit_amt'] = 0;
+            $line['credit_amt'] = $id->tr_amount;
+            $deliveries->push($line);
+        }
+
+        foreach ($temp2 as $head=>$id)
+        {
+            $acc_name = GeneralLedger::query()->where('company_id',$company_id)->where('acc_no',$head)->first();
+            $line = [];
+            $line['gl_head'] = $head;
+            $line['acc_name'] = $line['gl_head'].' : '.$acc_name->acc_name;
+            $line['debit_amt'] = $id->tr_amount;
+            $line['credit_amt'] = 0;
+            $deliveries->push($line);
+        }
+
+        return $deliveries;
+    }
+
+
 }

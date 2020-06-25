@@ -138,12 +138,16 @@ class RequisitionItemsDeliveryCO extends Controller
                 }
             }
 
-            if($request->has('full_delivery'))
-            {
                 Requisition::query()->where('company_id',$this->company_id)
                     ->where('ref_no',$request['req_no'])
                     ->update(['status'=>3]);
-            }
+
+//            if($request->has('full_delivery'))
+//            {
+//                Requisition::query()->where('company_id',$this->company_id)
+//                    ->where('ref_no',$request['req_no'])
+//                    ->update(['status'=>3]);
+//            }
 
             TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','DC')

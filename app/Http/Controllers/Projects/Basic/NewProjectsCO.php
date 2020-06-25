@@ -25,9 +25,9 @@ class NewProjectsCO extends Controller
 
                 return '<div class="btn-group btn-group-sm" role="group" aria-label="Action Button">
                     <button data-remote="view/'.$projects->id.'"  type="button" class="btn btn-view btn-sm btn-secondary"><i class="fa fa-open">View</i></button>
-                    <button data-remote="edit/' . $projects->id . '" data-rowid="'. $projects->id . '" 
-                        data-name="'. $projects->name . '" 
-                        data-shortname="'. $projects->short_name . '" 
+                    <button data-remote="edit/' . $projects->id . '" data-rowid="'. $projects->id . '"
+                        data-name="'. $projects->name . '"
+                        data-shortname="'. $projects->short_name . '"
                         data-code="'. $projects->department_code . '"
                         data-top="'. $projects->top_rank . '"
                         data-email="'. $projects->email . '"
@@ -44,14 +44,11 @@ class NewProjectsCO extends Controller
 
     public function store(Request $request)
     {
-        $request['START_DATE'] = Carbon::createFromFormat('d-m-Y',$request['end_date'])->format('Y-m-d');
-        $request['END_DATE'] = Carbon::createFromFormat('d-m-Y',$request['end_date'])->format('Y-m-d');
-        $request['COMPANY_ID'] = $this->company_id;
-        $request['USER_ID'] = $this->user_id;
-        $request['STATUS'] = 'P';
-        $request['PROJECT_CODE'] = $request['project_code'];
-        $request['PROJECT_NAME'] = $request['project_name'];
-        $request['PROJECT_TYPE'] = $request['project_type'];
+        $request['start_date'] = Carbon::createFromFormat('d-m-Y',$request['start_date'])->format('Y-m-d');
+        $request['end_date'] = Carbon::createFromFormat('d-m-Y',$request['end_date'])->format('Y-m-d');
+        $request['company_id'] = $this->company_id;
+        $request['user_id'] = $this->user_id;
+        $request['status'] = 'P';
 
         DB::begintransaction();
 

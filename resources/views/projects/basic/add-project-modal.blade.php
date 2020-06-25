@@ -47,7 +47,7 @@
                                         <label for="project_type" class="col-sm-4 col-form-label text-md-right">Project Type</label>
                                         <div class="col-sm-8">
                                             <div class="input-group mb-3">
-                                                {!! Form::select('project_type',['R'=>'Real Estate','T'=>'Transport','I'=>'Industry'],null,array('id'=>'ledger_code','class'=>'form-control','autofocus')) !!}
+                                                {!! Form::select('project_type',['R'=>'Real Estate','T'=>'Transport','I'=>'Industry','O'=>'Others'],'O',array('id'=>'ledger_code','class'=>'form-control','autofocus')) !!}
                                             </div>
                                         </div>
                                     </div>

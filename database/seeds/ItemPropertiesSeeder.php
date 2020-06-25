@@ -8,11 +8,12 @@ use App\Models\Inventory\Product\ItemSize;
 use App\Models\Inventory\Product\Godown;
 use App\Models\Inventory\Product\Rack;
 use App\Models\Inventory\Product\ItemTax;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Inventory\Product\Category;
 use App\Models\Inventory\Product\SubCategory;
 use App\Models\Company\Relationship;
-use App\Models\Company\CompanyProperty;
+use App\Models\Human\Admin\Location;
+use App\Models\Accounts\Ledger\CostCenter;
+use App\Models\Projects\Project;
 
 class ItemPropertiesSeeder extends Seeder
 {
@@ -99,11 +100,55 @@ class ItemPropertiesSeeder extends Seeder
             'user_id' => 1
         ]);
 
+        ItemTax::query()->insert([
+            'company_id'=>2,
+            'name' => 'VAT',
+            'applicable_on'=>'B',
+            'rate'=>10,
+            'calculating_mode'=>'F',
+            'description'=>'Value Added Tax',
+            'status' => 1,
+            'user_id' => 1
+        ]);
+
+
         Relationship::query()->insert([
             'company_id'=>2,
             'name' => 'Cash Account',
             'relation_type'=>'SP',
             'ledger_acc_no'=> '10112102',
+            'user_id' => 1
+        ]);
+
+        Location::query()->insert([
+            'company_id'=>2,
+            'name' => 'Office Building',
+            'location_type'=>'O',
+            'user_id' => 1
+        ]);
+
+        CostCenter::query()->insert([
+            'company_id'=>2,
+            'fiscal_year','2019-2020',
+            'name' => 'Factory',
+            'user_id' => 1
+        ]);
+
+        CostCenter::query()->insert([
+            'company_id'=>2,
+            'fiscal_year','2019-2020',
+            'name' => 'Head Office',
+            'user_id' => 1
+        ]);
+
+        Project::query()->insert([
+            'company_id'=>2,
+            'project_code','Project-001',
+            'project_type'=>'O',
+            'project_desc'=>'Default Project',
+            'project_name' => 'Default Project',
+            'project_ref'=>'Govt',
+            'start_date'=>\Carbon\Carbon::now(),
             'user_id' => 1
         ]);
     }

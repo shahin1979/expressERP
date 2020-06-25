@@ -31,7 +31,7 @@
     <div class="row" id="top-head">
         <div class="col-md-4">
             <div class="pull-left">
-                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-print"></i>Back</button>
+                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-backward"></i>Back</button>
             </div>
         </div>
     </div>
@@ -42,28 +42,28 @@
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Requisition Info</h5>
-                        <table id="requisition-main" class="table table-striped requisition-main">
+                        <h5 class="card-title">Delivery Challan Info</h5>
+                        <table id="delivery-main" class="table table-striped delivery-main">
 
                         </table>
                     </div>
                 </div>
             </div>
 
-            <input name="req_no" type="hidden" id="req_no" value="">
+            <input name="challan_no" type="hidden" id="challan_no" value="">
 
             <div class="col-sm-9" >
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Product Info</h5>
-                        <table id="requisition-items" class="table table-striped table-info table-bordered requisition-items">
+                        <table id="delivery-items" class="table table-striped table-info table-bordered delivery-items">
                             <thead>
                             <tr>
                                 <th>Requisition <br/> For</th>
                                 <th>Item</th>
                                 <th style="text-align: right">In<br/>Stock</th>
                                 <th style="text-align: right">Requisition<br/>Qty</th>
-                                <th style="text-align: right">Delivery</th>
+                                <th style="text-align: right">Delivery Qty</th>
                             </tr>
                             </thead>
 
@@ -73,8 +73,8 @@
 
                             <tfoot>
                             <tr style="background-color: rgba(224,229,229,0.96)">
-                                <td colspan="3">Full Delivery <input type="checkbox"  name="full_delivery" data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="primary"></td>
-                                <td colspan="2" style="text-align: right"><button type="submit" id="btn-delivery-post" class="btn btn-primary btn-delivery-post">Submit</button></td>
+                                <td colspan="2"><button type="submit" name="action" id="action" value="approve" class="btn btn-primary btn-delivery-approve">Submit</button></td>
+                                <td colspan="2" style="text-align: right"><button type="submit" name="action" value="reject" id="action" class="btn btn-danger btn-delivery-approve pull-right">Reject</button></td>
                             </tr>
                             </tfoot>
 
@@ -116,26 +116,36 @@
                     { data: 'user.name', name: 'user.name' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ],
-                order: [[ 2, "desc" ]]
+                order: [[ 2, "desc" ]],
+
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
 
-            $(this).on('click', '.btn-delivery-index', function (e) {
+            $(this).on('click', '.btn-delivery-details', function (e) {
                 e.preventDefault();
 
-                $('#req_no').val($(this).data('requisition'));
+                $('#challan_no').val($(this).data('challan'));
                 var url = $(this).data('remote');
 
-                $(".req-info").remove();
+                $(".delivery-info").remove();
 
                 var reqHTML = '';
 
-                reqHTML = '<tr class="req-info">' +
+                reqHTML = '<tr class="delivery-info">' +
                     '<td align="left">Req No</td><td align="left">' + $(this).data('requisition') + '</td></tr>' +
-                    '<tr class="req-info"><td align="left">Req Date</td><td align="left">' + $(this).data('date') + '</td>/tr>' +
-                    '<tr class="req-info"><td align="left">Req Type</td><td align="left">' + $(this).data('type') + '</td></tr>';
+                    '<td align="left">Delivery Challan No</td><td align="left">' + $(this).data('challan') + '</td></tr>' +
+                    '<tr class="delivery-info"><td align="left">Challan Date</td><td align="left">' + $(this).data('date') + '</td></tr>';
 
-                $('#requisition-main').append(reqHTML);
+                $('#delivery-main').append(reqHTML);
 
 
                 //Ajax Load data from ajax
@@ -176,14 +186,14 @@
 
                 $('#edit-section').show();
                 $('#top-head').show();
-                $('#requisition-table').parents('div.dataTables_wrapper').first().hide();
+                $('#delivery-table').parents('div.dataTables_wrapper').first().hide();
 
             });
 
             $(this).on('click', '.btn-back', function (e) {
                 $('#edit-section').hide();
                 $('#top-head').hide();
-                $('#requisition-table').parents('div.dataTables_wrapper').first().show();
+                $('#delivery-table').parents('div.dataTables_wrapper').first().show();
             });
 
 
@@ -215,8 +225,8 @@
 
                         alert(data.success);
                         $('#edit-section').hide();
-                        $('#requisition-table').parents('div.dataTables_wrapper').first().show();
-                        $('#requisition-table').DataTable().draw(true);
+                        $('#delivery-table').parents('div.dataTables_wrapper').first().show();
+                        $('#delivery-table').DataTable().draw(true);
                     },
                 });
             });

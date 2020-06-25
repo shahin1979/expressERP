@@ -119,7 +119,17 @@
                     { data: 'curr_bal', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'curr_bal'},
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
 
-                ]
+                ],
+
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
             $(this).on('click', '.btn-delete', function (e) {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Accounts\Ledger;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Common\UserActivity;
+use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +20,11 @@ class GLAccountHeadCo extends Controller
      */
     public function index()
     {
+
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>42010,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
+            ]);
 
         $groups = GeneralLedger::query()->where('is_group',true)
             ->where('company_id',$this->company_id)
@@ -34,18 +41,24 @@ class GLAccountHeadCo extends Controller
             ->where('company_id',$this->company_id)->with('details')->with('parent');
 
         return DataTables::of($ledgers)
+
+            ->addColumn('opening', function ($ledgers){
+                return $ledgers->opn_post == true ? ($ledgers->start_dr - $ledgers->start_cr) : ($ledgers->opn_dr - $ledgers->opn_cr);
+            })
             ->addColumn('action', function ($ledgers) {
 
                 return '<div class="btn-group btn-group-sm" role="group" aria-label="Action Button">
                     <button data-remote="view/'.$ledgers->id.'"  type="button" class="btn btn-view btn-sm btn-secondary"><i class="fa fa-open">View</i></button>
                     <button data-remote="edit/' . $ledgers->id . '" data-rowid="'. $ledgers->id . '"
                         data-name="'. $ledgers->acc_name . '"
+                        data-opendr="'. $ledgers->opn_dr . '"
+                        data-opencr="'. $ledgers->opn_cr . '"
                         type="button" class="btn btn-sm btn-ledger-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
                         <button data-remote="head/delete/'.$ledgers->id.'"  type="button" class="btn btn-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>
                     ';
             })
-            ->rawColumns(['action','status'])
+            ->rawColumns(['action','status','opening'])
             ->make(true);
     }
 
@@ -67,6 +80,7 @@ class GLAccountHeadCo extends Controller
         $request['user_id'] = $this->user_id;
         $max_acc = GeneralLedger::query()->where('ledger_code',$request['ledger_code'])->max('acc_no');
         $request['acc_no'] = $max_acc + 2;
+        $request['acc_range'] = $request['ledger_code'].'12999';
         $request['acc_type'] = $group->acc_type;
         $request['type_code'] = $group->type_code;
         $request['is_group'] = false;
@@ -121,6 +135,11 @@ class GLAccountHeadCo extends Controller
     {
         $ledger = GeneralLedger::query()->find($id);
         $ledger->acc_name = $request['acc_name'];
+        $ledger->opn_dr = $request['opn_dr'];
+        $ledger->opn_cr = $request['opn_cr'];
+
+//        dd($request->all());
+
 
         DB::beginTransaction();
 

@@ -24,6 +24,7 @@ class CreateProjectsTable extends Migration
             $table->string('project_ref',60)->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->date('closing_date')->nullable();
             $table->char('status')->default('P')->comment('P-Proposed, O-On Going, C-Closed, F-Finished');
             $table->decimal('budget',15,2)->default(0);
             $table->decimal('expense',15,2)->default(0);

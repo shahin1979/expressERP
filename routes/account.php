@@ -39,6 +39,8 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middleware' => ['auth']], function () {
 
     Route::get('openingBalanceIndex','OpeningBalanceCO@index');
+    Route::get('openingPost','OpeningBalanceCO@store');
+
 //    Route::get('GLGroupData','GLGroupCo@getGLGroupData');
 //    Route::post('group/save','GLGroupCo@store');
 

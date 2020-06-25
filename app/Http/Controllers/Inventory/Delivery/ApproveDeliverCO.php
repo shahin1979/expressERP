@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Inventory\Delivery;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Common\UserActivity;
+use App\Models\Company\CompanyProperty;
 use App\Models\Inventory\Movement\Delivery;
 use App\Models\Inventory\Movement\ProductHistory;
+use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use App\Traits\ProductTrait;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class ApproveDeliverCO extends Controller
 {
+    use TransactionsTrait, ProductTrait;
+
     public function index()
     {
         UserActivity::query()->updateOrCreate(
@@ -55,19 +62,41 @@ class ApproveDeliverCO extends Controller
 
             ->addColumn('action', function ($query) {
 
-                $type = $query->req_type == 'P' ? 'Purchase' : 'Consumption';
-
                 return '
-                    <button  data-remote="viewItems/' . $query->id . '"
+                    <button  data-remote="viewDeliveryItems/' . $query->id . '"
+                        data-challan="' . $query->challan_no . '"
                         data-requisition="' . $query->ref_no . '"
-                        data-date="' . $query->req_date . '"
-                        data-type="' . $type . '"
-                        id="edit-requisition" type="button" class="btn btn-delivery-details btn-xs btn-primary">Details</button>
+                        data-date="' . $query->delivery_date . '"
+                        id="view-delivery-details" type="button" class="btn btn-delivery-details btn-xs btn-primary">Details</button>
                     ';
 
             })
             ->rawColumns(['product','quantity','del_type','del_for','action'])
             ->make(true);
+    }
+
+    public function ajax_call($id)
+    {
+        $challan = Delivery::query()->where('id',$id)
+            ->with(['items'=>function($q){
+                $q->where('company_id',$this->company_id);
+            }])
+            ->first();
+
+        $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
+        $accounts = GeneralLedger::query()->where('company_id',$this->company_id)->get();
+
+        $products = TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_id',$id)->where('ref_type','D')
+            ->get();
+
+
+        $data = $this->get_delivery_transactions_array($products,$this->company_id);
+
+        dd($data);
+
+
+
     }
 
 

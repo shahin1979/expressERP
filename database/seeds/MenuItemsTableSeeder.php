@@ -614,7 +614,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'R'
 //        ] );
-
+//
 //        MENUITEM::create( [
 //            'id'=>49002,
 //            'company_id'=>1,
@@ -628,8 +628,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
+//
+//
 //
 //        MENUITEM::create( [
 //            'id'=>49005,
@@ -880,19 +880,7 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //
-//        MENUITEM::create( [
-//            'id'=>51065,
-//            'company_id'=>1,
-//            'module_id'=>5,
-//            'nav_label'=>5,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'5A',
-//            'name'=>'Stock Position',
-//            'show'=>'1',
-//            'url'=>'product/rptStockPositionIndex',
-//            'status'=>'1',
-//            'content'=>'R'
-//        ] );
+//
 //
 //
 //
@@ -1241,9 +1229,6 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'R'
 //        ] );
 //
-//
-//
-//
 //        MENUITEM::create( [
 //            'id'=>56000,
 //            'company_id'=>1,
@@ -1319,12 +1304,6 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 //
 //
-//
-//
-
-
-
-
 //        MENUITEM::create( [
 //            'id'=>58000,
 //            'company_id'=>1,
@@ -1354,14 +1333,21 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'R'
 //        ] );
-
-
-
-
-
-
-
-
+//
+//
+//        MENUITEM::create( [
+//            'id'=>58015,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5K',
+//            'name'=>'Stock Position',
+//            'show'=>'1',
+//            'url'=>'inventory/report/rptStockPositionIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
 //
 //
 //        MENUITEM::create( [
@@ -1403,7 +1389,7 @@ class MenuItemsTableSeeder extends Seeder
 //            'menu_prefix'=>'9A',
 //            'name'=>'New Project',
 //            'show'=>'1',
-//            'url'=>'home',
+//            'url'=>'projects/basic/newProjectIndex',
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );

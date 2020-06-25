@@ -189,77 +189,77 @@ class DataMigrationCO extends Controller
 
             // Update GL Head subcategory Stock In
 
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',1)
-                ->update(['acc_in_stock'=>'10712104']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',2)
-                ->update(['acc_in_stock'=>'10712102']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',3)
-                ->update(['acc_in_stock'=>'10612106']);
-
-//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',4)
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',1)
+//                ->update(['acc_in_stock'=>'10712104']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',2)
+//                ->update(['acc_in_stock'=>'10712102']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',3)
 //                ->update(['acc_in_stock'=>'10612106']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',5)
-                ->update(['acc_in_stock'=>'10712108']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',6)
-                ->update(['acc_in_stock'=>'10712106']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',7)
-                ->update(['acc_in_stock'=>'10712106']);
-
-//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',8)
+//
+////            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',4)
+////                ->update(['acc_in_stock'=>'10612106']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',5)
+//                ->update(['acc_in_stock'=>'10712108']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',6)
 //                ->update(['acc_in_stock'=>'10712106']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',9)
-                ->update(['acc_in_stock'=>'10712112']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',10)
-                ->update(['acc_in_stock'=>'10712114']);
-
-
-            /// STOCK OUT
-            ///
-
-            // Update GL Head subcategory Stock In
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',1)
-                ->update(['acc_out_stock'=>'40912116']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',2)
-                ->update(['acc_out_stock'=>'40912104']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',3)
-                ->update(['acc_out_stock'=>'10612110']);
-
-//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',4)
-//                ->update(['acc_out_stock'=>'10612106']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',5)
-                ->update(['acc_out_stock'=>'40712102']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',6)
-                ->update(['acc_out_stock'=>'40912122']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',7)
-                ->update(['acc_out_stock'=>'40912126']);
-
-//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',8)
-//                ->update(['acc_out_stock'=>'10712106']);
-
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',7)
+//                ->update(['acc_in_stock'=>'10712106']);
+//
+////            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',8)
+////                ->update(['acc_in_stock'=>'10712106']);
+//
 //            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',9)
-//                ->update(['acc_out_stock'=>'10712112']);
-
+//                ->update(['acc_in_stock'=>'10712112']);
+//
 //            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',10)
-//                ->update(['acc_out_stock'=>'10712114']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->where('id',20)
-                ->update(['acc_out_stock'=>'40912118']);
-
-            SubCategory::query()->where('company_id',$this->company_id)->whereIn('id',[12,13,21,32])
-                ->update(['acc_out_stock'=>'40912106']);
+//                ->update(['acc_in_stock'=>'10712114']);
+//
+//
+//            /// STOCK OUT
+//            ///
+//
+//            // Update GL Head subcategory Stock In
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',1)
+//                ->update(['acc_out_stock'=>'40912116']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',2)
+//                ->update(['acc_out_stock'=>'40912104']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',3)
+//                ->update(['acc_out_stock'=>'10612110']);
+//
+////            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',4)
+////                ->update(['acc_out_stock'=>'10612106']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',5)
+//                ->update(['acc_out_stock'=>'40712102']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',6)
+//                ->update(['acc_out_stock'=>'40912122']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',7)
+//                ->update(['acc_out_stock'=>'40912126']);
+//
+////            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',8)
+////                ->update(['acc_out_stock'=>'10712106']);
+//
+////            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',9)
+////                ->update(['acc_out_stock'=>'10712112']);
+//
+////            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',10)
+////                ->update(['acc_out_stock'=>'10712114']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->where('id',20)
+//                ->update(['acc_out_stock'=>'40912118']);
+//
+//            SubCategory::query()->where('company_id',$this->company_id)->whereIn('id',[12,13,21,32])
+//                ->update(['acc_out_stock'=>'40912106']);
 
 
 

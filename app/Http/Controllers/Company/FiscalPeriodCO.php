@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company\FiscalPeriod;
+use App\Models\Company\TransCode;
+use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +17,8 @@ class FiscalPeriodCO extends Controller
      * Display a listing of the resource.
      *
      */
+    use TransactionsTrait;
+
     public function index()
     {
         return view('company.fiscal-period-index');
@@ -41,6 +45,17 @@ class FiscalPeriodCO extends Controller
                 return Carbon::parse($fiscal->end_date)->format('d-m-Y');
             })
             ->rawColumns(['depreciation','start_date','end_date'])
+            ->make(true);
+    }
+
+
+    public function getTRCodeData()
+    {
+        $year = $this->get_fiscal_data_from_current_date($this->company_id);
+
+        $codes = TransCode::query()->where('fiscal_year',$year->fiscal_year)->where('company_id',$this->company_id);
+
+        return DataTables::of($codes)
             ->make(true);
     }
 

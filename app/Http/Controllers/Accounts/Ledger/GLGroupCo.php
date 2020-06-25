@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounts\Common\AccountType;
 use App\Models\Accounts\Common\AccountTypeDetail;
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Common\UserActivity;
 use App\Models\Company\FiscalPeriod;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -22,6 +24,11 @@ class GLGroupCo extends Controller
      */
     public function index()
     {
+
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>42005,'user_id'=>$this->user_id],
+            ['updated_at'=>Carbon::now()
+            ]);
 
         $types = AccountTypeDetail::query()
             ->pluck('description','type_code');

@@ -146,7 +146,7 @@ Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middle
     Route::get('rptProductLedgerIndex','Report\ProductLedgerCO@index');
     Route::get('productList','Report\ProductLedgerCO@autocomplete');
 
-    Route::get('rptStockPositionIndex','Report\StockPositionCO@index');
+
 
 
 });
@@ -320,6 +320,8 @@ Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'midd
     Route::get('approveDeliveryIndex','ApproveDeliverCO@index');
     Route::get('getDeliveryItems','ApproveDeliverCO@getDeliveryItems');
 
+    Route::get('viewDeliveryItems/{id}','ApproveDeliverCO@ajax_call');
+
 
 });
 
@@ -327,6 +329,7 @@ Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'midd
 Route::group(['prefix' => 'inventory/report', 'namespace' => 'Inventory\Report', 'middleware' => ['auth']], function () {
 
     Route::get('productMovementRegister','ProductMovementRegisterCO@index');
+    Route::get('rptStockPositionIndex','StockPositionCO@index');
 
 });
 

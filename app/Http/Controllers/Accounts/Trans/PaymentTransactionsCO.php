@@ -100,6 +100,8 @@ class PaymentTransactionsCO extends Controller
         $period = Carbon::createFromFormat('d-m-Y',$request['trans_date'])->format('Y-M');
         $fp_no = get_fp_from_month_sl(Carbon::createFromFormat('d-m-Y',$request['trans_date'])->format('m'),$this->company_id);
         $trans_id = Carbon::now()->format('Ymdhmis');
+        $request['project_id'] = $request->has('project_id') ? $request['project_id'] : 1;
+        $request['cost_center_id'] = $request->has('cost_center_id') ? $request['cost_center_id'] : 1;
 
         DB::beginTransaction();
 

@@ -17,12 +17,12 @@ class CreateLocationsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
-            $table->char('location_type',10)->nullable()->comment('F=>Factory D=>Employee Duty');
+            $table->char('location_type',1)->default('O')->comment('F=>Factory O=>Office D=>Employee Duty');
             $table->string('name',200);
-            $table->string('in_charge',240);
+            $table->string('in_charge',240)->nullable();
             $table->longText('description')->nullable();
             $table->boolean('status')->default(1);
-            $table->string('old_id',4);
+            $table->string('old_id',4)->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

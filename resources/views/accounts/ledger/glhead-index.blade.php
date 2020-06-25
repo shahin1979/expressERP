@@ -36,6 +36,7 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Type Details</th>
+                    <th>Opening</th>
                     <th>Balance</th>
                     <th>Action</th>
                 </tr>
@@ -49,10 +50,21 @@
         <table class="table table-bordered table-striped table-hover">
             <tbody>
             <tr>
-                <td><label for="group_name">Ledger Name</label></td>
-                <td><input type="text" name="acc_name_for_edit" id="acc_name_for_edit" class="form-control" autocomplete="off" required></td>
+                <td><label for="acc_name_for_edit">Ledger Name</label></td>
+                <td><input type="text" name="acc_name_for_edit" id="acc_name_for_edit" class="form-control" autocomplete="off"></td>
                 <input id="id_for_update" type="hidden" name="id_for_update"/>
             </tr>
+
+            <tr id="open_debit">
+                <td><label for="opn_dr_for_edit">Opening Debit</label></td>
+                <td><input type="text" name="opn_dr_for_edit" id="opn_dr_for_edit" class="form-control" autocomplete="off" required></td>
+            </tr>
+
+            <tr id="open_credit">
+                <td><label for="opn_cr_for_edit">Opening Credit</label></td>
+                <td><input type="text" name="opn_cr_for_edit" id="opn_cr_for_edit" class="form-control" autocomplete="off" required></td>
+            </tr>
+
             </tbody>
 
             <tfoot>
@@ -89,11 +101,22 @@
                     { data: 'acc_name', name: 'acc_name' },
                     { data: 'acc_type', name: 'acc_type' },
                     { data: 'details.description', name: 'details.description'},
+                    { data: 'opening', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'opening'},
                     { data: 'curr_bal', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'curr_bal'},
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
 
                 ],
-                order: [[ 2, "asc" ]]
+                order: [[ 2, "asc" ]],
+
+                rowCallback: function( row, data, index ) {
+                    if(index%2 == 0){
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myodd');
+                    }else{
+                        $(row).removeClass('myodd myeven');
+                        $(row).addClass('myeven');
+                    }
+                }
             });
 
 
@@ -102,6 +125,8 @@
                 e.preventDefault();
 
                 $('#acc_name_for_edit').val($(this).data('name'));
+                $('#opn_cr_for_edit').val($(this).data('opencr'));
+                $('#opn_dr_for_edit').val($(this).data('opendr'));
                 $('#id_for_update').val($(this).data('rowid'));
 
                 $('#edit-ledger').show();
@@ -192,6 +217,7 @@
                 dataType: 'json',
 
                 data: {method: '_POST', submit: true, acc_name:$('#acc_name_for_edit').val(),
+                    opn_dr:$('#opn_dr_for_edit').val(),opn_cr:$('#opn_cr_for_edit').val(),
                 },
 
                 error: function (request, status, error) {
@@ -218,6 +244,12 @@
             window.location = 'account/print'
         });
 
+
+        $(function (){
+            $(document).on("focus", "input:text", function() {
+                $(this).select();
+            });
+        });
 
     </script>
 

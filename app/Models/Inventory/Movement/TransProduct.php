@@ -81,6 +81,11 @@ class TransProduct extends Model
         return $this->belongsTo(Purchase::class,'ref_id','id');
     }
 
+    public function delivery()
+    {
+        return $this->belongsTo(Delivery::class,'ref_id','id');
+    }
+
     public function location()
     {
         return $this->belongsTo(Location::class,'relationship_id','id');
