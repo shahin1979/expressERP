@@ -55,21 +55,13 @@ class DataMigrationCO extends Controller
 //        $output = $this->MTStatement($this->company_id);
 //        $output = $this->depreciation($this->company_id,$connection);
 
-
-        // Previous data Migration
-
-
-//        $output = $this->previousData($this->company_id,'2018-2019');
-
-        // End
-
-        dd($output);
-
-
-
 //        $output = $this->hpsmTwo();
 
-//        dd($output);
+
+        // Previous data Migration
+//        $output = $this->previousData($this->company_id,'2018-2019');
+
+        return redirect()->action('Company\DataMigrationCO@index')->with('success','Successfully Migrated : '.$output);
 
 
 
@@ -185,6 +177,7 @@ class DataMigrationCO extends Controller
                                 'on_hand'=> $line->currentBalance,
                                 'on_hand_unit_two'=> $line->currBalQty1,
                                 'on_hand_unit_three'=> $line->currBalQty2,
+                                'opening_qty'=>$line->openingStock,
                                 'opening_value' => $line->openStockValue,
                                 'user_id' => $this->user_id
                             ]);

@@ -38,7 +38,7 @@ trait MigrationTrait
             ->orderBy('ldgrCode','ASC')
             ->get();
 
-        ini_set('max_execution_time', 600);
+        ini_set('max_execution_time', 800);
 
         DB::beginTransaction();
 
@@ -59,8 +59,8 @@ trait MigrationTrait
 
             if (Config::get('database.default') == 'pgsql') {
 
-                DB::statement('TRUNCATE TABLE general_ledgers RESTART IDENTITY CASCADE;');
-                DB::statement('TRUNCATE TABLE transactions RESTART IDENTITY CASCADE;');
+//                DB::statement('TRUNCATE TABLE general_ledgers RESTART IDENTITY CASCADE;');
+//                DB::statement('TRUNCATE TABLE transactions RESTART IDENTITY CASCADE;');
 //                DB::statement('TRUNCATE TABLE categories RESTART IDENTITY CASCADE;');
 //                DB::statement('TRUNCATE TABLE sub_categories RESTART IDENTITY CASCADE;');
 //                DB::statement('TRUNCATE TABLE products RESTART IDENTITY CASCADE;');
@@ -131,15 +131,13 @@ trait MigrationTrait
 
             // Migrate Transactions Table
 
-//            $transactions = $connection->table('transactions')
-//                ->where('comp_code',12)
-//                ->where('trans_date','>','2019-11-30')
-//                ->get();
-
+//
 
             $data = $connection->table('transactions')
                 ->select(DB::Raw('distinct voucher_no, j_code'))
-                ->where('comp_code',12)//->where('voucher_no',5100271)
+                ->where('comp_code',12)
+                ->where('id','>',16434)
+                //->where('voucher_no',5100271)
 //                    ->where('trans_date','=','2019-07-02')
                 ->get();
 
@@ -203,7 +201,7 @@ trait MigrationTrait
                                 ->where('voucher_no',$voucher_no)
                                 ->where('acc_no',$inserted_acc_cr)->first();
 
-                            $new_desc = isset($desc->trans_desc1) ? $desc->trans_desc1 : ''.','.isset($item->trans_desc1) ? $item->trans_desc1 : '' ;
+                            $new_desc = isset($desc->trans_desc1) ? $desc->trans_desc1 : (' , '.isset($item->trans_desc1) ? $item->trans_desc1 : '') ;
 
                             Transaction::query()->where('company_id',$company_id)
                                 ->where('voucher_no',$voucher_no)
@@ -295,7 +293,7 @@ trait MigrationTrait
                                 ->where('voucher_no',$voucher_no)
                                 ->where('acc_no',$item->acc_dr)->first();
 
-                            $new_desc = isset($desc->trans_desc1) ? $desc->trans_desc1 : ''.','.isset($item->trans_desc1) ? $item->trans_desc1 : '' ;
+                            $new_desc = isset($desc->trans_desc1) ? $desc->trans_desc1 : (' , '.isset($item->trans_desc1) ? $item->trans_desc1 : ' ') ;
 
                             Transaction::query()->where('company_id',$company_id)
                                 ->where('voucher_no',$voucher_no)
@@ -396,8 +394,8 @@ trait MigrationTrait
         }catch (\Exception $e)
         {
             DB::rollBack();
-            dd($e->getMessage());
             $error = $e->getMessage();
+            dd($error);
             return redirect()->back()->with('error','Not Saved '.$error);
         }
 
@@ -473,7 +471,6 @@ trait MigrationTrait
         }catch (\Exception $e)
         {
             DB::rollBack();
-            dd($e->getMessage());
             $error = $e->getMessage();
             return redirect()->back()->with('error','Not Saved '.$error);
         }
@@ -491,8 +488,8 @@ trait MigrationTrait
         $connection = DB::connection('mcottondb');
 
         DB::statement('TRUNCATE TABLE locations;');
-//        DB::statement('TRUNCATE TABLE requisitions;');
-//        DB::statement('TRUNCATE TABLE trans_products;');
+        DB::statement('TRUNCATE TABLE requisitions;');
+        DB::statement('TRUNCATE TABLE trans_products;');
 
 
         // Test Area
@@ -521,7 +518,7 @@ trait MigrationTrait
 
             $count ++;
         }
-
+//        return $count;
 //dd($count);
 
         $count = 0;

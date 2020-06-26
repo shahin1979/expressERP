@@ -37,8 +37,8 @@ class AppModuleTableSeeder extends Seeder
         ]);
 
         DB::table('app_modules')->insert([
-            'module_name' => 'Production Module',
-            'description' => 'Production Related Activities'
+            'module_name' => 'MIS Module',
+            'description' => 'Management Information System'
         ]);
 
         DB::table('app_modules')->insert([

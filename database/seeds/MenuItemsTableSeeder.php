@@ -615,19 +615,19 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'R'
 //        ] );
 
-        MENUITEM::create( [
-            'id'=>49002,
-            'company_id'=>1,
-            'module_id'=>4,
-            'nav_label'=>4,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'4X',
-            'name'=>'Income & Expenditure',
-            'show'=>'1',
-            'url'=>'statement/incomeExpIndex',
-            'status'=>'1',
-            'content'=>'F'
-        ] );
+//        MENUITEM::create( [
+//            'id'=>49002,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Income & Expenditure',
+//            'show'=>'1',
+//            'url'=>'statement/incomeExpIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
 
 
 //
@@ -1321,6 +1321,47 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //
+
+
+
+
+//        MENUITEM::create( [
+//            'id'=>58000,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'5K',
+//            'name'=>'INVENTORY REPORTS',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>58010,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5K',
+//            'name'=>'Product Movement Register',
+//            'show'=>'1',
+//            'url'=>'inventory/report/productMovementRegister',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+
+
+
+
+
+
+
+
 //
 //
 //        MENUITEM::create( [

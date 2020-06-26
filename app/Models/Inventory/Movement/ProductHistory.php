@@ -41,6 +41,8 @@ class ProductHistory extends Model
         'stock_out'
     ];
 
+
+
     public function item()
     {
         return $this->belongsTo(ProductMO::class,'product_id','id');

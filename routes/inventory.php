@@ -324,4 +324,11 @@ Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'midd
 });
 
 
+Route::group(['prefix' => 'inventory/report', 'namespace' => 'Inventory\Report', 'middleware' => ['auth']], function () {
+
+    Route::get('productMovementRegister','ProductMovementRegisterCO@index');
+
+});
+
+
 
