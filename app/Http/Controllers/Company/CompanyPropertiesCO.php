@@ -125,7 +125,7 @@ class CompanyPropertiesCO extends Controller
             );
 
             GeneralLedger::query()->updateOrCreate(
-                ['company_id' => $this->company_id, 'acc_no' => '10112101'],
+                ['company_id' => $this->company_id, 'acc_no' => '10112102'],
                 [
                     'ledger_code' => '101',
                     'acc_name' => 'Cash In Hand',

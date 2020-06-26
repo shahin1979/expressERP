@@ -38,11 +38,11 @@ class CreateCompanyPropertiesTable extends Migration
             $table->string('consumable_on_hand',8)->default('10412102');
             $table->string('consumable_expense',8)->default('40112102');
             $table->string('rm_in_hand',8)->default('10412104');
-            $table->integer('rm_cg_id',4)->default(1)->comment('Raw Material Category Id');
+            $table->unsignedInteger('rm_cg_id')->default(1)->comment('Raw Material Category Id');
             $table->string('work_in_progress',8)->default('10412106');
             $table->string('finished_goods',8)->default('10412110');
             $table->string('cost_of_goods_sold',8)->default('40112104');
-            $table->integer('fg_cg_id',4)->default(2)->comment('Finished Goods Category Id');
+            $table->unsignedInteger('fg_cg_id')->default(2)->comment('Finished Goods Category Id');
             $table->string('depreciation_account',8)->default('40312102');
             $table->char('depreciation_frequency',1)->default('Y')->comment('Y=Yearly, H=Haf Yearly, M=Monthly');
             $table->char('currency',3)->nullable();

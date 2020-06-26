@@ -29,10 +29,10 @@
                             <table class="table">
                                 <tbody>
                                 @foreach($accounts as $row)
-                                    @if($row->acc_type === 'L')
+                                    @if($row->acc_type === 'L' OR $row->acc_type === 'C')
                                         <tr>
                                             <td>{!! $row->acc_name !!}</td>
-                                            <td>{!! $row->curr_bal !!}</td>
+                                            <td>{!! abs($row->curr_bal) !!}</td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -67,7 +67,7 @@
                                     @if($row->acc_type === 'E')
                                         <tr>
                                             <td>{!! $row->acc_name !!}</td>
-                                            <td>{!! $row->curr_bal !!}</td>
+                                            <td>{!! abs($row->curr_bal) !!}</td>
                                         </tr>
                                     @endif
                                 @endforeach

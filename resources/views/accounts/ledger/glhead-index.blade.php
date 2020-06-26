@@ -2,8 +2,7 @@
 
 @section('content')
     <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
-    <link href="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.css') !!}" rel="stylesheet" type="text/css" />
-    <script src="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.js') !!}"></script>
+
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
@@ -202,7 +201,11 @@
 
                 success: function (data) {
 
-                    alert(data.success + data.acc_name);
+                    $.alert({
+                        title: 'Alert!',
+                        content: data.success + data.acc_name,
+                    });
+
                     $('#modal-new-gh-head').modal('hide');
                     $('#head-table').DataTable().draw(false);
 

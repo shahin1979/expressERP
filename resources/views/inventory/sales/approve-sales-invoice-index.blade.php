@@ -253,9 +253,14 @@
 
 
                     },
-                    error: function (jqXHR, textStatus, errorThrown)
+                    error: function (request, textStatus, errorThrown)
                     {
-                        alert('Error get data from ajax');
+                        var myObj = JSON.parse(request.responseText);
+
+                        $.alert({
+                            title: 'Alert!',
+                            content: myObj.message + ' ' + myObj.error,
+                        });
                     }
                 });
 
@@ -297,12 +302,20 @@
 
                     error: function (request, status, error) {
                         var myObj = JSON.parse(request.responseText);
-                        alert(myObj.message + ' ' + myObj.error);
+
+                        $.alert({
+                            title: 'Alert!',
+                            content: myObj.message + ' ' + myObj.error,
+                        });
+
                     },
 
                     success: function (data) {
 
-                        alert(data.success);
+                        $.alert({
+                            title: 'Alert!',
+                            content: data.success,
+                        });
                         $('#edit-section').hide();
                         $('#invoice-table').parents('div.dataTables_wrapper').first().show();
                         $('#invoice-table').DataTable().draw(true);

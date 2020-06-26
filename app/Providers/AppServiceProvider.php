@@ -116,7 +116,7 @@ class AppServiceProvider extends ServiceProvider
 
             $user_activities = UserActivity::query()->where('user_id',Auth::id())
                 ->orderBy('updated_at','DESC')
-                ->take(10)->get();
+                ->take(8)->get();
 
             //////////////////////////////////////////////
 

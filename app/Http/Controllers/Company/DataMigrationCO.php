@@ -64,7 +64,7 @@ class DataMigrationCO extends Controller
 //        return redirect()->action('Company\DataMigrationCO@index')->with('success','Successfully Migrated : '.$output);
 
 
-
+return;
         $connection = DB::connection('mcottondb');
 
 

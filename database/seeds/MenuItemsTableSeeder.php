@@ -1349,6 +1349,21 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'R'
 //        ] );
 //
+
+//        MENUITEM::create( [
+//            'id'=>58020,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5K',
+//            'name'=>'Sales Register Report',
+//            'show'=>'1',
+//            'url'=>'inventory/report/rptSalesRegisterIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+
 //
 //        MENUITEM::create( [
 //            'id'=>90001,

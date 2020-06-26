@@ -91,6 +91,7 @@ class ApproveSalesInvoiceCO extends Controller
             ->with(['items'=>function($q){
                 $q->where('company_id',$this->company_id);
             }])
+            ->with('customer')
             ->first();
         $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
         $accounts = GeneralLedger::query()->where('company_id',$this->company_id)->get();
@@ -99,12 +100,16 @@ class ApproveSalesInvoiceCO extends Controller
 
         $sales = TransProduct::query()->where('company_id',$this->company_id)
             ->where('ref_id',$id)->where('ref_type','S')
-            ->with('item')->with('invoice')->get();
+            ->with('item')
+            ->with(['invoice'=>function($q){
+                $q->where('company_id',$this->company_id);
+            }])
+            ->get();
 
         $transactions = collect([
             [
                 'gl_head' => $invoice->customer->ledger_acc_no,
-                'acc_name'=>$invoice->customer->ledger_acc_no.' : '.$accounts->where('acc_no',$invoice->customer->ledger_acc_no)->first()->acc_name,
+                'acc_name'=>$invoice->customer->ledger_acc_no.' : '.$this->get_account_name($this->company_id, $invoice->customer->ledger_acc_no),
                 'debit_amt' => $sales->sum('total_price') - $invoice->discount_amt - $invoice->paid_amt,
                 'credit_amt' => 0
             ]
@@ -120,7 +125,7 @@ class ApproveSalesInvoiceCO extends Controller
         {
             $discount = [];
             $discount['gl_head'] = $company->discount_sales;
-            $discount['acc_name'] = $discount['gl_head'].' : '.$accounts->where('acc_no',$discount['gl_head'])->first()->acc_name;
+            $discount['acc_name'] = $discount['gl_head'].' : '.$this->get_account_name($this->company_id, $company->discount_sales);
             $discount['debit_amt'] = $invoice->discount_amt;
             $discount['credit_amt'] = 0;
             $transactions->push($discount);
@@ -130,7 +135,7 @@ class ApproveSalesInvoiceCO extends Controller
         {
             $paid = [];
             $paid['gl_head'] = $company->default_cash;
-            $paid['acc_name'] = $paid['gl_head'].' : '.$accounts->where('acc_no',$paid['gl_head'])->first()->acc_name;
+            $paid['acc_name'] = $paid['gl_head'].' : '.$this->get_account_name($this->company_id, $paid['gl_head']);
             $paid['debit_amt'] = $invoice->paid_amt;
             $paid['credit_amt'] = 0;
             $transactions->push($paid);
@@ -142,7 +147,7 @@ class ApproveSalesInvoiceCO extends Controller
             {
                 $credit = [];
                 $credit['gl_head'] = $sales_acc;
-                $credit['acc_name'] = $sales_acc.' : '.$accounts->where('acc_no',$sales_acc)->first()->acc_name;
+                $credit['acc_name'] = $sales_acc.' : '.$this->get_account_name($this->company_id, $sales_acc);
                 $credit['debit_amt'] = 0;
                 $credit['credit_amt'] = $sales->sum('item_total');
                 $transactions->push($credit);
@@ -161,9 +166,12 @@ class ApproveSalesInvoiceCO extends Controller
         {
             if($row->tax_amount > 0)
             {
+                $tax_acc = ItemTax::query()->where('id',$head)->first();
+                $tax_acc_no = Str::length($tax_acc->acc_no) > 1 ? $tax_acc->acc_no : $company->default_sales_tax;
+
                 $line = [];
-                $line['gl_head'] = ItemTax::query()->where('id',$head)->first()->acc_no;
-                $line['acc_name'] = $line['gl_head'].' : '.$accounts->where('acc_no',$line['gl_head'])->first()->acc_name;
+                $line['gl_head'] = $tax_acc_no;
+                $line['acc_name'] = $line['gl_head'].' : '.$this->get_account_name($this->company_id, $line['gl_head']);
                 $line['debit_amt'] = 0;
                 $line['credit_amt'] = $row->tax_amount;
                 $transactions->push($line);
@@ -209,7 +217,7 @@ class ApproveSalesInvoiceCO extends Controller
         {
             $line = [];
             $line['gl_head'] = $head;
-            $line['acc_name'] = $line['gl_head'].' : '.$accounts->where('acc_no',$line['gl_head'])->first()->acc_name;
+            $line['acc_name'] = $line['gl_head'].' : '.$this->get_account_name($this->company_id, $line['gl_head']);
             $line['debit_amt'] = 0;
             $line['credit_amt'] = $id->tr_amount;
             $deliveries->push($line);
@@ -219,7 +227,7 @@ class ApproveSalesInvoiceCO extends Controller
         {
             $line = [];
             $line['gl_head'] = $head;
-            $line['acc_name'] = $line['gl_head'].' : '.$accounts->where('acc_no',$line['gl_head'])->first()->acc_name;
+            $line['acc_name'] = $line['gl_head'].' : '.$this->get_account_name($this->company_id, $line['gl_head']);
             $line['debit_amt'] = $id->tr_amount;
             $line['credit_amt'] = 0;
             $deliveries->push($line);
@@ -254,7 +262,12 @@ class ApproveSalesInvoiceCO extends Controller
 
                 $period = $this->get_fiscal_data_from_current_date($this->company_id);
                 $invoice = Sale::query()->where('company_id',$this->company_id)
-                    ->where('invoice_no',$id)->with('items')->first();
+                    ->where('invoice_no',$id)
+                    ->with(['items'=>function($q){
+                        $q->where('company_id',$this->company_id)
+                            ->where('ref_type','S');
+                    }])
+                    ->first();
 
                 $customer = Relationship::query()->where('id',$invoice->customer_id)->first();
 
@@ -262,14 +275,6 @@ class ApproveSalesInvoiceCO extends Controller
                 switch ($request['action'])
                 {
                     case 'approve':
-
-                        Sale::query()->where('company_id',$this->company_id)
-                            ->where('invoice_no',$id)->update([
-                                'status'=>'AP',
-                                'authorized_by'=>$this->user_id,
-                                'authorized_date'=>Carbon::now(),
-                                'direct_delivery'=>$delivery,
-                                'delivery_status'=>$delivery]);
 
                         if($company->auto_delivery == true)
                         {
@@ -318,6 +323,17 @@ class ApproveSalesInvoiceCO extends Controller
                                 ->where('fiscal_year',$period->fiscal_year)
                                 ->increment('last_trans_id');
                         }
+
+                        Sale::query()->where('company_id',$this->company_id)
+                            ->where('invoice_no',$id)
+                            ->update(
+                                [
+                                'status'=>'AP',
+                                'authorized_by'=>$this->user_id,
+                                'authorized_date'=>Carbon::now(),
+                                'direct_delivery'=>$delivery
+                                ]);
+
 
 
                         // Account Transaction for Sales Invoice

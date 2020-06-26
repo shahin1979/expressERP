@@ -170,6 +170,7 @@
                                     '<input name="item[' + i +'][product_id]" type="hidden" id="product_id" value="'+ item.product_id +'">' +
                                     '<input name="item[' + i +'][unit_price]" type="hidden" id="unit_price" value="'+ item.unit_price +'">' +
                                     '<input name="item[' + i +'][relationship_id]" type="hidden" id="relationship_id" value="'+ item.relationship_id +'">' +
+                                '<input name="cost_center_id[]" type="hidden" id="relationship_id" value="'+ item.relationship_id +'">' +
                                     '<td align="right"><input name="item[' + i + '][quantity]" class="form-control text-right" type="text" id="quantity" value="'+ 0 +'"></td>' +
                                 '</tr>';
                         });

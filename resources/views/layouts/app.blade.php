@@ -24,6 +24,9 @@
 
     <link rel="stylesheet" href="{!! asset('dist/css/theme.min.css') !!}">
 
+    <link href="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.css') !!}" rel="stylesheet" type="text/css" />
+
+
 </head>
 
 <body>
@@ -66,6 +69,7 @@
 <script type="text/javascript" src="{!! asset('assets/DataTables-1.10.18/js/jquery.dataTables.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('assets/DataTables-1.10.18/js/dataTables.jqueryui.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('assets/js/jquery.datetimepicker.js') !!}"></script>
+<script src="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.js') !!}"></script>
 
 @stack('scripts')
 

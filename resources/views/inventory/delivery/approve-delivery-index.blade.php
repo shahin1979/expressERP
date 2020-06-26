@@ -61,7 +61,6 @@
                         <table id="delivery-items" class="table table-striped table-info table-bordered delivery-items">
                             <thead>
                             <tr>
-                                <th>Requisition <br/> For</th>
                                 <th>Item</th>
                                 <th style="text-align: right">In<br/>Stock</th>
                                 <th style="text-align: right">Delivery Qty</th>
@@ -74,7 +73,7 @@
 
                             <tfoot>
                             <tr style="background-color: rgba(224,229,229,0.96)">
-                                <td colspan="3"><button type="submit" name="action" value="approve" id="action" class="btn btn-primary btn-approve">Approve</button></td>
+                                <td colspan="2"><button type="submit" name="action" value="approve" id="action" class="btn btn-primary btn-approve">Approve</button></td>
                                 <td colspan="2"><button type="submit" name="action" value="reject" id="action" class="btn btn-danger btn-approve pull-right">Reject</button></td>
                             </tr>
                             </tfoot>
@@ -171,8 +170,9 @@
                 var reqHTML = '';
 
                 reqHTML = '<tr class="delivery-info">' +
-                    '<td align="left">Req No</td><td align="left">' + $(this).data('requisition') + '</td></tr>' +
-                    '<td align="left">Delivery Challan No</td><td align="left">' + $(this).data('challan') + '</td></tr>' +
+                    '<tr class="delivery-info"><td align="left">Req/Invoice No</td><td align="left">' + $(this).data('requisition') + '</td></tr>' +
+                    '<tr class="delivery-info"><td align="left">Against</td><td align="left">' + $(this).data('against') + '</td></tr>'+
+                    '<tr class="delivery-info"><td align="left">Delivery Challan No</td><td align="left">' + $(this).data('challan') + '</td></tr>' +
                     '<tr class="delivery-info"><td align="left">Challan Date</td><td align="left">' + $(this).data('date') + '</td></tr>';
 
                 $('#delivery-main').append(reqHTML);
@@ -192,7 +192,6 @@
                         var trHTML = '';
                         $.each(data.products, function (i, item) {
                             trHTML += '<tr class="del_items">' +
-                                '<td>' + item.costcenter.name +'</td>' +
                                 '<td>' + item.item.name +'</td>' +
                                 '<td align="right">' + item.item.on_hand +'</td>' +
                                 '<td align="right">' + item.quantity +' ' + item.item.unit_name +'</td>' +

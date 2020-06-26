@@ -84,7 +84,7 @@ class TransProduct extends Model
 
     public function delivery()
     {
-        return $this->belongsTo(Delivery::class,'ref_id','id');
+        return $this->belongsTo(Delivery::class,'ref_no','challan_no');
     }
 
 //    public function location()
@@ -95,6 +95,11 @@ class TransProduct extends Model
     public function costcenter()
     {
         return $this->belongsTo(CostCenter::class,'relationship_id','id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Relationship::class,'relationship_id','id');
     }
 
     public function supplier()

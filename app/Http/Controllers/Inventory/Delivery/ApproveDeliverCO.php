@@ -36,7 +36,12 @@ class ApproveDeliverCO extends Controller
     {
         $query = Delivery::query()->where('company_id',$this->company_id)
             ->where('status','CR')
-            ->with('items')->with('user')->select('deliveries.*');
+            ->with('customer')->with('costcenter')
+            ->with(['items'=>function($q){
+                $q->where('company_id',$this->company_id)
+                ->where('ref_type','D');
+            }])
+            ->with('user')->select('deliveries.*');
 
 
         return Datatables::eloquent($query)
@@ -53,9 +58,9 @@ class ApproveDeliverCO extends Controller
             })
 
             ->addColumn('del_for', function ($query) {
-                return $query->items->map(function($items) {
-                    return isset($items->relationship_id) ?  $items->costcenter->name : 'None';
-                })->implode('<br>');
+
+                    return $query->delivery_type == 'SL' ? $query->customer->name : $query->costcenter->name;
+
             })
 
             ->addColumn('del_type', function ($query) {
@@ -68,6 +73,7 @@ class ApproveDeliverCO extends Controller
                     <button  data-remote="viewDeliveryItems/' . $query->id . '"
                         data-challan="' . $query->challan_no . '"
                         data-requisition="' . $query->ref_no . '"
+                        data-against="' . ($query->delivery_type == 'SL' ? $query->customer->name : $query->costcenter->name) . '"
                         data-date="' . $query->delivery_date . '"
                         id="view-delivery-details" type="button" class="btn btn-delivery-details btn-xs btn-primary">Details</button>
                     ';
@@ -81,7 +87,8 @@ class ApproveDeliverCO extends Controller
     {
         $challan = Delivery::query()->where('id',$id)
             ->with(['items'=>function($q){
-                $q->where('company_id',$this->company_id);
+                $q->where('company_id',$this->company_id)
+                ->where('ref_type','D');
             }])
             ->first();
 
@@ -90,7 +97,7 @@ class ApproveDeliverCO extends Controller
 
         $products = TransProduct::query()->where('company_id',$this->company_id)
             ->where('ref_id',$id)->where('ref_type','D')
-            ->with('costcenter')->with('item')
+            ->with('costcenter')->with('customer')->with('item')
             ->get();
 
 
@@ -118,7 +125,8 @@ class ApproveDeliverCO extends Controller
                         ->where('challan_no',$id)
                         ->with('costcenter')->with('customer')
                         ->with(['items'=>function($q){
-                            $q->where('company_id',$this->company_id);
+                            $q->where('company_id',$this->company_id)
+                            ->where('ref_type','D');
                         }])
                         ->first();
 
@@ -147,7 +155,7 @@ class ApproveDeliverCO extends Controller
                     $t_data = $this->ajax_call($delivery->id);
                     $trans= json_decode($t_data,true);
 
-                    $desc2 = $delivery->costcenter->name;
+                    $desc2 = $delivery->delivery_type == 'SL' ? $delivery->customer->name : $delivery->costcenter->name;
                     $period = $this->get_fiscal_data_from_current_date($this->company_id);
 
                     foreach ($trans['transactions'] as $row)
@@ -158,7 +166,7 @@ class ApproveDeliverCO extends Controller
 
                     Delivery::query()->where('challan_no',$id)
                         ->where('company_id',$this->company_id)
-                        ->update(['status','DL','approve_date'=>Carbon::now(),'approve_by'=>$this->user_id]);
+                        ->update(['status'=>'DL','approve_date'=>Carbon::now(),'approve_by'=>$this->user_id]);
 
                 }catch (\Exception $e)
                 {
@@ -204,11 +212,11 @@ class ApproveDeliverCO extends Controller
         $input['trans_id'] = Carbon::now()->format('Ymdhmis');
         $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
         $input['trans_date'] = Carbon::now();
-        $input['voucher_no'] = $delivery->ref_no;
+        $input['voucher_no'] = $delivery->challan_no;
         $input['acc_no'] = $row['gl_head'];
         $input['ledger_code'] = Str::substr($input['acc_no'],0,3);
-        $input['ref_no'] = $delivery->challan_no;
-        $input['contra_acc'] = null;
+        $input['ref_no'] = $delivery->ref_no;
+        $input['contra_acc'] = $delivery->relationship_id;
         $input['dr_amt'] = $row['debit_amt'];
         $input['cr_amt'] = $row['credit_amt'];
         $input['trans_amt'] = $row['debit_amt'] + $row['credit_amt'];

@@ -314,6 +314,9 @@ Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'midd
     Route::get('salesInvoiceDeliveryIndex','SalesInvoiceDeliveryCO@index');
     Route::get('getInvoiceItems','SalesInvoiceDeliveryCO@getInvoiceItems');
 
+    Route::get('viewInvoiceItems/{id}','SalesInvoiceDeliveryCO@ajax_call');
+    Route::post('deliveryInvoiceItems/{id}','SalesInvoiceDeliveryCO@store');
+
 // Approve Delivery
 
 
@@ -321,7 +324,6 @@ Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'midd
     Route::get('getDeliveryItems','ApproveDeliverCO@getDeliveryItems');
 
     Route::get('viewDeliveryItems/{id}','ApproveDeliverCO@ajax_call');
-
     Route::post('ApproveDeliveryItems/{id}','ApproveDeliverCO@approve');
 
 
@@ -332,6 +334,10 @@ Route::group(['prefix' => 'inventory/report', 'namespace' => 'Inventory\Report',
 
     Route::get('productMovementRegister','ProductMovementRegisterCO@index');
     Route::get('rptStockPositionIndex','StockPositionCO@index');
+
+    Route::get('rptSalesRegisterIndex','SalesRegisterReportCO@index');
+
+
 
 });
 

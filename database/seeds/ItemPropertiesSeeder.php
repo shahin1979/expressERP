@@ -129,21 +129,21 @@ class ItemPropertiesSeeder extends Seeder
 
         CostCenter::query()->insert([
             'company_id'=>2,
-            'fiscal_year','2019-2020',
+            'fiscal_year'=>'2019-2020',
             'name' => 'Factory',
             'user_id' => 1
         ]);
 
         CostCenter::query()->insert([
             'company_id'=>2,
-            'fiscal_year','2019-2020',
+            'fiscal_year'=>'2019-2020',
             'name' => 'Head Office',
             'user_id' => 1
         ]);
 
         Project::query()->insert([
             'company_id'=>2,
-            'project_code','Project-001',
+            'project_code'=>'Project-001',
             'project_type'=>'O',
             'project_desc'=>'Default Project',
             'project_name' => 'Default Project',

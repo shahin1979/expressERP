@@ -87,7 +87,7 @@ class RequisitionItemsDeliveryCO extends Controller
     public function store(Request $request)
     {
 
-//        dd($request->all());
+        $costcenter = array_unique($request['cost_center_id']);
 
         DB::beginTransaction();
 
@@ -95,48 +95,72 @@ class RequisitionItemsDeliveryCO extends Controller
 
             $fiscal = $this->get_fiscal_data_from_current_date($this->company_id);
 
-//            $invoice = Sale::query()->where('company_id',$this->company_id)
-//                ->where('invoice_no',$id)->with('items')->first();
+           foreach ($costcenter as $cost)
+            {
+                $tr_code =  TransCode::query()->where('company_id',$this->company_id)
+                    ->where('trans_code','DC')
+                    ->where('fiscal_year',$fiscal->fiscal_year)
+                    ->lockForUpdate()->first();
 
-            $tr_code =  TransCode::query()->where('company_id',$this->company_id)
-                ->where('trans_code','DC')
-                ->where('fiscal_year',$fiscal->fiscal_year)
-                ->lockForUpdate()->first();
+
+                $challan_no = $tr_code->last_trans_id;
+
+                $data['company_id'] = $this->company_id;
+                $data['challan_no'] = $challan_no;
+                $data['ref_no'] = $request['req_no'];
+                $data['delivery_type'] = 'CM';
+                $data['delivery_date'] = Carbon::now();
+                $data['user_id'] = $this->user_id;
+                $data['relationship_id']=$cost;
+                $data['status'] = 'CR'; //Created
+
+                $inserted = Delivery::query()->create($data); //Insert Data Into Deliveries Table
+
+
+                if ($request['item']) {
+                    foreach ($request['item'] as $item) {
+                        if ($item['quantity'] > 0 and $item['relationship_id'] ==$cost)
+                        {
+                            $delivery['company_id'] = $this->company_id;
+                            $delivery['ref_no'] = $challan_no;
+                            $delivery['ref_id'] = $inserted->id;
+                            $delivery['tr_date'] = $inserted->delivery_date;
+                            $delivery['ref_type'] = 'D';
+                            $delivery['product_id'] = $item['product_id'];
+                            $delivery['quantity'] = $item['quantity'];
+                            $delivery['unit_price'] = $item['unit_price'];
+                            $delivery['total_price'] = $item['quantity'] * $item['unit_price'];
+                            $delivery['relationship_id'] = $item['relationship_id'];
+
+                            TransProduct::query()->create($delivery);
+                            ProductMO::query()->where('id',$item['product_id'])->increment('committed',$item['quantity']);
+                        }
+                    }
+                }
+
+                TransCode::query()->where('company_id',$this->company_id)
+                    ->where('trans_code','DC')
+                    ->where('fiscal_year',$fiscal->fiscal_year)
+                    ->increment('last_trans_id');
+            }
+
+
 
 //                            dd($tr_code);
 
-            $challan_no = $tr_code->last_trans_id;
+//            $challan_no = $tr_code->last_trans_id;
+//
+//            $data['company_id'] = $this->company_id;
+//            $data['challan_no'] = $challan_no;
+//            $data['ref_no'] = $request['req_no'];
+//            $data['delivery_type'] = 'CM';
+//            $data['delivery_date'] = Carbon::now();
+//            $data['user_id'] = $this->user_id;
+//            $data['status'] = 'CR'; //Created
+//
+//            $inserted = Delivery::query()->create($data); //Insert Data Into Deliveries Table
 
-            $data['company_id'] = $this->company_id;
-            $data['challan_no'] = $challan_no;
-            $data['ref_no'] = $request['req_no'];
-            $data['delivery_type'] = 'CM';
-            $data['delivery_date'] = Carbon::now();
-            $data['user_id'] = $this->user_id;
-            $data['status'] = 'CR'; //Created
 
-            $inserted = Delivery::query()->create($data); //Insert Data Into Deliveries Table
-
-            if ($request['item']) {
-                foreach ($request['item'] as $item) {
-                    if ($item['quantity'] > 0) {
-                        $delivery['company_id'] = $this->company_id;
-                        $delivery['ref_no'] = $challan_no;
-                        $delivery['ref_id'] = $inserted->id;
-                        $delivery['tr_date'] = $inserted->delivery_date;
-                        $delivery['ref_type'] = 'D';
-                        $delivery['product_id'] = $item['product_id'];
-                        $delivery['quantity'] = $item['quantity'];
-                        $delivery['unit_price'] = $item['unit_price'];
-                        $delivery['total_price'] = $item['quantity'] * $item['unit_price'];
-                        $delivery['relationship_id'] = $item['relationship_id'];
-
-                        TransProduct::query()->create($delivery);
-                        ProductMO::query()->where('id',$item['product_id'])->increment('committed',$item['quantity']);
-                        //                TransProduct::query()->where('id',$item->id)->update(['delivered'=>$item['quantity']]);
-                    }
-                }
-            }
 
                 Requisition::query()->where('company_id',$this->company_id)
                     ->where('ref_no',$request['req_no'])
@@ -149,10 +173,7 @@ class RequisitionItemsDeliveryCO extends Controller
 //                    ->update(['status'=>3]);
 //            }
 
-            TransCode::query()->where('company_id',$this->company_id)
-                ->where('trans_code','DC')
-                ->where('fiscal_year',$fiscal->fiscal_year)
-                ->increment('last_trans_id');
+
 
 
         }catch (\Exception $e)
