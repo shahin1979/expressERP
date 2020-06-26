@@ -43,7 +43,7 @@ class ApproveRequisitionCO extends Controller
 
             ->addColumn('req_for', function (Requisition $requisition) {
                 return $requisition->items->map(function($items) {
-                    return $items->location->name;
+                    return $items->costcenter->name;
                 })->implode('<br>');
             })
 

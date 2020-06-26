@@ -156,7 +156,7 @@
                         $.each(data, function (i, item) {
 
                             trHTML += '<tr class="req_items">' +
-                                '<td align="right">' + item.location.name +'</td>' +
+                                '<td align="right">' + item.costcenter.name +'</td>' +
                                 '<td align="right">' + item.item.name +'</td>' +
                                 '<td align="right"><input name="item[' + i + '][quantity]" class="form-control text-right" type="text" id="quantity" value="'+ item.quantity +'"></td>' +
                                 '<td><input name="item[' + i +'][id]" type="hidden" id="id" value="'+ item.id +'"></td></tr>';

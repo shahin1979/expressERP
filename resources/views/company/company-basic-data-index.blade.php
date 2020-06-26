@@ -114,6 +114,11 @@
                             </tr>
 
                             <tr>
+                                <td>Cost of Goods Sold</td>
+                                <td>{!! Form::text('cost_of_goods_sold',isset($basic->cost_of_goods_sold) ? $basic->cost_of_goods_sold : '40112104',['id'=>'cost_of_goods_sold','class'=>'form-control'])  !!}</td>
+                            </tr>
+
+                            <tr>
                                 <td>Depreciation Account</td>
                                 <td>{!! Form::text('depreciation_account',isset($basic->depreciation_account) ? $basic->depreciation_account : '40312102',['id'=>'depreciation_account','class'=>'form-control'])  !!}</td>
                             </tr>

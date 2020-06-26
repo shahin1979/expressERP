@@ -169,7 +169,7 @@ class ApprovePurchaseCO extends Controller
                     {
                         $acc_no = ItemTax::query()->where('id',$t_id)->first();
 
-                        $input['acc_no'] = is_null($acc_no) ? $company_properties->default_tax :$acc_no->acc_no;
+                        $input['acc_no'] = is_null($acc_no) ? $company_properties->default_purchase_tax : $acc_no->acc_no;
                         $input['ledger_code'] = Str::substr($input['acc_no'], 0, 3);
                         $input['dr_amt'] = $row->tax;
                         $input['cr_amt'] = 0;

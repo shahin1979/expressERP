@@ -66,7 +66,7 @@
                             </td>
 
                             <td>
-                                {!! Form::select("item[$item_row][requisition_for]", $locations, null , array('class' => 'form-control')) !!}
+                                {!! Form::select("item[$item_row][requisition_for]", $costs, null , array('class' => 'form-control')) !!}
                             </td>
 
                             <td>
@@ -124,7 +124,7 @@
             html += '  <td>';
             html += '      <select class="form-control select" name="item[' + item_row + '][requisition_for]" id="item-requisition-' + item_row + '">';
             // html += '         <option selected="selected" value="">Please Select</option>';
-            @foreach($locations as $for_key => $for_value)
+            @foreach($costs as $for_key => $for_value)
                 html += '         <option value="{{ $for_key }}">{{ $for_value }}</option>';
             @endforeach
                 html += '      </select>';

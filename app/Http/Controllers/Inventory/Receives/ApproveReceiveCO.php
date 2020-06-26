@@ -13,6 +13,7 @@ use App\Models\Inventory\Movement\Receive;
 use App\Models\Inventory\Movement\ReturnItem;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use App\Traits\AccountTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -161,15 +162,20 @@ class ApproveReceiveCO extends Controller
             // Voucher For Receive Data
             foreach ($receives as $row)
             {
+
+                $head = $this->get_in_stock_gl_head($row->product_id,$this->company_id);
+                $name = $this->get_account_name($this->company_id,$head);
+
+
                 $line=[];
-                $line['gl_head'] = $row->item->subcategory->acc_in_stock.' : '.$row->item->subcategory->acc_in->acc_name;
+                $line['gl_head'] = $head.' : '.$name;
                 $line['dr_amt'] = $row->unit_price * $row->quantity;
                 $line['cr_amt'] = 0;
 
                 $trans->push($line);
 
                 $line=[];
-                $line['gl_head'] = $company->default_purchase.' : '.$accounts->where('acc_no',$company->default_purchase)->first()->acc_name;
+                $line['gl_head'] = $company->default_purchase.' : '.$this->get_account_name($this->company_id,$company->default_purchase);
                 $line['dr_amt'] = 0;
                 $line['cr_amt'] = $row->unit_price * $row->quantity;
 
@@ -199,7 +205,7 @@ class ApproveReceiveCO extends Controller
                     $trans->push($line);
 
                     $line=[];
-                    $line['gl_head'] = $company->default_purchase.' : '.$accounts->where('acc_no',$company->default_purchase)->first()->acc_name;
+                    $line['gl_head'] = $company->default_purchase.' : '.$this->get_account_name($this->company_id,$company->default_purchase);
                     $line['dr_amt'] = 0;
                     $line['cr_amt'] = $row->unit_price * $row->quantity;
 

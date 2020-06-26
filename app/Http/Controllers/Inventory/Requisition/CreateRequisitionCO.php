@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory\Requisition;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Common\UserActivity;
 use App\Models\Company\TransCode;
 use App\Models\Human\Admin\Location;
@@ -27,11 +28,11 @@ class CreateRequisitionCO extends Controller
             ['updated_at'=>Carbon::now()
             ]);
 
-        $locations = Location::query()->where('company_id',$this->company_id)
-                    ->where('location_type','F')
+        $costs = CostCenter::query()->where('company_id',$this->company_id)
+                    ->where('status',true)
             ->orderBy('name')->pluck('name','id');
 
-        return view('inventory.requisition.create-requisition-index',compact('locations'));
+        return view('inventory.requisition.create-requisition-index',compact('costs'));
     }
 
     public function autocomplete(Request $request)
@@ -78,7 +79,7 @@ class CreateRequisitionCO extends Controller
                     $requisition_item['ref_no'] = $req_no;
                     $requisition_item['ref_id'] = $inserted->id;
                     $requisition_item['ref_type'] = 'R'; //Requisition
-                    $requisition_item['relationship_id'] = $item['requisition_for'];
+                    $requisition_item['relationship_id'] = $item['requisition_for']; // Cost Center ID
                     $requisition_item['tr_date']= $request['req_date'];
                     $requisition_item['product_id'] = $item['item_id'];
                     $requisition_item['name'] = $product->where('id',$item['item_id'])->first()->name;

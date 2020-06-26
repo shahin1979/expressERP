@@ -46,7 +46,7 @@ class EditRequisitionCO extends Controller
 
             ->addColumn('req_for', function ($query) {
                 return $query->items->map(function($items) {
-                    return isset($items->relationship_id) ? (isset($items->location->name) ? $items->location->name : 'None') : 'None';
+                    return isset($items->relationship_id) ? (isset($items->costcenter->name) ? $items->costcenter->name : 'None') : 'None';
                 })->implode('<br>');
             })
 
@@ -73,7 +73,7 @@ class EditRequisitionCO extends Controller
     {
         $requisition = TransProduct::query()->where('company_id',$this->company_id)
             ->where('ref_id',$id)->where('ref_type','R')
-            ->with('item')->with('requisition')->with('location') ->get();
+            ->with('item')->with('requisition')->with('costcenter') ->get();
 
         return response()->json($requisition);
     }

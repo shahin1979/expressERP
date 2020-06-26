@@ -63,6 +63,7 @@ class CompanyPropertiesCO extends Controller
                     'rm_in_hand' => $request['rm_in_hand'],
                     'work_in_progress' => $request['work_in_progress'],
                     'finished_goods' => $request['finished_goods'],
+                    'cost_of_goods_sold' => $request['cost_of_goods_sold'],
                     'depreciation_account' => $request['depreciation_account'],
                     'depreciation_frequency' => $request['depreciation_frequency'],
                     'inventory' => $request->has('hInventory') ? 1 : 0,
@@ -496,7 +497,7 @@ class CompanyPropertiesCO extends Controller
                 ['company_id' => $this->company_id, 'acc_no' => '40212102'],
                 [
                     'ledger_code' => '402',
-                    'acc_name' => 'Sales Tax Paid',
+                    'acc_name' => 'Tax Paid for Purchase',
                     'acc_type' => 'E',
                     'type_code' => 41,
                     'acc_range' => '40212102',

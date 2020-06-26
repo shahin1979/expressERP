@@ -4,6 +4,8 @@
     <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
     <link href="{!! asset('assets/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css') !!}" rel="stylesheet">
     <script src="{!! asset('assets/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js') !!}"></script>
+    <link href="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.css') !!}" rel="stylesheet" type="text/css" />
+    <script src="{!! asset('assets/jquery-confirm-v3.3.4/jquery-confirm.min.js') !!}"></script>
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
@@ -37,8 +39,8 @@
     </div>
 
 
-    <form id="ajax-items">
-        <div class="row" id="edit-section">
+{{--    <form id="ajax-items">--}}
+        <div class="row" id="data-section">
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-body">
@@ -62,7 +64,6 @@
                                 <th>Requisition <br/> For</th>
                                 <th>Item</th>
                                 <th style="text-align: right">In<br/>Stock</th>
-                                <th style="text-align: right">Requisition<br/>Qty</th>
                                 <th style="text-align: right">Delivery Qty</th>
                             </tr>
                             </thead>
@@ -73,8 +74,8 @@
 
                             <tfoot>
                             <tr style="background-color: rgba(224,229,229,0.96)">
-                                <td colspan="2"><button type="submit" name="action" id="action" value="approve" class="btn btn-primary btn-delivery-approve">Submit</button></td>
-                                <td colspan="2" style="text-align: right"><button type="submit" name="action" value="reject" id="action" class="btn btn-danger btn-delivery-approve pull-right">Reject</button></td>
+                                <td colspan="3"><button type="submit" name="action" value="approve" id="action" class="btn btn-primary btn-approve">Approve</button></td>
+                                <td colspan="2"><button type="submit" name="action" value="reject" id="action" class="btn btn-danger btn-approve pull-right">Reject</button></td>
                             </tr>
                             </tfoot>
 
@@ -84,8 +85,37 @@
                 </div>
             </div>
 
+
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Stock Inventory Voucher</h5>
+                        <table id="trans-items" class="table table-striped table-info table-bordered">
+                            <thead>
+                            <tr>
+                                <th>GL Head</th>
+                                <th style="text-align: right">Debit Amount {!! $users_company->currency !!}</th>
+                                <th style="text-align: right">Credit Amount {!! $users_company->currency !!}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-    </form>
+
+
+{{--    </form>--}}
+
+
+
+
+
 @endsection
 
 @push('scripts')
@@ -94,7 +124,7 @@
 
         $(document).ready(function(){
 
-            $('#edit-section').hide();
+            $('#data-section').hide();
             $('#top-head').hide();
 
         });
@@ -156,42 +186,59 @@
 
                     success: function(data)
                     {
-                        $(".req_items").remove();
+                        // Product Deliverables
+                        $(".del_items").remove();
 //
                         var trHTML = '';
-                        $.each(data, function (i, item) {
-
-                            trHTML += '<tr class="req_items">' +
-                                '<td>' + item.location.name +'</td>' +
+                        $.each(data.products, function (i, item) {
+                            trHTML += '<tr class="del_items">' +
+                                '<td>' + item.costcenter.name +'</td>' +
                                 '<td>' + item.item.name +'</td>' +
                                 '<td align="right">' + item.item.on_hand +'</td>' +
                                 '<td align="right">' + item.quantity +' ' + item.item.unit_name +'</td>' +
-                                '<input name="item[' + i +'][id]" type="hidden" id="id" value="'+ item.id +'">' +
-                                '<input name="item[' + i +'][product_id]" type="hidden" id="product_id" value="'+ item.product_id +'">' +
-                                '<input name="item[' + i +'][unit_price]" type="hidden" id="unit_price" value="'+ item.unit_price +'">' +
-                                '<input name="item[' + i +'][relationship_id]" type="hidden" id="relationship_id" value="'+ item.relationship_id +'">' +
-                                '<td align="right"><input name="item[' + i + '][quantity]" class="form-control text-right" type="text" id="quantity" value="'+ 0 +'"></td>' +
                                 '</tr>';
                         });
 //
-                        $('#requisition-items').append(trHTML);
+                        $('#delivery-items').append(trHTML);
+
+                        // GL Transactions
+
+
+                        $(".tr_items").remove();
+//
+                        var trnHTML = '';
+                        $.each(data.transactions, function (i, trItem) {
+                            console.log(trItem);
+                            trnHTML += '<tr class="tr_items">' +
+                                '<td>' + trItem.acc_name + '</td>' +
+                                '<td align="right">' + trItem.debit_amt + '</td>' +
+                                '<td align="right">' + trItem.credit_amt + '</td>' +
+                                '</tr>';
+                        });
+//
+                        $('#trans-items').append(trnHTML);
 
 
                     },
-                    error: function (jqXHR, textStatus, errorThrown)
+                    error: function (request, textStatus, errorThrown)
                     {
-                        alert('Error get data from ajax');
+                        var myObj = JSON.parse(request.responseText);
+                        $.alert({
+                            title: 'Alert!',
+                            content: myObj.message + ' ' + myObj.error,
+                        });
+
                     }
                 });
 
-                $('#edit-section').show();
+                $('#data-section').show();
                 $('#top-head').show();
                 $('#delivery-table').parents('div.dataTables_wrapper').first().hide();
 
             });
 
             $(this).on('click', '.btn-back', function (e) {
-                $('#edit-section').hide();
+                $('#data-section').hide();
                 $('#top-head').hide();
                 $('#delivery-table').parents('div.dataTables_wrapper').first().show();
             });
@@ -199,7 +246,7 @@
 
 
 
-            $('#ajax-items').submit(function(e) {
+            $(document).on('click', '.btn-approve', function (e) {
                 // Stop the browser from submitting the form.
                 e.preventDefault();
 
@@ -208,14 +255,16 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                var url = 'deliveryRequisition';
+                var url = 'ApproveDeliveryItems/' + $('#challan_no').val();
 
                 // confirm then
                 $.ajax({
                     url: url,
                     type: 'POST',
                     dataType: 'json',
-                    data: $('form').serialize(),
+                    data: {
+                        method: '_POST', submit: true, action:$(this).val(),
+                    },
 
                     error: function (request, status, error) {
                         alert(request.responseText);
@@ -224,7 +273,7 @@
                     success: function (data) {
 
                         alert(data.success);
-                        $('#edit-section').hide();
+                        $('#data-section').hide();
                         $('#delivery-table').parents('div.dataTables_wrapper').first().show();
                         $('#delivery-table').DataTable().draw(true);
                     },

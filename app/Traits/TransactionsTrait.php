@@ -15,6 +15,8 @@ use Illuminate\Support\Str;
 
 trait TransactionsTrait
 {
+    use AccountTrait;
+
     public function get_fiscal_year($date,$company_id)
     {
         $cal_date = Carbon::createFromFormat('d-m-Y',$date)->format('Y-m-d');
@@ -98,85 +100,58 @@ trait TransactionsTrait
     public function transaction_entry(array $input)
 
     {
-
-//        Transaction::query()->create([
-//            'company_id' => $input['company_id'],
-//            'project_id' => $input['project_id'],
-//            'tr_code' => $input['tr_code'],
-//            'trans_type_id'=>$input['trans_type_id'],
-//            'period' => $input['period'],
-//            'fp_no' => $input['fp_no'],
-//            'trans_id' => $input['trans_id'],
-//            'trans_group_id' => $input['trans_group_id'],
-//            'trans_date' => $input['trans_date'],
-//            'voucher_no' => $input['voucher_no'],
-//            'acc_no' => $input['acc_no'],
-//            'contra_acc'=>$input['contra_acc'],
-//            'dr_amt' => $input['dr_amt'],
-//            'cr_amt' => $input['cr_amt'],
-//            'trans_amt' => $input['trans_amt'],
-//            'currency' => $input['currency'],
-//            'fiscal_year' => $input['fiscal_year'],
-//            'trans_desc1' => $input['trans_desc1'],
-//            'trans_desc2' => $input['trans_desc2'],
-//            'post_flag' => False,
-//            'user_id' => $input['user_id']
-//        ]);
-
         $id = null;
 
-            if($input['trans_amt'] > 0)
+        if($input['trans_amt'] > 0)
+        {
+            $id = Transaction::query()->create($input);
+
+            if($input['dr_amt'] > 0)
             {
-                $id = Transaction::query()->create($input);
+                GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                    ->where('company_id',$this->company_id)
+                    ->increment('dr_00', $input['dr_amt']);
 
-                if($input['dr_amt'] > 0)
-                {
-                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                        ->where('company_id',$this->company_id)
-                        ->increment('dr_00', $input['dr_amt']);
+                GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                    ->where('company_id',$this->company_id)
+                    ->increment('curr_bal', $input['dr_amt']);
 
-                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                        ->where('company_id',$this->company_id)
-                        ->increment('curr_bal', $input['dr_amt']);
-
-                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                        ->where('company_id',$this->company_id)
-                        ->where('is_group',true)
-                        ->increment('dr_00', $input['dr_amt']);
+                GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                    ->where('company_id',$this->company_id)
+                    ->where('is_group',true)
+                    ->increment('dr_00', $input['dr_amt']);
 
 
-                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                        ->where('company_id',$this->company_id)
-                        ->where('is_group',true)
-                        ->increment('curr_bal', $input['dr_amt']);
-                }
-//
-                if($input['cr_amt'] > 0)
-                {
-                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                        ->where('company_id',$this->company_id)
-                        ->increment('cr_00', $input['cr_amt']);
-
-                    GeneralLedger::query()->where('acc_no',$input['acc_no'])
-                        ->where('company_id',$this->company_id)
-                        ->decrement('curr_bal', $input['cr_amt']);
-
-                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                        ->where('company_id',$this->company_id)
-                        ->where('is_group',true)
-                        ->increment('cr_00', $input['cr_amt']);
-
-                    GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
-                        ->where('company_id',$this->company_id)
-                        ->where('is_group',true)
-                        ->decrement('curr_bal', $input['cr_amt']);
-
-                }
+                GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                    ->where('company_id',$this->company_id)
+                    ->where('is_group',true)
+                    ->increment('curr_bal', $input['dr_amt']);
             }
-    return $id;
+//
+            if($input['cr_amt'] > 0)
+            {
+                GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                    ->where('company_id',$this->company_id)
+                    ->increment('cr_00', $input['cr_amt']);
 
+                GeneralLedger::query()->where('acc_no',$input['acc_no'])
+                    ->where('company_id',$this->company_id)
+                    ->decrement('curr_bal', $input['cr_amt']);
+
+                GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                    ->where('company_id',$this->company_id)
+                    ->where('is_group',true)
+                    ->increment('cr_00', $input['cr_amt']);
+
+                GeneralLedger::query()->where('ledger_code',$input['ledger_code'])
+                    ->where('company_id',$this->company_id)
+                    ->where('is_group',true)
+                    ->decrement('curr_bal', $input['cr_amt']);
+
+            }
+        }
+        return $id;
     }
-
 
     public function tax_amount($tax_id, $price, $quantity)
     {
@@ -208,8 +183,8 @@ trait TransactionsTrait
 
         foreach ($items as $product)
         {
-            $acc_cr = $product->item->subcategory->acc_in_stock;
-            $acc_dr = $product->item->subcategory->acc_out_stock;
+            $acc_cr = $this->get_in_stock_gl_head($product->product_id,$company_id);// $product->item->subcategory->acc_in_stock;
+            $acc_dr = $this->get_stock_out_gl_head($product->product_id,$company_id); //$product->item->subcategory->acc_out_stock
             $input = [];
             $input['acc_cr'] = $acc_cr;
             $input['acc_dr'] = $acc_dr;
@@ -235,10 +210,10 @@ trait TransactionsTrait
 
         foreach ($temp1 as $head=>$id)
         {
-            $acc_name = GeneralLedger::query()->where('company_id',$company_id)->where('acc_no',$head)->first();
+            $acc_name = $this->get_account_name($this->company_id,$head);
             $line = [];
             $line['gl_head'] = $head;
-            $line['acc_name'] = $line['gl_head'].' : '.$acc_name->acc_name;
+            $line['acc_name'] = $line['gl_head'].' : '.$acc_name;
             $line['debit_amt'] = 0;
             $line['credit_amt'] = $id->tr_amount;
             $deliveries->push($line);
@@ -246,10 +221,10 @@ trait TransactionsTrait
 
         foreach ($temp2 as $head=>$id)
         {
-            $acc_name = GeneralLedger::query()->where('company_id',$company_id)->where('acc_no',$head)->first();
+            $acc_name = $this->get_account_name($this->company_id,$head);
             $line = [];
             $line['gl_head'] = $head;
-            $line['acc_name'] = $line['gl_head'].' : '.$acc_name->acc_name;
+            $line['acc_name'] = $line['gl_head'].' : '.$acc_name;
             $line['debit_amt'] = $id->tr_amount;
             $line['credit_amt'] = 0;
             $deliveries->push($line);

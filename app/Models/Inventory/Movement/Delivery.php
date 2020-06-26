@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Company\Relationship;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -52,6 +53,11 @@ class Delivery extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Relationship::class,'customer_id','id');
+        return $this->belongsTo(Relationship::class,'relationship_id','id');
+    }
+
+    public function costcenter()
+    {
+        return $this->belongsTo(CostCenter::class,'relationship_id','id');
     }
 }

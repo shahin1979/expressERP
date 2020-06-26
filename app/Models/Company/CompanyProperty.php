@@ -39,6 +39,7 @@ class CompanyProperty extends Model
         'rm_in_hand',
         'work_in_progress',
         'finished_goods',
+        'cost_of_goods_sold',
         'depreciation_account',
         'depreciation_frequency',
         'currency',

@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Company\Relationship;
 use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Product\ItemTax;
@@ -86,9 +87,14 @@ class TransProduct extends Model
         return $this->belongsTo(Delivery::class,'ref_id','id');
     }
 
-    public function location()
+//    public function location()
+//    {
+//        return $this->belongsTo(Location::class,'relationship_id','id');
+//    }
+
+    public function costcenter()
     {
-        return $this->belongsTo(Location::class,'relationship_id','id');
+        return $this->belongsTo(CostCenter::class,'relationship_id','id');
     }
 
     public function supplier()

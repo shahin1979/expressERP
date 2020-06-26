@@ -322,6 +322,8 @@ Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'midd
 
     Route::get('viewDeliveryItems/{id}','ApproveDeliverCO@ajax_call');
 
+    Route::post('ApproveDeliveryItems/{id}','ApproveDeliverCO@approve');
+
 
 });
 

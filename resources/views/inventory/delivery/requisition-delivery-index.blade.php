@@ -162,7 +162,7 @@
                         $.each(data, function (i, item) {
 
                             trHTML += '<tr class="req_items">' +
-                                    '<td>' + item.location.name +'</td>' +
+                                    '<td>' + item.costcenter.name +'</td>' +
                                     '<td>' + item.item.name +'</td>' +
                                     '<td align="right">' + item.item.on_hand +'</td>' +
                                     '<td align="right">' + item.quantity +' ' + item.item.unit_name +'</td>' +
@@ -236,6 +236,7 @@
                     success: function (data) {
 
                         alert(data.success);
+
                         $('#edit-section').hide();
                         $('#requisition-table').parents('div.dataTables_wrapper').first().show();
                         $('#requisition-table').DataTable().draw(true);

@@ -8,7 +8,10 @@ use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Previous\GeneralLedgerBackup;
 use App\Models\Accounts\Previous\TransactionBackup;
 use App\Models\Accounts\Trans\Transaction;
+use App\Models\Company\CompanyProperty;
+use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 trait AccountTrait
 {
@@ -153,6 +156,64 @@ trait AccountTrait
         $json->report = $report;
         $json->contra = $contra;
         return json_encode($json);
+    }
+
+    public function get_in_stock_gl_head($product_id, $company_id)
+    {
+        $product = ProductMO::query()->where('id',$product_id)->first();
+        $company = CompanyProperty::query()->where('company_id',$company_id)->first();
+
+        if(Str::length($product->subcategory->acc_in_stock) > 0)
+        {
+            $head = $product->subcategory->acc_in_stock;
+        }
+        else
+        {
+            switch ($product->category_id)
+            {
+                case   $company->rm_cg_id:
+                    $head = $company->rm_in_hand;
+                    break;
+
+                case $company->fg_cg_id:
+                    $head = $company->finished_goods;
+                    break;
+
+                default:
+                    $head = $company->consumable_on_hand;
+            }
+        }
+        return $head;
+    }
+
+
+
+    public function get_stock_out_gl_head($product_id, $company_id)
+    {
+        $product = ProductMO::query()->where('id',$product_id)->first();
+        $company = CompanyProperty::query()->where('company_id',$company_id)->first();
+
+        if(Str::length($product->subcategory->acc_out_stock) > 0)
+        {
+            $head = $product->subcategory->acc_out_stock;
+        }
+        else
+        {
+            switch ($product->category_id)
+            {
+                case   $company->rm_cg_id:
+                    $head = $company->work_in_progress;
+                    break;
+
+                case $company->fg_cg_id:
+                    $head = $company->cost_of_goods_sold;
+                    break;
+
+                default:
+                    $head = $company->consumable_expense;
+            }
+        }
+        return $head;
     }
 
 }
