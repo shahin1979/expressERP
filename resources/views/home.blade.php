@@ -52,7 +52,7 @@
                                     @if($row->acc_type === 'I')
                                         <tr>
                                             <td>{!! $row->acc_name !!}</td>
-                                            <td>{!! $row->curr_bal !!}</td>
+                                            <td>{!! abs($row->curr_bal) !!}</td>
                                         </tr>
                                     @endif
                                 @endforeach
