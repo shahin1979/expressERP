@@ -19,7 +19,7 @@ use Yajra\DataTables\DataTables;
 
 class DepreciationSetupCO extends Controller
 {
-    use AccountTrait;
+    use TransactionsTrait;
 
     public function index()
     {
@@ -73,6 +73,8 @@ class DepreciationSetupCO extends Controller
             ->where('depreciation',false)->where('status','A')
             ->orderBy('fp_no')->first();
 
+//        $period = $this->get_fiscal_data_from_current_date($this->company_id);
+
         $rows = DepreciationMO::query()
             ->where('company_id',$this->company_id)
             ->where('approve_status',false)
@@ -102,12 +104,12 @@ class DepreciationSetupCO extends Controller
 
     public function create(Request $request)
     {
+        $period =
+
         $fpData =FiscalPeriod::query()
             ->where('depreciation',false)
             ->where('company_id',$this->company_id)
             ->orderBy('fp_no', 'asc')->first();
-
-
 
         DB::beginTransaction();
 
@@ -117,6 +119,7 @@ class DepreciationSetupCO extends Controller
                 ['company_id' => $this->company_id,
                     'end_date' => $fpData->end_date,
                     'start_date' =>$fpData->start_date,
+                    'fiscal_year'=>$fpData->fiscal_year,
                     'acc_no' => $request['acc_no'],
                     'dep_rate' => $request['rate'],
                     'contra_acc'=>$request['contra_acc'],
