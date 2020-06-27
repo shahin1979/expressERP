@@ -19,7 +19,7 @@ use Yajra\DataTables\DataTables;
 
 class DepreciationSetupCO extends Controller
 {
-    use AccountTrait, TransactionsTrait;
+    use AccountTrait;
 
     public function index()
     {
@@ -32,7 +32,8 @@ class DepreciationSetupCO extends Controller
             ]);
 
         $ledgers = GeneralLedger::query()->where('company_id',$this->company_id)
-            ->where('type_code',11)->pluck('acc_name','acc_no');
+            ->where('type_code',11)->where('is_group',false)
+            ->pluck('acc_name','acc_no');
 
         $contra = GeneralLedger::query()->where('company_id',$this->company_id)
             ->where('acc_type','E')->where('is_group',false)
