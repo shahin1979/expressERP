@@ -170,6 +170,6 @@ class AuthoriseTransactionCO extends Controller
 
         DB::commit();
 
-        return response()->json(['success','Voucher '.$id.' Successfully Approved'],200);
+        return response()->json(['success'=>'Voucher '.$id.' Successfully Approved'],200);
     }
 }

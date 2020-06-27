@@ -109,12 +109,20 @@
                 data: {method: '_GET', submit: true},
 
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    var myObj = JSON.parse(request.responseText);
+
+                    $.alert({
+                        title: 'Alert!',
+                        content: myObj.message + ' ' + myObj.error,
+                    });
                 },
 
             }).always(function (data) {
+                $.alert({
+                    title: 'Alert!',
+                    content: data.success,
+                });
 
-                alert(data);
                 $('#trans-table').DataTable().draw(true);
             });
 
