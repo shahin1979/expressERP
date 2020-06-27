@@ -218,7 +218,12 @@
             data: $('#add-dep-account').serialize(),
 
             error: function (request, status, error) {
-                alert(request.responseText);
+                var myObj = JSON.parse(request.responseText);
+
+                $.alert({
+                    title: 'Alert!',
+                    content: myObj.message + ' ' + myObj.error,
+                });
             },
 
             success: function (data) {
@@ -255,12 +260,20 @@
             data: {method: '_POST', submit: true, fp_no:$('#fp-no').val(),year:$('#year').val(),},
 
             error: function (request, status, error) {
-                alert(request.responseText);
+
+                var myObj = JSON.parse(request.responseText);
+
+                $.alert({
+                    title: 'Alert!',
+                    content: myObj.message + ' ' + myObj.error,
+                });
             },
 
             success: function (data) {
-
-                alert(data.success);
+                $.alert({
+                    title: 'Alert!',
+                    content: data.success,
+                });
 
                 $('#depreciation-table').DataTable().draw(true);
             }

@@ -235,12 +235,18 @@
                 },
 
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    var myObj = JSON.parse(request.responseText);
+                    $.alert({
+                        title: 'Alert!',
+                        content: myObj.message + ' ' + myObj.error,
+                    });
                 },
 
                 success: function (data) {
-
-                    alert(data.success + data.acc_name);
+                    $.alert({
+                        title: 'Alert!',
+                        content: data.success + data.acc_name,
+                    });
 
                     $('#head-table').DataTable().draw(false);
                     $('#edit-ledger').hide();

@@ -89,7 +89,10 @@
                     error: function (request, status, error) {
                         // alert(request.responseText);
                         var myObj = JSON.parse(request.responseText);
-                        alert(myObj.message + ' ' + myObj.error);
+                        $.alert({
+                            title: 'Alert!',
+                            content: myObj.message + ' ' + myObj.error,
+                        });
                     },
 
                 }).always(function (data) {

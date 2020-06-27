@@ -19,7 +19,7 @@ trait AccountTrait
     {
         $opening = Transaction::query()->where('company_id',$company_id)
             ->where('tr_state',false)->where('acc_no',$acc_no)
-            ->where('trans_date','<',$from_date)
+            ->where('trans_date','<',$from_date)->where('post_flag',true)
             ->select(DB::Raw('acc_no, sum(dr_amt) as open_dr, sum(cr_amt) as open_cr'))->groupBy('acc_no')
             ->first();
 
@@ -35,7 +35,7 @@ trait AccountTrait
     {
         $trans = Transaction::query()->where('company_id',$company_id)
             ->where('tr_state',false)->where('acc_no',$acc_no)
-            ->whereDate('trans_date','<=',$from_date)
+            ->whereDate('trans_date','<=',$from_date)->where('post_flag',true)
             ->select(DB::Raw('acc_no, sum(dr_amt) as open_dr, sum(cr_amt) as open_cr'))->groupBy('acc_no')
             ->first();
 

@@ -142,19 +142,22 @@ class DepreciationSetupCO extends Controller
 
     public function store(Request $request)
     {
-//        dd($request->all());
 
-
+        $today = Carbon::now()->format('Y-m-d');
 
         $period = FiscalPeriod::query()->where('company_id',$this->company_id)
             ->where('depreciation',false)->where('status','A')
             ->where('fp_no',$request->fp_no)->where('year',$request->year)->first();
 
+        if($period->end_date != $today)
+        {
+            $error = 'Today is not End of Month';
+            return response()->json(['error' => $error], 404);
+        }
+
         $depreciation = DepreciationMO::query()->where('company_id',$this->company_id)
             ->where('fp_no',$request->fp_no)->where('fiscal_year',$period->fiscal_year)
             ->get();
-
-//        dd($depreciation);
 
         $contra = $depreciation->unique('contra_acc');
 
