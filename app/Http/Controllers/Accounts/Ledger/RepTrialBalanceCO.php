@@ -85,6 +85,8 @@ class RepTrialBalanceCO extends Controller
             $params['toDate'] = $toDate;
             $params['report_type'] = $request['report_type'] == 'A' ? false : true;
 
+            $report = $report->sortBy(['acc_no']);
+
             switch ($request['action'])
             {
                 case 'preview':
@@ -108,6 +110,8 @@ class RepTrialBalanceCO extends Controller
                     $pdf::Output('TrailBalance.pdf');
 
             }
+
+
 
 //            $group = $report->
 

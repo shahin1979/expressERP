@@ -289,7 +289,7 @@ class CompanyPropertiesCO extends Controller
             GeneralLedger::query()->updateOrCreate(
                 ['company_id' => $this->company_id, 'acc_no' => '20212102'],
                 [
-                    'ledger_code' => '201',
+                    'ledger_code' => '202',
                     'acc_no' => '20212102',
                     'acc_name' => 'Sales Tax Account',
                     'acc_type' => 'L',
@@ -471,6 +471,20 @@ class CompanyPropertiesCO extends Controller
                     'acc_type' => 'E',
                     'type_code' => 41,
                     'acc_range' => '40112110',
+                    'is_group' => false,
+                    'currency' => $currency,
+                    'user_id' => $this->user_id
+                ]
+            );
+
+            GeneralLedger::query()->updateOrCreate(
+                ['company_id' => $this->company_id, 'acc_no' => '40112112'],
+                [
+                    'ledger_code' => '401',
+                    'acc_name' => 'Additional Costs',
+                    'acc_type' => 'E',
+                    'type_code' => 41,
+                    'acc_range' => '40112112',
                     'is_group' => false,
                     'currency' => $currency,
                     'user_id' => $this->user_id

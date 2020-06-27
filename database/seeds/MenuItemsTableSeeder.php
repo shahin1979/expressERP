@@ -508,6 +508,8 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'F'
 //        ] );
 //
+
+
 //        MENUITEM::create( [
 //            'id'=>44015,
 //            'company_id'=>1,
@@ -521,7 +523,22 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-//
+
+
+//            MENUITEM::create( [
+//            'id'=>44020,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4D',
+//            'name'=>'Memorandum Voucher',
+//            'show'=>'1',
+//            'url'=>'transaction/transMemorandumIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
 //            MENUITEM::create( [
 //            'id'=>44025,
 //            'company_id'=>1,

@@ -96,7 +96,13 @@ Route::group(['prefix' => 'transaction', 'namespace' => 'Accounts\Trans', 'middl
     Route::post('journal/save','JournalTransactionCO@store');
 
 
+    // Memorandum Voucher Route
 
+    Route::get('transMemorandumIndex','MemorandumTransactionCO@index');
+    Route::post('Memorandum/save','MemorandumTransactionCO@store');
+
+
+//EDIR
 
     Route::get('editUnAuthVoucherIndex','EditGLVoucherCO@index');
     Route::post('updateUnAuthVoucherIndex','EditGLVoucherCO@update');

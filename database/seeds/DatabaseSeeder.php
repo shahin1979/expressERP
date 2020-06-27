@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(TransTypeTableSeeder::class);
 //        $this->call(GenericCodeTableSeeder::class);
 //        $this->call(ItemPropertiesSeeder::class);
+        $this->call(CostTypesTableSeeder::class);
 
     }
 }
