@@ -40,6 +40,7 @@ class DailyTransactionReportCO extends Controller
 
                     $trans = Transaction::query()->where('company_id',$this->company_id)
                         ->whereBetween('trans_date',[$date_from,$date_to])
+                        ->where('post_flag',true)
                         ->where('voucher_no','LIKE', '%'.$query.'%')
                         ->orWhere('trans_desc1','LIKE', '%'.$query.'%')
                         ->orWhere('dr_amt','LIKE', '%'.$query.'%')
@@ -71,6 +72,7 @@ class DailyTransactionReportCO extends Controller
 //                    $company_id = $this->company_id;
                     $trans = Transaction::query()->where('company_id',$this->company_id)
                         ->whereBetween('trans_date',[$date_from,$date_to])
+                        ->where('post_flag',true)
                         ->with(['purchase'=>function($q)  {
                             // Query the name field in status table
                             $q->where('company_id', $this->company_id);
