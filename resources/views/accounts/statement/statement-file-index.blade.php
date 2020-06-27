@@ -66,12 +66,12 @@
                             <td><label for="import_file" class="control-label">FROM FILE :</label></td>
                             <td>{!! Form::select('import_file',$fileList,null,array('id'=>'import_file','class'=>'form-control','placeholder'=>'Please Select')) !!}</td>
                             <td><label for="import_line" class="control-label">FROM LINE :</label></td>
-                            <td><input id="import_line" type="text" class="form-control text-right" name="import_line" value=""></td>
+                            <td><input id="import_line" type="text" class="form-control text-right" name="import_line" value="0"></td>
                         </tr>
 
                         <tr>
                             <td><label for="into_line" class="control-label">TO LINE :</label></td>
-                            <td><input id="into_line" type="text" class="form-control text-right" name="into_line" value=""></td>
+                            <td><input id="into_line" type="text" class="form-control text-right" name="into_line" value="0"></td>
                         </tr>
 
                         </tbody>

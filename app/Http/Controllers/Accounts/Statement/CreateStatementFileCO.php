@@ -43,6 +43,9 @@ class CreateStatementFileCO extends Controller
     {
         $request['company_id']= $this->company_id;
         $request['user_id'] = $this->user_id;
+        $request['import_line'] = is_null($request['import_line']) ? 0 : $request['import_line'];
+        $request['into_line'] = is_null($request['into_line']) ? 0 : $request['into_line'];
+
 
         DB::beginTransaction();
 
