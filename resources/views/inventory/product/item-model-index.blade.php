@@ -6,7 +6,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
             <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
-            <li class="breadcrumb-item active">Item Models</li>
+            <li class="breadcrumb-item active">Item {!! trans('general.model') !!}</li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
 
             <div class="col-md-4">
                 <div class="pull-left">
-                    <button type="button" class="btn btn-model-add btn-primary"><i class="fa fa-plus"></i>New Model</button>
+                    <button type="button" class="btn btn-model-add btn-primary"><i class="fa fa-plus"></i>New {!! trans('general.model') !!}</button>
                 </div>
                 <div class="pull-right">
                     <button type="button" class="btn btn-print btn-info"><i class="fa fa-print"></i>Print</button>

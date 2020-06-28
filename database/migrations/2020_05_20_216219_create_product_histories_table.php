@@ -24,16 +24,16 @@ class CreateProductHistoriesTable extends Migration
             $table->bigInteger('contra_ref',false)->unsigned()->comment('Invoice No, Purchase Order No, Requisition No');;
             $table->bigInteger('product_id')->unsigned()->comment('product');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
-            $table->decimal('quantity_in',15,2)->default(0.00);
-            $table->decimal('quantity_out',15,2)->default(0.00);
-            $table->decimal('unit_price',15,2)->default(0.00);
-            $table->decimal('total_price',15,2)->default(0.00);
+            $table->decimal('quantity_in',15,4)->default(0.00);
+            $table->decimal('quantity_out',15,4)->default(0.00);
+            $table->decimal('unit_price',15,4)->default(0.00);
+            $table->decimal('total_price',15,4)->default(0.00);
             $table->json('multi_unit')->nullable();
             $table->bigInteger('relationship_id')->unsigned()->nullable()->comment('For which department/supplier/ buyer etc this was created');
             $table->string('remarks',190)->nullable();
             $table->boolean('status')->unsigned()->default(1)->comment('0 = valid, 1= reversed');
             $table->boolean('acc_post')->default(0);
-            $table->decimal('stock_out',15,2)->default(0.00);
+            $table->decimal('stock_out',15,4)->default(0.00);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field

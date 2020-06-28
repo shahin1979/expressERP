@@ -23,12 +23,12 @@ class CreatePurchasesTable extends Migration
             $table->char('purchase_type',2)->comment('LP = Local Purchase, IM = Import BB=b2b l/c LC=Leter of Credit IV=Invoice'); //1 for consumption 2 for purchase
             $table->date('po_date');
             $table->date('invoice_date');
-            $table->decimal('invoice_amt',15,2)->default(0.00);
-            $table->decimal('paid_amt',15,2)->default(0.00);
+            $table->decimal('invoice_amt',15,4)->default(0.00);
+            $table->decimal('paid_amt',15,4)->default(0.00);
             $table->char('discount_type',1)->default('F')->comment('F=Fixed P=Percentage');
-            $table->decimal('discount',15,2)->default(0.00);
-            $table->decimal('discount_amt',15,2)->default(0.00);
-            $table->decimal('due_amt',15,2)->default(0.00);
+            $table->decimal('discount',15,4)->default(0.00);
+            $table->decimal('discount_amt',15,4)->default(0.00);
+            $table->decimal('due_amt',15,4)->default(0.00);
             $table->bigInteger('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
             $table->longText('description')->nullable();

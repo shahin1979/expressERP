@@ -21,9 +21,9 @@ class CreateTransactionsTable extends Migration
             $table->date('trans_date');
             $table->bigInteger('voucher_no',false);
             $table->string('acc_no',8);
-            $table->decimal('dr_amt',15,2)->default(0);
-            $table->decimal('cr_amt',15,2)->default(0);
-            $table->decimal('trans_amt',15,2)->default(0);
+            $table->decimal('dr_amt',15,4)->default(0);
+            $table->decimal('cr_amt',15,4)->default(0);
+            $table->decimal('trans_amt',15,4)->default(0);
             $table->unsignedBigInteger('project_id')->nullable()->default(null);
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('CASCADE');
             $table->unsignedBigInteger('cost_center_id')->nullable()->default(null);
@@ -38,8 +38,8 @@ class CreateTransactionsTable extends Migration
             $table->string('trans_group_id',18);
             $table->string('contra_acc',8)->nullable();
             $table->string('currency',3)->nullable();
-            $table->decimal('fc_amt',15,2)->default(0);
-            $table->decimal('exchange_rate',8,2)->default(1);
+            $table->decimal('fc_amt',15,4)->default(0);
+            $table->decimal('exchange_rate',8,4)->default(1);
             $table->string('fiscal_year',9)->nullable();
             $table->longText('trans_desc1')->nullable();
             $table->longText('trans_desc2')->nullable();

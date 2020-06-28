@@ -21,12 +21,12 @@ class CreateSalesTable extends Migration
             $table->bigInteger('customer_id')->unsigned()->comment('ID from the relationship table');
             $table->char('invoice_type',2)->comment('MI = Cash Sale, CI= Credit Invoice'); //1 for consumption 2 for purchase
             $table->date('invoice_date');
-            $table->decimal('invoice_amt',15,2)->default(0.00);
-            $table->decimal('paid_amt',15,2)->default(0.00);
+            $table->decimal('invoice_amt',15,4)->default(0.00);
+            $table->decimal('paid_amt',15,4)->default(0.00);
             $table->char('discount_type',1)->default('F')->comment('F=Fixed P=Percentage');
-            $table->decimal('discount',15,2)->default(0.00);
-            $table->decimal('discount_amt',15,2)->default(0.00);
-            $table->decimal('due_amt',15,2)->default(0.00);
+            $table->decimal('discount',15,4)->default(0.00);
+            $table->decimal('discount_amt',15,4)->default(0.00);
+            $table->decimal('due_amt',15,4)->default(0.00);
             $table->bigInteger('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
             $table->date('authorized_date')->nullable();

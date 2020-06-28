@@ -6,7 +6,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
             <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
-            <li class="breadcrumb-item active">Item Sizes</li>
+            <li class="breadcrumb-item active">Item {!! trans('general.size') !!}</li>
         </ol>
     </nav>
 
@@ -16,7 +16,7 @@
 
             <div class="col-md-4">
                 <div class="pull-left">
-                    <button type="button" class="btn btn-size-add btn-primary"><i class="fa fa-plus"></i>New Size</button>
+                    <button type="button" class="btn btn-size-add btn-primary"><i class="fa fa-plus"></i>New {!! trans('general.size') !!}</button>
                 </div>
                 <div class="pull-right">
                     <button type="button" class="btn btn-print btn-info"><i class="fa fa-print"></i>Print</button>
@@ -29,7 +29,7 @@
             <table class="table table-bordered table-hover table-responsive" id="sizes-table">
                 <thead style="background-color: #b0b0b0">
                 <tr>
-                    <th>Size</th>
+                    <th>{!! trans('general.size') !!}</th>
                     <th>Description</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -54,7 +54,7 @@
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
                 <tr>
-                    <td><label for="size" class="control-label">Size</label></td>
+                    <td><label for="size" class="control-label">{!! trans('general.size') !!}</label></td>
                     <td><input id="size" type="text" class="form-control" name="size" value="" required autofocus></td>
                 </tr>
 
@@ -89,7 +89,7 @@
             <table width="50%" class="table table-bordered table-striped table-hover">
                 <tbody>
                 <tr>
-                    <td><label for="size-for-edit" class="control-label">Size</label></td>
+                    <td><label for="size-for-edit" class="control-label">{!! trans('general.size') !!}</label></td>
                     <td><input id="size-for-edit" type="text" class="form-control" name="size-for-edit" value="" required autofocus></td>
                 </tr>
 

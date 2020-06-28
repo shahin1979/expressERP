@@ -23,7 +23,7 @@ class CreateStmtListsTable extends Migration
             $table->integer('import_line',false)->default(0);
             $table->integer('into_line',false)->default(0);
             $table->string('base_formula',9)->nullable();
-            $table->decimal('import_value',15,2)->nullable()->default(0);
+            $table->decimal('import_value',15,4)->nullable()->default(0);
             $table->integer('order_sequence')->nullable();
             $table->boolean('posted')->default(0);
             $table->bigInteger('user_id')->unsigned();

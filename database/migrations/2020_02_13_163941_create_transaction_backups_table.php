@@ -33,12 +33,12 @@ class CreateTransactionBackupsTable extends Migration
             $table->date('trans_date');
             $table->bigInteger('voucher_no',false);
             $table->string('acc_no',8);
-            $table->decimal('dr_amt',15,2)->default(0);
-            $table->decimal('cr_amt',15,2)->default(0);
-            $table->decimal('trans_amt',15,2)->default(0);
+            $table->decimal('dr_amt',15,4)->default(0);
+            $table->decimal('cr_amt',15,4)->default(0);
+            $table->decimal('trans_amt',15,4)->default(0);
             $table->string('contra_acc',8)->nullable();
             $table->string('currency',3)->nullable();
-            $table->decimal('fc_amt',15,2)->default(0);
+            $table->decimal('fc_amt',15,4)->default(0);
             $table->decimal('exchange_rate',8,2)->default(1);
             $table->string('trans_desc1',240)->nullable();
             $table->string('trans_desc2',240)->nullable();

@@ -20,8 +20,8 @@ class CreateSalesRateHistoriesTable extends Migration
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
             $table->date('start_date');
-            $table->decimal('wholesale_price',15,2)->default(0.00);
-            $table->decimal('retail_price',15,2)->default(0.00);
+            $table->decimal('wholesale_price',15,4)->default(0.00);
+            $table->decimal('retail_price',15,4)->default(0.00);
             $table->char('status',1)->default('C')->comment('C=>Created A=>Active R=>Revised');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');

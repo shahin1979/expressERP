@@ -40,7 +40,7 @@ class CompanyTableSeeder extends Seeder
 
         DB::table('companies')->insert([
             'group_id'=>1,
-            'name' => 'NRB Bank 2',
+            'name' => 'Mumanu',
             'address' => '3/8 A, Block: D, Dhaka',
             'city' => 'Dhaka',
             'country'=>'Bangladesh',

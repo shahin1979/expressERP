@@ -22,12 +22,12 @@ class CreateDepreciationTable extends Migration
             $table->char('fiscal_year',9);
             $table->date('start_date');
             $table->date('end_date');
-            $table->decimal('open_bal',15,2)->default(0);
-            $table->decimal('additional_bal',15,2)->default(0);
-            $table->decimal('total_bal',15,2)->default(0);
+            $table->decimal('open_bal',15,4)->default(0);
+            $table->decimal('additional_bal',15,4)->default(0);
+            $table->decimal('total_bal',15,4)->default(0);
             $table->decimal('dep_rate',5,2)->default(0);
-            $table->decimal('dep_amt',15,2)->default(0);
-            $table->decimal('closing_bal',15,2)->default(0);
+            $table->decimal('dep_amt',15,4)->default(0);
+            $table->decimal('closing_bal',15,4)->default(0);
             $table->boolean('approve_status')->default(0);
             $table->date('approve_date')->nullable();
             $table->string('contra_acc',8);

@@ -19,6 +19,8 @@ class CreateItemUnitsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',10);
             $table->string('formal_name',60)->nullable();
+            $table->string('transformed_name',10);
+            $table->string('transformed_formula',10);
             $table->integer('no_of_decimal_places',false)->default(2);
             $table->longText('description')->nullable();
             $table->boolean('status')->default(true);
