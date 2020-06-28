@@ -37,7 +37,12 @@ class CreateTransProductsTable extends Migration
             $table->decimal('received',15,4)->default(0.00);
             $table->decimal('returned',15,4)->default(0.00);
             $table->decimal('delivered',15,4)->default(0.00);
+            $table->decimal('tr_weight',15,4)->default(0.00);
+            $table->decimal('gross_weight',15,4)->default(0.00);
             $table->json('multi_unit')->nullable();
+            $table->unsignedBigInteger('lot_no')->default(0);
+            $table->string('bale_no',50)->nullable();
+            $table->string('vehicle_no',50)->nullable();
             $table->string('remarks',190)->nullable();
             $table->tinyInteger('status',false)->unsigned()->default(1)->comment('1 = created, 2= approved, 3= purchased, 4= received, 5=delevered, 6= rejected, 7=closed');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

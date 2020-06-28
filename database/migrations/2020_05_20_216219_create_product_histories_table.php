@@ -28,7 +28,12 @@ class CreateProductHistoriesTable extends Migration
             $table->decimal('quantity_out',15,4)->default(0.00);
             $table->decimal('unit_price',15,4)->default(0.00);
             $table->decimal('total_price',15,4)->default(0.00);
+            $table->decimal('tr_weight',15,4)->default(0.00);
+            $table->decimal('gross_weight',15,4)->default(0.00);
             $table->json('multi_unit')->nullable();
+            $table->unsignedBigInteger('lot_no')->default(0);
+            $table->string('bale_no',50)->nullable();
+            $table->string('vehicle_no',50)->nullable();
             $table->bigInteger('relationship_id')->unsigned()->nullable()->comment('For which department/supplier/ buyer etc this was created');
             $table->string('remarks',190)->nullable();
             $table->boolean('status')->unsigned()->default(1)->comment('0 = valid, 1= reversed');

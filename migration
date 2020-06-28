@@ -1,0 +1,4 @@
+select itemCode, dspec, mspec, count(*) from mumanu.stock_items_history
+where substr(itemCode,1,3) = 401
+group by itemCode, dspec, mspec;
+
