@@ -37,3 +37,7 @@ $this->validate($request, $validation);
 
 php artisan cache:clear
 php artisan config:cache
+
+git config --global http.proxy 10.60.1.41:8080
+git config --global --unset https.proxy
+git config --global --unset http.proxy

@@ -17,7 +17,7 @@
                                     @if($row->acc_type === 'A')
                                     <tr>
                                         <td>{!! $row->acc_name !!}</td>
-                                        <td>{!! $row->curr_bal !!}</td>
+                                        <td style="text-align: right">{!! number_format($row->curr_bal,0) !!}</td>
                                     </tr>
                                     @endif
                                 @endforeach
@@ -32,7 +32,7 @@
                                     @if($row->acc_type === 'L' OR $row->acc_type === 'C')
                                         <tr>
                                             <td>{!! $row->acc_name !!}</td>
-                                            <td>{!! abs($row->curr_bal) !!}</td>
+                                            <td style="text-align: right">{!! number_format(abs($row->curr_bal),2) !!}</td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -52,7 +52,7 @@
                                     @if($row->acc_type === 'I')
                                         <tr>
                                             <td>{!! $row->acc_name !!}</td>
-                                            <td>{!! abs($row->curr_bal) !!}</td>
+                                            <td style="text-align: right">{!! number_format(abs($row->curr_bal),2) !!}</td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -67,7 +67,7 @@
                                     @if($row->acc_type === 'E')
                                         <tr>
                                             <td>{!! $row->acc_name !!}</td>
-                                            <td>{!! abs($row->curr_bal) !!}</td>
+                                            <td style="text-align: right">{!! number_format(abs($row->curr_bal),2) !!}</td>
                                         </tr>
                                     @endif
                                 @endforeach
