@@ -46,7 +46,7 @@ class DataMigrationCO extends Controller
 
 //        $connection = DB::connection('mcottondb');
 
-//        $output = $this->mumanuDB($this->company_id);
+        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
 //        $output = $this->MTPurchase($this->company_id);
@@ -61,10 +61,9 @@ class DataMigrationCO extends Controller
         // Previous data Migration
 //        $output = $this->previousData($this->company_id,'2018-2019');
 
-//        return redirect()->action('Company\DataMigrationCO@index')->with('success','Successfully Migrated : '.$output);
+        return redirect()->action('Company\DataMigrationCO@index')->with('success','Successfully Migrated : '.$output);
 
 
-return;
         $connection = DB::connection('mcottondb');
 
 
@@ -219,7 +218,7 @@ return;
 //
 //            SubCategory::query()->where('company_id',$this->company_id)->where('category_id',10)
 //                ->update(['acc_in_stock'=>'10712114']);
-//
+
 //
 //            /// STOCK OUT
 //            ///

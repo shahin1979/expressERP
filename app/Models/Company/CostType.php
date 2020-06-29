@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models\Inventory\Product;
+namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ItemUnit extends Model
+class CostType extends Model
 {
     protected $guarded = ['id', 'created_at','updated_at'];
+//    protected $dates = ['FPSTART'];
 
     /**
      * The attributes that are mass assignable.
@@ -16,13 +17,8 @@ class ItemUnit extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'formal_name',
-        'transformed_name',
-        'transformed_formula',
-        'no_of_decimal_places',
-        'status',
-        'locale',
+        'description',
+        'gl_head',
         'user_id',
     ];
-
 }

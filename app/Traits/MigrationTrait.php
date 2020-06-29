@@ -220,7 +220,7 @@ trait MigrationTrait
                                 'fp_no'=>$fp_no,
                                 'ref_no'=>$item->ref_no,
                                 'cheque_no'=>$item->cheque_no,
-                                'cost_center'=>$item->cost_center,
+//                                'cost_center'=>$item->cost_center,
                                 'trans_id'=>$item->trans_id ,
                                 'trans_group_id'=>$item->trans_grp_id ,
                                 'trans_date'=>$item->trans_date,
@@ -314,7 +314,7 @@ trait MigrationTrait
                                 'fp_no'=>$fp_no,
                                 'ref_no'=>$item->ref_no,
                                 'cheque_no'=>$item->cheque_no,
-                                'cost_center'=>$item->cost_center,
+//                                'cost_center'=>$item->cost_center,
                                 'trans_id'=>$item->trans_id ,
                                 'trans_group_id'=>$item->trans_grp_id ,
                                 'trans_date'=>$item->trans_date,
@@ -395,7 +395,7 @@ trait MigrationTrait
         {
             DB::rollBack();
             $error = $e->getMessage();
-            dd($error);
+//            dd($error);
             return redirect()->back()->with('error','Not Saved '.$error);
         }
 

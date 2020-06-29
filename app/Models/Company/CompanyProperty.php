@@ -42,6 +42,7 @@ class CompanyProperty extends Model
         'cost_of_goods_sold',
         'depreciation_account',
         'depreciation_frequency',
+        'additional_charges',
         'currency',
         'fp_start',
         'trans_min_date',

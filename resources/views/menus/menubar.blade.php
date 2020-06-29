@@ -67,7 +67,7 @@
 
 
                 @if($role_id == 2)
-                    @foreach($menus->where('module_id',2) as $menu)
+                    @foreach($menus->whereIn('module_id',[1,2]) as $menu)
                         @if($comp_menus->contains('module_id',$menu->module_id))
 
 

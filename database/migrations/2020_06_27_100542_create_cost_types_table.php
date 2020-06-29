@@ -15,9 +15,13 @@ class CreateCostTypesTable extends Migration
     {
         Schema::create('cost_types', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('company_id')->unsigned();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
             $table->string('name',250);
             $table->longText('description')->nullable();
             $table->string('gl_head',8);
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
             $table->timestamps();
         });
     }

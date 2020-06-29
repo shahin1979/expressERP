@@ -128,6 +128,10 @@
                                 <td>{!! Form::select('depreciation_frequency',['Y'=>'Yearly','H'=>'Half Yearly','M'=>'Monthly'],'Y',['id'=>'depreciation_frequency','class'=>'form-control'])  !!}</td>
                             </tr>
 
+                            <tr>
+                                <td>Additional Charges Account</td>
+                                <td>{!! Form::text('additional_charges',isset($basic->additional_charges) ? $basic->additional_charges : '40312102',['id'=>'additional_charges','class'=>'form-control'])  !!}</td>
+                            </tr>
 
                             <tr>
                                 <td>FP Start</td>

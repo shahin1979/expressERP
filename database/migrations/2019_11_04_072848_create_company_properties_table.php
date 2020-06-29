@@ -45,6 +45,7 @@ class CreateCompanyPropertiesTable extends Migration
             $table->unsignedInteger('fg_cg_id')->default(2)->comment('Finished Goods Category Id');
             $table->string('depreciation_account',8)->default('40312102');
             $table->char('depreciation_frequency',1)->default('Y')->comment('Y=Yearly, H=Haf Yearly, M=Monthly');
+            $table->string('additional_charges',8)->default('40112112');
             $table->char('currency',3)->nullable();
             $table->date('fp_start');
             $table->date('trans_min_date');

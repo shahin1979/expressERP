@@ -193,5 +193,8 @@ class GenericCodeTableSeeder extends Seeder
             'description' => 'Local Credit Purchase',
         ]);
 
+// Cost Types Table
+
+
     }
 }

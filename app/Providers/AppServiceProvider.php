@@ -74,7 +74,8 @@ class AppServiceProvider extends ServiceProvider
                     $query->where('add',true)
                         ->orWhere('edit',true)
                         ->orWhere('view',true)
-                        ->orWhere('delete',true);
+                        ->orWhere('delete',true)
+                        ->orWhere('print',true);
                 })->with('menus')
                 ->get();
 
