@@ -4,6 +4,7 @@
 namespace App\Traits;
 
 
+use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Accounts\Ledger\DepreciationMO;
 use App\Models\Accounts\Ledger\GeneralLedger;
 use App\Models\Accounts\Statement\StmtLine;
@@ -20,10 +21,12 @@ use App\Models\Inventory\Movement\Requisition;
 use App\Models\Inventory\Movement\Sale;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 trait MigrationTrait
 {
@@ -32,6 +35,27 @@ trait MigrationTrait
     public function matinDB($company_id)
     {
         $connection = DB::connection('mcottondb');
+
+
+//        $users = $connection->table('users')
+//            ->whereNotIn('id',[1,2])
+//            ->get();
+//
+//        foreach ($users as $user)
+//        {
+//            User::query()->updateOrCreate(
+//                ['company_id'=>$company_id,'name'=>$user->name],
+//                [
+//                    'email'=>$user->email,
+//                    'password'=>$user->password,
+//                    'full_name'=>$user->name,
+//                    'user_created'=>2,
+//                    'old_id'=>$user->id,
+//                    'role_id'=>3
+//                ]
+//            );
+//
+//        }
 
         $ledgers = $connection->table('gl_accounts')
             ->where('comp_code',12)
@@ -73,6 +97,7 @@ trait MigrationTrait
             foreach ($ledgers as $row)
             {
 
+                $user = User::query()->where('company_id',$company_id)->where('name',$row->user_created)->first();
                 $string = preg_replace('/[\*]+/', '', $row->accName);
 
                 $type = $row->type_code == 1 ? 11 :
@@ -103,7 +128,7 @@ trait MigrationTrait
 //                        'cr_00'=>$row->cr_00,
 //                        'curr_bal' => ($row->start_dr + $row->dr_00) - ($row->start_cr + $row->cr_00),
                         'currency'=>'BDT',
-                        'user_id'=>Auth::id()
+                        'user_id'=>$user->id,
                     ]
                 );
 
@@ -135,9 +160,9 @@ trait MigrationTrait
 
             $data = $connection->table('transactions')
                 ->select(DB::Raw('distinct voucher_no, j_code'))
-                ->where('comp_code',12)
-                ->where('id','>',16434)
-                //->where('voucher_no',5100271)
+//                ->where('comp_code',12)
+////                ->where('id','>',16434)
+//                ->whereIn('voucher_no',[5106924,800039814])
 //                    ->where('trans_date','=','2019-07-02')
                 ->get();
 
@@ -212,6 +237,8 @@ trait MigrationTrait
 //                            DB::update("update transactions set trans_desc1 = CONCAT(trans_desc1,':','$item->trans_desc1') where voucher_no = '$voucher_no'and company_id='$company_id' and acc_no = '$inserted_acc_cr'");
 
                         }else{
+                            $user = User::query()->where('company_id',$company_id)->where('name',$item->user_id)->first();
+
                             Transaction::query()->insert([
                                 'company_id'=>$company_id,
                                 'period'=>$item->period,
@@ -236,9 +263,9 @@ trait MigrationTrait
                                 'trans_desc2'=>$item->trans_desc2,
                                 'old_voucher'=>$item->voucher_no,
                                 'post_flag'=>true,
-                                'authorizer_id'=>Auth::id(),
+                                'authorizer_id'=>Str::length($user->name) > 1 ? $user->id : 2,
                                 'post_date'=>$item->trans_date,
-                                'user_id'=>Auth::id(),
+                                'user_id'=>Str::length($user->name) > 1 ? $user->id : 2,
                             ]);
 
                             $inserted_voucher_no = $item->voucher_no;
@@ -306,7 +333,9 @@ trait MigrationTrait
 //                                and acc_no = '$item->acc_dr'");
 
                         }else{
-                            Transaction::query()->insert([
+                            $user = User::query()->where('company_id',$company_id)->where('name',$item->user_id)->first();
+
+                            $goes = Transaction::query()->insert([
                                 'company_id'=>$company_id,
                                 'period'=>$item->period,
                                 'tr_code'=>$jcode,
@@ -330,11 +359,10 @@ trait MigrationTrait
                                 'trans_desc2'=>$item->trans_desc2,
                                 'post_flag'=>true,
                                 'old_voucher'=>$item->voucher_no,
-                                'authorizer_id'=>Auth::id(),
+                                'authorizer_id'=>Str::length($user->name) > 1 ? $user->id : 2,
                                 'post_date'=>$item->trans_date,
-                                'user_id'=>Auth::id(),
+                                'user_id'=>Str::length($user->name) > 1 ? $user->id : 2,
                             ]);
-
                             $inserted_voucher_no = $item->voucher_no;
                             $inserted_acc_dr = $item->acc_dr;
                         }
@@ -487,46 +515,26 @@ trait MigrationTrait
 
         $connection = DB::connection('mcottondb');
 
-        DB::statement('TRUNCATE TABLE locations;');
-        DB::statement('TRUNCATE TABLE requisitions;');
-        DB::statement('TRUNCATE TABLE trans_products;');
-
-
-        // Test Area
-
+//        DB::statement('TRUNCATE TABLE locations;');
+//        DB::statement('TRUNCATE TABLE requisitions;');
+//        DB::statement('TRUNCATE TABLE trans_products;');
         $departments = $connection->table('item_departments')->get();
-//
-//
-        $location = Collect([]);
         $newLine = [];
-
-        $count = 0;
 
         foreach ($departments as $row)
         {
             $newLine['company_id'] = $company_id;
-            $newLine['location_type'] = 'F';
+            $newLine['fiscal_year'] = '2019-2020';
             $newLine['name'] = $row->deptName;
-            $newLine['in_charge'] = $row->inCharge;
             $newLine['old_id'] = $row->deptCode;
             $newLine['user_id'] = Auth::id();
 
-            $new_location = Location::query()->create($newLine);
-
-            $newLine['id'] = $new_location->id;
-            $location->push($newLine);
-
-            $count ++;
+            CostCenter::query()->create($newLine);
         }
-//        return $count;
-//dd($count);
 
         $count = 0;
         $requisitions = $connection->table('item_requisitions')->get();
         $collection = $requisitions->unique('reqRefNo');
-//        $location = Location::query()->get();
-
-//        $req_sl = 40000001;
 
         foreach ($collection as $row)
         {
@@ -555,11 +563,9 @@ trait MigrationTrait
                 ->where(DB::Raw('length(itemCode)'),9)
                 ->get();
 
-//            $products = ProductMO::query()->get();
-
             foreach ($reqs as $req) {
 
-                $req_for = $location->where('dept_code',$req->reqFor)->first();
+                $req_for = $req_for = CostCenter::query()->where('company_id',$company_id)->where('old_id',$req->reqFor)->first();
                 $product = ProductMO::query()->where('product_code',$req->itemCode)
                     ->first();
 
@@ -592,13 +598,11 @@ trait MigrationTrait
         }
 
         return $count;
-
-        //End Test Area
     }
 
     public function MTPurchase($company_id)
     {
-        ini_set('max_execution_time', 600);
+        ini_set('max_execution_time', 800);
 
         $connection = DB::connection('mcottondb');
 

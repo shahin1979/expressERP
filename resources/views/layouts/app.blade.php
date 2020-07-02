@@ -64,7 +64,7 @@
     </div>
 </div>
 
-
+<script type="text/javascript" src="{!! asset('assets/bootstrap-4.3.1/js/bootstrap.bundle.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('assets/bootstrap-4.3.1/js/bootstrap.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('assets/DataTables-1.10.18/js/jquery.dataTables.min.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('assets/DataTables-1.10.18/js/dataTables.jqueryui.min.js') !!}"></script>

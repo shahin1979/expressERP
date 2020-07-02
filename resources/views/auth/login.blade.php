@@ -27,18 +27,31 @@
 
 <div class="container">
 
-    <div class="row">
-        <div class="col-8 mx-auto">
-            {{--<h1><strong>Welcome </strong>{!! get_company_name() !!}</h1>--}}
-            {{--<div class="description">--}}
-            {{--<p>--}}
-            {{--Please fill necessary input--}}
-            {{--</p>--}}
-            {{--</div>--}}
+    <div class="row justify-content-center">
+        <div class="justify-content-center">
+            <h1><strong>Welcome To </strong>ABC Company</h1>
+            <div class="description">
+                <h3 style="color: #522121" class="text-center; font-weight-bold">
+                    You Are Browsing Accounts Module
+                </h3>
+            </div>
         </div>
     </div>
 
+
+{{--    <div class="row">--}}
+{{--        <div class="col-8 mx-auto">--}}
+{{--            --}}{{--<h1><strong>Welcome </strong>{!! get_company_name() !!}</h1>--}}
+{{--            --}}{{--<div class="description">--}}
+{{--            --}}{{--<p>--}}
+{{--            --}}{{--Please fill necessary input--}}
+{{--            --}}{{--</p>--}}
+{{--            --}}{{--</div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
     <div class="row">
+
         <div class="col-8 mx-auto">
             <h3 class="text-center login-title">Login To Continue</h3>
 

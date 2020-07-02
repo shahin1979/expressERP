@@ -20,6 +20,13 @@ class AccountTypeDetailsTableSeeder extends Seeder
             'description'=>'Fixed Asset'
         ] );
 
+        AccountTypeDetail::create( [
+            'id'=>13,
+            'account_type_id'=>1,
+            'type_code'=>13,
+            'description'=>'Liquidity'
+        ] );
+
 
 
         AccountTypeDetail::create( [
@@ -34,7 +41,7 @@ class AccountTypeDetailsTableSeeder extends Seeder
         AccountTypeDetail::create( [
             'id'=>14,
             'account_type_id'=>1,
-            'type_code'=>13,
+            'type_code'=>14,
             'description'=>'Accounts Receivable'
         ] );
 

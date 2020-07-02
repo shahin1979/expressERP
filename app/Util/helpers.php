@@ -540,3 +540,17 @@ if (!function_exists('dateDifference')) {
 
 }
 
+
+if (!function_exists('rand_string')) {
+    function rand_string($length)
+    {
+        $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $str = null;
+        $size = strlen($chars);
+        for ($i = 0; $i < $length; $i++) {
+            $str .= $chars[rand(0, $size - 1)];
+        }
+        return $str;
+    }
+}
+

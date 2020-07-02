@@ -42,6 +42,16 @@ class CostCenterCO extends Controller
             ->addColumn('balance',function ($costs){
                 return $costs->current_year_budget - abs($costs->current_year_budget);
             })
+
+            ->addColumn('expense',function ($costs){
+
+                $trans = Transaction::query()->where('company_id',$this->company_id)
+                    ->where('tr_state',false)->where('cost_center_id',$costs->id)
+                    ->get();
+
+                return $trans->sum('dr_amt');
+            })
+
             ->addColumn('action', function ($costs) {
 
                 return '<button data-remote="edit/'.$costs->id.'"
@@ -124,7 +134,8 @@ class CostCenterCO extends Controller
         if(!empty($request['action']))
         {
             $fiscal = $this->get_fiscal_data_from_current_date($this->company_id);
-            $report = CostCenter::query()->where('fiscal_year',$fiscal->fiscal_year)->get();
+            $report = CostCenter::query()->where('company_id',$this->company_id)
+                ->where('fiscal_year',$fiscal->fiscal_year)->get();
 
             $amount = Transaction::query()->whereNotNull('cost_center_id')->get();
 

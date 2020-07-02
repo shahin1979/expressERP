@@ -66,7 +66,7 @@
                 ajax: 'getCostCenterInfo',
                 columns: [
                     { data: 'name', name: 'name' },
-                    { data: 'current_year_budget', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'current_year_budget' },
+                    { data: 'expense', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'expense' },
                     { data: 'current_year_budget', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'current_year_budget' },
                     { data: 'balance', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'balance' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}

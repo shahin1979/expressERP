@@ -205,6 +205,7 @@ class ApproveDeliverCO extends Controller
 
         $input['company_id'] = $this->company_id;
         $input['project_id'] = null;
+        $input['cost_center_id'] = $delivery->delivery_type == 'SL' ? null : $delivery->relationship_id;
         $input['tr_code'] = 'DC';
         $input['fp_no'] = $period->fp_no;
         $input['trans_type_id'] = 10; //  Sales

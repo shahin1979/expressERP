@@ -82,6 +82,11 @@ class Transaction extends Model
         return $this->belongsTo(Purchase::class,'voucher_no','ref_no');
     }
 
+    public function getBalanceAttribute()
+    {
+        return $this->dr_amt - $this->cr_amt;
+    }
+
 //    public function supplier()
 //    {
 //        return $this->belongsTo(Relationship::class,'acc_no','ledger_acc_no');

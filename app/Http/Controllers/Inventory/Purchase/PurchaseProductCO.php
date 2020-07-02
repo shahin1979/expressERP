@@ -11,10 +11,12 @@ use App\Models\Inventory\Movement\Requisition;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ItemTax;
 use App\Models\Inventory\Product\ProductMO;
+use App\Models\Inventory\Product\ProductUniqueId;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PurchaseProductCO extends Controller
 {
@@ -40,7 +42,9 @@ class PurchaseProductCO extends Controller
             ->orderBy('name')
             ->pluck('name','id');
 
-        return view('inventory.purchase.purchase-product-index',compact('suppliers','taxes'));
+        $temp_id = rand_string(10);
+
+        return view('inventory.purchase.purchase-product-index',compact('suppliers','taxes','temp_id'));
     }
 
     public function autocomplete(Request $request)
@@ -52,6 +56,42 @@ class PurchaseProductCO extends Controller
             ->where('name', 'LIKE', '%'.$term.'%')->get();
 
         return response()->json($items);
+    }
+
+    public function uniqueID(Request $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $unique = [];
+
+            if($request['product'])
+            {
+                foreach ($request['product'] as $row)
+                {
+                    if(Str::length($row['unique_code']) > 0)
+                    {
+                        $unique['company_id'] = $this->company_id;
+                        $unique['temp_id'] = $id;
+                        $unique['product_id'] = $request['unique_prod_id'];
+                        $unique['unique_id'] = $row['unique_code'];
+                        $unique['user_id'] = $this->user_id;
+
+                        ProductUniqueId::query()->create($unique);
+                    }
+                }
+            }
+
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return response()->json(['error' => $error], 404);
+        }
+
+        DB::commit();
+
+        return response()->json(['success'=>'Unique Id Saved'],200);
     }
 
     public function store(Request $request)
@@ -80,6 +120,11 @@ class PurchaseProductCO extends Controller
             $request['user_id'] = $this->user_id;
 
             $inserted = Purchase::query()->create($request->all()); //Insert Data Into Requisition Table
+
+            ProductUniqueId::query()->where('company_id',$this->company_id)
+                ->where('user_id',$this->user_id)
+                ->where('temp_id',$request['temp_ref_no'])
+                ->update(['purchase_ref_id'=>$inserted->id,'temp_id'=>null]);
 
             if ($request['item']) {
                 foreach ($request['item'] as $item) {

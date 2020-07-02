@@ -42,6 +42,8 @@
                     <th>Name</th>
                     <th>Formal Name</th>
                     <th>No of Decimal Places</th>
+                    <th>Secondary Unit</th>
+                    <th>Formula</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -68,6 +70,17 @@
                     <td><label for="no_of_decimal_places" class="control-label">No of decimal Places</label></td>
                     <td><input id="no_of_decimal_places" type="text" class="form-control" name="no_of_decimal_places" value=""></td>
                 </tr>
+
+                <tr>
+                    <td><label for="transformed_name" class="control-label">Secondary Unit</label></td>
+                    <td>{!! Form::select('transformed_name',$units,null,array('id'=>'transformed_name','class'=>'form-control')) !!}</td>
+                </tr>
+
+                <tr>
+                    <td><label for="transformed_formula" class="control-label">Formula</label></td>
+                    <td><input id="transformed_formula" type="text" class="form-control" name="transformed_formula" value=""></td>
+                </tr>
+
 
                 </tbody>
 
@@ -98,6 +111,16 @@
                 <tr>
                     <td><label for="name" class="control-label">Decimal Places</label></td>
                     <td><input id="decimal-for-edit" type="text" class="form-control" name="decimal-for-edit" value="" required></td>
+                </tr>
+
+                <tr>
+                    <td><label for="transformed_name" class="control-label">Secondary Unit</label></td>
+                    <td>{!! Form::select('transformed_name',$units,null,array('id'=>'transformed_name_edit','class'=>'form-control')) !!}</td>
+                </tr>
+
+                <tr>
+                    <td><label for="transformed_formula" class="control-label">Formula</label></td>
+                    <td><input id="transformed_formula_edit" type="text" class="form-control" name="transformed_formula" value="" required></td>
                 </tr>
 
                 </tbody>
@@ -138,6 +161,8 @@
                     { data: 'name', name: 'name' },
                     { data: 'formal_name', name: 'formal_name' },
                     { data: 'no_of_decimal_places', name: 'no_of_decimal_places' },
+                    { data: 'parent.name', name: 'parent.name', defaultContent: '' },
+                    { data: 'transformed_formula', name: 'transformed_formula' },
                     { data: 'status', name: 'status' },
                     { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
                 ]
@@ -148,6 +173,8 @@
                 $('#name-for-edit').val($(this).data('name'));
                 $('#formal-name-for-edit').val($(this).data('formal'));
                 $('#decimal-for-edit').val($(this).data('decimal'));
+                $('#transformed_formula_edit').val($(this).data('formula'));
+                $('#transformed_name_edit').val($(this).data('secondary'));
                 $('#id-for-update').val($(this).data('rowid'));
 
                 $('#edit-unit').show();
@@ -217,13 +244,25 @@
                 data: {method: '_POST', submit: true, name:$('#name-for-edit').val(),
                     formal_name:$('#formal-name-for-edit').val(),
                     no_of_decimal_places:$('#decimal-for-edit').val(),
+                    transformed_name:$('#transformed_name_edit').val(),
+                    transformed_formula:$('#transformed_formula_edit').val(),
+
                 },
 
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    var myObj = JSON.parse(request.responseText);
+
+                    $.alert({
+                        title: 'Alert!',
+                        content: myObj.message + ' ' + myObj.error,
+                    });
                 },
 
                 success: function (data) {
+                    $.alert({
+                        title: 'Alert!',
+                        content: 'Updated Successfully',
+                    });
                     $('#edit-unit').hide();
                     $('#units-table').DataTable().draw(false);
                     $('#top-head').show();

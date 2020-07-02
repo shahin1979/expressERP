@@ -7,56 +7,54 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
             <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
-            <li class="breadcrumb-item active">Requisition</li>
+            <li class="breadcrumb-item active">Direct Delivery</li>
         </ol>
     </nav>
 
     <div class="col-sm-12 text-left col-sm-offset-1">
         <div class="controls">
 
-            {!! Form::open(['url'=>'requisition/createReqIndex','method' => 'POST']) !!}
+            {!! Form::open(['url'=>'delivery/directDeliveryIndex','method' => 'POST']) !!}
             {{ csrf_field() }}
 
             {{--<div class="row col-md-6 col-md-offset-1" style="border-right: solid">--}}
             <table class="table table-sm table-responsive table-primary">
                 <tbody>
-                <tr>
-                    <td><label for="req_type" class="control-label">Requisition Type</label></td>
-                    <td>{!! Form::select('req_type', array('0' => 'Please Select', 'P' => 'Purchase', 'C' => 'Consumption'), null , array('id' => 'req_type', 'class' => 'form-control')) !!}</td>
-                    <td><label for="req_date" class="control-label">Date</label></td>
-                    <td>{!! Form::text('req_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'req_date', 'class' => 'form-control','required','readonly')) !!}</td>
-                    <td><label for="refno" class="control-label">Requisition No</label></td>
-                    <td>{!! Form::text('ref_no','RQ' , array('id' => 'ref_no', 'class' => 'form-control')) !!}</td>
-                </tr>
-{{--                <tr>--}}
-{{--                    <td><label for="requisition_for" class="control-label">Requisition For</label></td>--}}
-{{--                    <td>{!! Form::select('requisition_for', $locations, null , array('id' => 'requisition_for', 'class' => 'form-control')) !!}</td>--}}
-{{--                    --}}
-{{--                </tr>--}}
+                    <tr>
+                        <td><label for="req_type" class="control-label">Delivery For</label></td>
+                        <td>{!! Form::select('center_id', $centers, null , array('id' => 'center_id', 'class' => 'form-control')) !!}</td>
+                        <td><label for="delivery_date" class="control-label">Date</label></td>
+                        <td>{!! Form::text('delivery_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'delivery_date', 'class' => 'form-control','required','readonly')) !!}</td>
+                        <td><label for="remarks" class="control-label">Reference</label></td>
+                        <td>{!! Form::text('ref_no',null , array('id' => 'ref_no', 'class' => 'form-control')) !!}</td>
+                    </tr>
+                    <tr>
+                        <td><label for="remarks" class="control-label">Remarks</label></td>
+                        <td colspan="5">{!! Form::text('remarks',null , array('id' => 'remarks', 'class' => 'form-control')) !!}</td>
+                    </tr>
                 </tbody>
-                <tfoot></tfoot>
             </table>
 
             {{--</div>--}}
             <div class="form-group col-md-12" style="background-color: rgba(177, 245, 174, 0.33)">
                 {!! Form::label('items', 'Items', ['class' => 'control-label']) !!}
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-fixed" id="items">
+                    <table class="table table-bordered table-hover table-fixed delivery-items" id="items">
                         <thead>
                         <tr style="background-color: #f9f9f9;">
                             <th width="5%"  class="text-center">Action</th>
-                            <th width="25%" class="text-left">Product</th>
-                            <th width="25%" class="text-left">Requisition For</th>
-                            <th width="15%" class="text-center">Quantity</th>
-                            <th width="10%" class="text-center">Unit</th>
-                            <th width="20%" class="text-right">Remarks</th>
+                            <th width="35%" class="text-left">Product</th>
+                            <th width="15%" class="text-right">Qty On Hand</th>
+                            <th width="15%" class="text-right">Quantity</th>
+                            <th width="10%" class="text-left">Unit</th>
+                            <th width="25%" class="text-left">Item SID</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php $item_row = 0; ?>
                         <tr id="item-row-{{ $item_row }}">
                             <td class="text-center">
-                                <button style="margin: 0 auto" type="button" onclick="$('#item-row-{{ $item_row }}').remove();" data-toggle="tooltip" title="delete-item" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                                <button style="margin: 0 auto" type="button" onclick="$('#item-row-{{ $item_row }}').remove();" data-toggle="tooltip" title="{{ trans('general.delete') }}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                             </td>
 
 
@@ -64,20 +62,10 @@
                                 <input class="form-control typeahead position-relative" required="required" placeholder="Enter Product" name="item[{{ $item_row }}][name]" type="text" id="item-name-{{ $item_row }}" autocomplete="off">
                                 <input name="item[{{ $item_row }}][item_id]" type="hidden" id="item-id-{{ $item_row }}">
                             </td>
-
-                            <td>
-                                {!! Form::select("item[$item_row][requisition_for]", $costs, null , array('class' => 'form-control')) !!}
-                            </td>
-
-                            <td>
-                                <input class="form-control text-center" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}">
-                            </td>
-                            <td id="item-unit-{{ $item_row }}">
-
-                            </td>
-                            <td>
-                                <input class="form-control" name="item[{{ $item_row }}][remarks]" type="text" id="item-remarks-{{ $item_row }}">
-                            </td>
+                            <td class="text-right" id="item-stock-{{ $item_row }}"></td>
+                            <td><input class="form-control text-right" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}"></td>
+                            <td id="item-unit-{{ $item_row }}"></td>
+                            <td><input class="form-control" name="item[{{ $item_row }}][s_id]" type="text" id="item-sid-{{ $item_row }}"></td>
                         </tr>
                         <?php $item_row++; ?>
                         <tr id="addItem">
@@ -104,6 +92,8 @@
 @endsection
 
 @push('scripts')
+
+
     <script type="text/javascript">
         var item_row = '{{ $item_row }}';
 
@@ -111,7 +101,7 @@
             html  = '<tr id="item-row-' + item_row + '">';
 
             html += '  <td class="text-center" style="vertical-align: middle;">';
-            html += '      <button style="margin: 0 auto" type="button" onclick="$(\'#item-row-' + item_row + '\').remove(); totalItem();" data-toggle="tooltip" title="{{ trans('general.delete') }}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
+            html += '      <button type="button" onclick="$(\'#item-row-' + item_row + '\').remove();" data-toggle="tooltip" title="{{ trans('general.delete') }}" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
             html += '  </td>';
 
             html += '  <td>';
@@ -119,37 +109,29 @@
             html += '      <input name="item[' + item_row + '][item_id]" type="hidden" id="item-id-' + item_row + '">';
             html += '  </td>';
 
-
-
-            html += '  <td>';
-            html += '      <select class="form-control select" name="item[' + item_row + '][requisition_for]" id="item-requisition-' + item_row + '">';
-            // html += '         <option selected="selected" value="">Please Select</option>';
-            @foreach($costs as $for_key => $for_value)
-                html += '         <option value="{{ $for_key }}">{{ $for_value }}</option>';
-            @endforeach
-                html += '      </select>';
+            html += '  <td class="text-right" id="item-stock-' + item_row + '">';
             html += '  </td>';
 
-
             html += '  <td>';
-            html += '      <input class="form-control text-center" required="required" name="item[' + item_row + '][quantity]" type="text" id="item-quantity-' + item_row + '">';
+            html += '      <input class="form-control text-right" required="required" name="item[' + item_row + '][quantity]" type="text" id="item-quantity-' + item_row + '">';
             html += '  </td>';
-
             html += '  <td id="item-unit-' + item_row + '">';
             html += '  </td>';
 
 
             html += '  <td>';
-            html += '      <input class="form-control" name="item[' + item_row + '][remarks]" type="text" id="item-remarks-' + item_row + '">';
+            html += '      <input class="form-control" name="item[' + item_row + '][sid]" type="text" id="item-sid-' + item_row + '">';
             html += '  </td>';
 
             $('#items tbody #addItem').before(html);
-            //$('[rel=tooltip]').tooltip();
+            // $('[rel=tooltip]').tooltip();
 
             $('[data-toggle="tooltip"]').tooltip('hide');
 
             item_row++;
         }
+
+
 
         $(document).ready(function(){
             //Date picker
@@ -160,7 +142,7 @@
         });
 
 
-        var autocomplete_path = "{{ url('requisition/productList') }}";
+        var autocomplete_path = "{{ url('delivery/directDeliveryProductList') }}";
 
         $(document).on('click', '.form-control.typeahead', function() {
 
@@ -189,31 +171,45 @@
                     $('#item-id-' + item_id).val(data.item_id);
                     $('#item-quantity-' + item_id).val('1');
                     $('#item-unit-' + item_id).html(data.unit_name);
+                    $('#item-stock-' + item_id).html(data.on_hand);
                 }
             });
         });
 
-        // Check Requisition For Is Selected
+        // Check Stock Available
 
-        $(document).on('click', '.btn-create', function (e) {
-            if($('#req_type').val() == 0)
-            {
-                alert('Please Select Requisition Type');
-                return false
-            }
 
-            return true;
+        $(document).ready(function() {
+
+            $(document).on('keyup', '.delivery-items tbody .form-control', function(){
+                var currentRow = $(this).closest("tr");
+                var stock = parseInt(currentRow.find("td:eq(2)").text());
+                var req = parseInt(currentRow.find("td:eq(3)").text());
+                var enter = $(this).val();
+
+                if(enter > stock) { alert('Value Greater Than Stock In Hand'); $(this).val(0)}
+                if(enter > req) { alert('Value Greater Than Requisition Qty'); $(this).val(0)}
+            });
         });
 
-        ///
 
+        // Check Requisition For Is Selected
+
+        // $(document).on('click', '.btn-create', function (e) {
+        //     if($('#req_type').val() == 0)
+        //     {
+        //         alert('Please Select Requisition Type');
+        //         return false
+        //     }
+        //
+        //     return true;
+        // });
 
         $(function (){
             $(document).on("focus", "input:text", function() {
                 $(this).select();
             });
         });
-
 
     </script>
 @endpush

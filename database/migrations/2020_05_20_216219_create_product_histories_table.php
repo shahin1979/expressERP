@@ -24,12 +24,12 @@ class CreateProductHistoriesTable extends Migration
             $table->bigInteger('contra_ref',false)->unsigned()->comment('Invoice No, Purchase Order No, Requisition No');;
             $table->bigInteger('product_id')->unsigned()->comment('product');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
-            $table->decimal('quantity_in',15,4)->default(0.00);
-            $table->decimal('quantity_out',15,4)->default(0.00);
+            $table->decimal('quantity_in',15,2)->default(0.00);
+            $table->decimal('quantity_out',15,2)->default(0.00);
             $table->decimal('unit_price',15,4)->default(0.00);
             $table->decimal('total_price',15,4)->default(0.00);
-            $table->decimal('tr_weight',15,4)->default(0.00);
-            $table->decimal('gross_weight',15,4)->default(0.00);
+            $table->decimal('tr_weight',15,2)->default(0.00);
+            $table->decimal('gross_weight',15,2)->default(0.00);
             $table->json('multi_unit')->nullable();
             $table->unsignedBigInteger('lot_no')->default(0);
             $table->string('bale_no',50)->nullable();

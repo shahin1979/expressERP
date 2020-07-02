@@ -30,5 +30,6 @@ class CostCenter extends Model
         'budget_12',
         'status',
         'user_id',
+        'old_id'
     ];
 }

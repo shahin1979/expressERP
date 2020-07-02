@@ -36,6 +36,7 @@ class CreateUsersTable extends Migration
             $table->integer('pass_exp_period')->unsigned()->default(3);
             $table->boolean('pass_never_exp')->default(0);
             $table->boolean('status')->default(1);
+            $table->unsignedInteger('old_id')->nullable();
             $table->bigInteger('user_created')->default(1);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

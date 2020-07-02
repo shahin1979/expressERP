@@ -34,6 +34,7 @@ class CreateCostCentersTable extends Migration
             $table->decimal('budget_12',15,4)->nullable()->default(0);
             $table->boolean('status')->default(true);
             $table->bigInteger('user_id')->unsigned();
+            $table->string('old_id',4)->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

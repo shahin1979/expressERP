@@ -29,6 +29,7 @@ class TransProduct extends Model
         'ref_type',
         'relationship_id',
         'product_id',
+        'item_sid_no',
         'name',
         'quantity',
         'unit_price',

@@ -26,6 +26,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('acc_in_stock',8)->nullable();//GL Head for stock purchase
             $table->string('acc_out_stock',8)->nullable();//GL Head for stock out as consumption/sale
             $table->string('locale',20)->default('en-US')->comments('English, Bangla');
+            $table->string('old_id', 6)->nullable();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));

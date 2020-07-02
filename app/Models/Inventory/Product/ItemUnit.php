@@ -25,4 +25,8 @@ class ItemUnit extends Model
         'user_id',
     ];
 
+    public function parent() {
+        return $this->belongsTo(ItemUnit::class,'transformed_name','id');
+    }
+
 }

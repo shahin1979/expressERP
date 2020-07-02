@@ -32,7 +32,7 @@ class CreateTransactionsTable extends Migration
             $table->string('period',8)->nullable();
             $table->smallInteger('trans_type_id')->unsigned()->default(6);
             $table->foreign('trans_type_id')->references('id')->on('trans_types')->onDelete('CASCADE');
-            $table->string('ref_no',12)->nullable();
+            $table->string('ref_no',200)->nullable();
             $table->string('cheque_no',20)->nullable();
             $table->string('trans_id',18);
             $table->string('trans_group_id',18);

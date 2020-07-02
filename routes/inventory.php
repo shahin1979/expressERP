@@ -195,6 +195,9 @@ Route::group(['prefix' => 'purchase', 'namespace' => 'Inventory\Purchase', 'midd
     Route::get('purchaseProductIndex','PurchaseProductCO@index'); //Direct Purchase
     Route::post('direct/save','PurchaseProductCO@store');
 
+    Route::post('saveProductsUniqueId/{id}','PurchaseProductCO@uniqueID');
+
+
     Route::get('productList','PurchaseProductCO@autocomplete');
 
 // Purchase Against Requisition
@@ -302,6 +305,11 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
 
 
 Route::group(['prefix' => 'delivery', 'namespace' => 'Inventory\Delivery', 'middleware' => ['auth']], function () {
+
+    Route::get('directDeliveryIndex','DirectDeliveryItemsCO@index');
+    Route::post('directDeliveryIndex','DirectDeliveryItemsCO@store');
+    Route::get('directDeliveryProductList','DirectDeliveryItemsCO@productList');
+
 
     Route::get('requisitionItemDeliveryIndex','RequisitionItemsDeliveryCO@index');
     Route::get('getReqItems','RequisitionItemsDeliveryCO@getReqItems');

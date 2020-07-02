@@ -27,15 +27,20 @@ class CreateProductUniqueIdsTable extends Migration
             $table->foreign('sales_ref_id')->references('id')->on('sales')->onDelete('CASCADE');
             $table->bigInteger('delivery_ref_id',false)->unsigned()->nullable()->comment('Delivery id');;
             $table->foreign('delivery_ref_id')->references('id')->on('deliveries')->onDelete('CASCADE');
+            $table->string('temp_id',10)->nullable();
             $table->bigInteger('product_id')->unsigned()->comment('product');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
+            $table->string('unique_id',100)->unique()->comment('unique id');
             $table->boolean('stock_status')->default(1);
             $table->char('status',1)->default('P')->comment('P=Purchased R=Received T=Returned S=Sold D=delivered');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->index('company_id');
             $table->index('product_id');
             $table->index('status');
+            $table->index('unique_id');
         });
     }
 

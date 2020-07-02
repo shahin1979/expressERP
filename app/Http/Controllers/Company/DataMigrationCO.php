@@ -10,6 +10,7 @@ use App\Models\Inventory\Product\ItemUnit;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SubCategory;
 use App\Traits\MigrationTrait;
+use App\Traits\MumanuMigrationTrait;
 use App\Traits\PreviousDataMigrationTrait;
 use App\Traits\TransactionsTrait;
 use App\Traits\TtwentyFourTrait;
@@ -21,7 +22,7 @@ use Illuminate\Support\Str;
 
 class DataMigrationCO extends Controller
 {
-    use MigrationTrait, PreviousDataMigrationTrait, TtwentyFourTrait;
+    use MigrationTrait, PreviousDataMigrationTrait, TtwentyFourTrait, MumanuMigrationTrait;
 
     public function index()
     {
@@ -40,13 +41,13 @@ class DataMigrationCO extends Controller
     {
 
 
-//        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
-//        $output = $this->trCode($this->company_id,'2019');
+        $output = $this->create_fiscal_period($this->company_id,'01-07-2020');
+        $output = $this->trCode($this->company_id,'2020');
 
 
 //        $connection = DB::connection('mcottondb');
 
-        $output = $this->mumanuDB($this->company_id);
+//        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
 //        $output = $this->MTPurchase($this->company_id);
@@ -60,6 +61,15 @@ class DataMigrationCO extends Controller
 
         // Previous data Migration
 //        $output = $this->previousData($this->company_id,'2018-2019');
+
+
+        // MUMANU DAtabase
+//        $output = $this->UserTable($this->company_id);
+//        $output = $this->MumanuAccountsDB($this->company_id);
+//        $output = $this->MumanuItems($this->company_id);
+//        $output = $this->MumanuRequisition($this->company_id);
+
+
 
         return redirect()->action('Company\DataMigrationCO@index')->with('success','Successfully Migrated : '.$output);
 
@@ -80,32 +90,32 @@ class DataMigrationCO extends Controller
 
         try {
 
-            if(Config::get('database.default') == 'mysql')
-            {
-
-                DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
-
-                DB::statement('TRUNCATE TABLE item_units;');
-                DB::statement('TRUNCATE TABLE categories;');
-                DB::statement('TRUNCATE TABLE sub_categories;');
-                DB::statement('TRUNCATE TABLE products;');
-                DB::statement('TRUNCATE TABLE locations;');
-//                DB::statement('TRUNCATE TABLE requisitions;');
-//                DB::statement('TRUNCATE TABLE trans_products;');
-
-                DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
-            }
-
-            if(Config::get('database.default') == 'pgsql')
-            {
-                DB::statement('TRUNCATE TABLE item_units RESTART identity CASCADE;');
-                DB::statement('TRUNCATE TABLE categories RESTART identity CASCADE;');
-                DB::statement('TRUNCATE TABLE sub_categories RESTART identity CASCADE;');
-                DB::statement('TRUNCATE TABLE products RESTART identity CASCADE;');
-                DB::statement('TRUNCATE TABLE locations RESTART identity CASCADE;');
-                DB::statement('TRUNCATE TABLE requisitions RESTART identity CASCADE;');
-                DB::statement('TRUNCATE TABLE trans_products RESTART identity CASCADE;');
-            }
+//            if(Config::get('database.default') == 'mysql')
+//            {
+//
+//                DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+//
+//                DB::statement('TRUNCATE TABLE item_units;');
+//                DB::statement('TRUNCATE TABLE categories;');
+//                DB::statement('TRUNCATE TABLE sub_categories;');
+//                DB::statement('TRUNCATE TABLE products;');
+//                DB::statement('TRUNCATE TABLE locations;');
+////                DB::statement('TRUNCATE TABLE requisitions;');
+////                DB::statement('TRUNCATE TABLE trans_products;');
+//
+//                DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+//            }
+//
+//            if(Config::get('database.default') == 'pgsql')
+//            {
+//                DB::statement('TRUNCATE TABLE item_units RESTART identity CASCADE;');
+//                DB::statement('TRUNCATE TABLE categories RESTART identity CASCADE;');
+//                DB::statement('TRUNCATE TABLE sub_categories RESTART identity CASCADE;');
+//                DB::statement('TRUNCATE TABLE products RESTART identity CASCADE;');
+//                DB::statement('TRUNCATE TABLE locations RESTART identity CASCADE;');
+//                DB::statement('TRUNCATE TABLE requisitions RESTART identity CASCADE;');
+//                DB::statement('TRUNCATE TABLE trans_products RESTART identity CASCADE;');
+//            }
 
             // MIGRATE ITEM UNITS TABLE
 

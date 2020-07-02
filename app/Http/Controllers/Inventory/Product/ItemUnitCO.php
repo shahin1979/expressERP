@@ -12,12 +12,22 @@ class ItemUnitCO extends Controller
 {
     public function index()
     {
-        return view('inventory.product.item-unit-index');
+//        $units = ItemUnit::query()->where('company_id',$this->company_id)
+//            ->where('name','KG')
+//            ->with('parent')->get();
+//
+//        dd($units);
+
+        $units = ItemUnit::query()->where('company_id',$this->company_id)->where('status',true)
+            ->pluck('name','id');
+        return view('inventory.product.item-unit-index',compact('units'));
     }
 
     public function getUnitDBData()
     {
-        $units = ItemUnit::query()->where('company_id',$this->company_id);
+        $units = ItemUnit::query()->where('company_id',$this->company_id)
+//            ->where('name','KG')
+            ->with('parent');
 
         return DataTables::of($units)
             ->addColumn('action', function ($units) {
@@ -28,6 +38,8 @@ class ItemUnitCO extends Controller
                         data-name="'. $units->name . '"
                         data-formal="'. $units->formal_name . '"
                         data-decimal="'. $units->no_of_decimal_places . '"
+                        data-secondary="'. $units->transformed_name . '"
+                        data-formula="'. $units->transformed_formula . '"
                         type="button" class="btn btn-sm btn-unit-edit btn-primary pull-center"><i class="fa fa-edit" >Edit</i></button>
                     <button data-remote="unit/delete/'.$units->id.'"  type="button" class="btn btn-unit-delete btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                     </div>
@@ -50,6 +62,8 @@ class ItemUnitCO extends Controller
                 'status' => true,
                 'formal_name' => $request['formal_name'],
                 'no_of_decimal_places' => $request['no_of_decimal_places'],
+                'transformed_name' => $request['transformed_name'],
+                'transformed_formula' => $request['transformed_formula'],
                 'user_id' => $this->user_id
             ]);
 
@@ -71,6 +85,8 @@ class ItemUnitCO extends Controller
         $unit->name = $request['name'];
         $unit->formal_name = $request['formal_name'];
         $unit->no_of_decimal_places = $request['no_of_decimal_places'];
+        $unit->transformed_name = $request['transformed_name'];
+        $unit->transformed_formula = $request['transformed_formula'];
 
         DB::begintransaction();
 

@@ -196,7 +196,12 @@
                 },
 
                 error: function (request, status, error) {
-                    alert(request.responseText);
+                    var myObj = JSON.parse(request.responseText);
+
+                    $.alert({
+                        title: 'Alert!',
+                        content: myObj.message + ' ' + myObj.error,
+                    });
                 },
 
                 success: function (data) {
