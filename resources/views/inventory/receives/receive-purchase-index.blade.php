@@ -2,6 +2,8 @@
 
 @section('content')
     <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
+    <link href="{!! asset('assets/bootstrap4-toggle-3.6.1/css/bootstrap4-toggle.min.css') !!}" rel="stylesheet">
+    <script src="{!! asset('assets/bootstrap4-toggle-3.6.1/js/bootstrap4-toggle.min.js') !!}"></script>
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
@@ -38,7 +40,7 @@
 
     <form id="ajax-items">
         <div class="row" id="edit-section">
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Purchase Info</h5>
@@ -48,11 +50,35 @@
                     </div>
                 </div>
             </div>
+{{--            <input type="checkbox" name="unique[' + i + '][receive]" data-toggle="toggle" data-onstyle="primary">--}}
+            <div class="col-sm-8" >
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Product Unique Ids</h5>
+                        <table id="tbl-unique-items" class="table table-striped table-info table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Unique Id</th>
+                                <th style="text-align: right">Receive</th>
+                                <th style="text-align: right">Return</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
 
             <input name="purchase_order" type="hidden" id="purchase_order" value="">
             <input name="is_return" type="hidden" id="is_return" value="">
 
-            <div class="col-sm-7" >
+            <div class="col-sm-8" >
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Product Info</h5>
@@ -158,7 +184,7 @@
                         $(".invoice_items").remove();
 //
                         var trHTML = '';
-                        $.each(data, function (i, item) {
+                        $.each(data.products, function (i, item) {
 
                             trHTML += '<tr class="invoice_items">' +
                                 '<td align="right">' + item.item.name +'</td>' +
@@ -170,6 +196,25 @@
                         });
 //
                         $('#invoice-items').append(trHTML);
+
+                        // console.log(data);
+                        // Unique Id section
+
+                        $(".tr-unique-items").remove();
+//
+                        var trUHTML = '';
+                        $.each(data.uniques, function (i, prod) {
+
+                            trUHTML += '<tr class="tr-unique-items">' +
+                                '<td align="right">' + prod.item.name +'</td>' +
+                                '<td align="right">' + prod.unique_id +'</td>' +
+                                '<td align="right"><label class="form-check-label" for="unique-receive-'+ i +'"> Receive </label><input type="checkbox" name="unique[' + i + '][receive]" id="unique-receive-'+ i +'" size="5rem" value="'+ prod.id +'"></td>' +
+                                '<td align="right"><input type="checkbox" name="unique[' + i + '][return]" id="unique-return-'+ i +'" value="'+ prod.id +'"><label class="form-check-label" for="unique-return-'+ i +'"> Return </label></td>' +
+                                '<td><input name="unique[' + i +'][id]" type="hidden" id="id" value="'+ prod.id +'"></td></tr>';
+                        });
+//
+                        $('#tbl-unique-items').append(trUHTML);
+
 
 
                     },
@@ -191,6 +236,8 @@
                 $('#top-head').hide();
                 $('#items-table').parents('div.dataTables_wrapper').first().show();
             });
+
+
 
 
 
@@ -254,6 +301,7 @@
                 });
             });
         });
+
 
         $(function (){
             $(document).on("focus", "input:text", function() {

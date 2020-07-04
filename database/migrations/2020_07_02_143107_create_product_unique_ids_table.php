@@ -33,6 +33,7 @@ class CreateProductUniqueIdsTable extends Migration
             $table->string('unique_id',100)->unique()->comment('unique id');
             $table->boolean('stock_status')->default(1);
             $table->char('status',1)->default('P')->comment('P=Purchased R=Received T=Returned S=Sold D=delivered');
+            $table->boolean('data_validity')->default(false);
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
@@ -40,7 +41,7 @@ class CreateProductUniqueIdsTable extends Migration
             $table->index('company_id');
             $table->index('product_id');
             $table->index('status');
-            $table->index('unique_id');
+            $table->index(['company_id','unique_id']);
         });
     }
 

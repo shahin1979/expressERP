@@ -11,6 +11,7 @@ use App\Models\Inventory\Movement\Receive;
 use App\Models\Inventory\Movement\ReturnItem;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use App\Models\Inventory\Product\ProductUniqueId;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -86,15 +87,26 @@ class ReceiveAgainstPurchaseCO extends Controller
 
     public function view($id)
     {
-        $data = TransProduct::query()->where('company_id',$this->company_id)
+        $products = TransProduct::query()->where('company_id',$this->company_id)
             ->where('ref_id',$id)->where('ref_type','P')
             ->with('item')->with('purchase')->with('supplier')->get();
 
-        return response()->json($data);
+        $uniques = ProductUniqueId::query()->where('company_id',$this->company_id)
+            ->where('purchase_ref_id',$id)->with('item')
+            ->orderBy('product_id')
+            ->get();
+
+        $response = [
+            'products' => $products,
+            'uniques' => $uniques,
+        ];
+
+//        dd($response);
+
+        return response()->json($response);
     }
     public function store(Request $request)
     {
-
 
         DB::beginTransaction();
         try{
@@ -119,6 +131,7 @@ class ReceiveAgainstPurchaseCO extends Controller
             $request['status'] = 'CR'; //Created
 
             $inserted = Receive::query()->create($request->all()); //Insert Data Into Sales Table
+            $new_receive_id = $inserted->id;
 
             if ($request['item']) {
 
@@ -155,6 +168,8 @@ class ReceiveAgainstPurchaseCO extends Controller
                 }
             }
 
+
+
             TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','IR')
                 ->where('fiscal_year',$fiscal_year->fiscal_year)
@@ -186,6 +201,7 @@ class ReceiveAgainstPurchaseCO extends Controller
                 $request['status'] = 'CR'; //Created
 
                 $inserted = ReturnItem::query()->create($request->all()); //Insert Data Into Sales Table
+                $new_return_id = $inserted->id;
 
                 if ($request['item']) {
 
@@ -216,6 +232,24 @@ class ReceiveAgainstPurchaseCO extends Controller
 
                             TransProduct::query()->create($return);
                             TransProduct::query()->where('id',$data->id)->update(['returned'=>$item['return']]);
+                        }
+                    }
+                }
+
+                if($request['unique'])
+                {
+                    foreach ($request['unique'] as $uid)
+                    {
+
+                        if(isset($uid['receive']))
+                        {
+                            ProductUniqueId::query()->where('id',$uid['receive'])
+                                ->update(['receive_ref_id'=>$new_receive_id,'stock_status'=>true,'status'=>'R']);
+                        }
+                        if(isset($uid['return']))
+                        {
+                            ProductUniqueId::query()->where('id',$uid['id'])
+                                ->update(['return_ref_id'=>$new_return_id,'stock_status'=>false,'status'=>'T']);
                         }
                     }
                 }

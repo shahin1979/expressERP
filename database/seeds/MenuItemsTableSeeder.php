@@ -507,190 +507,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-//
-//
-//
-//        MENUITEM::create( [
-//            'id'=>44015,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4D',
-//            'name'=>'Journal Voucher',
-//            'show'=>'1',
-//            'url'=>'transaction/transJournalIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-//
-//
-//            MENUITEM::create( [
-//            'id'=>44020,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4D',
-//            'name'=>'Memorandum Voucher',
-//            'show'=>'1',
-//            'url'=>'transaction/transMemorandumIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-//
-//            MENUITEM::create( [
-//            'id'=>44025,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4D',
-//            'name'=>'Edit Un Auth Voucher',
-//            'show'=>'1',
-//            'url'=>'transaction/editUnAuthVoucherIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-//
-//        MENUITEM::query()->create( [
-//            'id'=>44035,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4D',
-//            'name'=>'Authorise Transactions',
-//            'show'=>'1',
-//            'url'=>'transaction/authoriseTransIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-//
-//
-//
-//
-//            MENUITEM::create( [
-//            'id'=>47000,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'div_class'=>'nav-item has-sub',
-//            'i_class'=>'fa fa-sitemap',
-//            'menu_type'=>'MM',
-//            'menu_prefix'=>'4M',
-//            'name'=>'TRANSACTION REPORT',
-//            'show'=>'1',
-//            'url'=>'home',
-//            'status'=>'1',
-//            'content'=>'R'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'id'=>47005,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4M',
-//            'name'=>'Daily Transaction List',
-//            'show'=>'1',
-//            'url'=>'accounts/report/dailyTransactionIndex',
-//            'status'=>'1',
-//            'content'=>'R'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'id'=>47015,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4M',
-//            'name'=>'Print Voucher',
-//            'show'=>'1',
-//            'url'=>'accounts/report/printVoucherIndex',
-//            'status'=>'1',
-//            'content'=>'R'
-//        ] );
-//
-//
-//
-//            MENUITEM::create( [
-//            'id'=>49000,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'div_class'=>'nav-item has-sub',
-//            'i_class'=>'fa fa-sitemap',
-//            'menu_type'=>'MM',
-//            'menu_prefix'=>'4X',
-//            'name'=>'FINANCIAL STATEMENT',
-//            'show'=>'1',
-//            'url'=>'home',
-//            'status'=>'1',
-//            'content'=>'R'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'id'=>49002,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4X',
-//            'name'=>'Income & Expenditure',
-//            'show'=>'1',
-//            'url'=>'statement/incomeExpIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-//
-//
-//
-//        MENUITEM::create( [
-//            'id'=>49005,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4X',
-//            'name'=>'Statement File',
-//            'show'=>'1',
-//            'url'=>'statement/createFileIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'id'=>49015,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4X',
-//            'name'=>'Prepare Statement',
-//            'show'=>'1',
-//            'url'=>'statement/lineStatementIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-//
-//        MENUITEM::create( [
-//            'id'=>49020,
-//            'company_id'=>1,
-//            'module_id'=>4,
-//            'nav_label'=>4,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'4X',
-//            'name'=>'Print Statement',
-//            'show'=>'1',
-//            'url'=>'statement/printStatementIndex',
-//            'status'=>'1',
-//            'content'=>'R'
-//        ] );
-//
-//
+
+
+
 //        MENUITEM::create( [
 //            'id'=>50001,
 //            'company_id'=>1,
@@ -1381,8 +1200,193 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'R'
 //        ] );
 //
+
+
+//
+//
 //
 //        MENUITEM::create( [
+//            'id'=>44015,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4D',
+//            'name'=>'Journal Voucher',
+//            'show'=>'1',
+//            'url'=>'transaction/transJournalIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//
+//            MENUITEM::create( [
+//            'id'=>44020,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4D',
+//            'name'=>'Memorandum Voucher',
+//            'show'=>'1',
+//            'url'=>'transaction/transMemorandumIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//            MENUITEM::create( [
+//            'id'=>44025,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4D',
+//            'name'=>'Edit Un Auth Voucher',
+//            'show'=>'1',
+//            'url'=>'transaction/editUnAuthVoucherIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::query()->create( [
+//            'id'=>44035,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4D',
+//            'name'=>'Authorise Transactions',
+//            'show'=>'1',
+//            'url'=>'transaction/authoriseTransIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//
+//
+//
+//            MENUITEM::create( [
+//            'id'=>47000,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'4M',
+//            'name'=>'TRANSACTION REPORT',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>47005,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4M',
+//            'name'=>'Daily Transaction List',
+//            'show'=>'1',
+//            'url'=>'accounts/report/dailyTransactionIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>47015,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4M',
+//            'name'=>'Print Voucher',
+//            'show'=>'1',
+//            'url'=>'accounts/report/printVoucherIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+//
+//
+//
+//            MENUITEM::create( [
+//            'id'=>49000,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'div_class'=>'nav-item has-sub',
+//            'i_class'=>'fa fa-sitemap',
+//            'menu_type'=>'MM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'FINANCIAL STATEMENT',
+//            'show'=>'1',
+//            'url'=>'home',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>49002,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Income & Expenditure',
+//            'show'=>'1',
+//            'url'=>'statement/incomeExpIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//
+//
+//        MENUITEM::create( [
+//            'id'=>49005,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Statement File',
+//            'show'=>'1',
+//            'url'=>'statement/createFileIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>49015,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Prepare Statement',
+//            'show'=>'1',
+//            'url'=>'statement/lineStatementIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::create( [
+//            'id'=>49020,
+//            'company_id'=>1,
+//            'module_id'=>4,
+//            'nav_label'=>4,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'4X',
+//            'name'=>'Print Statement',
+//            'show'=>'1',
+//            'url'=>'statement/printStatementIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+
+
+//        InvMenu::query()->create( [
 //            'id'=>90001,
 //            'company_id'=>1,
 //            'module_id'=>9,
@@ -1395,6 +1399,22 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
 //
 //        MENUITEM::create( [
 //            'id'=>92000,

@@ -15,11 +15,13 @@ use App\Models\Inventory\Movement\Sale;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ItemTax;
 use App\Models\Inventory\Product\ProductMO;
+use App\Models\Inventory\Product\ProductUniqueId;
 use App\Traits\CompanyTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -43,8 +45,9 @@ class SaleInvoiceCO extends Controller
             ->prepend('Cash Sale','1',);
 
         $taxes = ItemTax::query()->where('company_id',$this->company_id)->pluck('name','id');
+        $temp_id = rand_string(10);
 
-        return view('inventory.sales.create-sales-invoice-index',compact('customers','taxes','basic'));
+        return view('inventory.sales.create-sales-invoice-index',compact('customers','taxes','basic','temp_id'));
     }
 
     public function autocomplete(Request $request)
@@ -58,6 +61,58 @@ class SaleInvoiceCO extends Controller
 
         return response()->json($items);
     }
+
+
+    public function uniqueID(Request $request, $id)
+    {
+
+        $request->session()->flash('invoice_items');
+
+        $sales_product= collect();
+
+        try {
+
+            if($request['product'])
+            {
+                foreach ($request['product'] as $row)
+                {
+                    if(Str::length($row['unique_code']) > 0)
+                    {
+                        $newline = [];
+
+                        if(ProductUniqueId::query()->where('company_id',$this->company_id)
+                            ->where('unique_id',$row['unique_code'])
+                            ->where('product_id',$request['unique_prod_id'])
+                            ->where('stock_status',true)
+                            ->where('data_validity',true)->exists())
+                        {
+
+                            $newline['company_id'] = $this->company_id;
+                            $newline['temp_id'] = $id;
+                            $newline['product_id'] = $request['unique_prod_id'];
+                            $newline['unique_id'] = $row['unique_code'];
+                            $sales_product->push($newline);
+
+                        }
+                        else{
+                            return response()->json(['error' => $row['unique_code'].' Not Available'], 404);
+                        }
+                    }
+                }
+            }
+
+            Session::put('invoice_items',$sales_product);
+
+        }catch (\Exception $e)
+        {
+            DB::rollBack();
+            $error = $e->getMessage();
+            return response()->json(['error' => $error], 404);
+        }
+
+        return response()->json(['success'=>'Unique Id Saved'],200);
+    }
+
 
     public function totalItem(Request $request)
     {
@@ -119,6 +174,8 @@ class SaleInvoiceCO extends Controller
 
     public function store(Request $request)
     {
+        dd($request->session()->get('invoice_items'));
+
         DB::beginTransaction();
         try{
 

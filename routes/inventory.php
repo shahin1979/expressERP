@@ -277,6 +277,9 @@ Route::group(['prefix' => 'sales', 'namespace' => 'Inventory\Sales', 'middleware
     Route::post('rejectProductRate','SaleItemsRateCO@reject');
 
     Route::get('createSalesInvoiceIndex','SaleInvoiceCO@index');
+    Route::post('saveSalesInvoiceUniqueId/{id}','SaleInvoiceCO@uniqueID');
+
+
     Route::post('SalesInvoicePost','SaleInvoiceCO@store');
     Route::get('salesProducts','SaleInvoiceCO@autocomplete');
     Route::post('totalItem','SaleInvoiceCO@totalItem');

@@ -132,37 +132,63 @@
 
     <!-- Modal -->
 
-    <div class="modal" tabindex="-1" role="dialog" id="product-uid">
+    <div class="modal fade" id="product-uid" tabindex="-1" role="dialog" aria-labelledby="product-uid-title" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h5 id="prod_name" class="modal-title font-weight-bold colored" style="color: darkred">Identification No For : </h5>
-{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                        <span aria-hidden="true">&times;</span>--}}
-{{--                    </button>--}}
-                    <button type="submit" class="btn btn-secondary btn-modal-dismiss" data-dismiss="modal">Close</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <form id="ajax-items"  method="POST">
-                    {{ csrf_field() }}
                     <div class="modal-body">
+
                         <table class="table" id="unique-id">
                             <tbody>
 
                             </tbody>
                         </table>
                     </div>
-
                     <input type="hidden" name="unique_prod_id" id="unique_prod_id" value="">
-
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary btn-save-id">Save IDs</button>
-
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+
+{{--    <div class="modal" tabindex="-1" role="dialog" id="product-uid">--}}
+{{--        <div class="modal-dialog" role="document">--}}
+{{--            <div class="modal-content">--}}
+
+{{--                <div class="modal-header">--}}
+{{--                    <h5 id="prod_name" class="modal-title font-weight-bold colored" style="color: darkred">Identification No For : </h5>--}}
+{{--                    <button type="submit" class="btn btn-secondary btn-modal-dismiss" data-dismiss="modal">Close</button>--}}
+{{--                </div>--}}
+{{--                <form id="ajax-items"  method="POST">--}}
+{{--                    {{ csrf_field() }}--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <table class="table" id="unique-id">--}}
+{{--                            <tbody>--}}
+
+{{--                            </tbody>--}}
+{{--                        </table>--}}
+{{--                    </div>--}}
+
+{{--                    <input type="hidden" name="unique_prod_id" id="unique_prod_id" value="">--}}
+
+{{--                    <div class="modal-footer">--}}
+{{--                        <button type="submit" class="btn btn-primary btn-save-id">Save IDs</button>--}}
+
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
 @endsection
 
@@ -186,7 +212,6 @@
             html += '  </td>';
 
             html += '  <td>';
-
             html += '     <button type="button" class="btn btn-xs btn-secondary btn-unique-id" id="item-unique-id-' + item_row + '">UID</button>';
             html += '  </td>';
 
@@ -245,7 +270,6 @@
                     $('#item-quantity-' + item_id).val('1');
                     $('#item-price-' + item_id).val(data.unit_price);
                     $('#item-tax-' + item_id).val(data.tax_id);
-
                     totalItem();
                 }
             });
@@ -305,8 +329,9 @@
                             '</tr>';
                     }
                     $('#unique-id').append(trdHTML);
+                    $('#product-uid').modal('show')
 
-                    $('#product-uid').show();
+                    // $('#product-uid').show();
 
             })
         })

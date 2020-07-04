@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Product;
 
+use App\Models\Inventory\Movement\Purchase;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductUniqueId extends Model
@@ -28,8 +29,20 @@ class ProductUniqueId extends Model
         'temp_id',
         'product_id',
         'unique_id',
-        'stock_status',
+        'stock_status', // 1 available 0 not abailable
         'status',
+        'data_validity',
         'user_id'
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(ProductMO::class,'product_id','id');
+    }
+
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class,'purchase_ref_id','id');
+    }
+
 }

@@ -18,8 +18,8 @@
 
         {!! Form::open(['url'=>'sales/SalesInvoicePost','method' => 'POST']) !!}
         {{ csrf_field() }}
-
-        <table class="table table-sm table-responsive">
+        <input name="temp_ref_no" type="hidden" id="temp_ref_no" value="{!! $temp_id !!}">
+        <table class="table table-responsive-md">
             <tbody>
             <tr>
 {{--                <td><label for="invoice_type" class="control-label">Invoice Type</label></td>--}}
@@ -47,8 +47,8 @@
             </tr>
             <tr>
                 <td><label for="description" class="control-label">Remarks</label></td>
-                <td colspan="6">{!! Form::text('description', null , array('id' => 'description', 'class' => 'form-control')) !!}</td>
-
+                <td colspan="5">{!! Form::text('description', null , array('id' => 'description', 'class' => 'form-control')) !!}</td>
+                <td class="text-right">{!! $temp_id !!}</td>
 
             </tr>
             </tbody>
@@ -64,7 +64,8 @@
                     <tr style="background-color: #f9f9f9;">
                         <th width="5%"  class="text-center">Action</th>
                         <th width="40%" class="text-left">Product</th>
-                        <th width="5%" class="text-center">Quantity</th>
+                        <th width="15%" class="text-center">Quantity</th>
+                        <th width="5%" class="text-center">UID</th>
                         <th width="10%" class="text-right">Unit Price</th>
                         <th width="10%" class="text-right">Tax</th>
                         <th width="10%" class="text-right">Sub Total</th>
@@ -84,6 +85,7 @@
                         <td>
                             <input class="form-control text-center" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}">
                         </td>
+                        <td><button type="button" data-toggle="modal" class="btn btn-xs btn-secondary btn-unique-id" id="item-unique-id-{{ $item_row }}">UID</button></td>
                         <td>
                             <input class="form-control text-right" required="required" name="item[{{ $item_row }}][price]" type="text" id="item-price-{{ $item_row }}">
                         </td>
@@ -125,8 +127,38 @@
         </div>
 
         {!! Form::close() !!}
+    </div>
+
+{{--Product Unique ID Modal--}}
+    <div class="modal fade" id="modal-product-uid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="prod_name" class="modal-title font-weight-bold colored" style="color: darkred">Identification No For : </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="ajax-items"  method="POST">
+                    <div class="modal-body">
+
+                        <table class="table" id="tbl-unique-id">
+                            <tbody>
+
+                            </tbody>
+                        </table>
 
 
+
+                    </div>
+                    <input type="hidden" name="unique_prod_id" id="unique_prod_id" value="">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-save-id">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 
@@ -158,6 +190,11 @@
             html += '  <td>';
             html += '      <input class="form-control text-center" required="required" name="item[' + item_row + '][quantity]" type="text" id="item-quantity-' + item_row + '">';
             html += '  </td>';
+
+            html += '  <td>';
+            html += '     <button type="button" class="btn btn-xs btn-secondary btn-unique-id" id="item-unique-id-' + item_row + '">UID</button>';
+            html += '  </td>';
+
             html += '  <td>';
             html += '      <input class="form-control text-right" required="required" name="item[' + item_row + '][price]" type="text" id="item-price-' + item_row + '">';
             html += '  </td>';
@@ -177,20 +214,10 @@
             html += '  </td>';
 
             $('#items tbody #addItem').before(html);
-            //$('[rel=tooltip]').tooltip();
 
             $('[data-toggle="tooltip"]').tooltip('hide');
 
-            {{--$('#item-row-' + item_row + ' .select').select2({--}}
-                {{--placeholder: "{{ trans('general.form.select.field', ['field' => trans_choice('general.taxes', 1)]) }}"--}}
-                {{--});--}}
-
-
-                {{--$('#item-row-' + item_row + ' .select2').select2({--}}
-                {{--placeholder: "{{ trans('general.form.select.field', ['field' => trans_choice('general.taxes', 1)]) }}"--}}
-                {{--});--}}
-
-                item_row++;
+            item_row++;
         }
 
             var autocomplete_path = "{{ url('sales/salesProducts') }}";
@@ -220,7 +247,7 @@
                         $('#item-id-' + item_id).val(data.item_id);
                         $('#item-quantity-' + item_id).val('1');
                         $('#item-price-' + item_id).val(data.unit_price);
-                        $('#item-tax-' + item_id).val(data.tax_id);
+                        $('#item-tax-' + item_id).val(3);
                         totalItem();
                     }
                 });
@@ -238,6 +265,84 @@
             $(this).val() > 1 ? $('#paid_amt').prop('readonly', false) : $('#paid_amt').prop('readonly', true)
             totalItem();
         });
+
+
+        // UID Button CLick
+
+
+        $(function() {
+            $(document).on('click', '.btn-unique-id', function() {
+
+                input_id = $(this).attr('id').split('-');
+                item_id = parseInt(input_id[input_id.length-1]);
+
+                if($('#item-id-'+ item_id).val() === '') {
+                    $.alert({
+                        title: 'Alert!',
+                        content: 'Please Select Product & Quantity First',
+                    });
+
+                    return false;
+                }
+
+                $('#prod_name').html($('#item-name-' + item_id).val());
+                $('#unique_prod_id').val($('#item-id-' + item_id).val());
+
+
+                var trdHTML = '';
+                $(".item_ids").remove();
+
+                var count = $('#item-quantity-'+ item_id).val();
+                var i;
+                for(i=0; i<count; i++)
+                {
+                    var sl = i+1;
+                    trdHTML += '<tr class="item_ids">' +
+                        '<td>Unique ID ' + sl + '</td>' +
+                        '<td align="right"><input name="product[' + i + '][unique_code]" class="form-control text-right" type="text"></td>' +
+                        '</tr>';
+                }
+                $('#tbl-unique-id').append(trdHTML);
+
+                $('#modal-product-uid').modal('show')
+
+            })
+        })
+
+
+        $('#ajax-items').submit(function(e) {
+            // Stop the browser from submitting the form.
+            e.preventDefault();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var url = 'saveSalesInvoiceUniqueId/'+ $('#temp_ref_no').val();
+
+            // confirm then
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: $('#ajax-items').serialize(),
+                error: function (request, status, error) {
+                    var myObj = JSON.parse(request.responseText);
+
+                    $.alert({
+                        title: 'Alert!',
+                        content: myObj.message + ' ' + myObj.error,
+                    });
+                },
+                success: function (data) {
+                    $('#modal-product-uid').modal('hide')
+                },
+            });
+        });
+
+
+
 
         function totalItem() {
             $.ajax({
