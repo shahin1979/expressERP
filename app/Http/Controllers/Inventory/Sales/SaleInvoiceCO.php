@@ -17,6 +17,7 @@ use App\Models\Inventory\Product\ItemTax;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\ProductUniqueId;
 use App\Traits\CompanyTrait;
+use App\Traits\SessionCache;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SaleInvoiceCO extends Controller
 {
-    use TransactionsTrait, CompanyTrait;
+    use TransactionsTrait, CompanyTrait, SessionCache;
 
     public function index()
     {
@@ -42,10 +43,12 @@ class SaleInvoiceCO extends Controller
             ->whereIn('relation_type',['CS','SP'])
             ->orderBy('name')
             ->pluck('name','id')
-            ->prepend('Cash Sale','1',);
+            ->prepend('Cash Sale','1');
 
         $taxes = ItemTax::query()->where('company_id',$this->company_id)->pluck('name','id');
         $temp_id = rand_string(10);
+
+        Session::forget('invoice_items');
 
         return view('inventory.sales.create-sales-invoice-index',compact('customers','taxes','basic','temp_id'));
     }
@@ -66,10 +69,6 @@ class SaleInvoiceCO extends Controller
     public function uniqueID(Request $request, $id)
     {
 
-        $request->session()->flash('invoice_items');
-
-        $sales_product= collect();
-
         try {
 
             if($request['product'])
@@ -78,7 +77,22 @@ class SaleInvoiceCO extends Controller
                 {
                     if(Str::length($row['unique_code']) > 0)
                     {
-                        $newline = [];
+                        // if Session Variable already exist
+                        if($this->productsAreCached())
+                        {
+                            $items = collect($this->getCachedProducts());
+                            $this->emptyCache();
+
+                            foreach ($items as $key=>$item)
+                            {
+                                if($item[$key]['unique_id'] === $row['unique_code'])
+                                    $items->pull($key);
+                            }
+
+                            Session::put('unique_item_ids',$items->toArray());
+                        }
+
+
 
                         if(ProductUniqueId::query()->where('company_id',$this->company_id)
                             ->where('unique_id',$row['unique_code'])
@@ -86,13 +100,13 @@ class SaleInvoiceCO extends Controller
                             ->where('stock_status',true)
                             ->where('data_validity',true)->exists())
                         {
-
+                            $sales_product= collect();
                             $newline['company_id'] = $this->company_id;
                             $newline['temp_id'] = $id;
                             $newline['product_id'] = $request['unique_prod_id'];
                             $newline['unique_id'] = $row['unique_code'];
                             $sales_product->push($newline);
-
+                            Session::push('unique_item_ids',$sales_product->toArray());
                         }
                         else{
                             return response()->json(['error' => $row['unique_code'].' Not Available'], 404);
@@ -100,8 +114,6 @@ class SaleInvoiceCO extends Controller
                     }
                 }
             }
-
-            Session::put('invoice_items',$sales_product);
 
         }catch (\Exception $e)
         {
@@ -174,13 +186,12 @@ class SaleInvoiceCO extends Controller
 
     public function store(Request $request)
     {
-        dd($request->session()->get('invoice_items'));
 
         DB::beginTransaction();
         try{
 
             $fiscal_year = $this->get_fiscal_year($request['invoice_date'],$this->company_id);
-            $taxes = ItemTax::query()->where('company_id',$this->company_id)->where('status',true)->get();
+//            $taxes = ItemTax::query()->where('company_id',$this->company_id)->where('status',true)->get();
             $products = ProductMO::query()->where('company_id',$this->company_id)->where('status',true)->get();
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
@@ -224,6 +235,29 @@ class SaleInvoiceCO extends Controller
 
                         TransProduct::query()->create($sales_item);
                         ProductMO::query()->where('id',$item['item_id'])->increment('committed',$item['quantity']);
+
+
+                    }
+
+                    // Make the unique Ids as sold
+
+                    if ($this->productsAreCached()) {
+
+                        $unique_ids = $this->getCachedProducts();
+                        $this->emptyCache();
+
+                        foreach ($unique_ids as $key=>$unique) {
+                            foreach ($unique as $id)
+
+                            ProductUniqueId::query()->where('company_id', $this->company_id)
+                                ->where('product_id', $item['item_id'])
+                                ->where('unique_id', $id['unique_id'])
+                                ->update(
+                                    [
+                                        'sales_ref_id' => $inserted->id,
+                                        'stock_status' => false,
+                                        'status' => 'S']);
+                        }
                     }
                 }
             }

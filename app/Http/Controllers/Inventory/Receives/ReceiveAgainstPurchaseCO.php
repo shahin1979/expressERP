@@ -112,7 +112,6 @@ class ReceiveAgainstPurchaseCO extends Controller
         try{
 
             $fiscal_year = $this->get_fiscal_data_from_current_date($this->company_id);
-//            $taxes = ItemTax::query()->where('company_id',$this->company_id)->where('status',true)->get();
             $products = ProductMO::query()->where('company_id',$this->company_id)->where('status',true)->get();
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
@@ -161,7 +160,6 @@ class ReceiveAgainstPurchaseCO extends Controller
                         $move['total_price'] = $data->unit_price * $item['receive'];
 
                         TransProduct::query()->create($move);
-
                         TransProduct::query()->where('id',$data->id)->update(['received'=>$item['receive']]);
                         ProductMO::query()->where('id',$data->product_id)->increment('received_qty',$item['receive']);
                     }
@@ -178,6 +176,19 @@ class ReceiveAgainstPurchaseCO extends Controller
             Purchase::query()->where('company_id',$this->company_id)
                 ->where('ref_no',$request['purchase_order'])
                 ->update(['status'=>'RC']);
+
+
+            if($request['unique'])
+            {
+                foreach ($request['unique'] as $uid)
+                {
+                    if(isset($uid['receive']))
+                    {
+                        ProductUniqueId::query()->where('id',$uid['receive'])
+                            ->update(['receive_ref_id'=>$new_receive_id]);
+                    }
+                }
+            }
 
         // End of Receive
 
@@ -240,16 +251,10 @@ class ReceiveAgainstPurchaseCO extends Controller
                 {
                     foreach ($request['unique'] as $uid)
                     {
-
-                        if(isset($uid['receive']))
-                        {
-                            ProductUniqueId::query()->where('id',$uid['receive'])
-                                ->update(['receive_ref_id'=>$new_receive_id,'stock_status'=>true,'status'=>'R']);
-                        }
                         if(isset($uid['return']))
                         {
                             ProductUniqueId::query()->where('id',$uid['id'])
-                                ->update(['return_ref_id'=>$new_return_id,'stock_status'=>false,'status'=>'T']);
+                                ->update(['return_ref_id'=>$new_return_id,'stock_status'=>false]);
                         }
                     }
                 }
@@ -259,6 +264,10 @@ class ReceiveAgainstPurchaseCO extends Controller
                     ->where('fiscal_year',$fiscal_year->fiscal_year)
                     ->increment('last_trans_id');
             } // End of Return
+
+
+
+
 
         }catch (\Exception $e)
         {

@@ -31,7 +31,7 @@ class CreateProductUniqueIdsTable extends Migration
             $table->bigInteger('product_id')->unsigned()->comment('product');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');
             $table->string('unique_id',100)->unique()->comment('unique id');
-            $table->boolean('stock_status')->default(1);
+            $table->boolean('stock_status')->default(false);
             $table->char('status',1)->default('P')->comment('P=Purchased R=Received T=Returned S=Sold D=delivered');
             $table->boolean('data_validity')->default(false);
             $table->bigInteger('user_id')->unsigned();

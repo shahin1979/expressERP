@@ -13,6 +13,7 @@ use App\Models\Inventory\Movement\Receive;
 use App\Models\Inventory\Movement\ReturnItem;
 use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
+use App\Models\Inventory\Product\ProductUniqueId;
 use App\Traits\AccountTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
@@ -253,8 +254,7 @@ class ApproveReceiveCO extends Controller
             ->where('challan_no',$request['challan'])
             ->with(['items'=>function($q){
                 $q->where('company_id',$this->company_id);
-            }])
-            ->first();
+            }])->first();
 
         $purchase = Purchase::query()->where('company_id',$this->company_id)
             ->where('ref_no',$receive->ref_no)->first();
@@ -303,6 +303,10 @@ class ApproveReceiveCO extends Controller
 
             // Update Purchase Table
             Purchase::query()->where('id',$purchase->id)->update(['status'=>'RC']);
+
+            ProductUniqueId::query()->where('company_id',$this->company_id)
+                ->where('receive_ref_id',$receive->id)
+                ->update(['stock_status'=>true, 'status'=>'R']);
 
             // Create Account Voucher for Receive Items
 
@@ -374,8 +378,11 @@ class ApproveReceiveCO extends Controller
                 }
                 //update Return Table
                 ReturnItem::query()->find($return->id)->update(['status'=>'RT','account_post'=>true,'account_voucher'=>$return->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
-            }
 
+                ProductUniqueId::query()->where('company_id',$this->company_id)
+                    ->where('return_ref_id',$return->id)
+                    ->update(['stock_status'=>false, 'status'=>'T']);
+            }
 
             Receive::query()->find($receive->id)->update(['status'=>'RC','account_post'=>true,'account_voucher'=>$receive->challan_no,'approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
 
@@ -396,10 +403,16 @@ class ApproveReceiveCO extends Controller
         $receive = Receive::query()->where('company_id',$this->company_id)
             ->where('challan_no',$request['challan'])->first();
         $receive->update(['status'=>'RJ','approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+        ProductUniqueId::query()->where('company_id',$this->company_id)
+            ->where('return_ref_id',$request['challan'])
+            ->update(['stock_status'=>false, 'status'=>'J']);
 
+        // Reject Rerun Challan
         $return = ReturnItem::query()->where('company_id',$this->company_id)
             ->where('ref_no',$receive->ref_no)->first();
-
         $return->update(['status'=>'RJ','approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+        ProductUniqueId::query()->where('company_id',$this->company_id)
+            ->where('return_ref_id',$return->challan_no)
+            ->update(['stock_status'=>false, 'status'=>'J']);
     }
 }

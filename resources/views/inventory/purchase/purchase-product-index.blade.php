@@ -128,8 +128,6 @@
     {!! Form::close() !!}
     </div>
 
-    // Product Unique Id Modal
-
     <!-- Modal -->
 
     <div class="modal fade" id="product-uid" tabindex="-1" role="dialog" aria-labelledby="product-uid-title" aria-hidden="true">
@@ -159,37 +157,6 @@
             </div>
         </div>
     </div>
-
-
-{{--    <div class="modal" tabindex="-1" role="dialog" id="product-uid">--}}
-{{--        <div class="modal-dialog" role="document">--}}
-{{--            <div class="modal-content">--}}
-
-{{--                <div class="modal-header">--}}
-{{--                    <h5 id="prod_name" class="modal-title font-weight-bold colored" style="color: darkred">Identification No For : </h5>--}}
-{{--                    <button type="submit" class="btn btn-secondary btn-modal-dismiss" data-dismiss="modal">Close</button>--}}
-{{--                </div>--}}
-{{--                <form id="ajax-items"  method="POST">--}}
-{{--                    {{ csrf_field() }}--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <table class="table" id="unique-id">--}}
-{{--                            <tbody>--}}
-
-{{--                            </tbody>--}}
-{{--                        </table>--}}
-{{--                    </div>--}}
-
-{{--                    <input type="hidden" name="unique_prod_id" id="unique_prod_id" value="">--}}
-
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="submit" class="btn btn-primary btn-save-id">Save IDs</button>--}}
-
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
 @endsection
 
 @push('scripts')
@@ -363,7 +330,7 @@
                 },
 
                 success: function (data) {
-                    $('#product-uid').hide();
+                    $('#product-uid').modal('hide');
                 },
             });
         });

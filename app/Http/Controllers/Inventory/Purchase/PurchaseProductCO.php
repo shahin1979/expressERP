@@ -79,6 +79,7 @@ class PurchaseProductCO extends Controller
                         $unique['temp_id'] = $id;
                         $unique['product_id'] = $request['unique_prod_id'];
                         $unique['unique_id'] = $row['unique_code'];
+                        $unique['stock_status'] = false;
                         $unique['user_id'] = $this->user_id;
 
 //                        ProductUniqueId::query()->create($unique);
@@ -87,6 +88,7 @@ class PurchaseProductCO extends Controller
                             ['company_id'=>$this->company_id,'unique_id'=>$row['unique_code'],'data_validity'=>false],
                             [
                                 'temp_id'=>$id,
+                                'stock_status'=>false,
                                 'product_id'=>$request['unique_prod_id'],
                                 'user_id'=>$this->user_id
                             ]
@@ -138,6 +140,7 @@ class PurchaseProductCO extends Controller
                 ->where('user_id',$this->user_id)
                 ->where('temp_id',$request['temp_ref_no'])
                 ->update(['purchase_ref_id'=>$inserted->id,'temp_id'=>null,
+                    'stock_status'=>false,
                     'data_validity'=>true]);
 
             if ($request['item']) {
