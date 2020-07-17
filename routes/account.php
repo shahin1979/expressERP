@@ -19,20 +19,6 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
 
     Route::get('account/print','GLAccountHeadCo@print');
 
-    Route::get('rptTrialBalanceIndex','RepTrialBalanceCO@index');
-
-    Route::get('/{id}/{date}','RepTrialBalanceCO@details');
-
-    Route::get('previousTrialBalanceIndex','RepTrialBalanceCO@previousIndex');
-
-
-    Route::get('rptGeneralLedgerIndex','RepGeneralLedgerCO@index');
-
-    Route::get('previousGenLedgerIndex','RepGeneralLedgerCO@previousGenLedgerIndex');
-
-    Route::get('ajax/{accNo}','RepGeneralLedgerCO@getAccount');
-
-
 });
 
 
@@ -49,12 +35,16 @@ Route::group(['prefix' => 'ledger', 'namespace' => 'Accounts\Ledger', 'middlewar
     Route::post('saveDepreciationAccount','DepreciationSetupCO@create');
     Route::post('depreciation/store','DepreciationSetupCO@store');
 
+});
 
 
+Route::group(['prefix' => 'setup', 'namespace' => 'Accounts\Setup', 'middleware' => ['auth']], function () {
 
-    //Reports
-
-
+    Route::get('bankInfoIndex','BankInformationCO@index');
+    Route::get('getBanks','BankInformationCO@getBanks');
+    Route::post('saveBankInfo','BankInformationCO@store');
+    Route::post('update/{id}','BankInformationCO@update');
+    Route::post('delete/{id}','BankInformationCO@destroy');
 
 });
 
@@ -129,6 +119,20 @@ Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', '
 
     Route::get('dailyTransactionIndex','DailyTransactionReportCO@index');
     Route::get('printVoucherIndex','PrintVoucherControllerCO@index');
+
+
+    Route::get('rptTrialBalanceIndex','RepTrialBalanceCO@index');
+
+    Route::get('/{id}/{date}','RepTrialBalanceCO@details');
+
+    Route::get('previousTrialBalanceIndex','RepTrialBalanceCO@previousIndex');
+
+
+    Route::get('rptGeneralLedgerIndex','RepGeneralLedgerCO@index');
+
+    Route::get('previousGenLedgerIndex','RepGeneralLedgerCO@previousGenLedgerIndex');
+
+    Route::get('ajax/{accNo}','RepGeneralLedgerCO@getAccount');
 
 });
 

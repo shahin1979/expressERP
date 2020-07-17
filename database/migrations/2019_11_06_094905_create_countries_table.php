@@ -22,7 +22,7 @@ class CreateCountriesTable extends Migration
             $table->char('currency_code',4)->nullable();
             $table->char('currency_short',3)->nullable();
             $table->string('currency',60)->nullable();
-            $table->string('currency_symble',4)->nullable();
+            $table->string('currency_symbol',4)->nullable();
             $table->string('phone_code',10)->nullable();
         });
     }

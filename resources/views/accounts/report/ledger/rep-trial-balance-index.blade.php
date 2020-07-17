@@ -49,7 +49,7 @@
 
                 <div class="div">
                     <br/>
-                    {!! Form::open(['url'=>'ledger/previousTrialBalanceIndex', 'method' => 'GET']) !!}
+                    {!! Form::open(['url'=>'accounts/report/previousTrialBalanceIndex', 'method' => 'GET']) !!}
 
                     <table width="80%" class="table table-responsive table-hover" >
 

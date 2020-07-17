@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Accounts\Ledger;
+namespace App\Http\Controllers\Accounts\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
@@ -21,7 +21,7 @@ class RepGeneralLedgerCO extends Controller
     public function index(Request $request)
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>42055,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>47025,'user_id'=>$this->user_id
             ]);
 
         $ledgers = GeneralLedger::query()->where('company_id',$this->company_id)
@@ -139,7 +139,7 @@ class RepGeneralLedgerCO extends Controller
             foreach ($report as $multy)
             {
                 $v_contra = $contra->where('voucher_no',$multy['voucher_no']);
-                
+
             }
 
             switch ($request['action'])

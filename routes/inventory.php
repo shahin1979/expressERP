@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['prefix' => 'product', 'namespace' => 'Inventory\Product', 'middleware' => ['auth']], function () {
 
     Route::get('categoryIndex','CategoryCO@index');
@@ -348,6 +350,13 @@ Route::group(['prefix' => 'inventory/report', 'namespace' => 'Inventory\Report',
 
     Route::get('rptSalesRegisterIndex','SalesRegisterReportCO@index');
 
+});
+
+// Export Routes
+
+Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middleware' => ['auth']], function () {
+
+    Route::get('exportContractIndex','ExportContractCO@index');
 
 
 });

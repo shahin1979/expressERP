@@ -19,7 +19,7 @@ MYSQL
 SELECT concat("'",column_name,"',")
 FROM information_schema.columns
 WHERE `TABLE_SCHEMA`='express'
-and table_name='returns'
+and table_name='export_contracts'
 
 array validation
 

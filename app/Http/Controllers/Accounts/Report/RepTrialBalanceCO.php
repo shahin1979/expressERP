@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Accounts\Ledger;
+namespace App\Http\Controllers\Accounts\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Ledger\GeneralLedger;
@@ -9,7 +9,6 @@ use App\Models\Accounts\Previous\TransactionBackup;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
 use App\Traits\AccountTrait;
-use App\Traits\GeneralLedgerTrait;
 use App\Traits\TrialBalanceTrait;
 use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
@@ -23,7 +22,7 @@ class RepTrialBalanceCO extends Controller
     public function index(Request $request)
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>42050,'user_id'=>$this->user_id
+            ['company_id'=>$this->company_id,'menu_id'=>47020,'user_id'=>$this->user_id
             ]);
 
         if(!empty($request['date_to']))
