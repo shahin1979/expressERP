@@ -16,7 +16,7 @@
 
     <div class="row justify-content-center">
         <div class="blank-space"></div>
-        <span>StocK Item Position as on : {!! \Carbon\Carbon::now()->format('d-M-Y') !!}</span>
+        <span>Stock Item Position as on : {!! \Carbon\Carbon::now()->format('d-M-Y') !!}</span>
     </div>
 
     {{--    <div class="blank-space"></div>--}}
@@ -30,29 +30,29 @@
                 <tr class="row-line">
                     <th width="5%" style="text-align: left; font-size: 10px">SL No</th>
                     <th width="15%" style="text-align: left; font-size: 10px">Product Code</th>
-                    <th width="35%" style="text-align: center; font-size: 10px">Product Name</th>
+                    <th width="32%" style="text-align: center; font-size: 10px">Product Name</th>
                     <th width="10%" style="text-align: right; font-size: 10px">Opening</th>
                     <th width="10%" style="text-align: right; font-size: 10px">Purchased</th>
                     <th width="10%" style="text-align: right; font-size: 10px">Sold</th>
                     <th width="10%" style="text-align: right; font-size: 10px">On Hand</th>
-{{--                    <th width="8%" style="text-align: right; font-size: 10px">Committed</th>--}}
-{{--                    <th width="10%" style="text-align: right; font-size: 10px">Available</th>--}}
-                    <th width="5%" style="text-align: right; font-size: 10px">Unit</th>
+                    {{--                    <th width="8%" style="text-align: right; font-size: 10px">Committed</th>--}}
+                    {{--                    <th width="10%" style="text-align: right; font-size: 10px">Available</th>--}}
+                    <th width="8%" style="text-align: right; font-size: 10px">Unit</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($report as $i=>$item)
                     <tr class="row-line" style="line-height: 200%">
-                        <td width="5%">{!! $i+1 !!}</td>
-                        <td width="15%">{!! $item->sku !!}</td>
-                        <td width="35%">{!! $item->name !!}</td>
-                        <td width="10%" align="right">{!! number_format($item->opening_qty,0) !!}</td>
-                        <td width="10%" align="right">{!! number_format($item->received_qty,0) !!}</td>
-                        <td width="10%" align="right">{!! number_format($item->sell_qty,0) !!}</td>
-                        <td width="10%" align="right">{!! number_format($item->onhand,0) !!}</td>
-{{--                        <td width="8%" align="right">{!! number_format($item->committed,0) !!}</td>--}}
-{{--                        <td width="10%" style="text-align: right">{!! number_format($item->onhand,0) - $item->committed !!}</td>--}}
-                        <td width="5%">{!! $item->unit_name !!}</td>
+                        <td width="5%" style="text-align: left; font-size: 8px">{!! $i+1 !!}</td>
+                        <td width="15%" style="text-align: left; font-size: 8px">{!! $item->sku !!}</td>
+                        <td width="32%" style="text-align: left; font-size: 8px">{!! $item->name !!}</td>
+                        <td width="10%" style="text-align: right; font-size: 8px">{!! number_format($item->opening_qty,0) !!}</td>
+                        <td width="10%" style="text-align: right; font-size: 8px">{!! number_format($item->received_qty,0) !!}</td>
+                        <td width="10%" style="text-align: right; font-size: 8px">{!! number_format($item->sell_qty,0) !!}</td>
+                        <td width="10%" style="text-align: right; font-size: 8px">{!! number_format($item->onhand,0) !!}</td>
+                        {{--                        <td width="8%" align="right">{!! number_format($item->committed,0) !!}</td>--}}
+                        {{--                        <td width="10%" style="text-align: right">{!! number_format($item->onhand,0) - $item->committed !!}</td>--}}
+                        <td width="8%" style="text-align: left; font-size: 8px">{!! $item->unit_name !!}</td>
                     </tr>
                 @endforeach
                 </tbody>

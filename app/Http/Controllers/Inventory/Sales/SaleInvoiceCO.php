@@ -56,10 +56,11 @@ class SaleInvoiceCO extends Controller
     public function autocomplete(Request $request)
     {
         $term = $request['term'];
+        $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
 
         $items = ProductMO::query()->select('id as item_id', 'name','unit_price','unit_name','tax_id')
             ->where('company_id',$this->company_id)
-//            ->where('category_id',3)
+//            ->where('category_id',$company->fg_cg_id)
             ->where('name', 'LIKE', '%'.$term.'%')->get();
 
         return response()->json($items);

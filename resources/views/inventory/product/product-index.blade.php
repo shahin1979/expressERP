@@ -25,7 +25,7 @@
 
         <div class="row" id="top-head">
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="pull-left">
                     <button type="button" class="btn btn-product-add btn-primary"><i class="fa fa-plus"></i>New Product</button>
                 </div>
@@ -37,8 +37,8 @@
             </div>
         </div>
 
-
-        <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
+        <div class="row">
+        <div class="col-md-12 dataTables_wrapper" style="overflow-x:auto;">
             <table class="table table-bordered table-hover table-responsive" id="products-table">
                 <thead style="background-color: #b0b0b0">
                 <tr>
@@ -53,6 +53,7 @@
                 </tr>
                 </thead>
             </table>
+        </div>
         </div>
 
         @include('inventory.product.partials.new-product-form')

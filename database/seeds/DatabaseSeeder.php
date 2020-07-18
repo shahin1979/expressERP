@@ -17,11 +17,14 @@ class DatabaseSeeder extends Seeder
 //        $this->call(ReligionTableSeeder::class);
 //        $this->call(UserRoleTableSeeder::class);
 //        $this->call(UsersTableSeeder::class);
-       $this->call(MenuItemsTableSeeder::class);
+//       $this->call(MenuItemsTableSeeder::class);
 //       $this->call(AccountTypesTableSeeder::class);
 //       $this->call(AccountTypeDetailsTableSeeder::class);
 //        $this->call(TransTypeTableSeeder::class);
 //        $this->call(GenericCodeTableSeeder::class);
+
+//        $this->call(ItemSizeTableSeeder::class);
+//        $this->call(ItemModelSeeder::class);
 
     }
 }

@@ -26,7 +26,9 @@ class FiscalPeriodCO extends Controller
 
     public function getFiscalData()
     {
-        $fiscal = FiscalPeriod::query()->where('status','A')->where('company_id',$this->company_id);
+        $year = $this->get_fiscal_data_from_current_date($this->company_id);
+        $fiscal = FiscalPeriod::query()->where('status','A')->where('company_id',$this->company_id)
+                ->where('fiscal_year',$year->fiscal_year);
 //        dd($fiscal);
 
 

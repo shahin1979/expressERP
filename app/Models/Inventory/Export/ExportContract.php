@@ -3,6 +3,8 @@
 namespace App\Models\Inventory\Export;
 
 use App\Models\Company\Relationship;
+use App\Models\Inventory\Movement\TransProduct;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class ExportContract extends Model
@@ -16,6 +18,7 @@ class ExportContract extends Model
         'invoice_no',
         'customer_id',
         'export_contract_no',
+        'contract_date',
         'signing_date',
         'expiry_date',
         'loading_port',
@@ -24,7 +27,8 @@ class ExportContract extends Model
         'tolerance_limit',
         'importer_bank_id',
         'exporter_bank_id',
-        'fc_amt',
+        'contract_amt',
+        'currency',
         'exchange_rate',
         'description',
         'status',
@@ -39,5 +43,15 @@ class ExportContract extends Model
     public function customer()
     {
         return $this->belongsTo(Relationship::class,'customer_id','id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(TransProduct::class,'ref_no','invoice_no');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

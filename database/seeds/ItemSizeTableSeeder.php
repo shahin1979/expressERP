@@ -15,7 +15,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
         ItemSize::create( [
-            'company_id'=>2,
+            'company_id'=>3,
             'size'=>'24MM',
             'description'=>'24MM',
             'status'=>1,
@@ -26,7 +26,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
         ItemSize::create( [
-            'company_id'=>2,
+            'company_id'=>3,
             'size'=>'32MM',
             'description'=>NULL,
             'status'=>1,
@@ -37,7 +37,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
         ItemSize::create( [
-            'company_id'=>2,
+            'company_id'=>3,
             'size'=>'38MM',
             'description'=>NULL,
             'status'=>1,
@@ -48,7 +48,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
         ItemSize::create( [
-            'company_id'=>2,
+            'company_id'=>3,
             'size'=>'51MM',
             'description'=>NULL,
             'status'=>1,
@@ -59,7 +59,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
         ItemSize::create( [
-            'company_id'=>2,
+            'company_id'=>3,
             'size'=>'62MM',
             'description'=>NULL,
             'status'=>1,
@@ -70,7 +70,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
         ItemSize::create( [
-            'company_id'=>2,
+            'company_id'=>3,
             'size'=>'64MM',
             'description'=>NULL,
             'status'=>1,
@@ -81,7 +81,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
         ItemSize::create( [
-            'company_id'=>2,
+            'company_id'=>3,
             'size'=>'72MM',
             'description'=>NULL,
             'status'=>1,

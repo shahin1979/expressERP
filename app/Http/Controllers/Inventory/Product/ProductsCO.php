@@ -185,7 +185,7 @@ class ProductsCO extends Controller
         {
             $product->opening_qty = $request['opening_qty'];
             $product->opening_value = $request['opening_value'];
-            $product->unit_price = $request['opening_value']/$request['opening_qty'];
+            $product->unit_price = $request['opening_qty'] > 0 ? $request['opening_value']/$request['opening_qty'] : 0;
         }
 
         DB::begintransaction();

@@ -357,6 +357,12 @@ Route::group(['prefix' => 'inventory/report', 'namespace' => 'Inventory\Report',
 Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middleware' => ['auth']], function () {
 
     Route::get('exportContractIndex','ExportContractCO@index');
+    Route::get('exportProducts','ExportContractCO@autocomplete');
+    Route::post('saveExportContract','ExportContractCO@store');
+
+    Route::get('ApproveExportContractIndex','ApproveExportContractCO@index');
+    Route::get('getExportContractData','ApproveExportContractCO@getExportContractData');
+
 
 
 });

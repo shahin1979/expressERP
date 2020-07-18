@@ -25,24 +25,21 @@ class StockPositionCO extends Controller
             $report = ProductMO::query()->where('company_id',$this->company_id)
                 ->where('status',true)->get();
 
+            $category = $report->unique('category_id');
+
             switch($request['action'])
             {
                 case 'preview':
 
-                    return view('inventory.report.stock-position-index',compact('report'));
+                    return view('inventory.report.stock-position-index',compact('report','category'));
                     break;
 
                 case 'print':
 
                     ini_set('max_execution_time', 900);
-//                    ini_set('memory_limit', '1024M');
-//                    ini_set("output_buffering", 10240);
-//                    ini_set('max_input_time',300);
-//                    ini_set('default_socket_timeout',300);
-//                    ini_set('pdo_mysql.cache_size',4000);
                     ini_set('pcre.backtrack_limit', 5000000);
 
-                    $view = \View::make('inventory.report.pdf.pdf-stock-position-report',compact('report'));
+                    $view = \View::make('inventory.report.pdf.pdf-stock-position-report',compact('report','category'));
                     $html = $view->render();
 
                     $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
