@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Inventory\Export;
 
 use App\Http\Controllers\Controller;
-use App\Models\Common\UserActivity;
 use App\Models\Inventory\Export\ExportContract;
 use App\Traits\CommonTrait;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class ApproveExportContractCO extends Controller
+class EditExportContractCO extends Controller
 {
     use CommonTrait;
 
