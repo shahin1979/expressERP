@@ -114,6 +114,47 @@ class GenericCodeTableSeeder extends Seeder
             'description' => 'Created',
         ]);
 
+        DB::table('generic_codes')->insert([
+            'table_name' => 'trans_products',
+            'field_name' => 'status',
+            'generic_code' => '2',
+            'description' => 'Approved',
+        ]);
+        DB::table('generic_codes')->insert([
+            'table_name' => 'trans_products',
+            'field_name' => 'status',
+            'generic_code' => '3',
+            'description' => 'Purchased',
+        ]);
+
+        DB::table('generic_codes')->insert([
+            'table_name' => 'trans_products',
+            'field_name' => 'status',
+            'generic_code' => '4',
+            'description' => 'Received',
+        ]);
+
+        DB::table('generic_codes')->insert([
+            'table_name' => 'trans_products',
+            'field_name' => 'status',
+            'generic_code' => '5',
+            'description' => 'Delivered',
+        ]);
+
+        DB::table('generic_codes')->insert([
+            'table_name' => 'trans_products',
+            'field_name' => 'status',
+            'generic_code' => '6',
+            'description' => 'Rejected',
+        ]);
+
+        DB::table('generic_codes')->insert([
+            'table_name' => 'trans_products',
+            'field_name' => 'status',
+            'generic_code' => '7',
+            'description' => 'Closed',
+        ]);
+
 
 //        PURCHASE TABLE
         DB::table('generic_codes')->insert([

@@ -61,8 +61,8 @@ class EditSalesInvoiceCO extends Controller
                         data-customer="' . $sales->customer->name . '"
                         data-amount="' . number_format($sales->invoice_amt,2) . '"
                         data-type="' . $type . '"
-                        id="edit-invoice" type="button" class="btn btn-edit btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</button>
-                    <button data-remote="delete/' . $sales->id . '" type="button" class="btn btn-xs btn-delete btn-danger pull-right"  ><i class="glyphicon glyphicon-remove"></i>Delete</button>
+                        id="edit-invoice" type="button" class="btn btn-edit btn-xs btn-primary"><i class="fa fa-edit"></i> Edit</button>
+                    <button data-remote="delete/' . $sales->id . '" type="button" class="btn btn-xs btn-delete btn-danger pull-right"  ><i class="fa fa-remove"></i>Delete</button>
                     ';
             })
             ->rawColumns(['product','quantity','unit_price','action'])

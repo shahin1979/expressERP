@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Inventory\Export;
 
 use App\Http\Controllers\Controller;
 use App\Models\Inventory\Export\ExportContract;
+use App\Models\Inventory\Movement\Sale;
+use App\Models\Inventory\Movement\TransProduct;
 use App\Traits\CommonTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class EditExportContractCO extends Controller
@@ -14,12 +17,12 @@ class EditExportContractCO extends Controller
 
     public function index()
     {
-        $this->menu_log($this->company_id,70010);
+        $this->menu_log($this->company_id,70007);
 
-        return view('inventory.export.index.approve-export-contract-index');
+        return view('inventory.export.index.edit-export-contract-index');
     }
 
-    public function getExportContractData()
+    public function getEditContractData()
     {
         $query = ExportContract::query()->where('export_contracts.company_id',$this->company_id)
             ->where('export_contracts.status','CR')->with('items')->with('user')
@@ -42,28 +45,58 @@ class EditExportContractCO extends Controller
 
             ->addColumn('action', function ($query) {
 
-                return '<div class="btn-req btn-group-sm" role="group" aria-label="Action Button">
-                    <button  data-remote="approve/' . $query->id . '" type="button" class="btn btn-approve btn-xs btn-primary"></i> Approve</button>
-                    <button data-remote="reject/' . $query->id . '" type="button" class="btn btn-xs btn-delete btn-danger">Reject</button>
+                return '
+                    <button  data-remote="contract/edit/' . $query->id . '"
+                        data-invoice="' . $query->invoice_no . '"
+                        data-contract="' . $query->export_contract_no . '"
+                        data-date="' . $query->contract_date . '"
+                        data-customer="' . $query->customer->name . '"
+                        data-amount="' . number_format($query->contract_amt,2) .$query->currency . '"
+                        data-currency="' . $query->currency . '"
+                        id="edit-invoice" type="button" class="btn btn-edit btn-xs btn-primary"><i class="fa fa-edit"></i>Edit</button>
+                    <button data-remote="delete/' . $query->id . '" type="button" class="btn btn-xs btn-delete btn-danger pull-right"><i class="fa fa-remove"></i>Delete</button>
                     ';
             })
             ->rawColumns(['product','quantity','action'])
             ->make(true);
     }
 
-    public function approve($id)
+    public function edit($id)
     {
+        $contract = TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_id',$id)->where('ref_type','E')
+            ->with('item')->with('contract')->get();
+
+        return response()->json($contract);
+    }
+
+    public function update(Request $request)
+    {
+        $contract = ExportContract::query()->where('company_id',$this->company_id)
+            ->where('invoice_no',$request['invoice_no'])->first();
+
+        $contract_amt = 0;
+
         DB::beginTransaction();
 
-        try {
+        try{
 
-            Requisition::query()->where('company_id',$this->company_id)
-                ->where('id',$id)->update(['status'=>2,'authorized_by'=>$this->user_id]);
+            foreach ($request['item'] as $item) {
 
-            TransProduct::query()->where('company_id',$this->company_id)
-                ->where('ref_type','R')
-                ->where('ref_id',$id)
-                ->update(['status'=>2]);
+                $total_price = $item['price'] * $item['quantity'];
+                $contract_amt = $contract_amt + $total_price;
+
+                $trans = TransProduct::query()->find($item['id']);
+                $trans->quantity = $item['quantity'];
+                $trans->unit_price = $item['price'];
+                $trans->total_price = $total_price;
+
+                $trans->save();
+
+            }
+
+            $contract->contract_amt = $contract_amt;
+            $contract->save();
 
         }catch (\Exception $e)
         {
@@ -74,6 +107,6 @@ class EditExportContractCO extends Controller
 
         DB::commit();
 
-        return response()->json(['success'=>'Requisition Approved'],200);
+        return response()->json(['success'=>'Export Contract Updated'],200);
     }
 }

@@ -1457,6 +1457,22 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+
+//        MENUITEM::query()->create( [
+//            'id'=>70007,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Edit Export Contract',
+//            'show'=>'1',
+//            'url'=>'export/editExportContractIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
 //        MENUITEM::query()->create( [
 //            'id'=>70010,
 //            'company_id'=>1,
@@ -1471,6 +1487,21 @@ class MenuItemsTableSeeder extends Seeder
 //            'content'=>'F'
 //        ] );
 
+
+
+        MENUITEM::query()->create( [
+            'id'=>70015,
+            'company_id'=>1,
+            'module_id'=>7,
+            'nav_label'=>7,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'7A',
+            'name'=>'Delivery Export Products',
+            'show'=>'1',
+            'url'=>'export/deliveryExportProductIndex',
+            'status'=>'1',
+            'content'=>'F'
+        ] );
 
 
 

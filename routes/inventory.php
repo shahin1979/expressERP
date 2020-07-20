@@ -360,8 +360,21 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
     Route::get('exportProducts','ExportContractCO@autocomplete');
     Route::post('saveExportContract','ExportContractCO@store');
 
+
+    Route::get('editExportContractIndex','EditExportContractCO@index');
+    Route::get('getEditContractData','EditExportContractCO@getEditContractData');
+    Route::get('contract/edit/{id}','EditExportContractCO@edit');
+    Route::post('updateExportContract','EditExportContractCO@update');
+
+
     Route::get('ApproveExportContractIndex','ApproveExportContractCO@index');
     Route::get('getExportContractData','ApproveExportContractCO@getExportContractData');
+    Route::post('contract/approve/{id}','ApproveExportContractCO@approve');
+    Route::post('contract/reject/{id}','ApproveExportContractCO@reject');
+
+
+    // Delivery
+    Route::get('deliveryExportProductIndex','DeliveryExportProductCO@index');
 
 
 

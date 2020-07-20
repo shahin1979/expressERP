@@ -5,6 +5,7 @@ namespace App\Models\Inventory\Movement;
 use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Company\Relationship;
 use App\Models\Human\Admin\Location;
+use App\Models\Inventory\Export\ExportContract;
 use App\Models\Inventory\Product\ItemTax;
 use App\Models\Inventory\Product\ProductMO;
 use Illuminate\Database\Eloquent\Model;
@@ -76,6 +77,11 @@ class TransProduct extends Model
     public function invoice()
     {
         return $this->belongsTo(Sale::class,'ref_id','id');
+    }
+
+    public function contract()
+    {
+        return $this->belongsTo(ExportContract::class,'ref_id','id');
     }
 
     public function purchase()

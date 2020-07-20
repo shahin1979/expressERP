@@ -19,6 +19,7 @@
                 <th>Importer</th>
                 <th>product</th>
                 <th>Quantity</th>
+                <th>Unit Price</th>
                 <th>Amount</th>
                 <th>Created By</th>
                 <th>Action</th>
@@ -49,6 +50,7 @@
                     {data: 'customer.name', name: 'customer.name'},
                     {data: 'product', name: 'product'},
                     {data: 'quantity', name: 'quantity'},
+                    {data: 'price', name: 'price'},
                     {data: 'contract_amt',name: 'contract_amt'},
                     {data: 'user.name', name: 'user.name'},
                     {data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
@@ -86,11 +88,48 @@
                     data: {method: '_POST', submit: true},
 
                     error: function (request, status, error) {
-                        alert(request.responseText);
+                        $.alert({
+                            title: 'Alert!',
+                            content: myObj.message + ' ' + myObj.error,
+                        });
                     },
 
                 }).always(function (data) {
-                    $('#requisition-table').DataTable().draw(true);
+                    $('#contracts-table').DataTable().draw(true);
+                })
+
+            });
+
+
+
+            $(this).on('click', '.btn-reject', function (e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                var url = $(this).data('remote');
+                // confirm then
+                $.ajax({
+                    beforeSend: function (request) {
+                        return confirm("Are you sure?");
+                    },
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {method: '_POST', submit: true},
+
+                    error: function (request, status, error) {
+                        $.alert({
+                            title: 'Alert!',
+                            content: myObj.message + ' ' + myObj.error,
+                        });
+                    },
+
+                }).always(function (data) {
+                    $('#contracts-table').DataTable().draw(true);
                 })
 
             });
