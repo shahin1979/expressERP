@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory\Movement;
 
+use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Company\Relationship;
 use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Product\ProductMO;
@@ -33,12 +34,17 @@ class ProductHistory extends Model
         'quantity_out',
         'unit_price',
         'total_price',
+        'tr_weight',
+        'gross_weight',
         'multi_unit',
+        'lot_no',
+        'bale_no',
+        'vehicle_no',
         'relationship_id',
         'remarks',
         'status',
         'acc_post',
-        'stock_out'
+        'stock_out',
     ];
 
 
@@ -72,6 +78,11 @@ class ProductHistory extends Model
     {
         return $this->belongsTo(Relationship::class,'relationship_id','id');
     }
+    public function cost()
+    {
+        return $this->belongsTo(CostCenter::class,'relationship_id','id');
+    }
+
 
     public function getBalanceAttribute()
     {

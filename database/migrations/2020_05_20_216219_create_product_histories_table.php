@@ -20,7 +20,7 @@ class CreateProductHistoriesTable extends Migration
             $table->bigInteger('ref_no',false)->unsigned()->comment('Challan N');;
             $table->bigInteger('ref_id',false)->unsigned()->comment('Challan id');;
             $table->date('tr_date');
-            $table->char('ref_type',1)->comment('P = Purchase, S = Sales, I = Import, D = Delivery, E = Export, R=Return, T=Transform O=Opening W=wastage');
+            $table->char('ref_type',1)->comment('P = Purchase, S = Sales, I = Import, D = Delivery, E = Export, R=Return, T=Transform O=Opening W=wastage F= Factory Production');
             $table->bigInteger('contra_ref',false)->unsigned()->comment('Invoice No, Purchase Order No, Requisition No');;
             $table->bigInteger('product_id')->unsigned()->comment('product');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');

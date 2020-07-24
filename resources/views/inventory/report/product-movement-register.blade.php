@@ -12,10 +12,10 @@
     </nav>
 
     <div class="container spark-screen">
-        <div class="row">
-            <div class="col-md-10" >
+        <div class="row justify-content-center">
+            <div class="col-md-8" >
                 <br/>
-                <div><h3>Product Movement Register: @isset($param) 'Report Date :'. {!! $param['report_date'] !!} @endisset</h3></div>
+                <div><p style="font-weight: bold">Product Movement Register: @isset($param) Report Date : {!! $param['report_date'] !!} @endisset</p></div>
                 <div style="background-color: #ff0000;height: 2px">&nbsp;</div>
                 <br/>
 
@@ -46,45 +46,46 @@
 
     @isset($report)
 
-        <table class="table table-bordered table-responsive table-hover">
-            <thead style="background-color: #8eb4cb">
-            <tr>
-                <th>SL</th>
-                <th>Ref No</th>
-                <th>Type</th>
-                <th>Item Code</th>
-                <th>Item Name</th>
-                <th>Contra</th>
-                <th>Unit</th>
-                <th class="text-right">Stock In</th>
-                <th class="text-right">Stock Out</th>
-
-{{--                <th class="text-right">User</th>--}}
-
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($report as $i=>$item)
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mx-auto w-auto">
+                <thead style="background-color: #8eb4cb">
                 <tr>
-                    <td>{!! $i+1 !!}</td>
-                    <td>{!! $item->ref_no !!}</td>
-                    <td>{!! $item->ref_type === 'P' ? 'Purchase' : ($item->ref_type === 'S' ? 'Sales' : 'Others') !!}</td>
-                    <td>{!! $item->item->sku !!}</td>
-                    <td>{!! $item->item->name !!}</td>
-                    <td>{!! $item->ref_type === 'P' ? $item->supplier->name : ( $item->ref_type === 'S' ? $item->customer->name : 'Others') !!}</td>
-                    <td>{!! $item->item->unit_name !!}</td>
-                    <td align="right">{!! number_format($item->quantity_in,0) !!}</td>
-                    <td align="right">{!! number_format($item->quantity_out,0) !!}</td>
-{{--                    <td>{!! $item->user->name !!}</td>--}}
-                </tr>
-            @endforeach
-            </tbody>
-            <tfoot>
-            <td colspan="7"></td>
-            </tfoot>
-        </table>
-    @endisset
+                    <th>SL</th>
+                    <th>Ref No</th>
+                    <th>Type</th>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Contra</th>
+                    <th>Unit</th>
+                    <th class="text-right">Stock In</th>
+                    <th class="text-right">Stock Out</th>
 
+                    {{--                <th class="text-right">User</th>--}}
+
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($report as $i=>$item)
+                    <tr style="background-color: {!! $i%2 == 0 ? '#e8e8e8' : '#c4e3f3' !!}">
+                        <td>{!! $i+1 !!}</td>
+                        <td>{!! $item->ref_no !!}</td>
+                        <td>{!! $item->ref_type === 'P' ? 'Purchase' : ($item->ref_type === 'S' ? 'Sales' : 'Others') !!}</td>
+                        <td>{!! $item->item->sku !!}</td>
+                        <td>{!! $item->item->name !!}</td>
+                        <td>{!! $item->ref_type === 'P' ? $item->supplier->name : ( $item->ref_type === 'S' ? $item->customer->name : 'Others') !!}</td>
+                        <td>{!! $item->item->unit_name !!}</td>
+                        <td align="right">{!! number_format($item->quantity_in,0) !!}</td>
+                        <td align="right">{!! number_format($item->quantity_out,0) !!}</td>
+                        {{--                    <td>{!! $item->user->name !!}</td>--}}
+                    </tr>
+                @endforeach
+                </tbody>
+                <tfoot>
+                <td colspan="7"></td>
+                </tfoot>
+            </table>
+        </div>
+    @endisset
 @endsection
 
 @push('scripts')

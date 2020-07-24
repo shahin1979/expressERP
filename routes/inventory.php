@@ -375,7 +375,9 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
 
     // Delivery
     Route::get('deliveryExportProductIndex','DeliveryExportProductCO@index');
-
+    Route::get('delivery/items/{id}','DeliveryExportProductCO@getExportProdDT');
+    Route::post('storeExportProducts','DeliveryExportProductCO@store');
+    Route::delete('items/delete/{id}','DeliveryExportProductCO@destroy');
 
 
 });

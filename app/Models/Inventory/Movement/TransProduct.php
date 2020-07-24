@@ -43,9 +43,15 @@ class TransProduct extends Model
         'received',
         'returned',
         'delivered',
+        'tr_weight',
+        'gross_weight',
         'multi_unit',
+        'lot_no',
+        'bale_no',
+        'vehicle_no',
         'remarks',
         'status',
+        'deleted',
     ];
 
     public function item()

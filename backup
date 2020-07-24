@@ -19,7 +19,8 @@ MYSQL
 SELECT concat("'",column_name,"',")
 FROM information_schema.columns
 WHERE `TABLE_SCHEMA`='express'
-and table_name='export_contracts'
+and table_name='trans_products'
+ORDER BY `columns`.`ORDINAL_POSITION` ASC
 
 array validation
 
@@ -41,3 +42,6 @@ php artisan config:cache
 git config --global http.proxy 10.60.1.41:8080
 git config --global --unset https.proxy
 git config --global --unset http.proxy
+
+
+sudo kill $(sudo lsof -t -i:8000)

@@ -94,7 +94,7 @@
                         <tr>
                             <td width="15%">{!! \Carbon\Carbon::parse($row->tr_date)->format('d-M-Y') !!}</td>
                             <td width="15%">{!! $row->ref_no !!}</td>
-                            <td width="40%">{!! $row->ref_type === 'D' ? 'Delivered to: '.$row->location->name  : ($row->ref_type === 'P'? 'Purchased from: '.$row->supplier->name : 'Sales To: '.$row->customer->name) !!}</td>
+                            <td width="40%">{!! $row->ref_type === 'D' ? 'Delivered to: '.$row->location->name  : ($row->ref_type === 'P'? 'Purchased from: '.$row->supplier->name : ($row->ref_type === 'F'? 'Production From Factory' : 'Sales To: '.$row->customer->name)) !!}</td>
                             <td width="15%" align="right">{!! number_format(($row->quantity_in),2) !!}</td>
                             <td width="15%" align="right">{!! number_format($row->quantity_out,2) !!}</td>
                         </tr>
