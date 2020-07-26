@@ -1519,19 +1519,91 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
-        MENUITEM::query()->create( [
-            'id'=>70025,
-            'company_id'=>1,
-            'module_id'=>7,
-            'nav_label'=>7,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'7A',
-            'name'=>'Create Export Invoice',
-            'show'=>'1',
-            'url'=>'export/createExportInvoiceIndex',
-            'status'=>'1',
-            'content'=>'F'
-        ] );
+//        MENUITEM::query()->create( [
+//            'id'=>70025,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Create Export Invoice',
+//            'show'=>'1',
+//            'url'=>'export/createExportInvoiceIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
+//        MENUITEM::query()->create( [
+//            'id'=>70030,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Approve Export Invoice',
+//            'show'=>'1',
+//            'url'=>'export/approveExportInvoiceIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::query()->create( [
+//            'id'=>70035,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Update Truck Number For Delivery',
+//            'show'=>'1',
+//            'url'=>'export/updateVehicleNoIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::query()->create( [
+//            'id'=>70040,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Upload Shipment Data',
+//            'show'=>'1',
+//            'url'=>'export/uploadShipmentDataIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MENUITEM::query()->create( [
+//            'id'=>70045,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Update Shipment Data',
+//            'show'=>'1',
+//            'url'=>'export/updateShipmentDataIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//
+//        MENUITEM::query()->create( [
+//            'id'=>70050,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Shipment Container Data',
+//            'show'=>'1',
+//            'url'=>'export/shipmentContainerDataIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
 
 
 

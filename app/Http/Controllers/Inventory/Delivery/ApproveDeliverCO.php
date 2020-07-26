@@ -36,6 +36,7 @@ class ApproveDeliverCO extends Controller
     {
         $query = Delivery::query()->where('company_id',$this->company_id)
             ->where('status','CR')
+            ->whereNotIn('delivery_type',['EX'])
             ->with('customer')->with('costcenter')
             ->with(['items'=>function($q){
                 $q->where('company_id',$this->company_id)
@@ -59,7 +60,7 @@ class ApproveDeliverCO extends Controller
 
             ->addColumn('del_for', function ($query) {
 
-                    return $query->delivery_type == 'SL' ? $query->customer->name : $query->costcenter->name;
+                    return $query->delivery_type == 'SL' ? $query->customer->name : ($query->delivery_type == 'EX' ? $query->customer->name : $query->costcenter->name);
 
             })
 
@@ -73,7 +74,7 @@ class ApproveDeliverCO extends Controller
                     <button  data-remote="viewDeliveryItems/' . $query->id . '"
                         data-challan="' . $query->challan_no . '"
                         data-requisition="' . $query->ref_no . '"
-                        data-against="' . ($query->delivery_type == 'SL' ? $query->customer->name : $query->costcenter->name) . '"
+                        data-against="' . ($query->delivery_type == 'SL' ? $query->customer->name : ($query->delivery_type == 'EX' ? $query->customer->name : $query->costcenter->name)) . '"
                         data-date="' . $query->delivery_date . '"
                         id="view-delivery-details" type="button" class="btn btn-delivery-details btn-xs btn-primary">Details</button>
                     ';

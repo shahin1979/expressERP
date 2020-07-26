@@ -4,6 +4,7 @@ namespace App\Models\Inventory\Movement;
 
 use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Company\Relationship;
+use App\Models\Inventory\Export\ExportContract;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -54,6 +55,11 @@ class Delivery extends Model
     public function customer()
     {
         return $this->belongsTo(Relationship::class,'relationship_id','id');
+    }
+
+    public function contract()
+    {
+        return $this->belongsTo(ExportContract::class,'ref_no','invoice_no');
     }
 
     public function costcenter()

@@ -166,6 +166,7 @@
                 var url = $(this).data('remote');
 
                 $(".delivery-info").remove();
+                $(".del_items").remove();
 
                 var reqHTML = '';
 
@@ -207,7 +208,6 @@
 //
                         var trnHTML = '';
                         $.each(data.transactions, function (i, trItem) {
-                            console.log(trItem);
                             trnHTML += '<tr class="tr_items">' +
                                 '<td>' + trItem.acc_name + '</td>' +
                                 '<td align="right">' + trItem.debit_amt + '</td>' +
@@ -241,9 +241,6 @@
                 $('#top-head').hide();
                 $('#delivery-table').parents('div.dataTables_wrapper').first().show();
             });
-
-
-
 
             $(document).on('click', '.btn-approve', function (e) {
                 // Stop the browser from submitting the form.

@@ -141,11 +141,11 @@ class DeliveryExportProductCO extends Controller
                         $delivery_item['product_id'] = $product->product_id;
                         $delivery_item['name'] = $product->item->name;
                         $delivery_item['quantity'] = $product->quantity_in;
-                        $delivery_item['bale_no'] = $product->bale_no;
-                        $delivery_item['lot_no'] = $product->lot_no;
-                        $delivery_item['tr_weight'] = $product->tr_weight;
-                        $delivery_item['gross_weight'] = $product->gross_weight;
-                        $delivery_item['vehicle_no'] = $request['vehicle_no'];
+//                        $delivery_item['bale_no'] = $product->bale_no;
+//                        $delivery_item['lot_no'] = $product->lot_no;
+//                        $delivery_item['tr_weight'] = $product->tr_weight;
+//                        $delivery_item['gross_weight'] = $product->gross_weight;
+//                        $delivery_item['vehicle_no'] = $request['vehicle_no'];
                         $delivery_item['remarks'] = $request['Export Delivery'];
 
                         TransProduct::query()->create($delivery_item);

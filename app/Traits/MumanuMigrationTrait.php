@@ -21,6 +21,7 @@ use App\Models\Inventory\Product\ItemModel;
 use App\Models\Inventory\Product\ItemSize;
 use App\Models\Inventory\Product\ItemUnit;
 use App\Models\Inventory\Product\ProductMO;
+use App\Models\Inventory\Product\ProductUniqueId;
 use App\Models\Inventory\Product\SubCategory;
 use App\User;
 use Carbon\Carbon;
@@ -865,13 +866,8 @@ trait MumanuMigrationTrait
 //        ProductHistory::query()->where('id','>',10132)->delete();
 
         $data = $connection->table('stock_items_history')
-            ->where('typeCode','Production')->where('id','>',109366)
-//            ->where(DB::Raw('substr(itemCode, 1, 3)'),'401')
+            ->where('typeCode','Production')
             ->get();
-
-//            dd($data);
-
-//        $receives = $data->unique('refNo');
 
         $count = 0;
 
@@ -905,24 +901,9 @@ trait MumanuMigrationTrait
 
             $inserted = Receive::query()->create($prod);
 
-//            $items = $connection->table('stock_items_history')
-//                ->where('refNo', $row->refNo)
-//                ->where('typeCode', 'Production')
-//                ->where(DB::Raw('length(itemCode)'), 9)
-//                ->get();
-
-
-
-//            foreach ($items as $item) {
-
-                $danier = ItemModel::query()->where('company_id', $company_id)->where('name',$row->dspec.'D')->first();
-                $length = ItemSize::query()->where('company_id', $company_id)->where('size',$row->mspec.'MM')->first();
-                $sub = $row->itemCode == 401101101 ? 92 : ($row->itemCode == 401101102 ? 92 : ($row->itemCode == 401101103 ? 19 : 91));
-
-//                if(empty($danier))
-//                {
-//                    dd($row);
-//                }
+            $danier = ItemModel::query()->where('company_id', $company_id)->where('name',$row->dspec.'D')->first();
+            $length = ItemSize::query()->where('company_id', $company_id)->where('size',$row->mspec.'MM')->first();
+            $sub = $row->itemCode == 401101101 ? 92 : ($row->itemCode == 401101102 ? 92 : ($row->itemCode == 401101103 ? 19 : 91));
 
                 $prod = ProductMO::query()
                     ->where('company_id', $company_id)
@@ -962,6 +943,16 @@ trait MumanuMigrationTrait
 
                     $ids = ProductHistory::query()->create($history);
 
+                    ProductUniqueId::query()->insert([
+                        'company_id'=>$company_id,
+                        'receive_ref_id'=>$inserted->id,
+                        'history_ref_id'=>$ids->id,
+                        'product_id'=>$prod->id,
+                        'unique_id'=>$row->baleNo,
+                        'stock_status'=>true,
+                        'user_id'=>$this->user_id
+                    ]);
+
                     //Update Product Table
 
                     ProductMO::query()->find($prod->id)->increment('on_hand', $row->qtyIn);
@@ -976,14 +967,6 @@ trait MumanuMigrationTrait
             $count++;
 
             }
-
-
-
-
-//        }
-        // END CONSUMPTION
-
-
         return $count;
 
     }

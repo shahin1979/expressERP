@@ -23,6 +23,7 @@ class ProductUniqueId extends Model
         'company_id',
         'purchase_ref_id',
         'receive_ref_id',
+        'history_ref_id',
         'return_ref_id',
         'sales_ref_id',
         'delivery_ref_id',

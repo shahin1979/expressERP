@@ -21,6 +21,8 @@ class CreateProductUniqueIdsTable extends Migration
             $table->foreign('purchase_ref_id')->references('id')->on('purchases')->onDelete('CASCADE');
             $table->bigInteger('receive_ref_id',false)->unsigned()->nullable()->comment('receive id');;
             $table->foreign('receive_ref_id')->references('id')->on('receives')->onDelete('CASCADE');
+            $table->bigInteger('history_ref_id',false)->unsigned()->nullable()->comment('product_histories id');;
+            $table->foreign('history_ref_id')->references('id')->on('product_histories')->onDelete('CASCADE');
             $table->bigInteger('return_ref_id',false)->unsigned()->nullable()->comment('return id');;
             $table->foreign('return_ref_id')->references('id')->on('returns')->onDelete('CASCADE');
             $table->bigInteger('sales_ref_id',false)->unsigned()->nullable()->comment('invoice id');;
