@@ -60,7 +60,7 @@
                     <tbody>
                         <tr style="background-color: rgba(175,255,255,0.18)">
                             <td id="invoice">{!! $data->export_contract_no !!}</td>
-                            <td>{!! Form::text('challan_no', isset($challan) ? $challan->challan_no : null, array('id' => 'challan_no', 'class' => 'challan_no form-control','readonly'=>true)) !!}</td>
+                            <td>{!! Form::text('challan_no', isset($challan) ? $challan->challan_no : 99, array('id' => 'challan_no', 'class' => 'challan_no form-control','readonly'=>true)) !!}</td>
                             <td>{!! Form::select('d_mode',(['' => 'Please Select','B'=>'BY BALE', 'L'=>'BY LOT']), null , array('id' => 'd_mode', 'class' => 'd_mode form-control')) !!}</td>
                             <td>{!! Form::text('vehicle_no', null, array('id' => 'vehicle_no', 'class' => 'vehicle_no form-control', 'autocomplete'=>'off')) !!}</td>
                             <td rowspan="2">{!! Form::text('bale_no', null, array('id' => 'bale_no', 'class' => 'bale_no form-control','autofocus'=>'on','required','autocomplete'=>'off')) !!}</td>
@@ -73,6 +73,8 @@
             </div>
 
             {!! Form::close() !!}
+
+{{--            @isset($challan)--}}
 
             <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
                 <table class="table table-bordered table-hover" id="items-table">
@@ -105,6 +107,7 @@
                 {{--            {!! Form::submit('SUBMIT',['id'=>'btn-submit', 'class'=>'btn btn-primary btn-post pull-left','value'=>$invoiceno]) !!}--}}
                 <button type="button" class="btn btn-info pull-right btn-truck" data-toggle="modal" data-target="#myModal">View Truck</button>
             </div>
+{{--            @endisset--}}
         @endisset
 
     </div>
@@ -140,8 +143,8 @@
                     {
                         $('#bale_no').val(null);
                         $('#challan_no').val(data.challan_no);
-                        alert(data.success);
-                        $('#items-table').DataTable().draw(false);
+                        // alert(data.success);
+                        $('#items-table').DataTable().draw(true);
                     },
                     error: function (request, textStatus, errorThrown)
                     {
@@ -157,6 +160,9 @@
                 });
             });
         });
+
+        // alert($('#challan_no').val());
+
 
         var table= $('#items-table').DataTable({
             processing: true,

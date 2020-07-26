@@ -1489,20 +1489,49 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
+//        MENUITEM::query()->create( [
+//            'id'=>70015,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Delivery Export Products',
+//            'show'=>'1',
+//            'url'=>'export/deliveryExportProductIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
+//        MENUITEM::query()->create( [
+//            'id'=>70020,
+//            'company_id'=>1,
+//            'module_id'=>7,
+//            'nav_label'=>7,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'7A',
+//            'name'=>'Approve Export Delivery',
+//            'show'=>'1',
+//            'url'=>'export/approveExportDeliveryIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
         MENUITEM::query()->create( [
-            'id'=>70015,
+            'id'=>70025,
             'company_id'=>1,
             'module_id'=>7,
             'nav_label'=>7,
             'menu_type'=>'SM',
             'menu_prefix'=>'7A',
-            'name'=>'Delivery Export Products',
+            'name'=>'Create Export Invoice',
             'show'=>'1',
-            'url'=>'export/deliveryExportProductIndex',
+            'url'=>'export/createExportInvoiceIndex',
             'status'=>'1',
             'content'=>'F'
         ] );
-
 
 
 

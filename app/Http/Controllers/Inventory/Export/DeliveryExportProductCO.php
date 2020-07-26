@@ -83,7 +83,7 @@ class DeliveryExportProductCO extends Controller
 
             $contract = ExportContract::query()->where('id',$request['contract_id'])->with('items')->first();
 
-            if(empty($request['challan_no']))
+            if($request['challan_no'] == 99) // default value
             {
                 $year = $this->get_fiscal_data_from_current_date($this->company_id);
 
@@ -169,6 +169,8 @@ class DeliveryExportProductCO extends Controller
                         ->where('ref_type', 'F')
                         ->with('item')
                         ->get();
+
+//                    dd($products);
 
                     if(!empty($products))
                     {

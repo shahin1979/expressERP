@@ -379,6 +379,8 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
     Route::post('storeExportProducts','DeliveryExportProductCO@store');
     Route::delete('items/delete/{id}','DeliveryExportProductCO@destroy');
 
+    // Approve Delivery
+    Route::get('approveExportDeliveryIndex','ApproveExportDeliveryCO@index');
 
 });
 

@@ -38,7 +38,7 @@ class CreateProductHistoriesTable extends Migration
             $table->string('remarks',190)->nullable();
             $table->boolean('status')->unsigned()->default(1)->comment('0 = valid, 1= reversed');
             $table->boolean('acc_post')->default(0);
-            $table->decimal('stock_out',15,4)->default(0.00);
+            $table->boolean('stock_out')->default(0);
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->softDeletes(); // <-- This will add a deleted_at field
