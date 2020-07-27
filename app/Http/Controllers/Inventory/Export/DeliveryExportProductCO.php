@@ -8,6 +8,7 @@ use App\Models\Inventory\Export\ExportContract;
 use App\Models\Inventory\Movement\Delivery;
 use App\Models\Inventory\Movement\ProductHistory;
 use App\Models\Inventory\Movement\TransProduct;
+use App\Models\Inventory\Product\ProductUniqueId;
 use App\Traits\CommonTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
@@ -60,9 +61,11 @@ class DeliveryExportProductCO extends Controller
         $balance = $invoice_quantity - $delivered->sum('quantity') ;
 
 
-        $query = TransProduct::query()->where('company_id',$this->company_id)
-            ->where('ref_type','D')
-            ->where('ref_no',$id)->with('item')->orderBy('id','DESC');
+        $query = ProductUniqueId::query()->where('product_unique_ids.company_id',$this->company_id)
+            ->where('product_unique_ids.status','D')
+            ->where('delivery_ref_id',$challan->id)
+            ->with('history')->with('item')
+            ->select('product_unique_ids.*');
 
         return DataTables::of($query)
             ->addColumn('action', function ($query) {
@@ -77,6 +80,9 @@ class DeliveryExportProductCO extends Controller
 
     public function store(Request $request)
     {
+
+//        dd($request->all());
+
         DB::beginTransaction();
 
         try {
@@ -113,6 +119,21 @@ class DeliveryExportProductCO extends Controller
                     ->where('fiscal_year',$year->fiscal_year)
                     ->increment('last_trans_id');
 
+                foreach ($contract->items as $item) {
+                    $delivery_item=[];
+                    $delivery_item['company_id'] = $this->company_id;
+                    $delivery_item['ref_no'] = $challan_no;
+                    $delivery_item['ref_id'] = $inserted->id;
+                    $delivery_item['ref_type'] = 'D'; //Export Delivery
+                    $delivery_item['relationship_id'] = $contract->customer_id; // Importer ID
+                    $delivery_item['tr_date']= Carbon::now()->format('Y-m-d');
+                    $delivery_item['product_id'] = $item->product_id;
+                    $delivery_item['name'] = $item->item->name;
+                    $delivery_item['quantity'] = 0;
+                    $delivery_item['remarks'] = $request['Export Delivery'];
+
+                    TransProduct::query()->create($delivery_item);
+                }
             }
 
             $challan = Delivery::query()->where('company_id',$this->company_id)
@@ -131,29 +152,19 @@ class DeliveryExportProductCO extends Controller
                         ->first();
 
                     if ($product) {
-                        $delivery_item=[];
-                        $delivery_item['company_id'] = $this->company_id;
-                        $delivery_item['ref_no'] = $challan->challan_no;
-                        $delivery_item['ref_id'] = $challan->id;
-                        $delivery_item['ref_type'] = 'D'; //Export Delivery
-                        $delivery_item['relationship_id'] = $contract->customer_id; // Importer ID
-                        $delivery_item['tr_date']= Carbon::now()->format('Y-m-d');
-                        $delivery_item['product_id'] = $product->product_id;
-                        $delivery_item['name'] = $product->item->name;
-                        $delivery_item['quantity'] = $product->quantity_in;
-//                        $delivery_item['bale_no'] = $product->bale_no;
-//                        $delivery_item['lot_no'] = $product->lot_no;
-//                        $delivery_item['tr_weight'] = $product->tr_weight;
-//                        $delivery_item['gross_weight'] = $product->gross_weight;
-//                        $delivery_item['vehicle_no'] = $request['vehicle_no'];
-                        $delivery_item['remarks'] = $request['Export Delivery'];
-
-                        TransProduct::query()->create($delivery_item);
+                        TransProduct::query()->where('company_id', $this->company_id)
+                            ->where('ref_id', $challan->id)
+                            ->where('ref_no', $challan->challan_no)
+                            ->where('ref_type', 'D')
+                            ->where('product_id', $product->product_id)
+                            ->increment('quantity', $product->quantity_in);
 
                         ProductHistory::query()->where('company_id',$this->company_id)
-                            ->where('product_id',$product->product_id)
-                            ->where('bale_no',$product->bale_no)
-                            ->where('ref_type', 'F')->update(['stock_out'=>true]);
+                            ->where('id',$product->id)
+                            ->update(['stock_out'=>true]);
+
+                        ProductUniqueId::query()->where('history_ref_id',$product->id)
+                            ->update(['delivery_ref_id'=>$challan->id,'stock_status'=>false,'status'=>'D']);
 
                     }else
                     {

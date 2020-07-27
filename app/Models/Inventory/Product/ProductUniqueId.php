@@ -2,6 +2,8 @@
 
 namespace App\Models\Inventory\Product;
 
+use App\Models\Inventory\Movement\Delivery;
+use App\Models\Inventory\Movement\ProductHistory;
 use App\Models\Inventory\Movement\Purchase;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,6 +46,16 @@ class ProductUniqueId extends Model
     public function purchase()
     {
         return $this->belongsTo(Purchase::class,'purchase_ref_id','id');
+    }
+
+    public function delivery()
+    {
+        return $this->belongsTo(Delivery::class,'delivery_ref_id','id');
+    }
+
+    public function history()
+    {
+        return $this->belongsTo(ProductHistory::class,'history_ref_id','id');
     }
 
 }

@@ -855,7 +855,7 @@ trait MumanuMigrationTrait
         return $count;
     }
 
-    public function production($company_id)
+    public function MumanuProduction($company_id)
     {
 
         ini_set('max_execution_time', 900);

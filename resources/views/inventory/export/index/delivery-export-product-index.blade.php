@@ -80,7 +80,6 @@
                 <table class="table table-bordered table-hover" id="items-table">
                     <thead style="background-color: #c4e3f3">
                     <tr>
-                        <th>Challan</th>
                         <th>Vehicle No</th>
                         <th>Bale No</th>
                         <th>Item</th>
@@ -171,11 +170,10 @@
             responsive: true,
             ajax: 'delivery/items/' + $('#challan_no').val(),
             columns: [
-                { data: 'ref_no', name: 'ref_no' },
-                { data: 'vehicle_no', name: 'vehicle_no' },
-                { data: 'bale_no', name: 'bale_no' },
+                { data: 'history.vehicle_no', name: 'history.vehicle_no' },
+                { data: 'unique_id', name: 'unique_id' },
                 { data: 'item.name', name: 'item.name' },
-                { data: 'quantity', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'quantity' },
+                { data: 'history.quantity_in', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'history.quantity_in' },
                 { data: 'action', name: 'action', orderable: false, searchable: false, printable: false}
             ],
             "fnDrawCallback": function() {
