@@ -22,7 +22,7 @@ class DeliveryExportProductCO extends Controller
 
     public function index(Request $request)
     {
-        $this->menu_log($this->company_id,70015);
+        $this->menu_log($this->company_id,57015);
 
         $contracts = ExportContract::query()->where('company_id',$this->company_id)
             ->where('status','AP')->pluck('export_contract_no','id');

@@ -41,10 +41,10 @@ class AppModuleTableSeeder extends Seeder
             'description' => 'Management Information System'
         ]);
 
-        DB::table('app_modules')->insert([
-            'module_name' => 'ExIm Module',
-            'description' => 'Export Import Related Activities'
-        ]);
+//        DB::table('app_modules')->insert([
+//            'module_name' => 'ExIm Module',
+//            'description' => 'Export Import Related Activities'
+//        ]);
 
         DB::table('app_modules')->insert([
             'module_name' => 'Hospital Module',

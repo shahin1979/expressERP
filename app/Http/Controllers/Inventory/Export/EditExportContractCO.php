@@ -17,7 +17,7 @@ class EditExportContractCO extends Controller
 
     public function index()
     {
-        $this->menu_log($this->company_id,70007);
+        $this->menu_log($this->company_id,57007);
 
         return view('inventory.export.index.edit-export-contract-index');
     }

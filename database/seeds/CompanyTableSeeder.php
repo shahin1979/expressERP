@@ -12,31 +12,31 @@ class CompanyTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('companies')->insert([
-            'group_id'=>1,
-            'name' => 'Mother Company',
-            'address' => '7, Mujib Sarak, Sirajganj, Bangladesh',
-            'city' => 'Sirajganj',
-            'country'=>'Bangladesh',
-            'email' => 'group@gmail.com',
-            'phone_no'=>'+88-0751-63314, +88-0751-62902 ',
-            'post_code'=>'1215',
-            'currency' =>'BDT',
-            'website' => 'http://matincottonmills.com/'
-        ]);
-
-        DB::table('companies')->insert([
-            'group_id'=>1,
-            'name' => 'NRB Bank 1',
-            'address' => '7, Mujib Sarak, Sirajganj, Bangladesh',
-            'city' => 'Sirajganj',
-            'country'=>'Bangladesh',
-            'email' => 'taj.matincotton@gmail.com',
-            'phone_no'=>'+88-0751-63314, +88-0751-62902 ',
-            'post_code'=>'1215',
-            'currency' =>'BDT',
-            'website' => 'http://matincottonmills.com/'
-        ]);
+//        DB::table('companies')->insert([
+//            'group_id'=>1,
+//            'name' => 'Mother Company',
+//            'address' => '7, Mujib Sarak, Sirajganj, Bangladesh',
+//            'city' => 'Sirajganj',
+//            'country'=>'Bangladesh',
+//            'email' => 'group@gmail.com',
+//            'phone_no'=>'+88-0751-63314, +88-0751-62902 ',
+//            'post_code'=>'1215',
+//            'currency' =>'BDT',
+//            'website' => 'http://matincottonmills.com/'
+//        ]);
+//
+//        DB::table('companies')->insert([
+//            'group_id'=>1,
+//            'name' => 'NRB Bank 1',
+//            'address' => '7, Mujib Sarak, Sirajganj, Bangladesh',
+//            'city' => 'Sirajganj',
+//            'country'=>'Bangladesh',
+//            'email' => 'taj.matincotton@gmail.com',
+//            'phone_no'=>'+88-0751-63314, +88-0751-62902 ',
+//            'post_code'=>'1215',
+//            'currency' =>'BDT',
+//            'website' => 'http://matincottonmills.com/'
+//        ]);
 
         DB::table('companies')->insert([
             'group_id'=>1,
@@ -54,31 +54,31 @@ class CompanyTableSeeder extends Seeder
 
 
         CompanyModule::create( [
-            'company_id'=>2,
+            'company_id'=>1,
             'module_id'=>1
         ] );
 
 
 
         CompanyModule::create( [
-            'company_id'=>2,
+            'company_id'=>1,
             'module_id'=>2
         ] );
 
 
 
         CompanyModule::create( [
-            'company_id'=>2,
+            'company_id'=>1,
             'module_id'=>3
         ] );
 
         CompanyModule::create( [
-            'company_id'=>2,
+            'company_id'=>1,
             'module_id'=>4
         ] );
 
         CompanyModule::create( [
-            'company_id'=>2,
+            'company_id'=>1,
             'module_id'=>5
         ] );
     }

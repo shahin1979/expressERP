@@ -25,7 +25,7 @@ class ExportContractCO extends Controller
 
     public function index()
     {
-        $this->menu_log($this->company_id,70005);
+        $this->menu_log($this->company_id,57005);
 
         $customers = Relationship::query()->where('company_id',$this->company_id)
             ->whereIn('relation_type',['CS','SP'])

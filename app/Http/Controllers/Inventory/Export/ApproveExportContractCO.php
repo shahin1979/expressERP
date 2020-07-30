@@ -18,7 +18,7 @@ class ApproveExportContractCO extends Controller
 
     public function index()
     {
-        $this->menu_log($this->company_id,70010);
+        $this->menu_log($this->company_id,57010);
 
         return view('inventory.export.index.approve-export-contract-index');
     }

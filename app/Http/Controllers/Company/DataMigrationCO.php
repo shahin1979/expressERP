@@ -64,12 +64,12 @@ class DataMigrationCO extends Controller
 
 
         // MUMANU DAtabase
-//        $output = $this->UserTable($this->company_id);
+        $output = $this->UserTable($this->company_id);
 //        $output = $this->MumanuAccountsDB($this->company_id);
 //        $output = $this->MumanuItems($this->company_id);
 //        $output = $this->MumanuRequisition($this->company_id);
 //        $output = $this->MumanuPurchase($this->company_id);
-        $output = $this->MumanuProduction($this->company_id);
+//        $output = $this->MumanuProduction($this->company_id);
 
 
 
