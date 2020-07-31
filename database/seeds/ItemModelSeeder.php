@@ -13,109 +13,109 @@ class ItemModelSeeder extends Seeder
     public function run()
     {
         Itemmodel::create( [
-            'company_id'=>3,
+            'company_id'=>1,
             'name'=>'0.9D',
             'description'=>'0.9D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>1,
+            'user_id'=>4,
         ] );
 
         Itemmodel::create( [
-            'company_id'=>3,
-            'name'=>'1D',
+            'company_id'=>1,
+            'name'=>'1.0D',
             'description'=>'1D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
+            'company_id'=>1,
             'name'=>'1.2D',
             'description'=>'1.2D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
+            'company_id'=>1,
             'name'=>'1.4D',
             'description'=>'1.4D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
-            'name'=>'2D',
-            'description'=>'2D',
+            'company_id'=>1,
+            'name'=>'2.0D',
+            'description'=>'2.0D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
+            'company_id'=>1,
             'name'=>'2.5D',
             'description'=>'2.5D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
-            'name'=>'3D',
-            'description'=>'3D',
+            'company_id'=>1,
+            'name'=>'3.0D',
+            'description'=>'3.0D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
-            'name'=>'6D',
-            'description'=>'6D',
+            'company_id'=>1,
+            'name'=>'6.0D',
+            'description'=>'6.0D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
-            'name'=>'7D',
-            'description'=>'7D',
+            'company_id'=>1,
+            'name'=>'7.0D',
+            'description'=>'7.0D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
 
 
 
         Itemmodel::create( [
-            'company_id'=>3,
-            'name'=>'15D',
-            'description'=>'15D',
+            'company_id'=>1,
+            'name'=>'15.0D',
+            'description'=>'15.0D',
             'status'=>1,
             'locale'=>'en-US',
-            'user_id'=>3,
+            'user_id'=>4,
         ] );
     }
 }

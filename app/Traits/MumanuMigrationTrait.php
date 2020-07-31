@@ -638,7 +638,7 @@ trait MumanuMigrationTrait
         foreach ($departments as $row)
         {
             $newLine['company_id'] = $company_id;
-            $newLine['fiscal_year'] = '2019-2020';
+            $newLine['fiscal_year'] = '2020-2021';
             $newLine['name'] = $row->deptName;
             $newLine['old_id'] = $row->deptCode;
             $newLine['user_id'] = Auth::id();
@@ -875,6 +875,8 @@ trait MumanuMigrationTrait
 
             $fiscal = $this->get_fiscal_year_db_date($company_id, $row->transDate);
 
+            $user = User::query()->where('name',$row->userId)->first();
+
             $tr_code = TransCode::query()->where('company_id', $company_id)
                 ->where('trans_code', 'RC') // Delivery Challan
                 ->where('fiscal_year', $fiscal)
@@ -891,11 +893,11 @@ trait MumanuMigrationTrait
             $prod['receive_date'] = $row->transDate;
             $prod['description'] = 'Migrated';
             $prod['old_challan'] = $row->refNo;
-            $prod['user_id'] = $this->user_id;
+            $prod['user_id'] = isset($user->id) ? $user->id : 2;
             $prod['status'] = 'RC'; //Received
             $prod['approve_date'] = $row->transDate;
             $prod['account_post'] = true;
-            $prod['approve_by'] = 25;
+            $prod['approve_by'] = isset($user->id) ? $user->id : 2;
 
 
 
@@ -903,11 +905,11 @@ trait MumanuMigrationTrait
 
             $danier = ItemModel::query()->where('company_id', $company_id)->where('name',$row->dspec.'D')->first();
             $length = ItemSize::query()->where('company_id', $company_id)->where('size',$row->mspec.'MM')->first();
-            $sub = $row->itemCode == 401101101 ? 92 : ($row->itemCode == 401101102 ? 92 : ($row->itemCode == 401101103 ? 19 : 91));
+            $sub = $row->itemCode == 401101101 ? 18 : ($row->itemCode == 401101102 ? 18 : ($row->itemCode == 401101103 ? 18 : 41));
 
                 $prod = ProductMO::query()
                     ->where('company_id', $company_id)
-                    ->where('category_id',6)
+                    ->where('category_id',4)
                     ->where('model_id',$danier->id)
                     ->where('size_id',$length->id)
                     ->where('subcategory_id',$sub)
@@ -915,7 +917,7 @@ trait MumanuMigrationTrait
 
                 if(empty($prod))
                 {
-                    dd($row->dspec.'D');
+                    dd($row);
                 }
 
 
@@ -950,7 +952,7 @@ trait MumanuMigrationTrait
                         'product_id'=>$prod->id,
                         'unique_id'=>$row->baleNo,
                         'stock_status'=>true,
-                        'user_id'=>$this->user_id
+                        'user_id'=>isset($user->id) ? $user->id : 2
                     ]);
 
                     //Update Product Table
@@ -967,6 +969,125 @@ trait MumanuMigrationTrait
             $count++;
 
             }
+        return $count;
+
+    }
+
+
+
+    public function MumanuPurchaseReceive($company_id)
+    {
+
+        ini_set('max_execution_time', 900);
+
+        $connection = DB::connection('mumanudb');
+
+//        DB::statement('ALTER TABLE product_histories auto_increment = 10133;');
+//        ProductHistory::query()->where('id','>',10132)->delete();
+
+        $data = $connection->table('stock_items_history')
+            ->where('typeCode','Purchase')
+            ->get();
+
+        $count = 0;
+
+        foreach ($data as $row) {
+
+            $fiscal = $this->get_fiscal_year_db_date($company_id, $row->transDate);
+
+            $user = User::query()->where('name',$row->userId)->first();
+
+            $tr_code = TransCode::query()->where('company_id', $company_id)
+                ->where('trans_code', 'RC') // Delivery Challan
+                ->where('fiscal_year', $fiscal)
+                ->lockForUpdate()->first();
+
+            $supplier = Relationship::query()->where('company_id',$company_id)
+                ->where('old_id',$row->contraRef)->first();
+
+            $purchase = Purchase::query()->where('company_id',$company_id)
+                ->where('old_number',$row->refNo)->first();
+
+            $receive_no = $tr_code->last_trans_id;
+            $prod = [];
+
+            $prod['company_id'] = $this->company_id;
+            $prod['challan_no'] = $receive_no;
+            $prod['ref_no'] = $purchase->id; // Purchase Invoice No
+            $prod['receive_type'] = 'LP'; // Local Purchase
+            $prod['supplier_id'] = $supplier->id;
+            $prod['receive_date'] = $row->transDate;
+            $prod['description'] = 'Migrated';
+            $prod['old_challan'] = $row->refNo;
+            $prod['user_id'] = isset($user->id) ? $user->id : 2;
+            $prod['status'] = 'RC'; //Received
+            $prod['approve_date'] = $row->transDate;
+            $prod['account_post'] = true;
+            $prod['approve_by'] = isset($user->id) ? $user->id : 2;
+
+
+
+            $inserted = Receive::query()->create($prod);
+
+            $prod = ProductMO::query()
+                ->where('company_id', $company_id)
+                ->where('product_code',$row->itemCode)
+                ->first();
+
+            if(empty($prod))
+            {
+                dd($row);
+            }
+
+
+            if (!empty($prod)) {
+                $history['company_id'] = $company_id;
+                $history['ref_no'] = $receive_no;
+                $history['ref_id'] = $inserted->id;
+                $history['ref_type'] = 'P'; //Received Against Purchase
+                $history['contra_ref'] = $purchase->ref_no;
+                $history['relationship_id'] = $supplier->id;
+                $history['tr_date'] = $row->transDate;
+                $history['product_id'] = $prod->id;
+                $history['name'] = $prod->name;
+                $history['quantity_in'] = $row->qtyIn;
+                $history['received'] = $row->qtyIn;
+                $history['unit_price'] = $row->unitPrice;
+                $history['total_price'] = $row->qtyIn * $row->unitPrice;
+                $history['remarks'] = $row->description;
+                $history['acc_post'] = $row->accPost;
+//                $history['tr_weight'] = $row->trWeight;
+//                $history['gross_weight'] = $row->grossWeight ;
+//                $history['lot_no'] = $row->lotno;
+//                $history['bale_no'] = $row->baleNo;
+//                $history['stock_out'] = $row->balestatus;
+
+                $ids = ProductHistory::query()->create($history);
+
+//                ProductUniqueId::query()->insert([
+//                    'company_id'=>$company_id,
+//                    'receive_ref_id'=>$inserted->id,
+//                    'history_ref_id'=>$ids->id,
+//                    'product_id'=>$prod->id,
+//                    'unique_id'=>$row->baleNo,
+//                    'stock_status'=>true,
+//                    'user_id'=>isset($user->id) ? $user->id : 2
+//                ]);
+
+                //Update Product Table
+
+                ProductMO::query()->find($prod->id)->increment('on_hand', $row->qtyIn);
+                ProductMO::query()->find($prod->id)->increment('received_qty', $row->qtyIn);
+            }
+
+            TransCode::query()->where('company_id', $company_id)
+                ->where('trans_code', 'RC')
+                ->where('fiscal_year', $fiscal)
+                ->increment('last_trans_id');
+
+            $count++;
+
+        }
         return $count;
 
     }

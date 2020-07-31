@@ -106,9 +106,9 @@ class CompanyPropertiesCO extends Controller
 
             if ($request['posted'] != 1) {
 
-                $year = '2019'; // Carbon::now()->format('Y');
+                $year = '2020'; // Carbon::now()->format('Y');
                 $this->trCode($this->company_id, $year);
-                $this->create_fiscal_period($this->company_id,'01-07-2019');
+                $this->create_fiscal_period($this->company_id,'01-07-2020');
                 //ADD INITIAL ACCOUNTS OF THE GENERAL LEDGER
                 $accounts = $this->set_default_ledger_accounts($this->company_id);
                 // ADD COST TYPES
