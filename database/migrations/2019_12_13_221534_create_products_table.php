@@ -75,6 +75,9 @@ class CreateProductsTable extends Migration
             $table->decimal('received_qty',15,2)->default(0);
             $table->decimal('received_qty_unit_two',15,2)->default(0);
             $table->decimal('received_qty_unit_three',15,2)->default(0);
+            $table->decimal('consumption_qty',15,2)->default(0);
+            $table->decimal('consumption_qty_unit_two',15,2)->default(0);
+            $table->decimal('consumption_qty_unit_three',15,2)->default(0);
             $table->decimal('return_qty',15,2)->default(0);
             $table->decimal('return_qty_unit_two',15,2)->default(0);
             $table->decimal('return_qty_unit_three',15,2)->default(0);

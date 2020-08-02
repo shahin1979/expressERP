@@ -26,7 +26,7 @@ class ApproveExportDeliveryCO extends Controller
 
     public function index()
     {
-        $this->menu_log($this->company_id,57020);
+        $this->menu_log($this->company_id,57030);
 
         $deliveries = Delivery::query()->where('company_id',$this->company_id)
             ->where('status','CR')

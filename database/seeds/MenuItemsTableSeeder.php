@@ -1427,23 +1427,10 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+
+
 //        MENUITEM::query()->create( [
 //            'id'=>57020,
-//            'company_id'=>1,
-//            'module_id'=>5,
-//            'nav_label'=>5,
-//            'menu_type'=>'SM',
-//            'menu_prefix'=>'5J',
-//            'name'=>'Approve Export Delivery',
-//            'show'=>'1',
-//            'url'=>'export/approveExportDeliveryIndex',
-//            'status'=>'1',
-//            'content'=>'F'
-//        ] );
-
-
-//        MENUITEM::query()->create( [
-//            'id'=>57025,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1457,8 +1444,10 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+
+
 //        MENUITEM::query()->create( [
-//            'id'=>57030,
+//            'id'=>57025,
 //            'company_id'=>1,
 //            'module_id'=>5,
 //            'nav_label'=>5,
@@ -1470,6 +1459,23 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
+
+
+//        MENUITEM::query()->create( [
+//            'id'=>57030,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5J',
+//            'name'=>'Approve Export Delivery',
+//            'show'=>'1',
+//            'url'=>'export/approveExportDeliveryIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
+
 //
 //        MENUITEM::query()->create( [
 //            'id'=>57035,

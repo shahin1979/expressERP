@@ -47,12 +47,19 @@ class DeliveryExportProductCO extends Controller
 
     public function getExportProdDT($id)
     {
-        $delivered = TransProduct::query()->where('company_id',$this->company_id)
-            ->where('ref_type','D')
-            ->where('ref_no',$id)->get();
+
+        $contract = ExportContract::query()->where('id',$id)->first();
 
         $challan = Delivery::query()->where('company_id',$this->company_id)
-            ->where('challan_no',$id)->first();
+            ->where('delivery_type','EX')
+            ->where('ref_no',$contract->invoice_no)->first();
+
+
+        $delivered = TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_type','D')
+            ->where('ref_id',isset($challan) ? $challan->id : 99)->get();
+
+
 
         $invoice_quantity = TransProduct::query()->where('company_id',$this->company_id)
             ->where('ref_type','E')
@@ -63,19 +70,20 @@ class DeliveryExportProductCO extends Controller
 
         $query = ProductUniqueId::query()->where('product_unique_ids.company_id',$this->company_id)
             ->where('product_unique_ids.status','D')
-            ->where('delivery_ref_id',$challan->id)
+            ->where('delivery_ref_id',isset($challan) ? $challan->id : 99)
             ->with('history')->with('item')
             ->select('product_unique_ids.*');
 
         return DataTables::of($query)
             ->addColumn('action', function ($query) {
                 return '
-                    <button data-remote="items/delete/'. $query->id . '" type="button" class="btn btn-delete btn-xs btn-danger pull-right" ><i class="fa fa-remove"></i>Del</button>
-                    ';
+                <button data-remote="items/delete/'. $query->id . '" type="button" class="btn btn-delete btn-xs btn-danger pull-right" ><i class="fa fa-remove"></i>Del</button>
+                ';
             })
             ->with('delivered',number_format($delivered->sum('quantity'),2))
             ->with('balance',number_format($balance,2))
             ->make(true);
+
     }
 
     public function store(Request $request)
@@ -161,7 +169,7 @@ class DeliveryExportProductCO extends Controller
 
                         ProductHistory::query()->where('company_id',$this->company_id)
                             ->where('id',$product->id)
-                            ->update(['stock_out'=>true]);
+                            ->update(['stock_out'=>true,'vehicle_no'=>$request['vehicle_no']]);
 
                         ProductUniqueId::query()->where('history_ref_id',$product->id)
                             ->update(['delivery_ref_id'=>$challan->id,'stock_status'=>false,'status'=>'D']);
@@ -181,44 +189,58 @@ class DeliveryExportProductCO extends Controller
                         ->with('item')
                         ->get();
 
-//                    dd($products);
-
                     if(!empty($products))
                     {
-                        $temp = TransProduct::query()->where('company_id', $this->company_id)
-                            ->where('ref_no',$contract->invoice_no)
-                            ->where('ref_type','D')
-                            ->get();
+//                        $temp = TransProduct::query()->where('company_id', $this->company_id)
+//                            ->where('ref_no',$contract->invoice_no)
+//                            ->where('ref_type','D')
+//                            ->get();
 
                         foreach ($products as $row)
                         {
-                            if(!$temp->contains('bale_no',$row->bale_no))
-                            {
-                                $delivery_item=[];
-                                $delivery_item['company_id'] = $this->company_id;
-                                $delivery_item['ref_no'] = $challan->challan_no;
-                                $delivery_item['ref_id'] = $challan->id;
-                                $delivery_item['ref_type'] = 'D'; //Export Delivery
-                                $delivery_item['relationship_id'] = $contract->customer_id; // Importer ID
-                                $delivery_item['tr_date']= Carbon::now()->format('Y-m-d');
-                                $delivery_item['product_id'] = $row->product_id;
-                                $delivery_item['name'] = $row->item->name;
-                                $delivery_item['quantity'] = $row->quantity_in;
-                                $delivery_item['bale_no'] = $row->bale_no;
-                                $delivery_item['lot_no'] = $row->lot_no;
-                                $delivery_item['tr_weight'] = $row->tr_weight;
-                                $delivery_item['gross_weight'] = $row->gross_weight;
-                                $delivery_item['vehicle_no'] = $request['vehicle_no'];
-                                $delivery_item['remarks'] = $request['Export Delivery'];
+//                            if(!$temp->contains('bale_no',$row->bale_no))
+//                            {
 
-                                TransProduct::query()->create($delivery_item);
+                                TransProduct::query()->where('company_id', $this->company_id)
+                                    ->where('ref_id', $challan->id)
+                                    ->where('ref_no', $challan->challan_no)
+                                    ->where('ref_type', 'D')
+                                    ->where('product_id', $row->product_id)
+                                    ->increment('quantity', $row->quantity_in);
 
                                 ProductHistory::query()->where('company_id',$this->company_id)
-                                    ->where('product_id',$row->product_id)
-                                    ->where('bale_no',$row->bale_no)
-                                    ->where('ref_type', 'F')->update(['stock_out'=>true]);
+                                    ->where('id',$row->id)
+                                    ->update(['stock_out'=>true,'vehicle_no'=>$request['vehicle_no']]);
 
-                            }
+                                ProductUniqueId::query()->where('history_ref_id',$row->id)
+                                    ->update(['delivery_ref_id'=>$challan->id,'stock_status'=>false,'status'=>'D']);
+
+
+//                                $delivery_item=[];
+//                                $delivery_item['company_id'] = $this->company_id;
+//                                $delivery_item['ref_no'] = $challan->challan_no;
+//                                $delivery_item['ref_id'] = $challan->id;
+//                                $delivery_item['ref_type'] = 'D'; //Export Delivery
+//                                $delivery_item['relationship_id'] = $contract->customer_id; // Importer ID
+//                                $delivery_item['tr_date']= Carbon::now()->format('Y-m-d');
+//                                $delivery_item['product_id'] = $row->product_id;
+//                                $delivery_item['name'] = $row->item->name;
+//                                $delivery_item['quantity'] = $row->quantity_in;
+//                                $delivery_item['bale_no'] = $row->bale_no;
+//                                $delivery_item['lot_no'] = $row->lot_no;
+//                                $delivery_item['tr_weight'] = $row->tr_weight;
+//                                $delivery_item['gross_weight'] = $row->gross_weight;
+//                                $delivery_item['vehicle_no'] = $request['vehicle_no'];
+//                                $delivery_item['remarks'] = $request['Export Delivery'];
+//
+//                                TransProduct::query()->create($delivery_item);
+//
+//                                ProductHistory::query()->where('company_id',$this->company_id)
+//                                    ->where('product_id',$row->product_id)
+//                                    ->where('bale_no',$row->bale_no)
+//                                    ->where('ref_type', 'F')->update(['stock_out'=>true]);
+
+//                            }
                         }
                     }else
                     {

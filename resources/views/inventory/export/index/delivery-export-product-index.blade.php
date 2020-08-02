@@ -59,7 +59,7 @@
                     </thead>
                     <tbody>
                         <tr style="background-color: rgba(175,255,255,0.18)">
-                            <td id="invoice">{!! $data->export_contract_no !!}</td>
+                            <td id="contract_no">{!! $data->export_contract_no !!}</td>
                             <td>{!! Form::text('challan_no', isset($challan) ? $challan->challan_no : 99, array('id' => 'challan_no', 'class' => 'challan_no form-control','readonly'=>true)) !!}</td>
                             <td>{!! Form::select('d_mode',(['' => 'Please Select','B'=>'BY BALE', 'L'=>'BY LOT']), null , array('id' => 'd_mode', 'class' => 'd_mode form-control')) !!}</td>
                             <td>{!! Form::text('vehicle_no', null, array('id' => 'vehicle_no', 'class' => 'vehicle_no form-control', 'autocomplete'=>'off')) !!}</td>
@@ -81,6 +81,7 @@
                     <thead style="background-color: #c4e3f3">
                     <tr>
                         <th>Vehicle No</th>
+                        <th>Lot No</th>
                         <th>Bale No</th>
                         <th>Item</th>
                         <th>Quantity</th>
@@ -121,7 +122,7 @@
 
             var submitcount = 0;
 
-            if( $('#invoice').length )         // use this if you are using id to check
+            if( $('#contract_no').length )         // use this if you are using id to check
             {
                 $('#search').remove();
             }
@@ -141,6 +142,7 @@
                     success: function(data)
                     {
                         $('#bale_no').val(null);
+                        // $('#vehicle_no').val(null);
                         $('#challan_no').val(data.challan_no);
                         // alert(data.success);
                         $('#items-table').DataTable().draw(true);
@@ -168,9 +170,10 @@
             serverSide: true,
             autoWidth: false,
             responsive: true,
-            ajax: 'delivery/items/' + $('#challan_no').val(),
+            ajax: 'delivery/items/' + $('#contract_id').val(),
             columns: [
                 { data: 'history.vehicle_no', name: 'history.vehicle_no' },
+                { data: 'history.lot_no', name: 'history.lot_no' },
                 { data: 'unique_id', name: 'unique_id' },
                 { data: 'item.name', name: 'item.name' },
                 { data: 'history.quantity_in', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'history.quantity_in' },
