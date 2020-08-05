@@ -75,38 +75,63 @@
             {!! Form::close() !!}
 
 {{--            @isset($challan)--}}
-
-            <div class="row col-md-12 dataTables_wrapper" style="overflow-x:auto;">
-                <table class="table table-bordered table-hover" id="items-table">
-                    <thead style="background-color: #c4e3f3">
-                    <tr>
-                        <th>Vehicle No</th>
-                        <th>Lot No</th>
-                        <th>Bale No</th>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th style="text-align:right">Total : </th>
-                        <th></th>
-                        <th>Balance</th>
-                        <th></th>
-                        <th>KG</th>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
-
             <div class="row">
-                {!! Form::open(['url' => 'delivery.item.post','method'=>'POST']) !!}
-                <button name="action" type="submit" class="btn btn-primary btn-post pull-left" value="{!! 0 !!}">APPROVE</button>
-                {!! Form::close() !!}
-                {{--            {!! Form::submit('SUBMIT',['id'=>'btn-submit', 'class'=>'btn btn-primary btn-post pull-left','value'=>$invoiceno]) !!}--}}
-                <button type="button" class="btn btn-info pull-right btn-truck" data-toggle="modal" data-target="#myModal">View Truck</button>
+                <div class="col-md-7 dataTables_wrapper" style="overflow-x:auto;">
+                    <table class="table table-bordered table-hover" id="items-table">
+                        <thead style="background-color: #c4e3f3">
+                        <tr>
+    {{--                        <th>Vehicle No</th>--}}
+                            <th>Lot No</th>
+                            <th>Bale No</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th style="text-align:right">Total : </th>
+                            <th></th>
+                            <th>Balance</th>
+                            <th></th>
+                            <th>KG</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+
+                <div class="col-md-4 dataTables_wrapper" style="overflow-x:auto;">
+                    <table class="table table-bordered table-hover" id="products-table">
+                        <thead style="background-color: #c4e3f3">
+                        <tr>
+                            {{--                        <th>Vehicle No</th>--}}
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th style="text-align:right">Total : </th>
+                            <th>Quantity</th>
+                            <th></th>
+                            <th>Grand Total</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
+
+
+{{--            <div class="row">--}}
+{{--                {!! Form::open(['url' => 'delivery.item.post','method'=>'POST']) !!}--}}
+{{--                <button name="action" type="submit" class="btn btn-primary btn-post pull-left" value="{!! 0 !!}">APPROVE</button>--}}
+{{--                {!! Form::close() !!}--}}
+{{--                --}}{{--            {!! Form::submit('SUBMIT',['id'=>'btn-submit', 'class'=>'btn btn-primary btn-post pull-left','value'=>$invoiceno]) !!}--}}
+{{--                <button type="button" class="btn btn-info pull-right btn-truck" data-toggle="modal" data-target="#myModal">View Truck</button>--}}
+{{--            </div>--}}
 {{--            @endisset--}}
         @endisset
 
@@ -119,13 +144,6 @@
     <script>
 
         $(document).ready(function() {
-
-            var submitcount = 0;
-
-            if( $('#contract_no').length )         // use this if you are using id to check
-            {
-                $('#search').remove();
-            }
 
             $("#delivery-products").submit(function(e) {
 
@@ -172,7 +190,7 @@
             responsive: true,
             ajax: 'delivery/items/' + $('#contract_id').val(),
             columns: [
-                { data: 'history.vehicle_no', name: 'history.vehicle_no' },
+                // { data: 'history.vehicle_no', name: 'history.vehicle_no' },
                 { data: 'history.lot_no', name: 'history.lot_no' },
                 { data: 'unique_id', name: 'unique_id' },
                 { data: 'item.name', name: 'item.name' },
@@ -216,6 +234,38 @@
             }).always(function (data) {
                 $('#items-table').DataTable().draw(false);
             });
+        });
+
+
+
+        var table= $('#products-table').DataTable({
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            responsive: true,
+            ajax: 'delivery/products/' + $('#contract_id').val(),
+            columns: [
+                { data: 'item.name', name: 'item.name' },
+                { data: 'unit_price', name: 'unit_price' },
+                { data: 'quantity', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'quantityn' },
+            ],
+            // "fnDrawCallback": function() {
+            //     var api = this.api()
+            //     var json = api.ajax.json();
+            //     $(api.column(1).footer()).html(json.delivered);
+            //     $(api.column(3).footer()).html(json.balance);
+            // },
+            //
+            // rowCallback: function( row, data, index ) {
+            //     if(index%2 == 0){
+            //         $(row).removeClass('myodd myeven');
+            //         $(row).addClass('myodd');
+            //     }else{
+            //         $(row).removeClass('myodd myeven');
+            //         $(row).addClass('myeven');
+            //     }
+            // }
+
         });
 
 

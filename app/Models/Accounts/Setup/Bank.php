@@ -19,7 +19,7 @@ class Bank extends Model
         'branch_name',
         'bank_acc_name',
         'bank_acc_no',
-        'related_gl_id',
+        'gl_account',
         'address',
         'swift_code',
         'mobile_no',

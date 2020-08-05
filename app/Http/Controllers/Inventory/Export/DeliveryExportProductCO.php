@@ -86,6 +86,43 @@ class DeliveryExportProductCO extends Controller
 
     }
 
+
+
+    public function getExportProductsDT($id)
+    {
+
+        $contract = ExportContract::query()->where('id',$id)->first();
+
+        $challan = Delivery::query()->where('company_id',$this->company_id)
+            ->where('delivery_type','EX')
+            ->where('ref_no',$contract->invoice_no)->first();
+
+
+        $delivered = TransProduct::query()->where('company_id',$this->company_id)
+            ->where('ref_type','D')
+            ->where('ref_id',isset($challan) ? $challan->id : 99)->with('item');
+
+
+
+//        $invoice_quantity = TransProduct::query()->where('company_id',$this->company_id)
+//            ->where('ref_type','E')
+//            ->where('ref_no', isset($challan) ? $challan->ref_no : null)->sum('quantity');
+//
+//        $balance = $invoice_quantity - $delivered->sum('quantity') ;
+//
+//
+//        $query = ProductUniqueId::query()->where('product_unique_ids.company_id',$this->company_id)
+//            ->where('product_unique_ids.status','D')
+//            ->where('delivery_ref_id',isset($challan) ? $challan->id : 99)
+//            ->with('history')->with('item')
+//            ->select('product_unique_ids.*');
+
+        return DataTables::of($delivered)
+            ->make(true);
+
+    }
+
+
     public function store(Request $request)
     {
 
@@ -138,7 +175,9 @@ class DeliveryExportProductCO extends Controller
                     $delivery_item['product_id'] = $item->product_id;
                     $delivery_item['name'] = $item->item->name;
                     $delivery_item['quantity'] = 0;
-                    $delivery_item['remarks'] = $request['Export Delivery'];
+                    $delivery_item['unit_price'] = $item->unit_price;
+                    $delivery_item['total_price'] = $item->total_price;
+                    $delivery_item['remarks'] = $request['Temp Export Delivery'];
 
                     TransProduct::query()->create($delivery_item);
                 }
@@ -268,14 +307,22 @@ class DeliveryExportProductCO extends Controller
 
         try {
 
-            $product = TransProduct::query()->where('id',$id)->first();
+            $uniqueID = ProductUniqueId::query()->where('id',$id)->first();
+            $history = ProductHistory::query()->where('id',$uniqueID->history_ref_id)->first();
+            $delivery = Delivery::query()->where('id',$uniqueID->delivery_ref_id)->first();
 
-            ProductHistory::query()->where('company_id',$this->company_id)
-                ->where('product_id',$product->product_id)
-                ->where('bale_no',$product->bale_no)
-                ->update(['stock_out'=>false]);
+            ProductHistory::query()->where('id',$uniqueID->history_ref_id)
+                ->update(['stock_out'=>false,'vehicle_no'=>null]);
 
-            TransProduct::query()->where('id',$id)->delete();
+            ProductUniqueId::query()->where('id',$id)->update(['delivery_ref_id'=>null,'stock_status'=>true,'status'=>'R']);
+
+//            dd($history);
+
+            TransProduct::query()->where('company_id',$this->company_id)
+                ->where('ref_id',$delivery->id)
+                ->where('ref_type','D')
+                ->where('product_id',$history->product_id)
+                ->decrement('quantity',$history->quantity_in);
 
         }catch (\Exception $e)
         {

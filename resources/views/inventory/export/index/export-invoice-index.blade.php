@@ -51,17 +51,15 @@
                         <tr>
                             <td><label for="invoice_date" class="control-label">Invoice Date</label></td>
                             <td>{!! Form::text('invoice_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'invoice_date', 'class' => 'form-control','required','readonly')) !!}</td>
-                            <td align="right"><label for="invoice_no" class="control-label">Invoice No</label></td>
-                            <td align="right">{!! Form::text('invoice_no',null , array('id' => 'invoice_no', 'class' => 'form-control')) !!}</td>
+                            <td><label for="invoice_no" class="control-label">Invoice No</label></td>
+                            <td>{!! Form::text('invoice_no',null , array('id' => 'invoice_no', 'class' => 'form-control readonly')) !!}</td>
                         </tr>
 
                         <tr>
                             <td><label for="buyer_bank" class="control-label">Importer Bank</label></td>
                             <td>{!! Form::select('importer_bank',$imp_banks, null , array('id' => 'importer_bank', 'class' => 'form-control')) !!}</td>
-                            <input name="buyer_bank_id" type="hidden" id="buyer_bank_id">
-                            <td><label for="our_bank" class="control-label">Our Bank</label></td>
-                            <td>{!! Form::text('our_bank',null , array('id' => 'our_bank', 'class' => 'form-control typeahead1', 'autocomplete'=>'off')) !!}</td>
-                            <input name="seller_bank_id" type="hidden" id="seller_bank_id">
+                            <td><label for="exporter_bank" class="control-label">Our Bank</label></td>
+                            <td>{!! Form::select('exporter_bank',$exp_banks, null , array('id' => 'exporter_bank', 'class' => 'form-control')) !!}</td>
                         </tr>
 
                         <tr>
@@ -89,7 +87,7 @@
                             <input name="id" type="hidden" id="id" value="{!! $contract->id !!}">
                             <input name="ref_no" type="hidden" id="ref_no" value="{!! $contract->export_contract_no !!}">
                             <td><label for="description" class="control-label">Delivery Terms</label></td>
-                            <td colspan="3">{!! Form::textarea('description', null , ['id'=>'description','size' => '60x4','class'=>'field']) !!}</td>
+                            <td colspan="3">{!! Form::textarea('description', null , ['id'=>'description','size' => '100x2','class'=>'field']) !!}</td>
                         </tr>
 
                         </tbody>
@@ -97,6 +95,55 @@
                     </table>
                 </div>
 
+                @isset($products)
+                <div class="form-group col-md-12" style="background-color: rgba(177, 245, 174, 0.33)">
+                    {!! Form::label('items', 'Items', ['class' => 'control-label']) !!}
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="items">
+                            <thead>
+                            <tr style="background-color: #f9f9f9;">
+                                <th width="20%"  class="text-center">Product</th>
+                                <th width="10%" class="text-right">Unit Price(USD)</th>
+                                <th width="15%" class="text-center">Contract Quantity</th>
+{{--                                <th width="15%" class="text-left">Delivered</th>--}}
+                                <th width="20%" class="text-right">Invoice Quantity</th>
+                                <th width="20%" class="text-right">Sub Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            @foreach($products->items as $item_row=>$item)
+
+                                <tr>
+                                    <td id="itemcode">{!! $item->item->name !!}</td>
+                                    <td class="text-right">{!! $item->unit_price !!}$</td>
+                                    @foreach($contract->items as $row)
+                                        @if($row->product_id === $item->product_id)
+                                            <td class="text-right">{!! $row->quantity !!}$</td>
+                                        @endif
+                                    @endforeach
+                                    <td class="text-right">{!! number_format($item->quantity,2) !!}{!! $item->item->unit_name !!}</td>
+                                    <td class="text-right" style="vertical-align: middle;">{!!number_format($item->unit_price * $item->quantity,4) !!}</td>
+                                </tr>
+
+                            @endforeach
+
+                            <tr>
+                                <td class="text-right" colspan="4"><strong>Total Invoice Price</strong></td>
+                                <td class="text-right"><span id="grand-total">{!! number_format($products->items->sum('total_price'),2) !!}</span></td>
+                            </tr>
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <td colspan="5">{!! Form::submit('SUBMIT',['class'=>'btn btn-primary button-control pull-right']) !!}</td>
+                            </tr>
+                            </tfoot>
+
+                        </table>
+                    </div>
+                </div>
+                @endisset
             {!! Form::close() !!}
         @endisset
 
@@ -108,7 +155,11 @@
 
     <script>
 
-
+        $(function (){
+            $(document).on("focus", "input:text", function() {
+                $(this).select();
+            });
+        });
 
     </script>
 

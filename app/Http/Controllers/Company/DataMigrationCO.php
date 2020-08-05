@@ -71,7 +71,8 @@ class DataMigrationCO extends Controller
 //        $output = $this->MumanuPurchase($this->company_id);
 //        $output = $this->MumanuProduction($this->company_id);
 //        $output = $this->MumanuPurchaseReceive($this->company_id);
-        $output = $this->MumanuConsumption($this->company_id);
+//        $output = $this->MumanuConsumption($this->company_id);
+//        $output = $this->MumanuBank($this->company_id);
 
 
 

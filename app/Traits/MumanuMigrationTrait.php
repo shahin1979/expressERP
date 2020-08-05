@@ -6,6 +6,7 @@ namespace App\Traits;
 
 use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Accounts\Ledger\GeneralLedger;
+use App\Models\Accounts\Setup\Bank;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Company\Relationship;
 use App\Models\Company\TransCode;
@@ -952,6 +953,7 @@ trait MumanuMigrationTrait
                         'product_id'=>$prod->id,
                         'unique_id'=>$row->baleNo,
                         'stock_status'=>true,
+                        'status'=>'R',
                         'user_id'=>isset($user->id) ? $user->id : 2
                     ]);
 
@@ -1213,6 +1215,37 @@ trait MumanuMigrationTrait
 
         }
         return $count;
+
+    }
+
+    public function MumanuBank($company_id)
+    {
+        $connection = DB::connection('mumanudb');
+
+        $data = $connection->table('banks')->whereNotNull('acc_no')
+            ->get();
+
+        foreach ($data as $row)
+        {
+            $user = User::query()->where('old_id',$row->user_id)->first();
+
+            Bank::query()->insert([
+                'company_id'=>$company_id,
+                'bank_type'=>$row->bank_type,
+                'bank_code'=>$row->bank_code,
+                'bank_name'=>$row->bank_name,
+                'branch_name'=>$row->branch_name,
+                'bank_acc_name'=>$row->acc_name,
+                'bank_acc_no'=>$row->acc_no,
+                'gl_account'=>$row->gl_accNo,
+                'address'=>$row->address,
+                'swift_code'=>$row->swift_code,
+                'mobile_no'=>$row->mobile,
+                'email'=>$row->email,
+                'status'=>$row->status,
+                'user_id'=>$user->id,
+            ]);
+        }
 
     }
 
