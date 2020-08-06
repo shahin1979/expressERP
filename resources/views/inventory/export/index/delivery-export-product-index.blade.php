@@ -101,25 +101,17 @@
                 </div>
 
 
-                <div class="col-md-4 dataTables_wrapper" style="overflow-x:auto;">
+                <div class="col-md-5 dataTables_wrapper" style="overflow-x:auto;">
                     <table class="table table-bordered table-hover" id="products-table">
                         <thead style="background-color: #c4e3f3">
                         <tr>
                             {{--                        <th>Vehicle No</th>--}}
                             <th>Item</th>
-                            <th>Quantity</th>
                             <th>Unit Price</th>
-                            <th>Total</th>
+                            <th>Quantity</th>
+                            <th>Sub Total</th>
                         </tr>
                         </thead>
-                        <tfoot>
-                        <tr>
-                            <th style="text-align:right">Total : </th>
-                            <th>Quantity</th>
-                            <th></th>
-                            <th>Grand Total</th>
-                        </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -164,6 +156,7 @@
                         $('#challan_no').val(data.challan_no);
                         // alert(data.success);
                         $('#items-table').DataTable().draw(true);
+                        $('#products-table').DataTable().draw(true);
                     },
                     error: function (request, textStatus, errorThrown)
                     {
@@ -233,6 +226,7 @@
                 data: {method: '_DELETE', submit: true}
             }).always(function (data) {
                 $('#items-table').DataTable().draw(false);
+                $('#products-table').DataTable().draw(false);
             });
         });
 
@@ -245,26 +239,11 @@
             responsive: true,
             ajax: 'delivery/products/' + $('#contract_id').val(),
             columns: [
-                { data: 'item.name', name: 'item.name' },
-                { data: 'unit_price', name: 'unit_price' },
-                { data: 'quantity', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'quantityn' },
-            ],
-            // "fnDrawCallback": function() {
-            //     var api = this.api()
-            //     var json = api.ajax.json();
-            //     $(api.column(1).footer()).html(json.delivered);
-            //     $(api.column(3).footer()).html(json.balance);
-            // },
-            //
-            // rowCallback: function( row, data, index ) {
-            //     if(index%2 == 0){
-            //         $(row).removeClass('myodd myeven');
-            //         $(row).addClass('myodd');
-            //     }else{
-            //         $(row).removeClass('myodd myeven');
-            //         $(row).addClass('myeven');
-            //     }
-            // }
+                { data: 'item.name', name: 'item.name',orderable: false },
+                { data: 'unit_price', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'unit_price' },
+                { data: 'quantity', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'quantity' },
+                { data: 'subtotal', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'subtotal' },
+            ]
 
         });
 

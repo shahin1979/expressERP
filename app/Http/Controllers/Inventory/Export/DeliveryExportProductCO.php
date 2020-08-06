@@ -97,6 +97,8 @@ class DeliveryExportProductCO extends Controller
             ->where('delivery_type','EX')
             ->where('ref_no',$contract->invoice_no)->first();
 
+//        dd($challan);
+
 
         $delivered = TransProduct::query()->where('company_id',$this->company_id)
             ->where('ref_type','D')
@@ -118,6 +120,10 @@ class DeliveryExportProductCO extends Controller
 //            ->select('product_unique_ids.*');
 
         return DataTables::of($delivered)
+            ->addColumn('subtotal', function ($delivered) {
+                return $delivered->unit_price * $delivered->quantity;
+            })
+            ->rawColumns(['subtotal'])
             ->make(true);
 
     }
