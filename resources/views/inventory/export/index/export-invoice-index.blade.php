@@ -52,7 +52,7 @@
                             <td><label for="invoice_date" class="control-label">Invoice Date</label></td>
                             <td>{!! Form::text('invoice_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'invoice_date', 'class' => 'form-control','required','readonly')) !!}</td>
                             <td><label for="invoice_no" class="control-label">Invoice No</label></td>
-                            <td>{!! Form::text('invoice_no',null , array('id' => 'invoice_no', 'class' => 'form-control readonly')) !!}</td>
+                            <td>{!! Form::text('invoice_no',$invoice_no , array('id' => 'invoice_no', 'class' => 'form-control','readonly'=>true)) !!}</td>
                         </tr>
 
                         <tr>
@@ -80,7 +80,7 @@
                             <td><label for="exchange_rate" class="control-label">Exchange Rate</label></td>
                             <td>{!! Form::text('exchange_rate',1 , array('id' => 'exchange_rate', 'class' => 'form-control')) !!}</td>
                             <td><label for="invoice_amt" class="control-label">BDT</label></td>
-                            <td>{!! Form::text('invoice_amt',null , array('id' => 'invoice_amt', 'class' => 'form-control')) !!}</td>
+                            <td>{!! Form::text('invoice_amt', number_format($products->items->sum('total_price'), 2, '.', ''), array('id' => 'invoice_amt', 'class' => 'form-control')) !!}</td>
                         </tr>
 
                         <tr>
@@ -130,7 +130,7 @@
 
                             <tr>
                                 <td class="text-right" colspan="4"><strong>Total Invoice Price</strong></td>
-                                <td class="text-right"><span id="grand-total">{!! number_format($products->items->sum('total_price'),2) !!}</span></td>
+                                <td class="text-right" id="grand-total">{!! number_format($products->items->sum('total_price'),2) !!}</td>
                             </tr>
                             </tbody>
 
@@ -154,6 +154,21 @@
 @push('scripts')
 
     <script>
+
+        $(document).on('keyup', '#exchange_rate', function(){
+            amountBTD();
+        });
+
+
+        function amountBTD(){
+
+            var exchange_rate = document.getElementById('exchange_rate').value;
+            var usd_amount = document.getElementById('grand-total').innerHTML;
+            var num = parseFloat(usd_amount.replace(/,/g, ""));
+
+            $('#invoice_amt').val((num * exchange_rate).toFixed(2));
+        }
+
 
         $(function (){
             $(document).on("focus", "input:text", function() {

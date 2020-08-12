@@ -662,6 +662,9 @@ trait MumanuMigrationTrait
 
             $req_no = $tr_code->last_trans_id;
 
+            $user = User::query()->where('old_id',$row->reqBy)->first();
+            $approve = User::query()->where('old_id',$row->approvedBy)->first();
+
             $inserted = Requisition::query()->create([
                 'company_id'=>$company_id,
                 'ref_no'=>$req_no,
@@ -669,8 +672,8 @@ trait MumanuMigrationTrait
                 'req_date'=>$row->reqDate,
                 'status'=>$row->status,
                 'extra_field'=>$row->reqRefNo,
-                'user_id'=>Auth::id(),
-                'authorized_by'=>Auth::id(),
+                'user_id'=>isset($approve->id) ? $approve->id : Auth::id(),
+                'authorized_by'=>isset($user->id) ? $user->id : Auth::id(),
             ]);
 
             $reqs = $connection->table('item_requisitions')
@@ -898,7 +901,7 @@ trait MumanuMigrationTrait
             $prod['status'] = 'RC'; //Received
             $prod['approve_date'] = $row->transDate;
             $prod['account_post'] = true;
-            $prod['approve_by'] = isset($user->id) ? $user->id : 2;
+            $prod['approve_by'] = isset($user->id) ? $user->id : Auth::id();
 
 
 

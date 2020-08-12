@@ -28,14 +28,11 @@ class CreateSalesTable extends Migration
             $table->decimal('discount_amt',15,2)->default(0.00);
             $table->decimal('due_amt',15,2)->default(0.00);
             $table->unsignedBigInteger('export_contract_id')->nullable();
-            $table->foreign('export_contract_id')->references('id')->on('export_contracts')->onDelete('restrict');
             $table->decimal('fc_amt',15,2)->default(0.00);
             $table->string('currency',3)->default('USD');
             $table->decimal('exchange_rate',10,4)->default(0.00);
             $table->unsignedBigInteger('importer_bank_id')->nullable();
-            $table->foreign('importer_bank_id')->references('id')->on('banks')->onDelete('restrict');
             $table->unsignedBigInteger('exporter_bank_id')->nullable();
-            $table->foreign('exporter_bank_id')->references('id')->on('banks')->onDelete('restrict');
             $table->longText('loading_port')->nullable();
             $table->longText('destination_port')->nullable();
             $table->longText('applicants_bin')->nullable();

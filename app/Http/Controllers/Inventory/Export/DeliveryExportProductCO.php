@@ -182,7 +182,7 @@ class DeliveryExportProductCO extends Controller
                     $delivery_item['name'] = $item->item->name;
                     $delivery_item['quantity'] = 0;
                     $delivery_item['unit_price'] = $item->unit_price;
-                    $delivery_item['total_price'] = $item->total_price;
+                    $delivery_item['total_price'] = 0;
                     $delivery_item['remarks'] = $request['Temp Export Delivery'];
 
                     TransProduct::query()->create($delivery_item);
@@ -211,6 +211,13 @@ class DeliveryExportProductCO extends Controller
                             ->where('ref_type', 'D')
                             ->where('product_id', $product->product_id)
                             ->increment('quantity', $product->quantity_in);
+
+                        TransProduct::query()->where('company_id', $this->company_id)
+                            ->where('ref_id', $challan->id)
+                            ->where('ref_no', $challan->challan_no)
+                            ->where('ref_type', 'D')
+                            ->where('product_id', $product->product_id)
+                            ->increment('total_price', $product->total_price);
 
                         ProductHistory::query()->where('company_id',$this->company_id)
                             ->where('id',$product->id)
@@ -252,6 +259,13 @@ class DeliveryExportProductCO extends Controller
                                     ->where('ref_type', 'D')
                                     ->where('product_id', $row->product_id)
                                     ->increment('quantity', $row->quantity_in);
+
+                                TransProduct::query()->where('company_id', $this->company_id)
+                                    ->where('ref_id', $challan->id)
+                                    ->where('ref_no', $challan->challan_no)
+                                    ->where('ref_type', 'D')
+                                    ->where('product_id', $row->product_id)
+                                    ->increment('total_price', $row->total_price);
 
                                 ProductHistory::query()->where('company_id',$this->company_id)
                                     ->where('id',$row->id)
