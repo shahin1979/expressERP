@@ -97,7 +97,7 @@ class ExportContractCO extends Controller
                         $export_item['name'] = $products->where('id',$item['item_id'])->first()->name;
                         $export_item['quantity'] = $item['quantity'];
                         $export_item['unit_price'] = $item['price'];
-                        $export_item['total_price'] = $item['quantity']*$item['price'];
+                        $export_item['total_price'] = round($item['quantity']*$item['price']);
 
                         TransProduct::query()->create($export_item);
                     }

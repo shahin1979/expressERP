@@ -3,6 +3,7 @@
 namespace App\Models\Common;
 
 use App\Models\Company\CompanyModule;
+use App\Models\Security\UserPrivilege;
 use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model
@@ -21,6 +22,7 @@ class MenuItem extends Model
         'name',
         'show',
         'url',
+        'content',
         'status',
     ];
 
@@ -29,5 +31,10 @@ class MenuItem extends Model
     public function module()
     {
         return $this->belongsTo(CompanyModule::class,'module_id','module_id');
+    }
+
+    public function privilege()
+    {
+        return $this->hasMany(UserPrivilege::class,'id','menu_id');
     }
 }

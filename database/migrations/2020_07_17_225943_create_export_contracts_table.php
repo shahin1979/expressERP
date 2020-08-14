@@ -36,7 +36,7 @@ class CreateExportContractsTable extends Migration
             $table->decimal('contract_amt',15,2)->default(0.00);
             $table->decimal('exchange_rate',15,4)->default(0.00);
             $table->longText('description')->nullable();
-            $table->char('status',2)->default('CR')->comment('CR=Created AP=Approved RJ=Rejected');
+            $table->char('status',2)->default('CR')->comment('CR=Created AP=Approved RJ=Rejected DL Delivered IC Invoice Created IA Invoice Approved DA Delivery Approved');
             $table->date('approve_date')->nullable();
             $table->unsignedBigInteger('approved_by')->nullable();
             $table->foreign('approved_by')->references('id')->on('users')->onDelete('RESTRICT');

@@ -87,7 +87,7 @@ class AppServiceProvider extends ServiceProvider
                     ->where('status',true)
                     ->first();
 
-                $user_permissions->push($line);
+                $line ->show == true ? $user_permissions->push($line) : null ;
             }
 
             $unique_module = $user_menus->unique('module_id');

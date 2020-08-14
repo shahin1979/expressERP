@@ -5,6 +5,7 @@ namespace App\Models\Inventory\Movement;
 use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Company\Relationship;
 use App\Models\Inventory\Export\ExportContract;
+use App\Models\Inventory\Product\ProductUniqueId;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -46,6 +47,13 @@ class Delivery extends Model
     {
         return $this->hasMany(TransProduct::class,'ref_no','challan_no');
     }
+
+
+    public function serials()
+    {
+        return $this->hasMany(ProductUniqueId::class,'delivery_ref_id','id');
+    }
+
 
     public function user()
     {

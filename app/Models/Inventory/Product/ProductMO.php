@@ -96,6 +96,16 @@ class ProductMO extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function model()
+    {
+        return $this->belongsTo(ItemModel::class);
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(ItemSize::class);
+    }
+
     public function subcategory()
     {
         return $this->belongsTo(SubCategory::class);

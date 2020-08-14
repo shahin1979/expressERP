@@ -1535,6 +1535,35 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
+//        MENUITEM::query()->create( [
+//            'id'=>57075,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5J',
+//            'name'=>'Export Reports',
+//            'show'=>'1',
+//            'url'=>'export/report/exportReportsIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+//
+//        MENUITEM::query()->create( [
+//            'id'=>57077,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5J',
+//            'name'=>'Print Commercial Invoice',
+//            'show'=>'0',
+//            'url'=>'export/report/exportCommercialInvoiceReportIndex',
+//            'status'=>'1',
+//            'content'=>'R'
+//        ] );
+
+
 
 
 

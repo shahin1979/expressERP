@@ -51,8 +51,8 @@
                         <tr>
                             <td><label for="invoice_date" class="control-label">Invoice Date</label></td>
                             <td>{!! Form::text('invoice_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'invoice_date', 'class' => 'form-control','required','readonly')) !!}</td>
-                            <td><label for="invoice_no" class="control-label">Invoice No</label></td>
-                            <td>{!! Form::text('invoice_no',$invoice_no , array('id' => 'invoice_no', 'class' => 'form-control','readonly'=>true)) !!}</td>
+                            <td colspan="2" style="color: #5e0e0e">Contract No : {!! $contract->export_contract_no !!}</td>
+{{--                            <td>{!! Form::text('invoice_no',$invoice_no , array('id' => 'invoice_no', 'class' => 'form-control','readonly'=>true)) !!}</td>--}}
                         </tr>
 
                         <tr>
@@ -66,12 +66,12 @@
                             <td><label for="loading_port" class="control-label">Port of Loading</label></td>
                             <td>{!! Form::text('loading_port', 'Chittagong Sea Port, Bangladesh' , array('id' => 'loading_port', 'class' => 'form-control')) !!}</td>
                             <td><label for="dest_port" class="control-label">Port of Destination</label></td>
-                            <td>{!! Form::text('dest_port', 'Shanghai Port, China' , array('id' => 'dest_port', 'class' => 'form-control')) !!}</td>
+                            <td>{!! Form::text('destination_port', 'Shanghai Port, China' , array('id' => 'destination_port', 'class' => 'form-control')) !!}</td>
                         </tr>
 
                         <tr>
                             <td><label for="app_bin" class="control-label">Applicants BIN</label></td>
-                            <td>{!! Form::text('app_bin', null , array('id' => 'app_bin', 'class' => 'form-control')) !!}</td>
+                            <td>{!! Form::text('applicants_bin', null , array('id' => 'applicants_bin', 'class' => 'form-control')) !!}</td>
                             <td><label for="color" class="control-label">Color</label></td>
                             <td>{!! Form::text('color', null , array('id' => 'color', 'class' => 'form-control')) !!}</td>
                         </tr>
@@ -84,10 +84,10 @@
                         </tr>
 
                         <tr>
-                            <input name="id" type="hidden" id="id" value="{!! $contract->id !!}">
-                            <input name="ref_no" type="hidden" id="ref_no" value="{!! $contract->export_contract_no !!}">
+                            <input name="contract_id" type="hidden" id="contract_id" value="{!! $contract->id !!}">
+                            <input name="contract_ref_no" type="hidden" id="contract_ref_no" value="{!! $contract->export_contract_no !!}">
                             <td><label for="description" class="control-label">Delivery Terms</label></td>
-                            <td colspan="3">{!! Form::textarea('description', null , ['id'=>'description','size' => '100x2','class'=>'field']) !!}</td>
+                            <td colspan="3">{!! Form::textarea('delivery_terms', null , ['id'=>'delivery_terms','size' => '100x2','class'=>'field']) !!}</td>
                         </tr>
 
                         </tbody>
@@ -112,6 +112,8 @@
                             </thead>
                             <tbody>
 
+                            <input name="challan_id" type="hidden" id="challan_id" value="{!! $products->id !!}">
+
                             @foreach($products->items as $item_row=>$item)
 
                                 <tr>
@@ -123,7 +125,7 @@
                                         @endif
                                     @endforeach
                                     <td class="text-right">{!! number_format($item->quantity,2) !!}{!! $item->item->unit_name !!}</td>
-                                    <td class="text-right" style="vertical-align: middle;">{!!number_format($item->unit_price * $item->quantity,4) !!}</td>
+                                    <td class="text-right" style="vertical-align: middle;">{!!number_format($item->unit_price * $item->quantity,2) !!}</td>
                                 </tr>
 
                             @endforeach

@@ -217,7 +217,7 @@ class DeliveryExportProductCO extends Controller
                             ->where('ref_no', $challan->challan_no)
                             ->where('ref_type', 'D')
                             ->where('product_id', $product->product_id)
-                            ->increment('total_price', $product->total_price);
+                            ->increment('total_price', ($product->quantity_in * $product->unit_price));
 
                         ProductHistory::query()->where('company_id',$this->company_id)
                             ->where('id',$product->id)
@@ -310,6 +310,10 @@ class DeliveryExportProductCO extends Controller
                 default:
                     return response()->json(['error' => 'Please Select By Bale or By Lot'], 400);
             }
+
+//            $contract = ExportContract::query()->where('id',$request['contract_id'])->with('items')->first();
+            ExportContract::query()->where('id',$contract->id)->update(['status'=>'DL']); // Make Status as delivered
+
 
         }catch(\Exception $e)
         {

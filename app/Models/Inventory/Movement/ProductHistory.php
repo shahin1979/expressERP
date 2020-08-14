@@ -6,6 +6,7 @@ use App\Models\Accounts\Ledger\CostCenter;
 use App\Models\Company\Relationship;
 use App\Models\Human\Admin\Location;
 use App\Models\Inventory\Product\ProductMO;
+use App\Models\Inventory\Product\ProductUniqueId;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -81,6 +82,11 @@ class ProductHistory extends Model
     public function cost()
     {
         return $this->belongsTo(CostCenter::class,'relationship_id','id');
+    }
+
+    public function serial()
+    {
+        return $this->hasOne(ProductUniqueId::class,'history_ref_id','id');
     }
 
 

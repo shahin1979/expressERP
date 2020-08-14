@@ -25,7 +25,10 @@ class ExportInvoiceCO extends Controller
     {
         $this->menu_log($this->company_id,57020);
 
-        $contracts = ExportContract::query()->where('company_id',$this->company_id)->pluck('export_contract_no','id');
+        $contracts = ExportContract::query()->where('company_id',$this->company_id)
+            ->where('status','DL')
+            ->pluck('export_contract_no','id');
+
         if(!empty($request['contract_id']))
         {
             $contract = ExportContract::query()->where('company_id',$this->company_id)
@@ -69,13 +72,19 @@ class ExportInvoiceCO extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+//        dd($request->all());
 
         DB::beginTransaction();
         try{
 
             $fiscal_year = $this->get_fiscal_year($request['invoice_date'],$this->company_id);
             $products = ProductMO::query()->where('company_id',$this->company_id)->where('status',true)->get();
+
+            $challan = Delivery::query()->where('id',$request['challan_id'])
+                ->with('items')
+                ->first();
+
+            $contract = ExportContract::query()->where('id',$request['contract_id'])->first();
 
             $tr_code =  TransCode::query()->where('company_id',$this->company_id)
                 ->where('trans_code','SL')
@@ -87,61 +96,51 @@ class ExportInvoiceCO extends Controller
             $request['company_id'] = $this->company_id;
             $request['invoice_no'] = $invoice_no;
             $request['invoice_date'] = Carbon::createFromFormat('d-m-Y',$request['invoice_date'])->format('Y-m-d');
-            $request['due_amt'] = $request['invoice_amt'] - $request['discount_amt'] - $request['paid_amt'];
-            $request['invoice_type'] = $request['customer_id'] == 1 ? 'CA' : 'CR';
-//            $request['customer_id']
-//            $request['paid_amt'] =
-//            $request['discount_amt'] =
+            $request['invoice_type'] = 'EX';
+            $request['customer_id'] = $challan->relationship_id;
             $request['user_id'] = $this->user_id;
             $request['status'] = 'CR'; //Created
+            $request['export_contract_id'] = $request['contract_id'];
+            $request['fc_amt'] = $challan->items->sum('total_price');
+            $request['currency'] = $contract->currency;
+            $request['importer_bank_id'] = $request->has('importer_bank') ? $request['importer_bank'] : null;
+            $request['exporter_bank_id'] = $request->has('exporter_bank') ? $request['exporter_bank'] : null;
+            $request['color'] = $request->filled('color') ? 'COLOR: '.$request['color'] : null;
+            $request['delivery_challan_id'] = $challan->id;
 
             $inserted = Sale::query()->create($request->all()); //Insert Data Into Sales Table
 
-            if ($request['item']) {
-                foreach ($request['item'] as $item) {
-                    if ($item['quantity'] > 0)
+            if ($challan) {
+                foreach ($challan->items as $item) {
+                    if ($item->quantity > 0)
                     {
                         $sales_item['company_id'] = $this->company_id;
                         $sales_item['ref_no'] = $invoice_no;
                         $sales_item['ref_id'] = $inserted->id;
-                        $sales_item['ref_type'] = 'S'; //Sales
-                        $sales_item['relationship_id'] = $request['customer_id'];
+                        $sales_item['ref_type'] = 'S'; //Export Invoice
+                        $sales_item['relationship_id'] = $item->relationship_id;
                         $sales_item['tr_date']= $request['invoice_date'];
-                        $sales_item['product_id'] = $item['item_id'];
-                        $sales_item['name'] = $products->where('id',$item['item_id'])->first()->name;
-                        $sales_item['quantity'] = $item['quantity'];
-                        $sales_item['sold'] = $item['quantity'];
-                        $sales_item['unit_price'] = $item['price'];
-                        $sales_item['tax_id'] = $item['tax'];
-                        $sales_item['tax_total'] = $item['tax_amt'];
-                        $sales_item['total_price'] = $item['quantity']*$item['price'] + $item['tax_amt'];
+                        $sales_item['product_id'] = $item->product_id;
+                        $sales_item['name'] = $item->name;
+                        $sales_item['quantity'] = $item->quantity;
+                        $sales_item['sold'] = $item->quantity;
+                        $sales_item['unit_price'] = $item->unit_price;
+                        $sales_item['total_price'] = $item->total_price;
 
                         TransProduct::query()->create($sales_item);
-                        ProductMO::query()->where('id',$item['item_id'])->increment('committed',$item['quantity']);
-
-
+                        ProductMO::query()->where('id',$item->product_id)->increment('committed',$item->quantity);
                     }
 
                     // Make the unique Ids as sold
 
-                    if ($this->productsAreCached()) {
 
-                        $unique_ids = $this->getCachedProducts();
-                        $this->emptyCache();
-
-                        foreach ($unique_ids as $key=>$unique) {
-                            foreach ($unique as $id)
-
-                                ProductUniqueId::query()->where('company_id', $this->company_id)
-                                    ->where('product_id', $item['item_id'])
-                                    ->where('unique_id', $id['unique_id'])
-                                    ->update(
-                                        [
-                                            'sales_ref_id' => $inserted->id,
-                                            'stock_status' => false,
-                                            'status' => 'S']);
-                        }
-                    }
+                    ProductUniqueId::query()->where('company_id', $this->company_id)
+                        ->where('product_id', $item->product_id)
+                        ->where('delivery_ref_id', $challan->id)
+                        ->update(
+                            [
+                                'sales_ref_id' => $inserted->id
+                            ]);
                 }
             }
 
@@ -150,17 +149,18 @@ class ExportInvoiceCO extends Controller
                 ->where('fiscal_year',$fiscal_year)
                 ->increment('last_trans_id');
 
+            ExportContract::query()->where('id',$contract->id)->update(['status'=>'IC']); // Make Status as Invoice Created
 
         }catch (\Exception $e)
         {
             DB::rollBack();
             $error = $e->getMessage();
-            return redirect()->back()->with('error','Invoice Failed To Save '.$error);
+            return redirect()->back()->with('error','Export Invoice Failed To Save '.$error);
         }
 
         DB::commit();
 
-        return redirect()->action('Inventory\Sales\SaleInvoiceCO@index')->with('success','Invoice Data Saved For Approval');
+        return redirect()->action('Inventory\Export\ExportInvoiceCO@index')->with('success','Export Invoice Data Saved For Approval');
 
     }
 }

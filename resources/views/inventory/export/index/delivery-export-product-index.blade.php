@@ -240,7 +240,7 @@
             ajax: 'delivery/products/' + $('#contract_id').val(),
             columns: [
                 { data: 'item.name', name: 'item.name',orderable: false },
-                { data: 'unit_price', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'unit_price' },
+                { data: 'unit_price', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 4 ), name: 'unit_price' },
                 { data: 'quantity', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'quantity' },
                 { data: 'subtotal', className: 'dt-right',render: $.fn.dataTable.render.number( ',', '.', 2 ), name: 'subtotal' },
             ]

@@ -1,0 +1,1 @@
+update-truck-number-index

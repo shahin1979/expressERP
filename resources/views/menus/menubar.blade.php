@@ -137,7 +137,7 @@
                                                         {{--SUB MENU--}}
 
                                                         <div class="submenu-content">
-                                                            <a href="{!! url(''.$sub['url'].'') !!}" class="menu-item">{!! $sub['name'] !!}</a>
+                                                            <a href="{!! url(''.$sub['url'].'') !!}" class="menu-item bg-teal">{!! $sub['name'] !!}</a>
                                                         </div>
                                                     @endif
                                                 @endif

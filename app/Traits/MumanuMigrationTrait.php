@@ -1246,7 +1246,7 @@ trait MumanuMigrationTrait
                 'mobile_no'=>$row->mobile,
                 'email'=>$row->email,
                 'status'=>$row->status,
-                'user_id'=>$user->id,
+                'user_id'=> isset($user->id) ? $user->id : Auth::id()
             ]);
         }
 

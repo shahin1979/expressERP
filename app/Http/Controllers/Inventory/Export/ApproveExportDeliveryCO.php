@@ -24,59 +24,26 @@ class ApproveExportDeliveryCO extends Controller
 {
     use CommonTrait,TransactionsTrait, ProductTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         $this->menu_log($this->company_id,57030);
 
-        $deliveries = Delivery::query()->where('company_id',$this->company_id)
-            ->where('status','CR')
+        $selections = Delivery::query()->where('company_id',$this->company_id)
             ->where('delivery_type','EX')
-            ->with('customer')
-            ->with(['items'=>function($q){
-                $q->where('company_id',$this->company_id)
-                    ->where('ref_type','D');
-            }])
-            ->with('user')->select('deliveries.*')->get();
+            ->where('status','CR')
+            ->pluck('challan_no','id');
 
-        $items = $deliveries->map(function($item) {
-            return $item->items->unique('product_id');
-        });
+        if(isset($request['challan_id'])) {
+            $delivery = Delivery::query()->where('company_id', $this->company_id)
+                ->where('id', $request['challan_id'])
+                ->with('serials')->with('items')
+                ->first();
 
-        $items = $deliveries->unique('items.product_id')->groupBy('deliveries.challan_no');
-
-        dd($items);
-
-        return view('inventory.export.index.approve-export-delivery-index',compact('items','deliveries'));
-    }
+            return view('inventory.export.index.approve-export-delivery-index', compact('delivery'));
+        }
 
 
-
-    public function ajax_call($id)
-    {
-        $challan = Delivery::query()->where('id',$id)
-            ->with(['items'=>function($q){
-                $q->where('company_id',$this->company_id)
-                    ->where('ref_type','D');
-            }])
-            ->first();
-
-        $company = CompanyProperty::query()->where('company_id',$this->company_id)->first();
-        $accounts = GeneralLedger::query()->where('company_id',$this->company_id)->get();
-
-        $products = TransProduct::query()->where('company_id',$this->company_id)
-            ->where('ref_id',$id)->where('ref_type','D')
-            ->with('costcenter')->with('customer')->with('item')
-            ->get();
-
-
-        $transactions = $this->get_delivery_transactions_array($products,$this->company_id);
-
-        $response = [
-            'products'=>$products,
-            'transactions' => $transactions,
-        ];
-
-        return json_encode($response, true) ;
+        return view('inventory.export.index.approve-export-delivery-index',compact('selections'));
     }
 
     public function approve(Request $request, $id)

@@ -37,12 +37,16 @@ class CreateSalesTable extends Migration
             $table->longText('destination_port')->nullable();
             $table->longText('applicants_bin')->nullable();
             $table->longText('color')->nullable();
-            $table->longText('delivery_terms')->nullable();
             $table->longText('description')->nullable();
             $table->char('status',2)->default(1)->comment('CR = created, AP= approved, RC= received, DL=delivered, RJ= rejected, RT=>Returned CL=closed');
             $table->char('stock_status',1)->default('A')->comment('A = Available, F=FINISHED');
+            $table->longText('delivery_terms')->nullable()->comment('for export invoice'); //
+            $table->unsignedBigInteger('delivery_challan_id',false)->nullable();
             $table->boolean('direct_delivery')->default(0)->comment('1=> auto delivered after approving the invoice');
             $table->boolean('delivery_status')->default(0);
+            $table->boolean('shipment_status')->default(0);
+            $table->mediumText('shipping_mark')->nullable();
+            $table->date('shipping_date')->nullable();
             $table->bigInteger('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
             $table->date('authorized_date')->nullable();
