@@ -42,133 +42,150 @@
     @endempty
 
     @isset($delivery)
-        <div class="justify-content-center">
-            <table class="table table-bordered table-hover table-responsive" id="delivery-table">
-                <thead style="background-color: #b0b0b0">
-                <tr>
-                    <th>Contract No</th>
-                    <th>Challan No</th>
-                    <th>Customer</th>
-                    <th>product</th>
-                    <th>Quantity</th>
-                    <th>Delivered By</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{!! $delivery->contract->export_contract_no !!}</td>
-                        <td>{!! $delivery->challan_no !!}</td>
-                        <td>{!! $delivery->customer->name !!}</td>
-                        <td>
-                        @foreach($delivery->items as $item)
-                               {!! $item->item->name !!} <br/>
-                        @endforeach
-                        </td>
 
-                        <td>
-                            @foreach($delivery->items as $item)
-                                {!! $item->quantity !!} {!! $item->item->unit_name !!} <br/>
-                            @endforeach
-                        </td>
-                        <td>{!! $delivery->user->name !!}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    <div class="row" id="top-head">
-        <div class="col-md-4">
-            <div class="pull-left">
-                <button type="button" class="btn btn-back btn-primary"><i class="fa fa-backward"></i>Back</button>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Default form contact -->
+                        <form id="approve-delivery-form" action="{!! url('export/approveExportDeliveryIndex') !!}" method="POST">
+                            @csrf
+
+                            <input type="hidden" name="challan_id" value="{!! $delivery->id !!}">
+
+                            <table class="table table-bordered table-hover table-responsive" id="delivery-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Contract No :</td>
+                                        <td> {!! $delivery->contract->export_contract_no !!}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Challan No:</td
+                                        ><td>{!! $delivery->challan_no !!}</td>
+                                    <tr>
+                                        <td width="30%">Customer :</td>
+                                        <td width="65%">{!! $delivery->customer->name !!}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>product :</td>
+                                        <td>
+                                            @foreach($delivery->items as $item)
+                                                {!! $item->item->name !!} <br/>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Net Weight</td>
+                                        <td>
+                                            @foreach($delivery->items as $item)
+                                                {!! $item->quantity !!} {!! $item->item->unit_name !!} <br/>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Bale</td>
+                                        <td>
+                                            {!! $delivery->serials->count('id') !!}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Delivered By :</td>
+                                        <td> {!! $delivery->user->name !!}</td>
+                                    </tr>
+                                </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        <td><button name="action" value="approve" class="btn btn-info btn-approve btn-block" type="submit">Approve</button></td>
+                                        <td class="text-right"><button name="action" value="reject" class="btn btn-danger btn-block" type="submit">Reject</button></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </form>
+                    </div>
+                </div>
             </div>
+
+            <div class=" col-md-7" style="border-right: solid; overflow: scroll; height: 400px">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Default form contact -->
+                            <table class="table table-bordered table-hover table-responsive" id="delivery-table">
+                                <thead>
+                                <tr class="table-primary">
+                                    <th>Product</th>
+                                    <th>Lot No</th>
+                                    <th>Bale No</th>
+                                    <th>Net Weight</th>
+                                    <th>Gross Weight</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($delivery->serials as $row)
+                                        <tr>
+                                            <td>{!! $row->history->item->name !!}</td>
+                                            <td>{!! $row->history->lot_no !!}</td>
+                                            <td>{!! $row->history->bale_no !!}</td>
+                                            <td class="text-right">{!! $row->history->quantity_in !!}</td>
+                                            <td class="text-right">{!! $row->history->gross_weight !!}</td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                                <tfoot>
+                                    <tr class="bg-info">
+                                        <td colspan="3">Grand Total</td>
+                                        <td class="text-right">{!! $delivery->serials->sum('history.quantity_in') !!}</td>
+                                        <td class="text-right">{!! $delivery->serials->sum('history.gross_weight') !!}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-
     @endisset
-{{--    --}}{{--    <form id="ajax-items">--}}
-{{--    <div class="row" id="data-section">--}}
-{{--        <div class="col-sm-3">--}}
-{{--            <div class="card">--}}
-{{--                <div class="card-body">--}}
-{{--                    <h5 class="card-title">Delivery Challan Info</h5>--}}
-{{--                    <table id="delivery-main" class="table table-striped delivery-main">--}}
-
-{{--                    </table>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-{{--        <input name="challan_no" type="hidden" id="challan_no" value="">--}}
-
-{{--        <div class="col-sm-9" >--}}
-{{--            <div class="card">--}}
-{{--                <div class="card-body">--}}
-{{--                    <h5 class="card-title">Product Info</h5>--}}
-{{--                    <table id="delivery-items" class="table table-striped table-info table-bordered delivery-items">--}}
-{{--                        <thead>--}}
-{{--                        <tr>--}}
-{{--                            <th>Item</th>--}}
-{{--                            <th style="text-align: right">In<br/>Stock</th>--}}
-{{--                            <th style="text-align: right">Delivery Qty</th>--}}
-{{--                        </tr>--}}
-{{--                        </thead>--}}
-
-{{--                        <tbody>--}}
-
-{{--                        </tbody>--}}
-
-{{--                        <tfoot>--}}
-{{--                        <tr style="background-color: rgba(224,229,229,0.96)">--}}
-{{--                            <td colspan="2"><button type="submit" name="action" value="approve" id="action" class="btn btn-primary btn-approve">Approve</button></td>--}}
-{{--                            <td colspan="2"><button type="submit" name="action" value="reject" id="action" class="btn btn-danger btn-approve pull-right">Reject</button></td>--}}
-{{--                        </tr>--}}
-{{--                        </tfoot>--}}
-
-{{--                    </table>--}}
-
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-
-{{--        <div class="col-sm-8">--}}
-{{--            <div class="card">--}}
-{{--                <div class="card-body">--}}
-{{--                    <h5 class="card-title">Stock Inventory Voucher</h5>--}}
-{{--                    <table id="trans-items" class="table table-striped table-info table-bordered">--}}
-{{--                        <thead>--}}
-{{--                        <tr>--}}
-{{--                            <th>GL Head</th>--}}
-{{--                            <th style="text-align: right">Debit Amount {!! $users_company->currency !!}</th>--}}
-{{--                            <th style="text-align: right">Credit Amount {!! $users_company->currency !!}</th>--}}
-{{--                        </tr>--}}
-{{--                        </thead>--}}
-{{--                        <tbody>--}}
-
-{{--                        </tbody>--}}
-{{--                    </table>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-
-{{--    </div>--}}
-
-
-    {{--    </form>--}}
-
-
-
-
-
 @endsection
-
 @push('scripts')
+
     <script>
-        $(function (){
-            $(document).on("focus", "input:text", function() {
-                $(this).select();
+        $(document).on('click', '.btn-danger', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            $.confirm({
+                title: 'Confirm Rejection!',
+                content: 'Are You Sure !',
+                buttons: {
+                    confirm: function () {
+                        $('#approve-delivery-form').submit();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    },
+                }
             });
         });
+
+
+        $(document).on('click', '.btn-approve', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            $.confirm({
+                title: 'Confirm Approve!',
+                content: 'Are You Sure !',
+                buttons: {
+                    confirm: function () {
+                        $('#approve-delivery-form').submit();
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    },
+                }
+            });
+        });
+
     </script>
 
 @endpush

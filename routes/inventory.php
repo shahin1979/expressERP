@@ -382,11 +382,14 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
 
     // Approve Delivery
     Route::get('approveExportDeliveryIndex','ApproveExportDeliveryCO@index');
+    Route::post('approveExportDeliveryIndex','ApproveExportDeliveryCO@approve');
 
 
     // Invoice
     Route::get('createExportInvoiceIndex','ExportInvoiceCO@index');
     Route::post('invoice/store','ExportInvoiceCO@store');
+    Route::get('approveExportInvoiceIndex','ExportInvoiceCO@approveIndex');
+
 //    Route::get('invoice/items/{id}','ExportInvoiceCO@getExportProdDT');
 //    Route::post('storeExportProducts','ExportInvoiceCO@store');
 //    Route::delete('items/delete/{id}','ExportInvoiceCO@destroy');

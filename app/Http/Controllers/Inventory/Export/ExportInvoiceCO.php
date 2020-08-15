@@ -163,4 +163,9 @@ class ExportInvoiceCO extends Controller
         return redirect()->action('Inventory\Export\ExportInvoiceCO@index')->with('success','Export Invoice Data Saved For Approval');
 
     }
+
+    public function approveIndex(Request $request)
+    {
+        return view('inventory.export.index.approve-export-invoice-index');
+    }
 }

@@ -46,7 +46,7 @@ class ApproveExportDeliveryCO extends Controller
         return view('inventory.export.index.approve-export-delivery-index',compact('selections'));
     }
 
-    public function approve(Request $request, $id)
+    public function approve(Request $request)
     {
 
         switch ($request['action'])
@@ -56,50 +56,9 @@ class ApproveExportDeliveryCO extends Controller
                 DB::beginTransaction();
 
                 try{
-                    $delivery = Delivery::query()->where('company_id',$this->company_id)
-                        ->where('challan_no',$id)
-                        ->with('costcenter')->with('customer')
-                        ->with(['items'=>function($q){
-                            $q->where('company_id',$this->company_id)
-                                ->where('ref_type','D');
-                        }])
-                        ->first();
 
-                    foreach ($delivery->items as $item)
-                    {
-                        $history['company_id'] = $this->company_id;
-                        $history['ref_no'] = $id;
-                        $history['ref_id'] = $delivery->id;
-                        $history['tr_date'] = Carbon::now();
-                        $history['ref_type'] = $delivery->delivery_type == 'SL' ? 'S' : 'C'; // Sales Delivery
-                        $history['contra_ref'] = $delivery->ref_no;
-                        $history['product_id'] = $item->product_id;
-                        $history['quantity_in'] = 0;
-                        $history['quantity_out'] = $item->quantity;
-                        $history['unit_price'] = $this->get_lifo_price($item->product_id,$this->company_id);
-                        $history['total_price'] = $item->quantity * $history['unit_price'];
-                        $history['relationship_id'] = $item->relationship_id;
-
-                        ProductHistory::query()->create($history);
-                        ProductMO::query()->where('id',$item['product_id'])->increment('sell_qty',$item['quantity']);
-                        ProductMO::query()->where('id',$item['product_id'])->decrement('on_hand',$item['quantity']);
-                        TransProduct::query()->where('id',$item->id)->update(['delivered'=>$item['quantity']]);
-                    }
-
-                    // Account Transaction for Sales Invoice
-                    $t_data = $this->ajax_call($delivery->id);
-                    $trans= json_decode($t_data,true);
-
-                    $desc2 = $delivery->delivery_type == 'SL' ? $delivery->customer->name : $delivery->costcenter->name;
-                    $period = $this->get_fiscal_data_from_current_date($this->company_id);
-
-                    foreach ($trans['transactions'] as $row)
-                    {
-                        $input = $this->inputs($row,$period,$delivery,$desc2);
-                        $this->transaction_entry($input);
-                    }
-
-                    Delivery::query()->where('challan_no',$id)
+//                    $data = Delivery::query()->get();
+                    Delivery::query()->where('challan_no',$request['challan_no'])
                         ->where('company_id',$this->company_id)
                         ->update(['status'=>'DL','approve_date'=>Carbon::now(),'approve_by'=>$this->user_id]);
 
@@ -118,7 +77,7 @@ class ApproveExportDeliveryCO extends Controller
                 DB::beginTransaction();
 
                 try {
-                    Delivery::query()->where('challan_no',$id)
+                    Delivery::query()->where('challan_no',$request['challan_no'])
                         ->where('company_id',$this->company_id)
                         ->update(['status','RJ','approve_date'=>Carbon::now(),'approve_by'=>$this->user_id]);
 
@@ -126,12 +85,12 @@ class ApproveExportDeliveryCO extends Controller
                 {
                     DB::rollBack();
                     $error = $e->getMessage();
-                    return response()->json(['error' => $error], 404);
+                    return redirect()->action('Inventory\Export\ApproveExportDeliveryCO@index');
                 }
 
 
         }
-        return response()->json(['success'=>'Delivery Approved '.$id],200);
+        return redirect()->action('Inventory\Export\ApproveExportDeliveryCO@index');
     }
 
     public function inputs($row, $period, $delivery, $desc2)
