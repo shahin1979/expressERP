@@ -166,6 +166,11 @@ class ExportInvoiceCO extends Controller
 
     public function approveIndex(Request $request)
     {
-        return view('inventory.export.index.approve-export-invoice-index');
+        $selections = Sale::query()->where('company_id',$this->company_id)
+            ->where('invoice_type','EX')->pluck('invoice_no','id');
+
+
+
+        return view('inventory.export.index.approve-export-invoice-index',compact('selections'));
     }
 }
