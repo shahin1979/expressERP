@@ -62,6 +62,7 @@
                                     <tr>
                                         <td>Challan No:</td
                                         ><td>{!! $delivery->challan_no !!}</td>
+                                    </tr>
                                     <tr>
                                         <td width="30%">Customer :</td>
                                         <td width="65%">{!! $delivery->customer->name !!}</td>

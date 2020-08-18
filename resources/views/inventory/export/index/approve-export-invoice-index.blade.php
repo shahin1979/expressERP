@@ -12,7 +12,7 @@
 
 
 
-    @empty($delivery)
+    @empty($invoice)
 
         <div class="container-fluid spark-screen">
             <div class="row">
@@ -41,112 +41,113 @@
 
     @endempty
 
-{{--    @isset($delivery)--}}
+    @isset($invoice)
 
-{{--        <div class="row justify-content-center">--}}
-{{--            <div class="col-md-4">--}}
-{{--                <div class="card">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <!-- Default form contact -->--}}
-{{--                        <form id="approve-delivery-form" action="{!! url('export/approveExportDeliveryIndex') !!}" method="POST">--}}
-{{--                            @csrf--}}
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Default form contact -->
+                        <form id="approve-invoice-form" action="{!! url('export/approveExportInvoiceIndex') !!}" method="POST">
+                            @csrf
 
-{{--                            <input type="hidden" name="challan_id" value="{!! $delivery->id !!}">--}}
+                            <input type="hidden" name="invoice_id" value="{!! $invoice->id !!}">
 
-{{--                            <table class="table table-bordered table-hover table-responsive" id="delivery-table">--}}
-{{--                                <tbody>--}}
-{{--                                <tr>--}}
-{{--                                    <td>Contract No :</td>--}}
-{{--                                    <td> {!! $delivery->contract->export_contract_no !!}</td>--}}
-{{--                                </tr>--}}
-{{--                                <tr>--}}
-{{--                                    <td>Challan No:</td--}}
-{{--                                    ><td>{!! $delivery->challan_no !!}</td>--}}
-{{--                                <tr>--}}
-{{--                                    <td width="30%">Customer :</td>--}}
-{{--                                    <td width="65%">{!! $delivery->customer->name !!}</td>--}}
-{{--                                </tr>--}}
-{{--                                <tr>--}}
-{{--                                    <td>product :</td>--}}
-{{--                                    <td>--}}
-{{--                                        @foreach($delivery->items as $item)--}}
-{{--                                            {!! $item->item->name !!} <br/>--}}
-{{--                                        @endforeach--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                                <tr>--}}
-{{--                                    <td>Net Weight</td>--}}
-{{--                                    <td>--}}
-{{--                                        @foreach($delivery->items as $item)--}}
-{{--                                            {!! $item->quantity !!} {!! $item->item->unit_name !!} <br/>--}}
-{{--                                        @endforeach--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
-{{--                                <tr>--}}
-{{--                                    <td>Total Bale</td>--}}
-{{--                                    <td>--}}
-{{--                                        {!! $delivery->serials->count('id') !!}--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
+                            <table class="table table-bordered table-hover table-responsive" id="invoice-table">
+                                <tbody>
+                                <tr>
+                                    <td>Contract No :</td>
+                                    <td> {!! $invoice->contract->export_contract_no !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>Invoice No:</td><td>{!! $invoice->invoice_no !!}</td>
+                                </tr>
+                                <tr>
+                                    <td width="40%">Customer :</td>
+                                    <td width="60%">{!! $invoice->customer->name !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>product :</td>
+                                    <td>
+                                        @foreach($invoice->items as $item)
+                                            {!! $item->item->name !!} <br/>
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Net Weight</td>
+                                    <td>
+                                        @foreach($invoice->items as $item)
+                                            {!! number_format($item->quantity,2) !!} {!! $item->item->unit_name !!} <br/>
+                                        @endforeach
+                                    </td>
+                                </tr>
 
-{{--                                <tr>--}}
-{{--                                    <td>Delivered By :</td>--}}
-{{--                                    <td> {!! $delivery->user->name !!}</td>--}}
-{{--                                </tr>--}}
-{{--                                </tbody>--}}
+                                <tr>
+                                    <td width="40%">Invoice Amount :</td>
+                                    <td width="60%">{!! number_format($invoice->fc_amt,2) !!}{!! $invoice->currency !!}</td>
+                                </tr>
+                                <tr>
+                                    <td width="40%">Exchange Rate :</td>
+                                    <td width="60%">{!! $invoice->exchange_rate !!}</td>
+                                </tr>
 
-{{--                                <tfoot>--}}
-{{--                                <tr>--}}
-{{--                                    <td><button name="action" value="approve" class="btn btn-info btn-approve btn-block" type="submit">Approve</button></td>--}}
-{{--                                    <td class="text-right"><button name="action" value="reject" class="btn btn-danger btn-block" type="submit">Reject</button></td>--}}
-{{--                                </tr>--}}
-{{--                                </tfoot>--}}
-{{--                            </table>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+                                <tr>
+                                    <td width="40%">BTD Amt :</td>
+                                    <td width="60%">{!! number_format($invoice->invoice_amt,2) !!}</td>
+                                </tr>
+                                <tr>
+                                    <td>Created By :</td>
+                                    <td> {!! $invoice->user->name !!}</td>
+                                </tr>
+                                </tbody>
 
-{{--            <div class=" col-md-7" style="border-right: solid; overflow: scroll; height: 400px">--}}
-{{--                <div class="card">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <!-- Default form contact -->--}}
-{{--                        <table class="table table-bordered table-hover table-responsive" id="delivery-table">--}}
-{{--                            <thead>--}}
-{{--                            <tr class="table-primary">--}}
-{{--                                <th>Product</th>--}}
-{{--                                <th>Lot No</th>--}}
-{{--                                <th>Bale No</th>--}}
-{{--                                <th>Net Weight</th>--}}
-{{--                                <th>Gross Weight</th>--}}
-{{--                            </tr>--}}
-{{--                            </thead>--}}
-{{--                            <tbody>--}}
-{{--                            @foreach($delivery->serials as $row)--}}
-{{--                                <tr>--}}
-{{--                                    <td>{!! $row->history->item->name !!}</td>--}}
-{{--                                    <td>{!! $row->history->lot_no !!}</td>--}}
-{{--                                    <td>{!! $row->history->bale_no !!}</td>--}}
-{{--                                    <td class="text-right">{!! $row->history->quantity_in !!}</td>--}}
-{{--                                    <td class="text-right">{!! $row->history->gross_weight !!}</td>--}}
-{{--                                </tr>--}}
-{{--                            @endforeach--}}
+                                <tfoot>
+                                <tr>
+                                    <td><button name="action" value="approve" class="btn btn-info btn-approve btn-block" type="submit">Approve</button></td>
+                                    <td class="text-right"><button name="action" value="reject" class="btn btn-danger btn-block" type="submit">Reject</button></td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-{{--                            </tbody>--}}
-{{--                            <tfoot>--}}
-{{--                            <tr class="bg-info">--}}
-{{--                                <td colspan="3">Grand Total</td>--}}
-{{--                                <td class="text-right">{!! $delivery->serials->sum('history.quantity_in') !!}</td>--}}
-{{--                                <td class="text-right">{!! $delivery->serials->sum('history.gross_weight') !!}</td>--}}
-{{--                            </tr>--}}
-{{--                            </tfoot>--}}
-{{--                        </table>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
 
-{{--        </div>--}}
-{{--    @endisset--}}
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Default form contact -->
+                        <table class="table table-bordered table-hover table-responsive" id="invoice-table">
+                            <thead>
+                            <tr>
+                                <th>Account</th>
+                                <th>Debit Amt</th>
+                                <th>Credit Amt</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>{!! $param['cr_account'] !!} : {!! get_account_name_from_number($invoice->company_id,$param['cr_account']) !!}</td>
+                                <td class="text-right">0.00</td>
+                                <td class="text-right">{!! number_format($invoice->invoice_amt,2) !!}</td>
+                            </tr>
+
+                            <tr>
+                                <td>{!! $invoice->customer->ledger_acc_no !!} : {!! get_account_name_from_number($invoice->company_id,$invoice->customer->ledger_acc_no) !!}</td>
+                                <td class="text-right"> {!! number_format($invoice->invoice_amt,2) !!}</td>
+                                <td class="text-right">0.00</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endisset
 @endsection
 @push('scripts')
 
@@ -159,7 +160,7 @@
                 content: 'Are You Sure !',
                 buttons: {
                     confirm: function () {
-                        $('#approve-delivery-form').submit();
+                        $('#approve-invoice-form').submit();
                     },
                     cancel: function () {
                         $.alert('Canceled!');
@@ -177,7 +178,7 @@
                 content: 'Are You Sure !',
                 buttons: {
                     confirm: function () {
-                        $('#approve-delivery-form').submit();
+                        $('#approve-invoice-form').submit();
                     },
                     cancel: function () {
                         $.alert('Canceled!');

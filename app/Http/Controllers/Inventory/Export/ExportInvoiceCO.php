@@ -12,6 +12,7 @@ use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\ProductUniqueId;
 use App\Traits\CommonTrait;
+use App\Traits\CompanyTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\DB;
 
 class ExportInvoiceCO extends Controller
 {
-    use CommonTrait, TransactionsTrait;
+    use CommonTrait, TransactionsTrait, CompanyTrait;
 
     public function index(Request $request)
     {
@@ -166,11 +167,27 @@ class ExportInvoiceCO extends Controller
 
     public function approveIndex(Request $request)
     {
+        $this->menu_log($this->company_id,57025);
+
         $selections = Sale::query()->where('company_id',$this->company_id)
             ->where('invoice_type','EX')->pluck('invoice_no','id');
+
+        if(isset($request['invoice_id']))
+        {
+            $invoice = Sale::query()->where('id',$request['invoice_id'])->with('items')->first();
+            $param['cr_account'] = $this->get_default_sales_account($this->company_id);
+
+            return view('inventory.export.index.approve-export-invoice-index',compact('invoice','param'));
+
+        }
 
 
 
         return view('inventory.export.index.approve-export-invoice-index',compact('selections'));
+    }
+
+    public function approve(Request $request)
+    {
+        dd($request->all());
     }
 }

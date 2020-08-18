@@ -389,6 +389,7 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
     Route::get('createExportInvoiceIndex','ExportInvoiceCO@index');
     Route::post('invoice/store','ExportInvoiceCO@store');
     Route::get('approveExportInvoiceIndex','ExportInvoiceCO@approveIndex');
+    Route::post('approveExportInvoiceIndex','ExportInvoiceCO@approve');
 
 //    Route::get('invoice/items/{id}','ExportInvoiceCO@getExportProdDT');
 //    Route::post('storeExportProducts','ExportInvoiceCO@store');

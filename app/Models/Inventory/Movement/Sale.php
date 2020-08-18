@@ -3,6 +3,7 @@
 namespace App\Models\Inventory\Movement;
 
 use App\Models\Company\Relationship;
+use App\Models\Inventory\Export\ExportContract;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -72,5 +73,10 @@ class Sale extends Model
     public function customer()
     {
         return $this->belongsTo(Relationship::class,'customer_id','id');
+    }
+
+    public function contract()
+    {
+        return $this->belongsTo(ExportContract::class,'export_contract_id','id');
     }
 }
