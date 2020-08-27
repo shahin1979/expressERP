@@ -17,6 +17,7 @@ use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ExportInvoiceCO extends Controller
 {
@@ -188,6 +189,68 @@ class ExportInvoiceCO extends Controller
 
     public function approve(Request $request)
     {
-        dd($request->all());
+//        dd($request->all());
+
+        DB::beginTransaction();
+
+        try {
+
+            $invoice = Sale::query()->where('id',$request['invoice_id'])->first();
+            $period = $this->get_fiscal_data_from_current_date($this->company_id);
+            $type = 'D';
+            $entries = $this->inputs($invoice,$period,$invoice,$type);
+            $this->transaction_entry($entries);
+
+            $type = 'C';
+            $entries = $this->inputs($invoice,$period,$invoice,$type);
+            $this->transaction_entry($entries);
+
+            Sale::query()->Sale::query()->where('id',$request['invoice_id'])->update(['status'=>'AP']);
+
+
+
+        }catch (\Exception $exception)
+        {
+            DB::rollBack();
+            $error = $exception->getMessage();
+        }
+
+        DB::commit();
+
+        return redirect()->action('Inventory\Export\ExportInvoiceCO@approveIndex');
+    }
+
+    public function inputs($row, $period,$invoice, $type)
+    {
+        $input = [];
+
+        $input['company_id'] = $this->company_id;
+        $input['project_id'] = null;
+        $input['tr_code'] = 'SL';
+        $input['fp_no'] = $period->fp_no;
+        $input['trans_type_id'] = 10; //  Sales
+        $input['period'] = Str::upper(Carbon::now()->format('Y-M'));
+        $input['trans_id'] = Carbon::now()->format('Ymdhmis');
+        $input['trans_group_id'] = Carbon::now()->format('Ymdhmis');
+        $input['trans_date'] = Carbon::now();
+        $input['voucher_no'] = $invoice->invoice_no;
+        $input['acc_no'] = $type == 'D' ? $invoice->customer->ledger_acc_no : $this->get_default_sales_account($this->company_id);
+        $input['ledger_code'] = Str::substr($input['acc_no'],0,3);
+        $input['ref_no'] = $invoice->invoice_no;
+        $input['contra_acc'] = $type == 'D' ? $this->get_default_sales_account($this->company_id) : $invoice->customer->ledger_acc_no;
+        $input['dr_amt'] = $type == 'D' ? $invoice->invoice_amt : 0;
+        $input['cr_amt'] = $type == 'D' ? 0: $invoice->invoice_amt;;
+        $input['trans_amt'] = $input['dr_amt'] + $input['cr_amt'];
+        $input['currency'] = get_currency($this->company_id);
+        $input['fiscal_year'] = $period->fiscal_year;
+        $input['trans_desc1'] = 'Export Invoice';
+        $input['trans_desc2'] = 'Export Invoice ';
+        $input['remote_desc'] = $invoice->customer_id;
+        $input['post_flag'] = false;
+        $input['user_id'] = $this->user_id;
+
+        return $input;
+
+
     }
 }
