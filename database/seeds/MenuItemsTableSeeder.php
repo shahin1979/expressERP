@@ -1498,9 +1498,9 @@ class MenuItemsTableSeeder extends Seeder
 //            'nav_label'=>5,
 //            'menu_type'=>'SM',
 //            'menu_prefix'=>'5J',
-//            'name'=>'Upload Shipment Data',
+//            'name'=>'Upload Shipment File',
 //            'show'=>'1',
-//            'url'=>'export/uploadShipmentDataIndex',
+//            'url'=>'export/uploadShipmentFileIndex',
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );

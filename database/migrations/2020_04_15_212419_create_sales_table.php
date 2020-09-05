@@ -45,8 +45,6 @@ class CreateSalesTable extends Migration
             $table->boolean('direct_delivery')->default(0)->comment('1=> auto delivered after approving the invoice');
             $table->boolean('delivery_status')->default(0);
             $table->boolean('shipment_status')->default(0);
-            $table->mediumText('shipping_mark')->nullable();
-            $table->date('shipping_date')->nullable();
             $table->bigInteger('authorized_by')->unsigned()->nullable();
             $table->foreign('authorized_by')->references('id')->on('users')->onDelete('restrict');
             $table->date('authorized_date')->nullable();

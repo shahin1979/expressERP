@@ -19,7 +19,7 @@ MYSQL
 SELECT concat("'",column_name,"',")
 FROM information_schema.columns
 WHERE `TABLE_SCHEMA`='express'
-and table_name='sales'
+and table_name='export_shipping_info'
 ORDER BY `columns`.`ORDINAL_POSITION` ASC
 
 array validation

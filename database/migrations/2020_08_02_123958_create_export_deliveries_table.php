@@ -22,7 +22,7 @@ class CreateExportDeliveriesTable extends Migration
             $table->bigInteger('history_id')->unsigned();
             $table->foreign('history_id')->references('id')->on('product_histories')->onDelete('CASCADE');
             $table->string('container',60)->nullable();
-            $table->string('sealno',60)->nullable();
+            $table->string('seal_no',60)->nullable();
             $table->decimal('cbm',5,2)->default(0);
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('RESTRICT');

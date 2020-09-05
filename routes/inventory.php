@@ -395,6 +395,19 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
 //    Route::post('storeExportProducts','ExportInvoiceCO@store');
 //    Route::delete('items/delete/{id}','ExportInvoiceCO@destroy');
 
+    Route::get('updateVehicleNoIndex','UpdateTransportVehicleCO@index');
+    Route::post('updateVehicleNo/{id}','UpdateTransportVehicleCO@store');
+
+    Route::get('uploadShipmentFileIndex','UploadShipmentFileCO@index');
+    Route::post('uploadShipmentFile','UploadShipmentFileCO@store');
+
+    Route::get('updateShipmentDataIndex','ShippingInfoCO@index');
+    Route::post('updateShipmentData','ShippingInfoCO@store');
+    Route::post('updateContainerData/{id}','ShippingInfoCO@container');
+
+
+
+
 
     Route::get('report/exportReportsIndex','Report\ExportReportsIndexCO@index');
     Route::get('report/exportCommercialInvoiceReportIndex','Report\ExportReportsIndexCO@invoice');

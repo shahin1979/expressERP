@@ -49,8 +49,6 @@ class Sale extends Model
         'delivery_status',
         'delivery_challan_id',
         'shipment_status',
-        'shipping_date',
-        'shipping_mark',
         'authorized_by',
         'authorized_date',
         'account_post',

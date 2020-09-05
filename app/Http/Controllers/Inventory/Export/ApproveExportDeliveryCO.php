@@ -57,8 +57,7 @@ class ApproveExportDeliveryCO extends Controller
 
                 try{
 
-//                    $data = Delivery::query()->get();
-                    Delivery::query()->where('challan_no',$request['challan_no'])
+                    Delivery::query()->where('id',$request['challan_id'])
                         ->where('company_id',$this->company_id)
                         ->update(['status'=>'DL','approve_date'=>Carbon::now(),'approve_by'=>$this->user_id]);
 
@@ -77,7 +76,7 @@ class ApproveExportDeliveryCO extends Controller
                 DB::beginTransaction();
 
                 try {
-                    Delivery::query()->where('challan_no',$request['challan_no'])
+                    Delivery::query()->where('id',$request['challan_id'])
                         ->where('company_id',$this->company_id)
                         ->update(['status','RJ','approve_date'=>Carbon::now(),'approve_by'=>$this->user_id]);
 

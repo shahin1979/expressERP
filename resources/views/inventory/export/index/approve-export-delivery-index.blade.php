@@ -52,6 +52,7 @@
                             @csrf
 
                             <input type="hidden" name="challan_id" value="{!! $delivery->id !!}">
+                            <input type="hidden" name="action" id="action" value="">
 
                             <table class="table table-bordered table-hover table-responsive" id="delivery-table">
                                 <tbody>
@@ -98,8 +99,8 @@
 
                                 <tfoot>
                                     <tr>
-                                        <td><button name="action" value="approve" class="btn btn-info btn-approve btn-block" type="submit">Approve</button></td>
-                                        <td class="text-right"><button name="action" value="reject" class="btn btn-danger btn-block" type="submit">Reject</button></td>
+                                        <td><button class="btn btn-info btn-approve btn-block" type="submit">Approve</button></td>
+                                        <td class="text-right"><button class="btn btn-danger btn-block" type="submit">Reject</button></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -152,40 +153,9 @@
 @push('scripts')
 
     <script>
-        $(document).on('click', '.btn-danger', function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            $.confirm({
-                title: 'Confirm Rejection!',
-                content: 'Are You Sure !',
-                buttons: {
-                    confirm: function () {
-                        $('#approve-delivery-form').submit();
-                    },
-                    cancel: function () {
-                        $.alert('Canceled!');
-                    },
-                }
-            });
-        });
 
 
-        $(document).on('click', '.btn-approve', function (e) {
-            e.preventDefault();
-            var $this = $(this);
-            $.confirm({
-                title: 'Confirm Approve!',
-                content: 'Are You Sure !',
-                buttons: {
-                    confirm: function () {
-                        $('#approve-delivery-form').submit();
-                    },
-                    cancel: function () {
-                        $.alert('Canceled!');
-                    },
-                }
-            });
-        });
+
 
     </script>
 

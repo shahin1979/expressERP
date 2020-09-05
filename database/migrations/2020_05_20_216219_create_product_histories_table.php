@@ -34,6 +34,9 @@ class CreateProductHistoriesTable extends Migration
             $table->unsignedBigInteger('lot_no')->default(0);
             $table->string('bale_no',50)->nullable();
             $table->string('vehicle_no',50)->nullable();
+            $table->string('container',120)->nullable();
+            $table->string('seal_no',120)->nullable();
+            $table->decimal('cbm',5,2)->nullable();
             $table->bigInteger('relationship_id')->unsigned()->nullable()->comment('For which department/supplier/ buyer etc this was created');
             $table->string('remarks',190)->nullable();
             $table->boolean('status')->unsigned()->default(1)->comment('0 = valid, 1= reversed');

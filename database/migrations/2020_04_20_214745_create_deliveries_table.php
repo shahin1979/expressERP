@@ -29,6 +29,11 @@ class CreateDeliveriesTable extends Migration
             $table->char('status',2)->default(1)->comment('CR = created, AP= approved, RC= received, DL=delivered, RJ= rejected, RT=>Returned CL=closed');
             $table->char('stock_status',1)->default('A')->comment('A = Available, F=FINISHED');
             $table->boolean('direct_delivery')->default(0)->comment('1=> auto delivered after approving the invoice');
+            $table->date('shipping_date')->nullable();
+            $table->mediumText('shipping_mark')->nullable();
+            $table->string('vessel_no',120)->nullable();
+            $table->string('shipping_ref',60)->nullable();
+            $table->string('packing',150)->nullable();
             $table->boolean('account_post')->default(0);
             $table->bigInteger('account_voucher',false)->nullable()->unsigned();
             $table->bigInteger('user_id')->unsigned();
