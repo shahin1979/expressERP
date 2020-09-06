@@ -11,7 +11,7 @@
         </ol>
     </nav>
 
-    <div class="container-fluid justify-content-center">
+<div class="container-fluid justify-content-center">
 
     <div class="spark-screen">
         <div class="row">

@@ -123,28 +123,23 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($items as $i=>$item)
+        @foreach($products as $i=>$item)
             <tr>
                 <td width="10%" style="border-bottom-width:1px; font-size:10pt; text-align: left">{!! $i+1 !!}</td>
                 <td width="20%" style="border-bottom-width:1px; font-size:10pt; text-align: left">{!! $item->container !!}</td>
                 <td width="20%" style="border-bottom-width:1px; font-size:10pt; text-align: center">{!! $item->bale_count !!}</td>
-                <td width="30%" style="border-bottom-width:1px; font-size:10pt; text-align: right">{!! number_format($item->grs_weitht,2) !!}</td>
+                <td width="30%" style="border-bottom-width:1px; font-size:10pt; text-align: right">{!! number_format($item->gross_weight,2) !!}</td>
                 <td width="20%" style="border-bottom-width:1px; font-size:10pt; text-align: right">{!!number_format($item->net_weight,2) !!}</td>
             </tr>
-
-            {{--*/ $totalgrosswt +=  $item->grs_weitht /*--}}
-            {{--*/ $totalnetwt +=  $item->net_weight /*--}}
-            {{--*/ $totalbelcount +=  $item->bale_count /*--}}
-
         @endforeach
         </tbody>
         <tfoot>
         <tr style="line-height: 200%">
             <td style="border-bottom-width:0.2px; font-size:10pt;"></td>
             <td style="border-bottom-width:0.2px; font-size:10pt;" >Total</td>
-            <td style="border-bottom-width:0.2px; font-size:10pt; text-align: center">{!! $totalbelcount !!}</td>
-            <td style="border-bottom-width:0.2px; font-size:10pt; text-align: right">{!!number_format($totalgrosswt,2) !!}</td>
-            <td style="border-bottom-width:0.2px; font-size:10pt; text-align: right">{!! number_format($totalnetwt,2) !!}</td>
+            <td style="border-bottom-width:0.2px; font-size:10pt; text-align: center">{!! $products->sum('bale_count') !!}</td>
+            <td style="border-bottom-width:0.2px; font-size:10pt; text-align: right">{!!number_format($products->sum('gross_weight'),2) !!}</td>
+            <td style="border-bottom-width:0.2px; font-size:10pt; text-align: right">{!! number_format($products->sum('net_weight'),2) !!}</td>
         </tr>
         </tfoot>
 
@@ -161,17 +156,17 @@
             <td width="45%"></td>
         </tr>
 
-        @if($invoice->payments >0)
+        @if($invoice->paid_amt > 0)
 
             <tr style="line-height: 150%">
                 <td width="35%" style="font-size:10pt; font-weight: bold"><p style="text-decoration: none">ADVANCE TT RECEIVED USD:</p></td>
-                <td width="20%" style="font-size:10pt;"><p style="text-transform: uppercase; text-align: right">${!!number_format($invoice->payments,2) !!}</p> </td>
+                <td width="20%" style="font-size:10pt;"><p style="text-transform: uppercase; text-align: right">${!!number_format($invoice->paid_amt,2) !!}</p> </td>
                 <td width="45%"></td>
             </tr>
 
             <tr style="line-height: 150%">
                 <td width="35%" style="font-size:10pt; font-weight: bold"><p style="text-decoration: none">CLAIMED AMOUNT USD:</p></td>
-                <td width="20%" style="font-size:10pt;"><p style="text-transform: uppercase; text-align: right">${!!number_format($invoice->fc_amt - $invoice->payments,2) !!}</p> </td>
+                <td width="20%" style="font-size:10pt;"><p style="text-transform: uppercase; text-align: right">${!!number_format($invoice->fc_amt - $invoice->paid_amt,2) !!}</p> </td>
                 <td width="45%"></td>
             </tr>
 
@@ -185,12 +180,12 @@
 
         <tr style="line-height: 150%">
             <td width="30%" style="font-size:10pt; font-weight: bold"><p style="text-decoration: none">APPLICANT TIN/BIN NO:</p></td>
-            <td width="60%" style="font-size:10pt;"><p style="text-transform: uppercase">{!! $invoice->BIN !!}</p> </td>
+            <td width="60%" style="font-size:10pt;"><p style="text-transform: uppercase">{!! $invoice->applicants_bin !!}</p> </td>
         </tr>
 
         <tr style="line-height: 150%">
             <td width="30%" style="font-size:10pt; font-weight: bold"><p style="text-decoration: none">SHIPPING MARKS</p></td>
-            <td width="60%" style="font-size:10pt;"><p style="text-transform: uppercase">{!! $invoice->shipping_mark !!}</p> </td>
+            <td width="60%" style="font-size:10pt;"><p style="text-transform: uppercase">{!! $invoice->challan->shipping_mark !!}</p> </td>
         </tr>
 
         </tbody>

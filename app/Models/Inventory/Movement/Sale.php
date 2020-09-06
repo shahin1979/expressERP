@@ -77,4 +77,9 @@ class Sale extends Model
     {
         return $this->belongsTo(ExportContract::class,'export_contract_id','id');
     }
+
+    public function challan()
+    {
+        return $this->belongsTo(Delivery::class,'delivery_challan_id','id');
+    }
 }

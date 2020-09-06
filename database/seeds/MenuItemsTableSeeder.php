@@ -1564,7 +1564,19 @@ class MenuItemsTableSeeder extends Seeder
 //        ] );
 
 
-
+        MENUITEM::query()->create( [
+            'id'=>57079,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5J',
+            'name'=>'Print Packing List',
+            'show'=>'0',
+            'url'=>'export/report/exportPackingListIndex',
+            'status'=>'1',
+            'content'=>'R'
+        ] );
 
 
 

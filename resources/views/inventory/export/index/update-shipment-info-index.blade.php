@@ -61,7 +61,7 @@
                                     <td align="right">{!! Form::text('shipping_mark',$delivery->shipping_ref , array('id' => 'shipping_mark', 'class' => 'form-control','required')) !!}</td>
                                     {{--<td><button type="button" class="btn btn-default btn-primary" data-toggle="modal" data-target="#modal-unit"><i class="glyphicon glyphicon-plus-sign"></i></button></td>--}}
                                     <td><label for="shipping_date" class="control-label">Shipping Date</label></td>
-                                    <td>{!! Form::text('shipping_date', isset($delivery->shipping_date) ? $delivery->shipping_date : \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'shipping_date', 'class' => 'form-control','required','readonly')) !!}</td>
+                                    <td>{!! Form::text('shipping_date', isset($delivery->shipping_date) ? \Carbon\Carbon::parse($delivery->shipping_date)->format('d-m-Y') : \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'shipping_date', 'class' => 'form-control','required','readonly')) !!}</td>
                                 </tr>
                                 <tr>
                                     <td><label for="vessel_no" class="control-label">Vessel No</label></td>
@@ -92,7 +92,7 @@
     <div class="row justify-content-center">
         <div class=" col-md-10">
             <div class="card">
-                <div class="card-body">Container Information</div>
+                <div class="card-body text-center">Update Container Information</div>
                 <div class="card-body">
                     <!-- Default form contact -->
                     <table class="table table-bordered table-hover table-striped table-responsive" id="container-table">

@@ -412,6 +412,9 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
     Route::get('report/exportReportsIndex','Report\ExportReportsIndexCO@index');
     Route::get('report/exportCommercialInvoiceReportIndex','Report\ExportReportsIndexCO@invoice');
 
+    Route::get('report/exportPackingListIndex','Report\ExportReportsIndexCO@packingList');
+
+
 
 
 });

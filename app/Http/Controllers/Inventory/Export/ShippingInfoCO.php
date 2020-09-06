@@ -66,6 +66,10 @@ class ShippingInfoCO extends Controller
                     'packing'=>$request['packing'],
                     ]);
 
+            Sale::query()->where('company_id',$this->company_id)
+                ->where('delivery_challan_id',$request['challan_id'])
+                ->update(['shipment_status'=>true]);
+
             Activity::query()->insert([
                 'log_name'=>'Update',
                 'description'=>'Update Challan Shipping Info No : '.$request['challan_id'],
@@ -85,7 +89,7 @@ class ShippingInfoCO extends Controller
 
         DB::commit();
 
-        return redirect()->action('Inventory\Export\ShippingInfoCO@index')->with('success','Information Successfully Updated');
+        return redirect()->action('Inventory\Export\ShippingInfoCO@index',['challan_id'=>$request['challan_id'],'action'=>'action'])->with('success','Information Successfully Updated');
     }
 
     public function container(Request $request, $lot_no)

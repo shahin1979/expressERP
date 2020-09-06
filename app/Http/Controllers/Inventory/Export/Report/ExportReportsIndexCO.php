@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory\Export\Report;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common\MenuItem;
+use App\Models\Inventory\Movement\Delivery;
 use App\Models\Inventory\Movement\ProductHistory;
 use App\Models\Inventory\Movement\Sale;
 use App\Models\Inventory\Product\ProductUniqueId;
@@ -26,7 +27,16 @@ class ExportReportsIndexCO extends Controller
             {
                 $q->where('user_id',$this->user_id)->where('view',true);
             }])->get();
-        return view('inventory.export.report.export-reports-index',compact('menus'));
+
+        $invoices = Sale::query()->where('invoice_type','EX')
+            ->where('company_id',$this->company_id)
+            ->pluck('invoice_no','id');
+
+        $deliveries = Delivery::query()->where('delivery_type','EX')
+            ->where('company_id',$this->company_id)
+            ->pluck('challan_no','id');
+
+        return view('inventory.export.report.export-reports-index',compact('menus','invoices','deliveries'));
     }
 
     public function invoice(Request $request)
@@ -75,7 +85,9 @@ class ExportReportsIndexCO extends Controller
 
                 case 'print':
 
-                    if($invoice->shipping_status == null)
+
+
+                    if($invoice->shipping_status===true)
                     {
                         return redirect()->back()->with('error','You can print only after shipment ');
                     }
@@ -93,14 +105,45 @@ class ExportReportsIndexCO extends Controller
                     $pdf::Output('Invoice.pdf');
 
                 break;
-
-
-
             }
-
-
         }
 
         return view('inventory.export.report.commercial-invoice-index',compact('invoices'));
+    }
+
+    public function packingList(Request $request)
+    {
+//        dd($request->all());
+
+        $invoice = Sale::query()->where('delivery_challan_id',$request['challan_id'])
+            ->with('customer')->first();
+
+//        $delivery = Delivery::query()->where('id',$request['challan_id'])
+//            ->with(['items'=>function($q){
+//                $q->where('company_id',$this->company_id);
+//            }])
+//            ->first();
+
+        $products = ProductHistory::query()->where('company_id',$this->company_id)
+            ->whereHas('serial',function($query) use ($invoice) {
+                $query->where('delivery_ref_id',$invoice->delivery_challan_id);
+            })
+            ->select('lot_no',DB::raw('count(*) as bale_count, sum(quantity_in) as net_weight, sum(gross_weight) as gross_weight '))
+            ->groupBy('lot_no')
+            ->get();
+
+        $view = \View::make('inventory.export.report.print.packing-list-pre-shipment-pdf',compact('invoice','products'));
+        $html = $view->render();
+
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+
+        $pdf::SetMargins(15, 5, 10,10);
+
+        $pdf::AddPage();
+
+        $pdf::writeHTML($html, true, false, true, false, '');
+        $pdf::Output('packing-pre-shipment.pdf');
+
+
     }
 }
