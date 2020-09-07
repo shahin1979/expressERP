@@ -85,7 +85,7 @@
                             </tr>
                             <tr>
                                 <td align="left" width="5%"><label for="type" class="control-label">Report Title</label></td>
-                                <td width="10%">{!! Form::select('invoice_no',['P'=>'Packing List','D'=>'Details Packing List','C'=>'Container Packing List'], null , array('id' => 'invoice_no', 'class' => 'form-control')) !!}</td>
+                                <td width="10%">{!! Form::select('report_id',['P'=>'Packing List','D'=>'Details Packing List','C'=>'Container Packing List'], null , array('id' => 'report_id', 'class' => 'form-control')) !!}</td>
                             </tr>
 
                             <tr>

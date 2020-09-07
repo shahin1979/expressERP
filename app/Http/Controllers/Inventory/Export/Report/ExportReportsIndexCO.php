@@ -113,16 +113,9 @@ class ExportReportsIndexCO extends Controller
 
     public function packingList(Request $request)
     {
-//        dd($request->all());
 
         $invoice = Sale::query()->where('delivery_challan_id',$request['challan_id'])
             ->with('customer')->first();
-
-//        $delivery = Delivery::query()->where('id',$request['challan_id'])
-//            ->with(['items'=>function($q){
-//                $q->where('company_id',$this->company_id);
-//            }])
-//            ->first();
 
         $products = ProductHistory::query()->where('company_id',$this->company_id)
             ->whereHas('serial',function($query) use ($invoice) {
@@ -132,17 +125,71 @@ class ExportReportsIndexCO extends Controller
             ->groupBy('lot_no')
             ->get();
 
-        $view = \View::make('inventory.export.report.print.packing-list-pre-shipment-pdf',compact('invoice','products'));
-        $html = $view->render();
 
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
 
-        $pdf::SetMargins(15, 5, 10,10);
 
-        $pdf::AddPage();
+        switch ($request['action'])
+        {
+            case 'pre-shipment':
 
-        $pdf::writeHTML($html, true, false, true, false, '');
-        $pdf::Output('packing-pre-shipment.pdf');
+                $view = \View::make('inventory.export.report.print.packing-list-pre-shipment-pdf',compact('invoice','products'));
+                $html = $view->render();
+                $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+
+                $pdf::SetMargins(15, 5, 10,10);
+
+                $pdf::AddPage();
+
+                $pdf::writeHTML($html, true, false, true, false, '');
+                $pdf::Output('packing-pre-shipment.pdf');
+
+                break;
+
+            case 'print':
+
+                switch($request['report_id'])
+                {
+                    case 'P':
+                        $view = \View::make('inventory.export.report.print.packing-list-pdf',compact('invoice','products'));
+                        $html = $view->render();
+                        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+                        $pdf::SetMargins(15, 5, 10,10);
+                        $pdf::AddPage();
+                        $pdf::writeHTML($html, true, false, true, false, '');
+                        $pdf::Output('packing-pre-shipment.pdf');
+                        break;
+
+                    case 'D':
+                        $view = \View::make('inventory.export.report.print.details-packing-list-pdf',compact('invoice','products'));
+                        $html = $view->render();
+                        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+                        $pdf::SetMargins(15, 5, 10,10);
+                        $pdf::AddPage();
+                        $pdf::writeHTML($html, true, false, true, false, '');
+                        $pdf::Output('packing-pre-shipment.pdf');
+                        break;
+
+                    case 'C':
+
+                        $items = ProductHistory::query()->where('company_id',$this->company_id)
+                            ->whereHas('serial',function($query) use ($invoice) {
+                                $query->where('delivery_ref_id',$invoice->delivery_challan_id);
+                            })->get();
+
+                        $containers = $items->unique('container');
+
+                        $view = \View::make('inventory.export.report.print.container-packing-list-pdf',compact('invoice','items','containers'));
+                        $html = $view->render();
+                        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4', true, 'UTF-8', false);
+                        $pdf::SetMargins(15, 5, 10,10);
+                        $pdf::AddPage();
+                        $pdf::writeHTML($html, true, false, true, false, '');
+                        $pdf::Output('packing-pre-shipment.pdf');
+                }
+
+        }
+
+
 
 
     }
