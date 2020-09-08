@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Inventory\Sales;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common\UserActivity;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SalesRateHistory;
 use Carbon\Carbon;
@@ -13,6 +14,11 @@ class SaleItemsRateCO extends Controller
 {
     public function index()
     {
+        UserActivity::query()->updateOrCreate(
+            ['company_id'=>$this->company_id,'menu_id'=>56004,'user_id'=>$this->user_id
+            ],['updated_at'=>Carbon::now()
+        ]);
+
         $products = ProductMO::query()->where('company_id',$this->company_id)
             ->where('category_id',3)
             ->with(['rate'=> function ($query) {

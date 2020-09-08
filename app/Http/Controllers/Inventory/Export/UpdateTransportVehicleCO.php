@@ -19,7 +19,7 @@ class UpdateTransportVehicleCO extends Controller
 
     public function index(Request $request)
     {
-        $this->menu_log($this->company_id,57035);
+        $this->menu_log($this->company_id,58035);
 
         $selections = Delivery::query()->where('company_id',$this->company_id)
             ->where('delivery_type','EX')

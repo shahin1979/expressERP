@@ -15,7 +15,7 @@ class UploadShipmentFileCO extends Controller
 
     public function index()
     {
-        $this->menu_log($this->company_id,57040);
+        $this->menu_log($this->company_id,58040);
 
         $invoices = Sale::query()->where('company_id',$this->company_id)->where('invoice_type','EX')
             ->pluck('invoice_no','id');

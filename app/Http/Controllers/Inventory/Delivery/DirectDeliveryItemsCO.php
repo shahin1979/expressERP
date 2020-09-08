@@ -22,7 +22,7 @@ class DirectDeliveryItemsCO extends Controller
     public function index()
     {
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>56001,'user_id'=>$this->user_id],
+            ['company_id'=>$this->company_id,'menu_id'=>57001,'user_id'=>$this->user_id],
             ['updated_at'=>Carbon::now()
             ]);
 

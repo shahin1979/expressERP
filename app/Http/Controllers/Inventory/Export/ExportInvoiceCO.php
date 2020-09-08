@@ -25,7 +25,7 @@ class ExportInvoiceCO extends Controller
 
     public function index(Request $request)
     {
-        $this->menu_log($this->company_id,57020);
+        $this->menu_log($this->company_id,58020);
 
         $contracts = ExportContract::query()->where('company_id',$this->company_id)
             ->where('status','DL')

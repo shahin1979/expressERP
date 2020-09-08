@@ -19,7 +19,7 @@ class ExportReportsIndexCO extends Controller
 
     public function index()
     {
-        $this->menu_log($this->company_id,57075);
+        $this->menu_log($this->company_id,58075);
 
         $menus = MenuItem::query()->where('content','R')
             ->where('menu_prefix','5J')->where('show',false)

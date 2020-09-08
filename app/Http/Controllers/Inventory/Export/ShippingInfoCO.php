@@ -20,7 +20,7 @@ class ShippingInfoCO extends Controller
 
     public function index(Request $request)
     {
-        $this->menu_log($this->company_id,57045);
+        $this->menu_log($this->company_id,58045);
 
         $selections = Delivery::query()->where('company_id',$this->company_id)
             ->where('delivery_type','EX')

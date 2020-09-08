@@ -14,7 +14,7 @@ class ProductMovementRegisterCO extends Controller
     {
 
         UserActivity::query()->updateOrCreate(
-            ['company_id'=>$this->company_id,'menu_id'=>58010,'user_id'=>$this->user_id],
+            ['company_id'=>$this->company_id,'menu_id'=>59010,'user_id'=>$this->user_id],
             ['updated_at'=>Carbon::now()
             ]);
 
