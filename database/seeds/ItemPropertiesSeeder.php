@@ -24,7 +24,33 @@ class ItemPropertiesSeeder extends Seeder
      */
     public function run()
     {
+        Lastbaleno::create( [
+            'id'=>1,
+            'company_id'=>1,
+            'line_no'=>1,
+            'product_id'=>1634,
+            'tr_weight'=>1.50,
+            'lot_no'=>100001,
+            'bale_serial'=>1,
+            'bale_no'=>'1',
+            'status'=>1,
+            'updated_by'=>3
+        ] );
 
+
+
+        Lastbaleno::create( [
+            'id'=>2,
+            'company_id'=>1,
+            'line_no'=>2,
+            'product_id'=>2178,
+            'tr_weight'=>1.50,
+            'lot_no'=>600001,
+            'bale_serial'=>1,
+            'bale_no'=>'1',
+            'status'=>1,
+            'updated_by'=>3
+        ] );
 
     }
 }

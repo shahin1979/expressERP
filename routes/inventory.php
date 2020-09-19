@@ -421,3 +421,15 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
 
 
 
+Route::group(['prefix' => 'production', 'namespace' => 'Inventory\Production', 'middleware' => ['auth']], function () {
+
+    Route::get('setCurrentProductionIndex','ProductionSetupCO@index');
+    Route::post('setCurrentProduction','ProductionSetupCO@update');
+//
+    Route::get('productionFromLineOneIndex','ProductionReceiveCO@index');
+    Route::post('submitWeight','ProductionReceiveCO@view');
+
+    Route::post('save','ProductionReceiveCO@store');
+
+
+});
