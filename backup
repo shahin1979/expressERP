@@ -14,6 +14,8 @@ right outer join information_schema.columns c on (pgd.objsubid=c.ordinal_positio
 where table_schema = 'public' and table_name = 'menu_items';
 
 
+https://laravelarticle.com/speed-up-laravel-website?fbclid=IwAR261xdZZffAtEx31PqjrE3X_lX4vjpQloHhDSBFmh8iN9WNjfXmbZggsCU
+
 MYSQL
 
 SELECT concat("'",column_name,"',")

@@ -432,4 +432,10 @@ Route::group(['prefix' => 'production', 'namespace' => 'Inventory\Production', '
     Route::post('save','ProductionReceiveCO@store');
 
 
+    Route::get('productionFromLineIndex/{line}','ProductionReceiveCO@index');
+    Route::post('submitWeight','ProductionReceiveCO@view');
+
+    Route::post('save','ProductionReceiveCO@store');
+
+
 });

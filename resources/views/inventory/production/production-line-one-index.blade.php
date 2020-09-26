@@ -7,7 +7,13 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: rgba(44,221,32,0.1); margin-bottom: 0.5rem">
             <li class="breadcrumb-item"><a class="white-text" href="{!! url('home') !!}">Home</a></li>
-            <li class="breadcrumb-item active">Line One</li>
+            @isset($production)
+            <li class="breadcrumb-item active">Line {!! $production->line_no == 1 ? 'One' : 'Two' !!}</li>
+            @endisset
+
+            @isset($prod)
+                <li class="breadcrumb-item active">Line {!! $prod->line_no == 1 ? 'One' : 'Two' !!}</li>
+            @endisset
         </ol>
     </nav>
 
@@ -45,7 +51,7 @@
                                     <input type="file" name="import_file" />
                                     {{ csrf_field() }}
 {{--                                    <br/>--}}
-                                    <button class="btn btn-primary" name="action" value="one">Submit to Import File</button>
+                                    <button class="btn btn-primary" name="action" value="{!! $production->line_no !!}">Submit to Import File</button>
                                 </form>
                                 <br/>
                             </div>
@@ -77,7 +83,7 @@
                 </thead>
                 <tbody>
                 <tr style="background-color: #afffff;">
-                    <td>Polyester Staple Fiber {!! $prod->item->size->size !!}</td>
+                    <td>Polyester Staple Fiber : {!! $prod->item->subcategory->name !!} {!! $prod->item->size->size !!}</td>
                     <td>{!! $prod->item->model->name !!}</td>
                     <td>KG</td>
                     <td>{!! Form::text('gross_weight',number_format($param['gross_weight'],2) , array('id' => 'gross_weight','class' => 'form-control','autocomplete'=>'off','readonly','required')) !!}</td>
@@ -92,6 +98,7 @@
         <br>
         <div class="col-md-4">
             {!! Form::hidden('receive_no', $param['receive_no'], array('id' => 'receive_no')) !!}
+            {!! Form::hidden('line_no', $prod->line_no, array('id' => 'line_no')) !!}
             {!! Form::submit('SUBMIT',['class'=>'btn  btn-primary btn-submit form-control','id'=>'SUBMIT']) !!}
         </div>
         {!! Form::close() !!}
