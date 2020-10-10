@@ -50,7 +50,8 @@ Route::group(['prefix' => 'security', 'namespace' => 'Security', 'middleware' =>
     Route::get('changePasswordIndex','ChangePasswordCO@index');
     Route::post('changePassword','ChangePasswordCO@update');
 
-    Route::get('resetPasswordIndex','ChangePasswordCO@index');
+    Route::get('resetPasswordIndex','ChangePasswordCO@resetIndex');
+    Route::post('resetPassword','ChangePasswordCO@reset');
 
     Route::get('managePermissionIndex','ManageUserPermissionCO@index');
     Route::get('usersData','ManageUserPermissionCO@usersDTData'); //for Data Table

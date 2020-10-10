@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Common\UserActivity;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\SalesRateHistory;
+use App\Traits\CompanyTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SaleItemsRateCO extends Controller
 {
+    use CompanyTrait;
     public function index()
     {
         UserActivity::query()->updateOrCreate(
@@ -20,7 +22,7 @@ class SaleItemsRateCO extends Controller
         ]);
 
         $products = ProductMO::query()->where('company_id',$this->company_id)
-            ->where('category_id',3)
+            ->where('category_id',$this->get_default_finished_foods_category_id($this->company_id))
             ->with(['rate'=> function ($query) {
                 $query->where('status', 'C');
             }])->get();

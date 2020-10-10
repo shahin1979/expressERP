@@ -152,6 +152,20 @@ Route::group(['prefix' => 'budget', 'namespace' => 'Accounts\Budget', 'middlewar
 
 
 
+
+// BUDGET ROUTES
+
+Route::group(['prefix' => 'rtgs', 'namespace' => 'Accounts\RTGS', 'middleware' => ['auth']], function () {
+
+    //PAYMENT TRANSACTIONS ROUTE
+
+    Route::get('rtgsPaymentIndex','RtgsPaymentFormCO@index');
+    Route::get('rtgsPayment','RtgsPaymentFormCO@store');
+
+});
+
+
+
 // FINANCIAL STATEMENTS' ROUTES
 
 Route::group(['prefix' => 'statement', 'namespace' => 'Accounts\Statement', 'middleware' => ['auth']], function () {

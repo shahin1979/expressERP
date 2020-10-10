@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Security\UserRole;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -81,8 +82,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
-
         return User::create([
             'company_id' => $data['company_id'],
             'role_id' => $data['role_id'],
@@ -92,6 +91,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'use_created' => Auth::id(),
+            'password_expiry_days'=>30,
+            'password_updated_at'=>Carbon::now(),
 
         ]);
     }

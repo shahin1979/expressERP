@@ -1,12 +1,13 @@
 <?php
-
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Inventory\Product\ItemModel;
+use Illuminate\Support\Facades\DB;
 
 class ItemModelSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

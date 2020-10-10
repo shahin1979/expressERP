@@ -32,8 +32,8 @@ class CreateUsersTable extends Migration
             $table->string('ip_allow',15)->nullable();// allow login only from this IP
             $table->string('device')->nullable();
             $table->integer('wrong_pass_count',false)->default(0);
-            $table->date('pass_exp_date')->nullable();
-            $table->integer('pass_exp_period')->unsigned()->default(3);
+            $table->tinyInteger('password_expiry_days')->default(30);
+            $table->timestamp('password_updated_at');
             $table->boolean('pass_never_exp')->default(0);
             $table->boolean('status')->default(1);
             $table->unsignedInteger('old_id')->nullable();

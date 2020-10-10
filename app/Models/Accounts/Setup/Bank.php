@@ -33,4 +33,15 @@ class Bank extends Model
     {
         return $this->belongsTo(GeneralLedger::class,'related_gl_id','id')->withDefault();
     }
+
+    public function getBankAccountAttribute()
+    {
+        return $this->bank_name. ' : '. $this->bank_acc_no;
+
+    }
+
+    public function getTitleAccountAttribute()
+    {
+        return $this->bank_acc_name.' : '. $this->bank_acc_no. ' : '. $this->bank_name;
+    }
 }

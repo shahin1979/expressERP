@@ -65,7 +65,7 @@
 
     @isset($prod)
 
-        {!! Form::open(['url'=>'production/save','target' => '_blank','id'=>'bale-submit-form']) !!}
+        {!! Form::open(['url'=>'production/save','target' => '_blank','id'=>'bale-submit-form','method'=>'post']) !!}
 
         <div class="card padding-left">
             <div class="card-header">Production Bale No: {!! $prod->bale_no !!}</div>
@@ -97,7 +97,6 @@
         </div>
         <br>
         <div class="col-md-4">
-            {!! Form::hidden('receive_no', $param['receive_no'], array('id' => 'receive_no')) !!}
             {!! Form::hidden('line_no', $prod->line_no, array('id' => 'line_no')) !!}
             {!! Form::submit('SUBMIT',['class'=>'btn  btn-primary btn-submit form-control','id'=>'SUBMIT']) !!}
         </div>

@@ -1,12 +1,12 @@
 <?php
-
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Inventory\Product\ItemSize;
 
 class ItemSizeTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
@@ -14,7 +14,7 @@ class ItemSizeTableSeeder extends Seeder
     {
 
 
-        ItemSize::create( [
+        ItemSize::query()->create( [
             'company_id'=>1,
             'size'=>'24MM',
             'description'=>'24MM',
@@ -25,7 +25,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
 
-        ItemSize::create( [
+        ItemSize::query()->create( [
             'company_id'=>1,
             'size'=>'32MM',
             'description'=>NULL,
@@ -36,7 +36,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
 
-        ItemSize::create( [
+        ItemSize::query()->create( [
             'company_id'=>1,
             'size'=>'38MM',
             'description'=>NULL,
@@ -47,7 +47,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
 
-        ItemSize::create( [
+        ItemSize::query()->create( [
             'company_id'=>1,
             'size'=>'51MM',
             'description'=>NULL,
@@ -58,7 +58,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
 
-        ItemSize::create( [
+        ItemSize::query()->create( [
             'company_id'=>1,
             'size'=>'62MM',
             'description'=>NULL,
@@ -69,7 +69,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
 
-        ItemSize::create( [
+        ItemSize::query()->create( [
             'company_id'=>1,
             'size'=>'64MM',
             'description'=>NULL,
@@ -80,7 +80,7 @@ class ItemSizeTableSeeder extends Seeder
 
 
 
-        ItemSize::create( [
+        ItemSize::query()->create( [
             'company_id'=>1,
             'size'=>'72MM',
             'description'=>NULL,

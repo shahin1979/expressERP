@@ -1,18 +1,18 @@
 <?php
-//
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Common\MenuItem;
 //
 class MenuItemsTableSeeder extends Seeder
 {
 //    /**
-//     * Run the database seeds.
+//     * Run the database seeders.
 //     *
 //     * @return void
 //     */
     public function run()
     {
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>10001,
             'company_id'=>1,
             'module_id'=>1,
@@ -26,7 +26,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>11000,
             'company_id'=>1,
             'module_id'=>1,
@@ -42,7 +42,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>11001,
             'company_id'=>1,
             'module_id'=>1,
@@ -56,7 +56,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>11005,
             'company_id'=>1,
             'module_id'=>1,
@@ -70,7 +70,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>11015,
             'company_id'=>1,
             'module_id'=>1,
@@ -84,7 +84,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>11030,
             'company_id'=>1,
             'module_id'=>1,
@@ -99,7 +99,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>20001,
             'company_id'=>1,
             'module_id'=>2,
@@ -113,7 +113,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>21000,
             'company_id'=>1,
             'module_id'=>2,
@@ -129,7 +129,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>21001,
             'company_id'=>1,
             'module_id'=>2,
@@ -144,7 +144,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>21005,
             'company_id'=>1,
             'module_id'=>2,
@@ -158,7 +158,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>21010,
             'company_id'=>1,
             'module_id'=>2,
@@ -172,7 +172,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>21015,
             'company_id'=>1,
             'module_id'=>2,
@@ -186,7 +186,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>21020,
             'company_id'=>1,
             'module_id'=>2,
@@ -201,7 +201,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>30001,
             'company_id'=>1,
             'module_id'=>3,
@@ -216,7 +216,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>31000,
             'company_id'=>1,
             'module_id'=>3,
@@ -232,7 +232,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>31075,
             'company_id'=>1,
             'module_id'=>3,
@@ -248,7 +248,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>33000,
             'company_id'=>1,
             'module_id'=>3,
@@ -264,7 +264,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>33005,
             'company_id'=>1,
             'module_id'=>3,
@@ -284,7 +284,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>40001,
             'company_id'=>1,
             'module_id'=>4,
@@ -298,7 +298,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>42000,
             'company_id'=>1,
             'module_id'=>4,
@@ -314,7 +314,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>42002,
             'company_id'=>1,
             'module_id'=>4,
@@ -330,7 +330,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>42005,
             'company_id'=>1,
             'module_id'=>4,
@@ -344,7 +344,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>42010,
             'company_id'=>1,
             'module_id'=>4,
@@ -359,7 +359,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>42015,
             'company_id'=>1,
             'module_id'=>4,
@@ -377,7 +377,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>42020,
             'company_id'=>1,
             'module_id'=>4,
@@ -391,7 +391,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>42025,
             'company_id'=>1,
             'module_id'=>4,
@@ -406,7 +406,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
         'id'=>43000,
         'company_id'=>1,
         'module_id'=>4,
@@ -422,7 +422,7 @@ class MenuItemsTableSeeder extends Seeder
          'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>43005,
             'company_id'=>1,
             'module_id'=>4,
@@ -437,7 +437,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>44000,
             'company_id'=>1,
             'module_id'=>4,
@@ -453,7 +453,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>44005,
             'company_id'=>1,
             'module_id'=>4,
@@ -467,7 +467,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>44010,
             'company_id'=>1,
             'module_id'=>4,
@@ -486,7 +486,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>44015,
             'company_id'=>1,
             'module_id'=>4,
@@ -501,7 +501,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>44020,
             'company_id'=>1,
             'module_id'=>4,
@@ -515,7 +515,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>44025,
             'company_id'=>1,
             'module_id'=>4,
@@ -529,7 +529,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>44035,
             'company_id'=>1,
             'module_id'=>4,
@@ -544,9 +544,67 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
+        MenuItem::query()->create( [
+            'id'=>45000,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'4G',
+            'name'=>'RTGS PAYMENT',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1',
+            'content'=>'F'
+        ] );
 
 
-            MENUITEM::query()->create( [
+        MenuItem::query()->create( [
+            'id'=>45005,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4G',
+            'name'=>'RTGS Payment',
+            'show'=>'1',
+            'url'=>'rtgs/rtgsPaymentIndex',
+            'status'=>'1',
+            'content'=>'F'
+        ] );
+
+        MenuItem::query()->create( [
+            'id'=>45010,
+            'company_id'=>1,
+            'module_id'=>4,
+            'nav_label'=>4,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4G',
+            'name'=>'Approve RTGS Payment',
+            'show'=>'1',
+            'url'=>'rtgs/rtgsPaymentApproveIndex',
+            'status'=>'1',
+            'content'=>'F'
+        ] );
+
+        MenuItem::query()->create( [
+            'id'=>45015,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'4G',
+            'name'=>'Print RTGS Payment Form',
+            'show'=>'1',
+            'url'=>'rtgs/printPaymentFormIndex',
+            'status'=>'1',
+            'content'=>'R'
+        ] );
+
+
+            MenuItem::query()->create( [
             'id'=>47000,
             'company_id'=>1,
             'module_id'=>4,
@@ -562,7 +620,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'R'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>47005,
             'company_id'=>1,
             'module_id'=>4,
@@ -576,7 +634,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'R'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>47015,
             'company_id'=>1,
             'module_id'=>4,
@@ -591,7 +649,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>47020,
             'company_id'=>1,
             'module_id'=>4,
@@ -606,7 +664,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>47025,
             'company_id'=>1,
             'module_id'=>4,
@@ -621,7 +679,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>47030,
             'company_id'=>1,
             'module_id'=>4,
@@ -638,7 +696,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>49000,
             'company_id'=>1,
             'module_id'=>4,
@@ -654,7 +712,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'R'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>49002,
             'company_id'=>1,
             'module_id'=>4,
@@ -670,7 +728,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>49005,
             'company_id'=>1,
             'module_id'=>4,
@@ -684,7 +742,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>49015,
             'company_id'=>1,
             'module_id'=>4,
@@ -698,7 +756,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>49020,
             'company_id'=>1,
             'module_id'=>4,
@@ -715,7 +773,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>50001,
             'company_id'=>1,
             'module_id'=>5,
@@ -729,7 +787,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51000,
             'company_id'=>1,
             'module_id'=>5,
@@ -745,7 +803,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51005,
             'company_id'=>1,
             'module_id'=>5,
@@ -760,7 +818,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>51010,
             'company_id'=>1,
             'module_id'=>5,
@@ -775,7 +833,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51015,
             'company_id'=>1,
             'module_id'=>5,
@@ -790,7 +848,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51020,
             'company_id'=>1,
             'module_id'=>5,
@@ -804,7 +862,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51025,
             'company_id'=>1,
             'module_id'=>5,
@@ -818,7 +876,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51030,
             'company_id'=>1,
             'module_id'=>5,
@@ -832,7 +890,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51035,
             'company_id'=>1,
             'module_id'=>5,
@@ -846,7 +904,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51040,
             'company_id'=>1,
             'module_id'=>5,
@@ -860,7 +918,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51045,
             'company_id'=>1,
             'module_id'=>5,
@@ -875,7 +933,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51050,
             'company_id'=>1,
             'module_id'=>5,
@@ -889,7 +947,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>51055,
             'company_id'=>1,
             'module_id'=>5,
@@ -904,7 +962,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>51060,
             'company_id'=>1,
             'module_id'=>5,
@@ -926,7 +984,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>52000,
             'company_id'=>1,
             'module_id'=>5,
@@ -942,7 +1000,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>52005,
             'company_id'=>1,
             'module_id'=>5,
@@ -957,7 +1015,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>52015,
             'company_id'=>1,
             'module_id'=>5,
@@ -971,7 +1029,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>52025,
             'company_id'=>1,
             'module_id'=>5,
@@ -986,7 +1044,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>52050,
             'company_id'=>1,
             'module_id'=>5,
@@ -1002,7 +1060,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>53000,
             'company_id'=>1,
             'module_id'=>5,
@@ -1018,7 +1076,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>53002,
             'company_id'=>1,
             'module_id'=>5,
@@ -1032,7 +1090,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>53005,
             'company_id'=>1,
             'module_id'=>5,
@@ -1047,7 +1105,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>53015,
             'company_id'=>1,
             'module_id'=>5,
@@ -1063,7 +1121,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>53020,
             'company_id'=>1,
             'module_id'=>5,
@@ -1077,7 +1135,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>53025,
             'company_id'=>1,
             'module_id'=>5,
@@ -1095,7 +1153,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-            MENUITEM::query()->create( [
+            MenuItem::query()->create( [
             'id'=>54000,
             'company_id'=>1,
             'module_id'=>5,
@@ -1112,7 +1170,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>54002,
             'company_id'=>1,
             'module_id'=>5,
@@ -1127,7 +1185,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>54005,
             'company_id'=>1,
             'module_id'=>5,
@@ -1142,7 +1200,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>54008,
             'company_id'=>1,
             'module_id'=>5,
@@ -1159,7 +1217,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>55000,
             'company_id'=>1,
             'module_id'=>5,
@@ -1175,7 +1233,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>55002,
             'company_id'=>1,
             'module_id'=>5,
@@ -1190,7 +1248,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>55010,
             'company_id'=>1,
             'module_id'=>5,
@@ -1204,7 +1262,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>55015,
             'company_id'=>1,
             'module_id'=>5,
@@ -1221,7 +1279,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56000,
             'company_id'=>1,
             'module_id'=>5,
@@ -1237,7 +1295,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56002,
             'company_id'=>1,
             'module_id'=>5,
@@ -1251,7 +1309,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56004,
             'company_id'=>1,
             'module_id'=>5,
@@ -1266,7 +1324,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56006,
             'company_id'=>1,
             'module_id'=>5,
@@ -1280,7 +1338,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56008,
             'company_id'=>1,
             'module_id'=>5,
@@ -1294,7 +1352,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56010,
             'company_id'=>1,
             'module_id'=>5,
@@ -1308,7 +1366,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56012,
             'company_id'=>1,
             'module_id'=>5,
@@ -1323,7 +1381,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>56030,
             'company_id'=>1,
             'module_id'=>5,
@@ -1337,7 +1395,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'R'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>57000,
             'company_id'=>1,
             'module_id'=>5,
@@ -1353,7 +1411,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>57002,
             'company_id'=>1,
             'module_id'=>5,
@@ -1367,7 +1425,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>57004,
             'company_id'=>1,
             'module_id'=>5,
@@ -1382,7 +1440,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>57008,
             'company_id'=>1,
             'module_id'=>5,
@@ -1397,7 +1455,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>57010,
             'company_id'=>1,
             'module_id'=>5,
@@ -1416,7 +1474,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 //
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58000,
             'company_id'=>1,
             'module_id'=>5,
@@ -1432,7 +1490,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 //
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58005,
             'company_id'=>1,
             'module_id'=>5,
@@ -1448,7 +1506,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58007,
             'company_id'=>1,
             'module_id'=>5,
@@ -1463,7 +1521,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58010,
             'company_id'=>1,
             'module_id'=>5,
@@ -1479,7 +1537,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58015,
             'company_id'=>1,
             'module_id'=>5,
@@ -1496,7 +1554,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58020,
             'company_id'=>1,
             'module_id'=>5,
@@ -1513,7 +1571,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58025,
             'company_id'=>1,
             'module_id'=>5,
@@ -1528,7 +1586,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58030,
             'company_id'=>1,
             'module_id'=>5,
@@ -1544,7 +1602,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58035,
             'company_id'=>1,
             'module_id'=>5,
@@ -1558,7 +1616,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58040,
             'company_id'=>1,
             'module_id'=>5,
@@ -1572,7 +1630,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58045,
             'company_id'=>1,
             'module_id'=>5,
@@ -1587,7 +1645,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58050,
             'company_id'=>1,
             'module_id'=>5,
@@ -1602,7 +1660,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58075,
             'company_id'=>1,
             'module_id'=>5,
@@ -1616,7 +1674,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'R'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58077,
             'company_id'=>1,
             'module_id'=>5,
@@ -1631,7 +1689,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>58079,
             'company_id'=>1,
             'module_id'=>5,
@@ -1649,7 +1707,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>59000,
             'company_id'=>1,
             'module_id'=>5,
@@ -1665,7 +1723,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'R'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>59010,
             'company_id'=>1,
             'module_id'=>5,
@@ -1680,7 +1738,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>59015,
             'company_id'=>1,
             'module_id'=>5,
@@ -1695,7 +1753,7 @@ class MenuItemsTableSeeder extends Seeder
         ] );
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>59020,
             'company_id'=>1,
             'module_id'=>5,
@@ -1715,7 +1773,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>90001,
             'company_id'=>1,
             'module_id'=>9,
@@ -1731,7 +1789,7 @@ class MenuItemsTableSeeder extends Seeder
 
 
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>92000,
             'company_id'=>1,
             'module_id'=>9,
@@ -1747,7 +1805,7 @@ class MenuItemsTableSeeder extends Seeder
             'content'=>'F'
         ] );
 
-        MENUITEM::query()->create( [
+        MenuItem::query()->create( [
             'id'=>92005,
             'company_id'=>1,
             'module_id'=>9,

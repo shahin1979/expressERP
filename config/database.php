@@ -49,7 +49,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'express'),
+            'database' => env('DB_DATABASE', 'ex-matin'),
             'username' => env('DB_USERNAME', 'adminuser'),
             'password' => env('DB_PASSWORD', 'power123'),
             'unix_socket' => env('DB_SOCKET', ''),

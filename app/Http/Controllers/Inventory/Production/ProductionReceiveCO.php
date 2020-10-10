@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ProductionReceiveCO extends Controller
 {
@@ -47,7 +48,7 @@ class ProductionReceiveCO extends Controller
             $file = $request->file('import_file');
             $param = [];
 //            $prod = null;
-            $fiscal = $this->get_fiscal_data_from_current_date($this->company_id);
+
 
             switch ($request['action'])
             {
@@ -64,19 +65,16 @@ class ProductionReceiveCO extends Controller
 
                     $prod = LastBaleNo::query()->where('line_no',$request['action'])->with('item')->first();
 
-                    $tr_code = TransCode::query()->where('company_id', $this->company_id)
-                        ->where('trans_code', 'RC') // Delivery Challan
-                        ->where('fiscal_year', $fiscal->fiscal_year)
-                        ->lockForUpdate()->first();
+
 
                     $param['line_no'] = 'One';
-                    $param['receive_no'] = $tr_code->last_trans_id;
+//                    $param['receive_no'] = $tr_code->last_trans_id;
                     $param['gross_weight'] = trim($gross)/10;
 
-                    TransCode::query()->where('company_id', $this->company_id)
-                        ->where('trans_code', 'RC')
-                        ->where('fiscal_year', $fiscal)
-                        ->increment('last_trans_id');
+//                    TransCode::query()->where('company_id', $this->company_id)
+//                        ->where('trans_code', 'RC')
+//                        ->where('fiscal_year', $fiscal)
+//                        ->increment('last_trans_id');
                     break;
 
                 case 2:
@@ -93,19 +91,19 @@ class ProductionReceiveCO extends Controller
 
                     $prod = LastBaleNo::query()->where('line_no',$request['action'])->with('item')->first();
 
-                    $tr_code = TransCode::query()->where('company_id', $this->company_id)
-                        ->where('trans_code', 'RC') // Delivery Challan
-                        ->where('fiscal_year', $fiscal->fiscal_year)
-                        ->lockForUpdate()->first();
+//                    $tr_code = TransCode::query()->where('company_id', $this->company_id)
+//                        ->where('trans_code', 'RC') // Delivery Challan
+//                        ->where('fiscal_year', $fiscal->fiscal_year)
+//                        ->lockForUpdate()->first();
 
                     $param['line_no'] = 'Two';
-                    $param['receive_no'] = $tr_code->last_trans_id;
+//                    $param['receive_no'] = $tr_code->last_trans_id;
                     $param['gross_weight'] = trim($gross)/10;
 
-                    TransCode::query()->where('company_id', $this->company_id)
-                        ->where('trans_code', 'RC')
-                        ->where('fiscal_year', $fiscal)
-                        ->increment('last_trans_id');
+//                    TransCode::query()->where('company_id', $this->company_id)
+//                        ->where('trans_code', 'RC')
+//                        ->where('fiscal_year', $fiscal)
+//                        ->increment('last_trans_id');
 
                     break;
 
@@ -127,16 +125,38 @@ class ProductionReceiveCO extends Controller
         $request->validate([
             'quantity_in' => 'required|numeric|between:200.00,400.99'
         ]);
-//        $product = ProductMO::query()->where('id',$request['product_id'])->first();
-        $production = LastBaleNo::query()->where('line_no',$request['line_no'])->with('item')->lockForUpdate()->first();
-        $receive = Receive::query()->where('company_id',$this->company_id)->where('challan_no',$request['receive_no'])->first();
 
+        $fiscal = $this->get_fiscal_data_from_current_date($this->company_id);
         DB::beginTransaction();
 
         try {
 
+            $production = LastBaleNo::query()->where('line_no',$request['line_no'])->with('item')->lockForUpdate()->first();
+
+
+
             if($request['quantity_in'] > 200)
             {
+                $tr_code =  TransCode::query()->where('company_id',$this->company_id)
+                    ->where('trans_code','IR')
+                    ->where('fiscal_year',$fiscal->fiscal_year)
+                    ->lockForUpdate()->first();
+
+                $receive = Receive::query()->create([
+                    'company_id'=>$this->company_id,
+                    'challan_no'=>$tr_code->last_trans_id,
+                    'ref_no'=>$tr_code->last_trans_id,
+                    'supplier_id'=>4,//Production
+                    'receive_type'=>'PR',
+                    'receive_date'=>Carbon::now(),
+                    'approve_by'=>Auth::id(),
+                    'approve_date'=>Carbon::now(),
+                    'description'=>'Received form production',
+                    'user_id'=>Auth::id()
+                ]);
+
+
+
                 ProductMO::query()->where('id',$request['product_id'])
                     ->where('company_id',$this->company_id)
                     ->increment('purchase_qty',$request['quantity_in']);
@@ -145,19 +165,13 @@ class ProductionReceiveCO extends Controller
                     ->where('company_id',$this->company_id)
                     ->increment('on_hand',$request['quantity_in']);
 
-                $baleNo = GenUtil::get_bale_number_new(1);
-
-//                $digit = strlen($baleNo);
-//                $startD = $digit - 7;
-//                $lotno = substr($baleNo,$startD,5);
-
-                ProductHistory::query()->insert(
+                $item = ProductHistory::query()->create(
                     ['company_id' => $this->company_id,
-                        'ref_no' => $request['receive_no'],
+                        'ref_no' => $receive->ref_no,
                         'ref_id' => $receive->id,
                         'tr_date' => Carbon::now(),
                         'ref_type' =>'F',
-                        'contra_ref' => $request['receive_no'],
+                        'contra_ref' => $receive->ref_no,
                         'product_id' => $request['product_id'],
                         'quantity_in' => $request['quantity_in'],
                         'quantity_out' => 0,
@@ -168,24 +182,33 @@ class ProductionReceiveCO extends Controller
                         'lot_no' =>$production->lot_no,
                         'bale_no' =>$production->bale_no,
                         'relationship_id' =>2,
-                        'remarks' =>'Receive from production',
+                        'remarks' =>'Receive from production Line '.$request['line_no'],
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                         'userId' => Auth::id()
                     ]
                 );
+
+                TransCode::query()->where('company_id',$this->company_id)
+                    ->where('trans_code','IR')
+                    ->where('fiscal_year',$fiscal->fiscal_year)
+                    ->increment('last_trans_id');
+
+                $this->get_bale_no($production); // Increment Lot No, bale_serial, bale_no;
+
             }
 
         }catch (\Exception $e)
         {
             DB::rollBack();
             $error = $e->getMessage();
+            dd($error);
             return redirect()->back()->with('error',$error);
         }
 
         DB::commit();
 
-        $view = \View::make('stock/production/production-label-print',compact('baleNo','grossWeight','weight','dspec','mspec','mdate'));
+        $view = \View::make('inventory/production/production-label-pdf',compact('item'));
         $html = $view->render();
 
         $pdf = new TCPDF('L', PDF_UNIT, array(105,148), true, 'UTF-8', false);
@@ -220,15 +243,39 @@ class ProductionReceiveCO extends Controller
 
         $pdf::AddPage('L');
 
-
-
         $pdf::writeHTML($html, true, false, true, false, '');
-        $pdf::write1DBarcode($baleNo, 'C39', '', '', '', 25, 0.6, $style, 'N'); //150 top padding
-        $pdf::Output($baleNo.'.pdf');
+        $pdf::write1DBarcode($production->bale_no, 'C39', '', '', '', 25, 0.6, $style, 'N'); //150 top padding
+        $pdf::Output($production->bale_no.'.pdf');
 
 
         return redirect()->action('Stock\Production\ProductionController@index');
 
 
+    }
+
+    public function get_bale_no($production)
+    {
+        $bale_no = $production->bale_no;
+
+        if($production->bale_serial == 40)
+        {
+            LastBaleNo::query()->where('id',$production->id)
+                ->update(['bale_serial'=>1]); //Restart Bale Serial Count
+            $production->increment('lot_no',1); //increase Lot No by 1
+            $bale_serial = 1;
+        }else
+        {
+            $production->increment('bale_serial',1);
+            $bale_serial = $production->bale_sl;
+        }
+
+        $type = substr($production->item->subcategory->name,0,1);
+        $year = Carbon::now()->format('y');
+        $lot = str_pad($production->lot_no, 5, "0", STR_PAD_LEFT);
+        $bale = str_pad($bale_serial, 2, "0", STR_PAD_LEFT);
+
+        $nBaleNo = Str::replaceLast($production->item->model->name,'D','').$type.$year.$lot.$bale;
+        $production->update(['bale_no'=>$nBaleNo]);
+        return $bale_no;
     }
 }
