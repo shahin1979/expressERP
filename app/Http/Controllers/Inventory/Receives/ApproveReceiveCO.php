@@ -57,7 +57,7 @@ class ApproveReceiveCO extends Controller
 
             ->addColumn('supplier', function ($query) {
                 return $query->items->map(function($items) {
-                    return $items->supplier->name;
+                    return $items->ref_type == 'F' ? 'From Production' : $items->supplier->name;
                 })->implode('<br>');
             })
 

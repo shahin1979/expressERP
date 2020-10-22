@@ -57,6 +57,8 @@ trait MigrationTrait
 //
 //        }
 
+//        dd($connection);
+
         $ledgers = $connection->table('gl_accounts')
             ->where('comp_code',12)
             ->orderBy('ldgrCode','ASC')
@@ -187,7 +189,7 @@ trait MigrationTrait
 
                 $tr_code =  TransCode::query()->where('company_id',$company_id)
                     ->where('trans_code',$jcode)
-                    ->where('fiscal_year','2019-2020')
+                    ->where('fiscal_year','2020-2021')
                     ->lockForUpdate()->first();
 
 
@@ -258,7 +260,7 @@ trait MigrationTrait
                                 'trans_amt'=>$item->trans_amt,
                                 'contra_acc'=>$item->acc_dr == 'JV' ? '' : $item->acc_dr,
                                 'currency'=>'BDT',
-                                'fiscal_year'=>'2019-2020',
+                                'fiscal_year'=>'2020-2021',
                                 'trans_desc1'=>$item->trans_desc1,
                                 'trans_desc2'=>$item->trans_desc2,
                                 'old_voucher'=>$item->voucher_no,
@@ -354,7 +356,7 @@ trait MigrationTrait
                                 'trans_amt'=>$item->trans_amt,
                                 'contra_acc'=>$item->acc_cr == 'JV' ? '' : $item->acc_cr,
                                 'currency'=>'BDT',
-                                'fiscal_year'=>'2019-2020',
+                                'fiscal_year'=>'2020-2021',
                                 'trans_desc1'=>$item->trans_desc1,
                                 'trans_desc2'=>$item->trans_desc2,
                                 'post_flag'=>true,
@@ -402,7 +404,7 @@ trait MigrationTrait
 
                 TransCode::query()->where('company_id',$this->company_id)
                     ->where('trans_code',$jcode)
-                    ->where('fiscal_year','2019-2020')
+                    ->where('fiscal_year','2020-2021')
                     ->increment('last_trans_id');
 
             }
@@ -524,7 +526,7 @@ trait MigrationTrait
         foreach ($departments as $row)
         {
             $newLine['company_id'] = $company_id;
-            $newLine['fiscal_year'] = '2019-2020';
+            $newLine['fiscal_year'] = '2020-2021';
             $newLine['name'] = $row->deptName;
             $newLine['old_id'] = $row->deptCode;
             $newLine['user_id'] = Auth::id();
@@ -607,8 +609,8 @@ trait MigrationTrait
         $connection = DB::connection('mcottondb');
 
 //        DB::statement('TRUNCATE TABLE relationships RESTART identity CASCADE;');
-        DB::statement('TRUNCATE TABLE relationships;');
-        DB::statement('TRUNCATE TABLE purchases;');
+//        DB::statement('TRUNCATE TABLE relationships;');
+//        DB::statement('TRUNCATE TABLE purchases;');
 
         $data = $connection->table('customers')
 //            ->where('customerType','E')
@@ -795,9 +797,11 @@ trait MigrationTrait
 
     }
 
-    public function depreciation($company_id, $connection)
+    public function depreciation($company_id)
     {
-        DB::statement('TRUNCATE TABLE depreciation;');
+        $connection = DB::connection('mcottondb');
+
+//        DB::statement('TRUNCATE TABLE depreciation;');
 
 
         $data = $connection->table('fixed_asset_sch')->get();
@@ -838,7 +842,7 @@ trait MigrationTrait
 
 //        DB::statement('TRUNCATE TABLE relationships RESTART identity CASCADE;');
 //        DB::statement('TRUNCATE TABLE relationships;');
-        DB::statement('TRUNCATE TABLE sales;');
+//        DB::statement('TRUNCATE TABLE sales;');
 
 //        $data = $connection->table('customers')
 //            ->where('customerType','B')

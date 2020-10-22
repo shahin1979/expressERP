@@ -23,7 +23,7 @@ class Receive extends Model
         'challan_no',
         'ref_no',
         'supplier_id',
-        'receive_type',
+        'receive_type', //'LP = Local Purchase, IM= Import SV=Salvage PR=Production'
         'receive_date',
         'approve_by',
         'approve_date',

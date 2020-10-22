@@ -17,6 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('company_id')->unsigned();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('CASCADE');
+//            $table->bigInteger('group_id')->unsigned();
+//            $table->foreign('group_id')->references('id')->on('group_categories')->onDelete('CASCADE');
             $table->string('name', 200);
             $table->string('alias', 100)->nullable();
             $table->boolean('has_sub')->default(1);

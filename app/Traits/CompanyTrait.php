@@ -737,7 +737,7 @@ trait CompanyTrait
         return $company->cost_of_goods_sold;
     }
 
-    public function get_default_finished_foods_category_id($company_id)
+    public function get_default_finished_goods_category_id($company_id)
     {
         $company = CompanyProperty::query()->where('company_id',$company_id)->first();
 

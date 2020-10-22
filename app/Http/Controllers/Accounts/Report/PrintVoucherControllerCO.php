@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounts\Report;
 use App\Http\Controllers\Controller;
 use App\Models\Accounts\Trans\Transaction;
 use App\Models\Common\UserActivity;
+use App\Models\Company\TransCode;
 use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,6 +20,8 @@ class PrintVoucherControllerCO extends Controller
             ['company_id'=>$this->company_id,'menu_id'=>47015,'user_id'=>$this->user_id
             ],['updated_at'=>Carbon::now()
         ]);
+
+        $category = TransCode::query()->whereBetween('id',[1,9])->pluck('trans_name','trans_code');
 
 
         $trans = null;
@@ -66,6 +69,7 @@ class PrintVoucherControllerCO extends Controller
                 $date_from = Carbon::createFromFormat('d-m-Y',$request['date_from'])->format('Y-m-d');
                 $date_to = Carbon::createFromFormat('d-m-Y',$request['date_to'])->format('Y-m-d');
                 $trans = Transaction::query()->where('company_id',$this->company_id)
+                    ->where('tr_code',$request['trans_code'])
                     ->whereBetween('trans_date',[$date_from,$date_to])->with('code')
                     ->orderBy('trans_date')
                     ->orderBy('voucher_no','ASC')
@@ -110,6 +114,6 @@ class PrintVoucherControllerCO extends Controller
 
             }
         }
-        return view('accounts.report.transaction.print-voucher-index');
+        return view('accounts.report.transaction.print-voucher-index',compact('category'));
     }
 }

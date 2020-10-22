@@ -20,7 +20,7 @@ class CreateTransProductsTable extends Migration
             $table->bigInteger('ref_no',false)->unsigned()->comment('Invoice No, Purchase Order No, Requisition No, Challan N');;
             $table->bigInteger('ref_id',false)->unsigned()->comment('Invoice, Purchase, Requisition No, Challan id');;
             $table->date('tr_date');
-            $table->char('ref_type',1)->comment('P = Purchase, R = Requisition, S = Sales, I = Import, D = Delivery, E = Export'); //1 for consumption 2 for purchase
+            $table->char('ref_type',1)->comment('P = Purchase, R = Requisition, S = Sales, I = Import, D = Delivery, E = Export F=Factory'); //1 for consumption 2 for purchase
             $table->integer('relationship_id')->unsigned()->nullable()->comment('For which department/supplier/ buyer etc this was created');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('CASCADE');

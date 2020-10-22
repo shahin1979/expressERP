@@ -10,6 +10,8 @@
         </ol>
     </nav>
 
+    @empty($trans)
+
     <div class="container spark-screen">
         <div class="row">
             <div class="col-md-8 col-md-offset-1" >
@@ -31,6 +33,12 @@
                             <td width="5%"><label for="date_to" class="control-label" >To</label></td>
                             <td width="10%">{!! Form::text('date_to', empty($vouchers) ? Carbon\Carbon::now()->format('d-m-Y') : $vouchers->max('trans_date'), array('id' => 'date_to', 'class' => 'form-control','required','readonly')) !!}</td>
                         </tr>
+
+                        <tr>
+                            <td width="5%"><label for="trans_code" class="control-label" >Voucher Type</label></td>
+                            <td width="10%">{!! Form::select('trans_code',$category, null, array('id' => 'trans_code', 'class' => 'form-control')) !!}</td>
+                        </tr>
+
                         <tr>
                             <td colspan="2"><button name="action" type="submit" value="preview" class="btn btn-info btn-reject pull-left">Preview</button></td>
                             <td colspan="2"><button name="action" type="submit" value="print" class="btn btn-primary btn-approve pull-right">Print</button></td>
@@ -47,7 +55,7 @@
 
         </div>
     </div>
-
+    @endempty
     @if(!empty($trans))
 
         @foreach($vouchers as $voucher)

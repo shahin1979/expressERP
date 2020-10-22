@@ -13,9 +13,9 @@ Route::group(['prefix' => 'employee', 'namespace' => 'Human\Employee', 'middlewa
     Route::get('employeeDataTable','EmployeePersonalCO@getDTData');
     Route::post('image/upload','EmployeePersonalCO@uploadImage');
 
-    Route::get('GLAccountHeadData','GLAccountHeadCo@getGLAccountHeadData');
+//    Route::get('GLAccountHeadData','GLAccountHeadCo@getGLAccountHeadData');
 
-    Route::post('save','GLAccountHeadCo@store');
+//    Route::post('save','GLAccountHeadCo@store');
 
 });
 

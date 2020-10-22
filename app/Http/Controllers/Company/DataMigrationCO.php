@@ -41,12 +41,12 @@ class DataMigrationCO extends Controller
     {
 
 
-//        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
-//        $output = $this->trCode($this->company_id,'2019');
+//        $output = $this->create_fiscal_period($this->company_id,'01-07-2020');
+//        $output = $this->trCode($this->company_id,'2020');
 
 
 //        $connection = DB::connection('mcottondb');
-
+//        $output = $this->UserTable($this->company_id);
 //        $output = $this->mumanuDB($this->company_id);
 //        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
@@ -54,7 +54,7 @@ class DataMigrationCO extends Controller
 //        $output = $this->MTInvoice($this->company_id);
 //        $output = $this->MTHistories($this->company_id);
 //        $output = $this->MTStatement($this->company_id);
-//        $output = $this->depreciation($this->company_id,$connection);
+        $output = $this->depreciation($this->company_id);
 
 //        $output = $this->hpsmTwo();
 

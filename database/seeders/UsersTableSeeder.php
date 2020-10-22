@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
 
         User::create( [
             'company_id'=>1,
-            'role_id'=>3,
+            'role_id'=>1,
             'full_name'=>'Admin',
             'name'=>'Admin',
             'email'=>'admin@gmail.com',

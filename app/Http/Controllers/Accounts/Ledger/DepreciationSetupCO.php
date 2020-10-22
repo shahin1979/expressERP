@@ -48,6 +48,8 @@ class DepreciationSetupCO extends Controller
             ->where('fp_no',$period->fp_no)->where('fiscal_year',$period->fiscal_year)
             ->get();
 
+//        dd($period->fp_no);
+
         foreach ($depreciation as $row)
         {
             $start = $this->get_account_opening_balance($row->acc_no,$this->company_id,$period->start_date);

@@ -23,7 +23,7 @@
 
                 <div class="div">
                     <br/>
-                    {!! Form::open(['url'=>'ledger/rptGeneralLedgerIndex', 'method' => 'GET']) !!}
+                    {!! Form::open(['url'=>'accounts/report/rptGeneralLedgerIndex', 'method' => 'GET']) !!}
 
                     <table width="90%" class="table table-responsive table-hover" >
 
