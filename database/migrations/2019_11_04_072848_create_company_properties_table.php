@@ -29,6 +29,7 @@ class CreateCompanyPropertiesTable extends Migration
             $table->integer('capital',false)->default(501);
             $table->string('default_cash',8)->default('10112102');
             $table->string('default_purchase',8)->default('20112002');
+            $table->string('default_production',8)->default('10612114');
             $table->string('default_sales',8)->default('30112102');
             $table->string('advance_sales',8)->nullable()->default('20312102');
             $table->string('default_sales_tax',8)->default('20212102')->coment('Liability');

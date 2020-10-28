@@ -68,8 +68,11 @@ trait AccountTrait
 
     public function get_account_name($company_id,$acc_no)
     {
+//        dd($acc_no);
         $ledger = GeneralLedger::query()->where('company_id',$company_id)
             ->where('acc_no',$acc_no)->first();
+
+//        dd($ledger);
 
         return $ledger->acc_name;
     }

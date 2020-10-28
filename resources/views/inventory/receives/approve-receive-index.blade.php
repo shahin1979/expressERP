@@ -259,9 +259,12 @@
                         $(".receive-items").remove();
                         var trHTML = '';
                         $.each(data.receives, function (i, item) {
+
+                            var suplier = item.ref_type === 'F' ? item.costcenter.name : item.supplier.name;
+
                             trHTML += '<tr class="receive-items">' +
                                 '<td>' + item.item.name +'</td>' +
-                                '<td>' + item.supplier.name +'</td>' +
+                                '<td>' + suplier  + '</td>' +
                                 '<td align="right">' + item.quantity +'</td>' +
                                 '</tr>';
                         });
@@ -327,6 +330,13 @@
                 $('#view-section').hide();
                 $(".invoice-info").remove();
                 $('#top-head').hide();
+                $(".challan-info").remove();
+
+                $(".receive-trans").remove();
+                $(".receive-items").remove();
+                $(".return-items").remove();
+                $(".return-trans").remove();
+
                 $('#items-table').parents('div.dataTables_wrapper').first().show();
             });
 

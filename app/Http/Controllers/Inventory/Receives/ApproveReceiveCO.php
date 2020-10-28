@@ -113,6 +113,7 @@ class ApproveReceiveCO extends Controller
             ->where('ref_no',$invoice->ref_no)->first();
 
         $receives = $this->receive_items($id);
+
         $tr_receive = $this->transactions($id,1);
 
         $returns=null;
@@ -135,6 +136,7 @@ class ApproveReceiveCO extends Controller
             'tr_return' =>$tr_return
         ];
 
+
         return response()->json($response);
 
     }
@@ -142,8 +144,8 @@ class ApproveReceiveCO extends Controller
     public function receive_items($id)
     {
         return TransProduct::query()->where('company_id',$this->company_id)
-            ->where('ref_id',$id)->where('ref_type','C')
-            ->with('supplier')
+            ->where('ref_id',$id)->whereIn('ref_type',['C','F'])
+            ->with('supplier','costcenter')
             ->with('item')->with('receive') ->get();
     }
 
@@ -175,8 +177,12 @@ class ApproveReceiveCO extends Controller
 
                 $trans->push($line);
 
+//                dd($company->default_purchase);
+
+                $credit = $receives->first()->ref_type == 'F' ? $company->default_production : $company->default_purchase;
+
                 $line=[];
-                $line['gl_head'] = $company->default_purchase.' : '.$this->get_account_name($this->company_id,$company->default_purchase);
+                $line['gl_head'] = $credit.' : '.$this->get_account_name($this->company_id,$credit);
                 $line['dr_amt'] = 0;
                 $line['cr_amt'] = $row->unit_price * $row->quantity;
 
@@ -216,8 +222,10 @@ class ApproveReceiveCO extends Controller
         }
 
 
-        $result = $trans->groupBy('gl_head')->map(function ($row)  {
+        $result = $trans->groupBy('gl_head')->map(function ($row,$key)  {
             $grouped = Collect();
+
+            $grouped->head = $key;
             $grouped->debit = $row->sum('dr_amt');
             $grouped->credit = $row->sum('cr_amt');
             return $grouped;

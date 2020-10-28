@@ -118,7 +118,21 @@ class TransProduct extends Model
     public function supplier()
     {
         return $this->belongsTo(Relationship::class,'relationship_id','id');
+
+//        return $this->ref_type;
+
     }
+
+//    public function scopeRelation($query)
+//    {
+//        return $query
+//            ->when($this->ref_type === 'F',function($q){
+//                return $q->with('costcenter');
+//            })
+//            ->when($this->type === 'C',function($q){
+//                return $q->with('supplier');
+//            });
+//    }
 
     public function getItemTotalAttribute($value)
     {
