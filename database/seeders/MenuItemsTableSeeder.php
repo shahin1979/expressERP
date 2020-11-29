@@ -1213,25 +1213,54 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
-
-
-        MenuItem::query()->create( [
-            'id'=>54010,
-            'company_id'=>1,
-            'module_id'=>5,
-            'nav_label'=>5,
-            'menu_type'=>'SM',
-            'menu_prefix'=>'5E',
-            'name'=>'Production From factory',
-            'show'=>'1',
-            'url'=>'production/productionFromFactoryIndex',
-            'status'=>'1',
-            'content'=>'F'
-        ] );
-
-
-
-
+//
+//
+//        MenuItem::query()->create( [
+//            'id'=>54010,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Production From factory',
+//            'show'=>'1',
+//            'url'=>'production/productionFromFactoryIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//        MenuItem::query()->create( [
+//            'id'=>54014,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Edit Production',
+//            'show'=>'1',
+//            'url'=>'production/editProductionFromFactoryIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//
+//        MenuItem::query()->create( [
+//            'id'=>54018,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5E',
+//            'name'=>'Transform Production Item',
+//            'show'=>'1',
+//            'url'=>'production/transformProductionItemIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+//
+//
+//
+//
 //        MenuItem::query()->create( [
 //            'id'=>55000,
 //            'company_id'=>1,

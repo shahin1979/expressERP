@@ -118,10 +118,14 @@ trait PreviousDataMigrationTrait
     {
         $connection = DB::connection('mcottondb');
 
+//        dd($connection);
+
         $ledgers = $connection->table('gl_accounts')
             ->where('comp_code',12)
             ->orderBy('ldgrCode','ASC')
             ->get();
+
+//        dd(count($ledgers));
 
         ini_set('max_execution_time', 600);
 
@@ -129,9 +133,9 @@ trait PreviousDataMigrationTrait
 
         try {
 
-            if (Config::get('database.default') == 'mysql') {
+//            if (Config::get('database.default') == 'mysql') {
 
-                DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+//                DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
 
 //                DB::statement('TRUNCATE TABLE general_ledger_backups;');
 //                DB::statement('TRUNCATE TABLE transaction_backups;');
@@ -139,17 +143,17 @@ trait PreviousDataMigrationTrait
 //                DB::statement('TRUNCATE TABLE sub_categories;');
 //                DB::statement('TRUNCATE TABLE products;');
 
-                DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
-            }
+//                DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+//            }
 
-            if (Config::get('database.default') == 'pgsql') {
+//            if (Config::get('database.default') == 'pgsql') {
 
-                DB::statement('TRUNCATE TABLE general_ledgers RESTART IDENTITY CASCADE;');
-                DB::statement('TRUNCATE TABLE transactions RESTART IDENTITY CASCADE;');
+//                DB::statement('TRUNCATE TABLE general_ledgers RESTART IDENTITY CASCADE;');
+//                DB::statement('TRUNCATE TABLE transactions RESTART IDENTITY CASCADE;');
 //                DB::statement('TRUNCATE TABLE categories RESTART IDENTITY CASCADE;');
 //                DB::statement('TRUNCATE TABLE sub_categories RESTART IDENTITY CASCADE;');
 //                DB::statement('TRUNCATE TABLE products RESTART IDENTITY CASCADE;');
-            }
+//            }
 
             $count = 0;
 
@@ -286,7 +290,7 @@ trait PreviousDataMigrationTrait
                             'trans_desc1'=>$item->trans_desc1,
                             'trans_desc2'=>$item->trans_desc2,
                             'post_flag'=>true,
-                            'old_voucher'=>$item->voucherNo,
+                            'old_voucher'=>$item->voucher_no,
                             'authorizer_id'=>Auth::id(),
                             'post_date'=>$item->trans_date,
                             'user_id'=>Auth::id(),
@@ -351,7 +355,7 @@ trait PreviousDataMigrationTrait
                             'trans_desc1'=>$item->trans_desc1,
                             'trans_desc2'=>$item->trans_desc2,
                             'post_flag'=>true,
-                            'old_voucher'=>$item->voucherNo,
+                            'old_voucher'=>$item->voucher_no,
                             'authorizer_id'=>Auth::id(),
                             'post_date'=>$item->trans_date,
                             'user_id'=>Auth::id(),

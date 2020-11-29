@@ -439,5 +439,11 @@ Route::group(['prefix' => 'production', 'namespace' => 'Inventory\Production', '
     Route::get('productionFromFactoryIndex','ProductionFromFactoryCO@index');
     Route::post('productionFromFactory','ProductionFromFactoryCO@store');
 
+    Route::get('editProductionFromFactoryIndex','EditProductionCO@index');
+    Route::post('editProductionFromFactory','EditProductionCO@store');
+
+    Route::get('transformProductionItemIndex','TransformProductionItemCO@index');
+    Route::post('transformProductionItem','TransformProductionItemCO@store');
+
 
 });

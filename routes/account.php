@@ -123,7 +123,7 @@ Route::group(['prefix' => 'accounts/report', 'namespace' => 'Accounts\Report', '
 
     Route::get('rptTrialBalanceIndex','RepTrialBalanceCO@index');
 
-    Route::get('/{id}/{date}','RepTrialBalanceCO@details');
+    Route::get('details/{id}/{date}','RepTrialBalanceCO@details');
 
     Route::get('previousTrialBalanceIndex','RepTrialBalanceCO@previousIndex');
 

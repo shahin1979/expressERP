@@ -41,8 +41,8 @@ class DataMigrationCO extends Controller
     {
 
 
-//        $output = $this->create_fiscal_period($this->company_id,'01-07-2020');
-//        $output = $this->trCode($this->company_id,'2020');
+//        $output = $this->create_fiscal_period($this->company_id,'01-07-2019');
+//        $output = $this->trCode($this->company_id,'2019');
 
 
 //        $connection = DB::connection('mcottondb');
@@ -54,13 +54,13 @@ class DataMigrationCO extends Controller
 //        $output = $this->MTInvoice($this->company_id);
 //        $output = $this->MTHistories($this->company_id);
 //        $output = $this->MTStatement($this->company_id);
-        $output = $this->depreciation($this->company_id);
+//        $output = $this->depreciation($this->company_id);
 
 //        $output = $this->hpsmTwo();
 
 
         // Previous data Migration
-//        $output = $this->previousData($this->company_id,'2018-2019');
+        $output = $this->previousData($this->company_id,'2019-2020');
 
 
         // MUMANU DAtabase

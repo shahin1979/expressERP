@@ -74,7 +74,7 @@
                     {{ csrf_field() }}
                     {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
 
-                    {!! Form::text('name', 'Masud' , array('id' => 'name', 'class' => 'col-sm-12 form-control','placeholder' => 'name', 'required')) !!}
+                    {!! Form::text('name', 'Shahin' , array('id' => 'name', 'class' => 'col-sm-12 form-control','placeholder' => 'name', 'required')) !!}
 
 
                     {!! Form::password('password', array('class' => 'form-control','placeholder' => 'Password', 'required','id'=>'password')) !!}

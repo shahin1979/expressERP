@@ -264,11 +264,20 @@ class ApproveReceiveCO extends Controller
                 $q->where('company_id',$this->company_id);
             }])->first();
 
-        $purchase = Purchase::query()->where('company_id',$this->company_id)
-            ->where('ref_no',$receive->ref_no)->first();
+        $return = null;
 
-        $return = ReturnItem::query()->where('company_id',$this->company_id)
-            ->where('ref_no',$purchase->ref_no)->first();
+//        dd($receive);
+
+        if($receive->receive_type == 'LP')
+        {
+            $purchase = Purchase::query()->where('company_id',$this->company_id)
+                ->where('ref_no',$receive->ref_no)->first();
+
+            $return = ReturnItem::query()->where('company_id',$this->company_id)
+                ->where('ref_no',$purchase->ref_no)->first();
+
+        }
+
 
         $products = ProductMO::query()->where('company_id',$this->company_id)->get();
 
@@ -282,9 +291,9 @@ class ApproveReceiveCO extends Controller
             {
                 $history['company_id']=$this->company_id;
                 $history['ref_no'] = $item->ref_no;
-                $history['ref_id'] = $item->ref_id;
-                $history['ref_type'] = 'P'; //Sales
-                $history['contra_ref'] = $receive->ref_no;
+                $history['ref_id'] = $item->id;
+                $history['ref_type'] = $receive->receive_type == 'PR' ? 'F' : ($receive->receive_type == 'LP' ? 'P' : ($receive->receive_type == 'IM' ? 'I' :'W'));
+                $history['contra_ref'] =  $receive->ref_no;
                 $history['relationship_id'] = $item->relationship_id;
                 $history['tr_date']= Carbon::now();
                 $history['product_id'] = $item->product_id;
@@ -310,7 +319,7 @@ class ApproveReceiveCO extends Controller
             }
 
             // Update Purchase Table
-            Purchase::query()->where('id',$purchase->id)->update(['status'=>'RC']);
+//            Purchase::query()->where('id',$purchase->id)->update(['status'=>'RC']);
 
             ProductUniqueId::query()->where('company_id',$this->company_id)
                 ->where('receive_ref_id',$receive->id)
@@ -343,7 +352,7 @@ class ApproveReceiveCO extends Controller
                 $input['trans_amt'] = $row['debit'] + $row['credit'];
                 $input['currency'] = get_currency($this->company_id);
                 $input['fiscal_year'] = $period->fiscal_year;
-                $input['trans_desc1'] = 'Receive Purchase Items';
+                $input['trans_desc1'] = 'Receive Items';
                 $input['trans_desc2'] = $receive->ref_ref;
                 $input['post_flag'] = false;
                 $input['user_id'] = $this->user_id;
@@ -411,6 +420,7 @@ class ApproveReceiveCO extends Controller
         $receive = Receive::query()->where('company_id',$this->company_id)
             ->where('challan_no',$request['challan'])->first();
         $receive->update(['status'=>'RJ','approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+
         ProductUniqueId::query()->where('company_id',$this->company_id)
             ->where('return_ref_id',$request['challan'])
             ->update(['stock_status'=>false, 'status'=>'J']);
@@ -418,7 +428,9 @@ class ApproveReceiveCO extends Controller
         // Reject Rerun Challan
         $return = ReturnItem::query()->where('company_id',$this->company_id)
             ->where('ref_no',$receive->ref_no)->first();
+
         $return->update(['status'=>'RJ','approve_by'=>$this->user_id,'approve_date'=>Carbon::now()]);
+
         ProductUniqueId::query()->where('company_id',$this->company_id)
             ->where('return_ref_id',$return->challan_no)
             ->update(['stock_status'=>false, 'status'=>'J']);

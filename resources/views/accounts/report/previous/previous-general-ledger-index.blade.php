@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <script src="{!! asset('src/js/vendor/jquery-3.3.1.min.js') !!}"></script>
+    <script src="{!! asset('assets/js/jquery-3.3.1.min.js') !!}"></script>
 
     <script type="text/javascript">
 
@@ -12,7 +12,7 @@
                 var report_year = $(this).val();
                 if(report_year) {
                     $.ajax({
-                        url: '/ledger/ajax/' + report_year,
+                        url: 'ajax/' + report_year,
                         type: "GET",
                         dataType: "json",
                         success:function(data) {
@@ -50,7 +50,7 @@
 
                 <div class="div">
                     <br/>
-                    {!! Form::open(['url'=>'ledger/previousGenLedgerIndex', 'method' => 'GET']) !!}
+                    {!! Form::open(['url'=>'accounts/report/previousGenLedgerIndex', 'method' => 'GET']) !!}
 
                     <table width="80%" class="table table-responsive table-hover" >
 
