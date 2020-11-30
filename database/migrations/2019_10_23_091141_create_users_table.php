@@ -33,7 +33,7 @@ class CreateUsersTable extends Migration
             $table->string('device')->nullable();
             $table->integer('wrong_pass_count',false)->default(0);
             $table->tinyInteger('password_expiry_days')->default(30);
-            $table->timestamp('password_updated_at');
+            $table->timestamp('password_updated_at')->nullable();
             $table->boolean('pass_never_exp')->default(0);
             $table->boolean('status')->default(1);
             $table->unsignedInteger('old_id')->nullable();
