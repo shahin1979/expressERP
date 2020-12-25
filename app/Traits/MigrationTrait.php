@@ -38,7 +38,7 @@ trait MigrationTrait
 
 
 //        $users = $connection->table('users')
-//            ->whereNotIn('id',[1,2])
+//            ->where('id','>', 18)
 //            ->get();
 //
 //        foreach ($users as $user)
@@ -51,7 +51,9 @@ trait MigrationTrait
 //                    'full_name'=>$user->name,
 //                    'user_created'=>2,
 //                    'old_id'=>$user->id,
-//                    'role_id'=>3
+//                    'role_id'=>3,
+//                    'password_updated_at'=>Carbon::now(),
+//                    'password_expiry_days'=>90
 //                ]
 //            );
 //

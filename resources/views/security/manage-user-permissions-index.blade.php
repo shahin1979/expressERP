@@ -15,8 +15,8 @@
 
 
     <div class="row justify-content-center dataTables_wrapper" id="dt-user">
-        <div class="col-md-6" style="overflow-x:auto;">
-            <table class="table table-bordered table-hover table-responsive" id="users-table">
+        <div class="col-md-6 dataTables_wrapper" style="overflow-x:auto;">
+            <table class="table table-bordered table-hover table-striped" id="users-table">
                 <thead style="background-color: #b0b0b0">
                 <tr>
                     <th>Name</th>

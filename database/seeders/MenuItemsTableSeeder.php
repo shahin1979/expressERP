@@ -592,8 +592,8 @@ class MenuItemsTableSeeder extends Seeder
 //        MenuItem::query()->create( [
 //            'id'=>45015,
 //            'company_id'=>1,
-//            'module_id'=>5,
-//            'nav_label'=>5,
+//            'module_id'=>4,
+//            'nav_label'=>4,
 //            'menu_type'=>'SM',
 //            'menu_prefix'=>'4G',
 //            'name'=>'Print RTGS Payment Form',
