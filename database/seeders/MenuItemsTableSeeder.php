@@ -1751,6 +1751,43 @@ class MenuItemsTableSeeder extends Seeder
 //
 //
 //
+
+
+        MenuItem::query()->create( [
+            'id'=>51100,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'div_class'=>'nav-item has-sub',
+            'i_class'=>'fa fa-sitemap',
+            'menu_type'=>'MM',
+            'menu_prefix'=>'5M',
+            'name'=>'IMPORT',
+            'show'=>'1',
+            'url'=>'home',
+            'status'=>'1',
+            'content'=>'F'
+        ] );
+
+        MenuItem::query()->create( [
+            'id'=>51105,
+            'company_id'=>1,
+            'module_id'=>5,
+            'nav_label'=>5,
+            'menu_type'=>'SM',
+            'menu_prefix'=>'5M',
+            'name'=>'Open Import LC',
+            'show'=>'1',
+            'url'=>'inventory/import/OpenImportLCIndex',
+            'status'=>'1',
+            'content'=>'F'
+        ] );
+//
+
+
+
+
+
 //        MenuItem::query()->create( [
 //            'id'=>59000,
 //            'company_id'=>1,

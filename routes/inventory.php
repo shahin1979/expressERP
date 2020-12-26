@@ -421,6 +421,24 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
 
 
 
+
+
+
+
+
+
+
+Route::group(['prefix' => 'inventory/import', 'namespace' => 'Inventory\Import', 'middleware' => ['auth']], function () {
+
+    Route::get('OpenImportLCIndex','ImportLCRegisterCO@index');
+//    Route::get('exportProducts','ExportContractCO@autocomplete');
+//    Route::post('saveExportContract','ExportContractCO@store');
+
+
+});
+
+
+
 Route::group(['prefix' => 'production', 'namespace' => 'Inventory\Production', 'middleware' => ['auth']], function () {
 
     Route::get('setCurrentProductionIndex','ProductionSetupCO@index');
