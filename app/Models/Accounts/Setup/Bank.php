@@ -19,7 +19,7 @@ class Bank extends Model
         'branch_name',
         'bank_acc_name',
         'bank_acc_no',
-        'gl_account',
+        'gl_account_id',
         'address',
         'swift_code',
         'mobile_no',
@@ -31,7 +31,7 @@ class Bank extends Model
 
     public function account()
     {
-        return $this->belongsTo(GeneralLedger::class,'related_gl_id','id')->withDefault();
+        return $this->belongsTo(GeneralLedger::class,'gl_account_id','id')->withDefault();
     }
 
     public function getBankAccountAttribute()

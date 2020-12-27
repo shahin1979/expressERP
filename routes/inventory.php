@@ -431,7 +431,7 @@ Route::group(['prefix' => 'export', 'namespace' => 'Inventory\Export', 'middlewa
 Route::group(['prefix' => 'inventory/import', 'namespace' => 'Inventory\Import', 'middleware' => ['auth']], function () {
 
     Route::get('OpenImportLCIndex','ImportLCRegisterCO@index');
-//    Route::get('exportProducts','ExportContractCO@autocomplete');
+    Route::get('importProducts','ImportLCRegisterCO@autocomplete');
 //    Route::post('saveExportContract','ExportContractCO@store');
 
 

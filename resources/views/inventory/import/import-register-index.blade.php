@@ -37,21 +37,25 @@
 
 
             <tr>
-                <td><label for="importer_bank_id" class="control-label">Port of Loading</label></td>
+                <td><label for="importer_bank_id" class="control-label">Bank Name</label></td>
                 <td>{!! Form::select('bank_id', $banks , null , array('id' => 'bank_id', 'class' => 'form-control')) !!}</td>
-                <td><label for="dest_port" class="control-label">Port of Destination</label></td>
-                <td>{!! Form::text('dest_port', 'Shanghai Port, China' , array('id' => 'dest_port', 'class' => 'form-control')) !!}</td>
+                <td><label for="currency" class="control-label">Currency</label></td>
+                <td>{!! Form::select('currency', $currencies , null , array('id' => 'currency', 'class' => 'form-control')) !!}</td>
 
-                <td><label for="shipment_time" class="control-label">Time of Shipment(Days)</label></td>
-                <td>{!! Form::text('shipment_time', null , array('id' => 'shipment_time', 'class' => 'form-control')) !!}</td>
+                <td><label for="fc_amount" class="control-label">FC Amount</label></td>
+                <td>{!! Form::text('fc_amount', null , array('id' => 'fc_amount', 'class' => 'form-control')) !!}</td>
+
 
             </tr>
 
             <tr>
-                <td><label for="currency" class="control-label">Currency</label></td>
-                <td>{!! Form::select('currency', $currencies , null , array('id' => 'currency', 'class' => 'form-control')) !!}</td>
+                <td><label for="shipment_time" class="control-label">Exchange Rate</label></td>
+                <td>{!! Form::text('exchange_rate', null , array('id' => 'exchange_rate', 'class' => 'form-control')) !!}</td>
+
+                <td><label for="bdt_amount" class="control-label">BDT Amount</label></td>
+                <td>{!! Form::text('bdt_amount', null , array('id' => 'bdt_amount', 'class' => 'form-control')) !!}</td>
                 <td><label for="description" class="control-label">Description</label></td>
-                <td colspan="4">{!! Form::textarea('description', null , ['id'=>'description','size' => '65x2','class'=>'field']) !!}</td>
+                <td>{!! Form::textarea('description', null , ['id'=>'description','size' => '32x2','class'=>'field']) !!}</td>
             </tr>
 
             </tbody>
@@ -163,7 +167,7 @@
         }
 
 
-        var autocomplete_path = "{{ url('export/exportProducts') }}";
+        var autocomplete_path = "{{ url('import/importProducts') }}";
 
         $(document).on('click', '.form-control.typeahead', function() {
             input_id = $(this).attr('id').split('-');

@@ -37,6 +37,7 @@ class CompanyProperty extends Model
         'consumable_on_hand',
         'consumable_expense',
         'rm_in_hand',
+        'rm_cg_id',
         'work_in_progress',
         'finished_goods',
         'cost_of_goods_sold',

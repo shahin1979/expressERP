@@ -79,8 +79,8 @@
                     <tr>
                         <td><label for="bank_acc_no" class="control-label">Bank Account No</label></td>
                         <td><input id="bank_acc_no" type="text" class="form-control" name="bank_acc_no" value=""></td>
-                        <td><label for="related_gl_id" class="control-label">Related Ledger No</label></td>
-                        <td>{!! Form::select('related_gl_id',$ledgers, null , array('id' => 'related_gl_id', 'class' => 'form-control')) !!}</td>
+                        <td><label for="gl_account_id" class="control-label">Related Ledger No</label></td>
+                        <td>{!! Form::select('gl_account_id',$ledgers, null , array('id' => 'gl_account_id', 'class' => 'form-control')) !!}</td>
                     </tr>
                     <tr>
                         <td><label for="mobile_no" class="control-label">Mobile No</label></td>
@@ -194,7 +194,7 @@
                 columns: [
                     { data: 'bank_name', name: 'bank_name' },
                     { data: 'branch_name', name: 'branch_name' },
-                    { data: 'bank_acc_no', name: 'bank_acc_no' },
+                    { data: 'bank_acc_no', name: 'bank_acc_no', defaultContent:'' },
                     { data: 'bank_acc_name', name: 'bank_acc_name' },
                     { data: 'swift_code', name: 'swift_code' },
                     { data: 'account.acc_no', name: 'account.acc_no' },

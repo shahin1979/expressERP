@@ -45,10 +45,10 @@ class DataMigrationCO extends Controller
 //        $output = $this->trCode($this->company_id,'2019');
 
 
-        $connection = DB::connection('mcottondb');
+//        $connection = DB::connection('mcottondb');
 //        $output = $this->UserTable($this->company_id);
 //        $output = $this->mumanuDB($this->company_id);
-        $output = $this->matinDB($this->company_id);
+//        $output = $this->matinDB($this->company_id);
 //        $output = $this->MTRequisition($this->company_id);
 //        $output = $this->MTPurchase($this->company_id);
 //        $output = $this->MTInvoice($this->company_id);
@@ -80,7 +80,7 @@ class DataMigrationCO extends Controller
 
 
 
-        return redirect()->action('Company\DataMigrationCO@index')->with('success','Successfully Migrated : '.$output);
+//        return redirect()->action('Company\DataMigrationCO@index')->with('success','Successfully Migrated : '.$output);
 
 
         $connection = DB::connection('mcottondb');

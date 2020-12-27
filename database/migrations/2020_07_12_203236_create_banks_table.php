@@ -21,10 +21,10 @@ class CreateBanksTable extends Migration
             $table->char('bank_code',4)->nullable();
             $table->string('bank_name',120);
             $table->string('branch_name',190);
-            $table->string('bank_acc_name',190);
-            $table->string('bank_acc_no',30);
-            $table->string('gl_account',8)->nullable();
-            $table->foreign('gl_account')->references('acc_no')->on('general_ledgers')->onDelete('CASCADE');
+            $table->string('bank_acc_name',190)->nullable();
+            $table->string('bank_acc_no',30)->nullable();
+            $table->bigInteger('gl_account_id')->unsigned()->nullable();
+            $table->foreign('gl_account_id')->references('id')->on('general_ledgers')->onDelete('CASCADE');
             $table->longText('address')->nullable();
             $table->string('swift_code',120)->nullable();
             $table->string('mobile_no',120)->nullable();
