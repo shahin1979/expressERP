@@ -75,8 +75,10 @@
                     <thead>
                     <tr style="background-color: #f9f9f9;">
                         <th width="5%"  class="text-center">Action</th>
-                        <th width="40%" class="text-left">Product</th>
-                        <th width="15%" class="text-center">Quantity</th>
+                        <th width="20%" class="text-left">Product</th>
+                        <th width="15%" class="text-center">Bale</th>
+                        <th width="15%" class="text-center">KG</th>
+                        <th width="15%" class="text-center">Pound</th>
                         <th width="10%" class="text-right">Unit Price</th>
                         <th width="10%" class="text-right">Sub Total</th>
                     </tr>
@@ -93,7 +95,13 @@
                             <input name="item[{{ $item_row }}][item_id]" type="hidden" id="item-id-{{ $item_row }}">
                         </td>
                         <td>
-                            <input class="form-control text-center" required="required" name="item[{{ $item_row }}][quantity]" type="text" id="item-quantity-{{ $item_row }}">
+                            <input class="form-control text-center" required="required" name="item[{{ $item_row }}][bale]" type="text" id="item-bale-{{ $item_row }}">
+                        </td>
+                        <td>
+                            <input class="form-control text-center" required="required" name="item[{{ $item_row }}][kilo]" type="text" id="item-kilo-{{ $item_row }}">
+                        </td>
+                        <td>
+                            <input class="form-control text-center" required="required" name="item[{{ $item_row }}][pound]" type="text" id="item-pound-{{ $item_row }}">
                         </td>
                         <td>
                             <input class="form-control text-right" required="required" name="item[{{ $item_row }}][price]" type="text" id="item-price-{{ $item_row }}">
@@ -110,10 +118,10 @@
                     </tr>
 
                     <tr>
-                        <td class="text-right" colspan="4"><strong>Sales Total</strong></td>
+                        <td class="text-right" colspan="4"><strong>Total</strong></td>
                         <td class="text-right"><span id="grand-total">0</span></td>
                     </tr>
-                    <input name="contract_amt" type="hidden" id="contract-amt" value="">
+                    <input name="import_amt" type="hidden" id="import_amt" value="">
 
                     </tbody>
                     <tfoot>
@@ -167,7 +175,7 @@
         }
 
 
-        var autocomplete_path = "{{ url('import/importProducts') }}";
+        var autocomplete_path = "{{ url('inventory/import/importProducts') }}";
 
         $(document).on('click', '.form-control.typeahead', function() {
             input_id = $(this).attr('id').split('-');
@@ -192,7 +200,7 @@
                 },
                 afterSelect: function (data) {
                     $('#item-id-' + item_id).val(data.item_id);
-                    $('#item-quantity-' + item_id).val('1');
+                    $('#item-pound-' + item_id).val('1');
                     $('#item-price-' + item_id).val(data.unit_price);
                     totalItem();
                 }
