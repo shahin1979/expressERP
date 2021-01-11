@@ -83,6 +83,22 @@ class MenuItemsTableSeeder extends Seeder
 //            'status'=>'1',
 //            'content'=>'F'
 //        ] );
+
+
+//        MenuItem::query()->create( [
+//            'id'=>11020,
+//            'company_id'=>1,
+//            'module_id'=>1,
+//            'nav_label'=>1,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'1A',
+//            'name'=>'Database Backup',
+//            'show'=>'1',
+//            'url'=>'company/databaseBackupIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
+
 //
 //            MenuItem::query()->create( [
 //            'id'=>11030,
