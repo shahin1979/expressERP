@@ -432,7 +432,9 @@ Route::group(['prefix' => 'inventory/import', 'namespace' => 'Inventory\Import',
 
     Route::get('OpenImportLCIndex','ImportLCRegisterCO@index');
     Route::get('importProducts','ImportLCRegisterCO@autocomplete');
-//    Route::post('saveExportContract','ExportContractCO@store');
+
+    Route::post('totalItem','ImportLCRegisterCO@totalItem');
+    Route::post('saveImportLCIndex','ImportLCRegisterCO@store');
 
 
 });

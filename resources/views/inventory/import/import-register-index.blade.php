@@ -13,7 +13,7 @@
 
     <div class="container-fluid">
 
-        {!! Form::open(['url'=>'import/saveImportLCIndex','method'=>'POST']) !!}
+        {!! Form::open(['url'=>'inventory/import/saveImportLCIndex','method'=>'POST']) !!}
 
         <table width="95%" class="table table-sm table-responsive">
             <tbody>
@@ -37,25 +37,32 @@
 
 
             <tr>
-                <td><label for="importer_bank_id" class="control-label">Bank Name</label></td>
-                <td>{!! Form::select('bank_id', $banks , null , array('id' => 'bank_id', 'class' => 'form-control')) !!}</td>
+                <td><label for="exporter_bank_id" class="control-label">Supplier Bank</label></td>
+                <td>{!! Form::select('exporter_bank_id', $banks , null , array('id' => 'exporter_bank_id', 'class' => 'form-control')) !!}</td>
                 <td><label for="currency" class="control-label">Currency</label></td>
                 <td>{!! Form::select('currency', $currencies , null , array('id' => 'currency', 'class' => 'form-control')) !!}</td>
-
                 <td><label for="fc_amount" class="control-label">FC Amount</label></td>
                 <td>{!! Form::text('fc_amount', null , array('id' => 'fc_amount', 'class' => 'form-control')) !!}</td>
-
-
             </tr>
 
             <tr>
-                <td><label for="shipment_time" class="control-label">Exchange Rate</label></td>
+                <td><label for="importer_bank_id" class="control-label">Importer Bank</label></td>
+                <td>{!! Form::select('importer_bank_id', $banks , null , array('id' => 'importer_bank_id', 'class' => 'form-control')) !!}</td>
+                <td><label for="exchange_rate" class="control-label">Exchange Rate</label></td>
                 <td>{!! Form::text('exchange_rate', null , array('id' => 'exchange_rate', 'class' => 'form-control')) !!}</td>
 
                 <td><label for="bdt_amount" class="control-label">BDT Amount</label></td>
                 <td>{!! Form::text('bdt_amount', null , array('id' => 'bdt_amount', 'class' => 'form-control')) !!}</td>
+            </tr>
+
+            <tr>
+{{--                <td><label for="shipment_time" class="control-label">Exchange Rate</label></td>--}}
+{{--                <td>{!! Form::text('exchange_rate', null , array('id' => 'exchange_rate', 'class' => 'form-control')) !!}</td>--}}
+
+{{--                <td><label for="bdt_amount" class="control-label">BDT Amount</label></td>--}}
+{{--                <td>{!! Form::text('bdt_amount', null , array('id' => 'bdt_amount', 'class' => 'form-control')) !!}</td>--}}
                 <td><label for="description" class="control-label">Description</label></td>
-                <td>{!! Form::textarea('description', null , ['id'=>'description','size' => '32x2','class'=>'field']) !!}</td>
+                <td colspan="5">{!! Form::textarea('description', null , ['id'=>'description','size' => '64x2','class'=>'field']) !!}</td>
             </tr>
 
             </tbody>
@@ -79,7 +86,7 @@
                         <th width="15%" class="text-center">Bale</th>
                         <th width="15%" class="text-center">KG</th>
                         <th width="15%" class="text-center">Pound</th>
-                        <th width="10%" class="text-right">Unit Price</th>
+                        <th width="10%" class="text-right">Unit Price/LBS</th>
                         <th width="10%" class="text-right">Sub Total</th>
                     </tr>
                     </thead>
@@ -218,7 +225,7 @@
 
         function totalItem() {
             $.ajax({
-                url: '{{ url("sales/totalItem") }}',
+                url: '{{ url("inventory/import/totalItem") }}',
                 type: 'POST',
                 dataType: 'JSON',
                 data: $('#items input[type=\'text\'],#items input[type=\'hidden\'], #items textarea, #items select'),
@@ -238,40 +245,20 @@
 
         $(document).ready(function(){
 
-            $( "#contract_date" ).datetimepicker({
+            $( "#lc_date" ).datetimepicker({
                 format:'d-m-Y',
                 timepicker: false,
                 closeOnDateSelect: true,
                 scrollInput : false,
                 inline:false
             });
-
-            $( "#signing_date" ).datetimepicker({
-                format:'d-m-Y',
-                timepicker: false,
-                closeOnDateSelect: true,
-                scrollInput : false,
-                inline:false
-            });
-
-            $( "#expiry_date" ).datetimepicker({
-                format:'d-m-Y',
-                timepicker: false,
-                closeOnDateSelect: true,
-                scrollInput : false,
-                inline:false
-            });
-
         });
-
-
 
         $(function (){
             $(document).on("focus", "input:text", function() {
                 $(this).select();
             });
         });
-
 
     </script>
 
