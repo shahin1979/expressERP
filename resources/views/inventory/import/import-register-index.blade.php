@@ -23,7 +23,7 @@
                 <td><label for="lc_date" class="control-label">LC Date</label></td>
                 <td>{!! Form::text('lc_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'lc_date', 'class' => 'form-control','required','readonly')) !!}</td>
                 <td align="right"><label for="import_lc_no" class="control-label">LC No</label></td>
-                <td align="right">{!! Form::text('import_lc_no',null , array('id' => 'import_lc_no', 'class' => 'form-control')) !!}</td>
+                <td align="right">{!! Form::text('import_lc_no',null , array('id' => 'import_lc_no', 'class' => 'form-control','required')) !!}</td>
             </tr>
 
 {{--            <tr>--}}
@@ -105,7 +105,7 @@
                             <input class="form-control text-center" required="required" name="item[{{ $item_row }}][bale]" type="text" id="item-bale-{{ $item_row }}">
                         </td>
                         <td>
-                            <input class="form-control text-center" required="required" name="item[{{ $item_row }}][kilo]" type="text" id="item-kilo-{{ $item_row }}">
+                            <input class="form-control text-center" required="required" name="item[{{ $item_row }}][kilogram]" type="text" id="item-kilogram-{{ $item_row }}">
                         </td>
                         <td>
                             <input class="form-control text-center" required="required" name="item[{{ $item_row }}][pound]" type="text" id="item-pound-{{ $item_row }}">
