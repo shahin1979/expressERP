@@ -14,6 +14,7 @@ use App\Models\Inventory\Movement\TransProduct;
 use App\Models\Inventory\Product\ItemTax;
 use App\Models\Inventory\Product\ProductMO;
 use App\Models\Inventory\Product\ProductUniqueId;
+use App\Traits\CommonTrait;
 use App\Traits\TransactionsTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,10 +22,12 @@ use Illuminate\Support\Facades\DB;
 
 class ImportLCRegisterCO extends Controller
 {
-    use TransactionsTrait;
+    use TransactionsTrait, CommonTrait;
 
     public function index()
     {
+        $this->menu_log($this->company_id,51105);
+
         $suppliers = Relationship::query()->pluck('name','id');
         $currencies = Country::query()->whereNotIn('currency_short',['USD'])
             ->orderBy('currency_short')
@@ -126,8 +129,8 @@ class ImportLCRegisterCO extends Controller
             $request['lc_date'] = Carbon::createFromFormat('d-m-Y', $request['lc_date'])->format('Y-m-d');
             $request['open_date'] = Carbon::now();
             $request['contract_amt'] = $request['fc_amount'];
-//            $request['discount_amt'] = $request['discount'];
-//            $request['po_date'] = $request['invoice_date'];
+            $request['discount_amt'] = $request['discount'];
+            $request['bdt_amt'] = $request['bdt_amount'];
 //            $request['purchase_type'] = $request['relationship_id'] == 0 ?  'CP' : 'LP';
             $request['status'] = 'CR';
             $request['user_id'] = $this->user_id;

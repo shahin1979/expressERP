@@ -2,6 +2,9 @@
 
 namespace App\Models\Inventory\Import;
 
+use App\Models\Company\Relationship;
+use App\Models\Inventory\Movement\TransProduct;
+use App\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,9 +41,9 @@ class ImportLCRegister extends Model
         'extra_field',
     ];
 
-    public function customer()
+    public function supplier()
     {
-        return $this->belongsTo(Relationship::class,'customer_id','id');
+        return $this->belongsTo(Relationship::class,'supplier_id','id');
     }
 
     public function items()

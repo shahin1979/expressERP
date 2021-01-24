@@ -1801,7 +1801,19 @@ class MenuItemsTableSeeder extends Seeder
 //
 
 
-
+//        MenuItem::query()->create( [
+//            'id'=>51110,
+//            'company_id'=>1,
+//            'module_id'=>5,
+//            'nav_label'=>5,
+//            'menu_type'=>'SM',
+//            'menu_prefix'=>'5M',
+//            'name'=>'Approve Import LC',
+//            'show'=>'1',
+//            'url'=>'inventory/import/ApproveImportLCIndex',
+//            'status'=>'1',
+//            'content'=>'F'
+//        ] );
 
 
 //        MenuItem::query()->create( [

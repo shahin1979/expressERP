@@ -436,6 +436,8 @@ Route::group(['prefix' => 'inventory/import', 'namespace' => 'Inventory\Import',
     Route::post('totalItem','ImportLCRegisterCO@totalItem');
     Route::post('saveImportLCIndex','ImportLCRegisterCO@store');
 
+    Route::get('ApproveImportLCIndex','ApproveImportLCCO@index');
+
 
 });
 

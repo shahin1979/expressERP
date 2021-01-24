@@ -163,8 +163,18 @@
             html += '      <input name="item[' + item_row + '][item_id]" type="hidden" id="item-id-' + item_row + '">';
             html += '  </td>';
             html += '  <td>';
-            html += '      <input class="form-control text-center" required="required" name="item[' + item_row + '][quantity]" type="text" id="item-quantity-' + item_row + '">';
+            html += '      <input class="form-control text-center" required="required" name="item[' + item_row + '][bale]" type="text" id="item-bale-' + item_row + '">';
             html += '  </td>';
+
+            html += '  <td>';
+            html += '      <input class="form-control text-center" required="required" name="item[' + item_row + '][kilogram]" type="text" id="item-kilogram-' + item_row + '">';
+            html += '  </td>';
+
+
+            html += '  <td>';
+            html += '      <input class="form-control text-center" required="required" name="item[' + item_row + '][pound]" type="text" id="item-pound-' + item_row + '">';
+            html += '  </td>';
+
 
             html += '  <td>';
             html += '      <input class="form-control text-right" required="required" name="item[' + item_row + '][price]" type="text" id="item-price-' + item_row + '">';
