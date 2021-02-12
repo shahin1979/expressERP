@@ -23,11 +23,11 @@ class ApproveImportLCCO extends Controller
 
     public function getImportData()
     {
-        $query = ImportLCRegister::query()->where('company_id',$this->company_id)
-            ->where('status','status')->with('items')->with('user')->select('requisitions.*');
+        $requisition = ImportLCRegister::query()->where('company_id',$this->company_id)
+            ->where('status','status')->with('items','user')->select('import_lc_registers.*');
 
-        return Datatables::eloquent($query)
-            ->addColumn('product', function (Requisition $requisition) {
+        return Datatables::eloquent($requisition)
+            ->addColumn('product', function ($requisition) {
                 return $requisition->items->map(function($items) {
                     return $items->item->name;
                 })->implode('<br>');

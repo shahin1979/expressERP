@@ -18,8 +18,10 @@
         <table width="95%" class="table table-sm table-responsive">
             <tbody>
             <tr>
-                <td><label for="supplier_id" class="control-label">Supplier</label></td>
-                <td>{!! Form::select('supplier_id', $suppliers , null , array('id' => 'supplier_id', 'class' => 'form-control')) !!}</td>
+                <td><label for="lc_type" class="control-label">L/C Type</label></td>
+                <td>{!! Form::select('lc_type', ['F'=>'Foreign L/C','L'=>'Local L/C'] , null , array('id' => 'lc_type', 'class' => 'form-control')) !!}</td>
+
+
                 <td><label for="lc_date" class="control-label">LC Date</label></td>
                 <td>{!! Form::text('lc_date', \Carbon\Carbon::now()->format('d-m-Y') , array('id' => 'lc_date', 'class' => 'form-control','required','readonly')) !!}</td>
                 <td align="right"><label for="import_lc_no" class="control-label">LC No</label></td>
@@ -37,30 +39,26 @@
 
 
             <tr>
+                <td><label for="supplier_id" class="control-label">Supplier</label></td>
+                <td>{!! Form::select('supplier_id', $suppliers , null , array('id' => 'supplier_id', 'class' => 'form-control')) !!}</td>
                 <td><label for="exporter_bank_id" class="control-label">Supplier Bank</label></td>
                 <td>{!! Form::select('exporter_bank_id', $banks , null , array('id' => 'exporter_bank_id', 'class' => 'form-control')) !!}</td>
+                <td><label for="importer_bank_id" class="control-label">Importer Bank</label></td>
+                <td>{!! Form::select('importer_bank_id', $banks , null , array('id' => 'importer_bank_id', 'class' => 'form-control')) !!}</td>
+            </tr>
+
+            <tr>
                 <td><label for="currency" class="control-label">Currency</label></td>
                 <td>{!! Form::select('currency', $currencies , null , array('id' => 'currency', 'class' => 'form-control')) !!}</td>
                 <td><label for="fc_amount" class="control-label">FC Amount</label></td>
                 <td>{!! Form::text('fc_amount', null , array('id' => 'fc_amount', 'class' => 'form-control')) !!}</td>
-            </tr>
-
-            <tr>
-                <td><label for="importer_bank_id" class="control-label">Importer Bank</label></td>
-                <td>{!! Form::select('importer_bank_id', $banks , null , array('id' => 'importer_bank_id', 'class' => 'form-control')) !!}</td>
                 <td><label for="exchange_rate" class="control-label">Exchange Rate</label></td>
                 <td>{!! Form::text('exchange_rate', null , array('id' => 'exchange_rate', 'class' => 'form-control')) !!}</td>
-
-                <td><label for="bdt_amount" class="control-label">BDT Amount</label></td>
-                <td>{!! Form::text('bdt_amount', null , array('id' => 'bdt_amount', 'class' => 'form-control')) !!}</td>
             </tr>
 
             <tr>
-{{--                <td><label for="shipment_time" class="control-label">Exchange Rate</label></td>--}}
-{{--                <td>{!! Form::text('exchange_rate', null , array('id' => 'exchange_rate', 'class' => 'form-control')) !!}</td>--}}
-
-{{--                <td><label for="bdt_amount" class="control-label">BDT Amount</label></td>--}}
-{{--                <td>{!! Form::text('bdt_amount', null , array('id' => 'bdt_amount', 'class' => 'form-control')) !!}</td>--}}
+                <td><label for="bdt_amount" class="control-label">BDT Amount</label></td>
+                <td>{!! Form::text('bdt_amount', null , array('id' => 'bdt_amount', 'class' => 'form-control')) !!}</td>
                 <td><label for="description" class="control-label">Description</label></td>
                 <td colspan="5">{!! Form::textarea('description', null , ['id'=>'description','size' => '64x2','class'=>'field']) !!}</td>
             </tr>
@@ -98,7 +96,7 @@
                         </td>
                         <td>
                             {{--<input class="form-control typeahead" required="required" placeholder="{{ trans('general.form.enter', ['field' => trans_choice('invoices.item_name', 1)]) }}" name="item[{{ $item_row }}][name]" type="text" id="item-name-{{ $item_row }}" autocomplete="off">--}}
-                            <input class="form-control typeahead position-relative" required="required" placeholder="{{ trans('general.form.enter', ['field' => trans_choice('purchase.item_name', 1)]) }}" name="item[{{ $item_row }}][name]" type="text" id="item-name-{{ $item_row }}" autocomplete="off">
+                            <input class="form-control typeahead position-relative" required="required" placeholder="{{ trans('purchase.item_name', ['field' => trans_choice('purchase.item_name', 1)]) }}" name="item[{{ $item_row }}][name]" type="text" id="item-name-{{ $item_row }}" autocomplete="off">
                             <input name="item[{{ $item_row }}][item_id]" type="hidden" id="item-id-{{ $item_row }}">
                         </td>
                         <td>
@@ -159,7 +157,7 @@
             html += '  </td>';
 
             html += '  <td>';
-            html += '      <input class="form-control typeahead position-relative" required="required" placeholder="{{ trans('general.form.enter', ['field' => trans_choice('purchase.item_name', 1)]) }}" name="item[' + item_row + '][name]" type="text" id="item-name-' + item_row + '" autocomplete="off">';
+            html += '      <input class="form-control typeahead position-relative" required="required" placeholder="{{ trans('purchase.item_name', ['field' => trans_choice('purchase.item_name', 1)]) }}" name="item[' + item_row + '][name]" type="text" id="item-name-' + item_row + '" autocomplete="off">';
             html += '      <input name="item[' + item_row + '][item_id]" type="hidden" id="item-id-' + item_row + '">';
             html += '  </td>';
             html += '  <td>';
@@ -247,7 +245,7 @@
                         });
 
                         $('#grand-total').html(data.grand_total);
-                        $('#contract-amt').val(data.grand_total);
+                        $('#bdt_amount').val(data.grand_total);
                     }
                 }
             });
